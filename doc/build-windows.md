@@ -3,7 +3,7 @@ WINDOWS BUILD NOTES
 
 mkdir /opt/winradio
 
-or from docker run -it -d -v /opt/winradio:/opt/winradio ubuntu:20.10
+or from docker run -it -d -v /opt/winradio:/opt/winradio ubuntu:22.04
 
 docker exec -it <docker_random_hash_> bash
 
@@ -13,9 +13,9 @@ apt-get update && apt-get install git-core build-essential nano sudo -y
 
 cd /opt/winradio
 
-git clone https://github.com/c4pt000/radioCOIN
+git clone https://github.com/bitnet-io/bitnet-core
 
-cd radioCOIN
+cd bitnet-core
 
 then as always install more of the general dependencies:
 
