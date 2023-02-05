@@ -1,7 +1,7 @@
 # bitnet-core
 Bitnet-Core based off of radiocoin with improvements
 * 20,000,000,000 total supply (down from 100 B)
-* network retargets difficulty every 3 hours (instead of 14 days bitcoin)
+* network retargets difficulty every hour (instead of 14 days bitcoin)
 * blocks readjust every 2.5 minutes
 * paper wallet to backup funds
 
