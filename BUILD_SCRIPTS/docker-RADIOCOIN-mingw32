@@ -1,0 +1,26 @@
+#!/bin/bash
+#mkdir -p /opt/bitnet
+echo "be sure to make this directory
+
+requires xhost on the actual host docker is running on for GUI or run bitnetd        and bitnet-cli generate 1
+ 
+
+
+
+packages on host where docker is running also...yum install vim-common xorg-* mesa-* caja -y
+
+ xhost
+access control enabled, only authorized clients can connect
+SI:localuser:root
+SI:localuser:YOURUSERNAME
+
+properly backup your wallet from the bitnet-qt menu for backup wallet safely this should mount to /opt/bitnet on host
+dont forget to docker commit this image either way to save any changes once running.......or else lose it all
+run-bitnet-qt ..... to start bitnet-qt and to mint blocks         early network low difficulty for now
+
+
+docker exec -it <docker-random-hash> bash
+"
+echo "mkdir /opt/bitnet to share files from the guest to the host"
+echo "once running, cd /opt/WINRADIO/radioCOIN"
+docker run -it -d -v /opt/bitnet:/opt/bitnet -e "DISPLAY=${DISPLAY:-:0.0}" -v /tmp/.X11-unix:/tmp/.X11-unix c4pt/bitnetwinbuild2010

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Bitnet Core
+Comment=Connect to the Bitnet P2P Network
+Comment[de]=Verbinde mit dem Bitnet peer-to-peer Netzwerk
+Comment[fr]=Bitnet, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Bitnet, eşten eşe kriptografik sanal para birimi
+Exec=bitnet-qt %u
+Terminal=false
+Type=Application
+Icon=bitnet128
+MimeType=x-scheme-handler/bitnet;
+Categories=Office;Finance;

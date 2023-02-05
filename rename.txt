@@ -1,0 +1,11 @@
+find ./ -type f -readable -writable -exec sed -i "s/Bitnet/Bitnet/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/Bitnet/Bitnet/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/bitnet/bitnet/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/bitnetd/bitnetd/g" {} \;
+
+
+#find ./ -type f -readable -writable -exec sed -i "s/mbits/mbits/g" {} \;
+#find ./ -type f -readable -writable -exec sed -i "s/ubits/ubits/g" {} \;
+
+
+
