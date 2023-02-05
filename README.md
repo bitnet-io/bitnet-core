@@ -5,7 +5,7 @@ Bitnet-Core based off of radiocoin with improvements
 * blocks readjust every 2.5 minutes
 * paper wallet to backup funds
 
-* copy bitnet-data-dir-01-24-2023.tar.gz to your /home folder for the data dir and tar -xvf for a basic blockchain if you have trouble connecting to a node use updated bitnet.conf (check back time to time as we grow)
+* copy bitnet-data-dir-02-04-2023.tar.gz to your /home/user folder for the data dir and tar -xvf for a basic blockchain if you have trouble connecting to a node use updated bitnet.conf (check back time to time as we grow)
 
 * this wallet is a completely different chain using deposit addresses with "R" not for radiocoin or ravencoin only for bitnet-core
 
