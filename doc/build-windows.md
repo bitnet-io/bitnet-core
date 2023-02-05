@@ -20,10 +20,10 @@ cd bitnet-core
 then as always install more of the general dependencies:
 
 as root:
-
+```
  apt-get update && apt-get upgrade && apt-get install apt aptitude apt-file wget nano build-essential git-core build-essential libtool autotools-dev automake pkg-config bsdmainutils curl git sudo nsis g++-mingw-w64-x86-64 protobuf* -y
  apt-get install *mingw* g++-mingw-w64-x86-64 mingw-w64-x86-64-dev -y
-
+```
 Then build using: (windows x86_64 64bit .exe binaries)
 replace -j8 with your cpu core count (core i7 = 8 cores)
 
