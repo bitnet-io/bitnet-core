@@ -1,3 +1,6 @@
+* 02-05-2023 check the releases tab for binary updates
+* https://github.com/bitnet-io/bitnet-core/releases
+
 # bitnet-core
 Bitnet-Core based off of radiocoin with improvements
 * 20,000,000,000 total supply (down from 100 B)
