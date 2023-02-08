@@ -1,3 +1,10 @@
+# please update to 1.5.5 to fix invalid headers with sync or build this code from scratch with today's (02-08-2023) changes
+
+* 02-08-2023 some pools to connect to
+* https://mining4people.com/
+* https://zeusminingpool.com/
+
+
 * 02-05-2023 check the releases tab for binary updates
 * https://github.com/bitnet-io/bitnet-core/releases
 
