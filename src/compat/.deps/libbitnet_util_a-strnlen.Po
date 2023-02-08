@@ -1,59 +1,38 @@
 compat/libbitnet_util_a-strnlen.o: compat/strnlen.cpp \
  /usr/include/stdc-predef.h config/bitcoin-config.h \
- /usr/include/c++/7/cstring \
- /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h \
- /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h \
- /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
- /usr/include/x86_64-linux-gnu/bits/wordsize.h \
- /usr/include/x86_64-linux-gnu/bits/long-double.h \
- /usr/include/x86_64-linux-gnu/gnu/stubs.h \
- /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h \
- /usr/include/string.h \
- /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
- /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h \
- /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/strings.h \
- /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h
-
+ /usr/include/c++/11/cstring \
+ /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
+ /usr/include/bits/wordsize.h \
+ /usr/include/c++/11/x86_64-redhat-linux/bits/os_defines.h \
+ /usr/include/features.h /usr/include/features-time64.h \
+ /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \
+ /usr/include/bits/long-double.h /usr/include/gnu/stubs.h \
+ /usr/include/gnu/stubs-64.h \
+ /usr/include/c++/11/x86_64-redhat-linux/bits/cpu_defines.h \
+ /usr/include/string.h /usr/include/bits/libc-header-start.h \
+ /usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h \
+ /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
+ /usr/include/strings.h /usr/include/bits/strings_fortified.h \
+ /usr/include/bits/string_fortified.h
 /usr/include/stdc-predef.h:
-
 config/bitcoin-config.h:
-
-/usr/include/c++/7/cstring:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h:
-
+/usr/include/c++/11/cstring:
+/usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h:
+/usr/include/bits/wordsize.h:
+/usr/include/c++/11/x86_64-redhat-linux/bits/os_defines.h:
 /usr/include/features.h:
-
-/usr/include/x86_64-linux-gnu/sys/cdefs.h:
-
-/usr/include/x86_64-linux-gnu/bits/wordsize.h:
-
-/usr/include/x86_64-linux-gnu/bits/long-double.h:
-
-/usr/include/x86_64-linux-gnu/gnu/stubs.h:
-
-/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h:
-
+/usr/include/features-time64.h:
+/usr/include/bits/timesize.h:
+/usr/include/sys/cdefs.h:
+/usr/include/bits/long-double.h:
+/usr/include/gnu/stubs.h:
+/usr/include/gnu/stubs-64.h:
+/usr/include/c++/11/x86_64-redhat-linux/bits/cpu_defines.h:
 /usr/include/string.h:
-
-/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
-
+/usr/include/bits/libc-header-start.h:
+/usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h:
+/usr/include/bits/types/locale_t.h:
+/usr/include/bits/types/__locale_t.h:
 /usr/include/strings.h:
-
-/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
-
-/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+/usr/include/bits/strings_fortified.h:
+/usr/include/bits/string_fortified.h:

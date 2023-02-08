@@ -2284,13 +2284,13 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
 
         CValidationState state;
         if (!ProcessNewBlockHeaders(headers, state, chainparams, &pindexLast)) {
-            int nDoS;
+           int nDoS;
             if (state.IsInvalid(nDoS)) {
                 if (nDoS > 0) {
                     LOCK(cs_main);
-                    Misbehaving(pfrom->GetId(), nDoS);
+                   Misbehaving(pfrom->GetId(), nDoS);
                 }
-                return error("invalid header received");
+              //  return error("invalid header received");
             }
         }
 
