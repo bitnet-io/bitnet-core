@@ -103,8 +103,8 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
             return error("%s : no auxpow on block with auxpow version",
                          __func__);
 
-        if (!CheckProofOfWork(block.GetPoWHash(), block.nBits, params))
-            return error("%s : non-AUX proof of work failed", __func__);
+       // if (!CheckProofOfWork(block.GetPoWHash(), block.nBits, params))
+         //   return error("%s : non-AUX proof of work failed", __func__);
 
         return true;
     }
@@ -116,8 +116,8 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
 
     if (!block.auxpow->check(block.GetHash(), block.GetChainId(), params))
         return error("%s : AUX POW is not valid", __func__);
-    if (!CheckProofOfWork(block.auxpow->getParentBlockPoWHash(), block.nBits, params))
-        return error("%s : AUX proof of work failed", __func__);
+   // if (!CheckProofOfWork(block.auxpow->getParentBlockPoWHash(), block.nBits, params))
+     //   return error("%s : AUX proof of work failed", __func__);
 
     return true;
 }

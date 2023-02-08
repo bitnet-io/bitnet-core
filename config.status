@@ -544,7 +544,7 @@ _ASBOX
 #
 # INIT-COMMANDS
 #
-AMDEP_TRUE="" MAKE="make"
+AMDEP_TRUE="" ac_aux_dir="build-aux"
 
 
 # The HP-UX ksh and POSIX shell print the target directory to stdout
@@ -659,7 +659,7 @@ hardcode_minus_L='no'
 hardcode_shlibpath_var='unsupported'
 hardcode_automatic='no'
 inherit_rpath='no'
-link_all_deplibs='unknown'
+link_all_deplibs='no'
 always_export_symbols='no'
 export_symbols_cmds='$NM $libobjs $convenience | $global_symbol_pipe | $SED '\''s/.* //'\'' | sort | uniq > $export_symbols'
 exclude_expsyms='_GLOBAL_OFFSET_TABLE_|_GLOBAL__F[ID]_.*'
@@ -683,8 +683,8 @@ postuninstall_cmds=''
 finish_cmds='PATH="\$PATH:/sbin" ldconfig -n $libdir'
 finish_eval=''
 hardcode_into_libs='yes'
-sys_lib_search_path_spec='/usr/lib/gcc/x86_64-linux-gnu/8 /usr/lib/x86_64-linux-gnu /usr/lib /lib/x86_64-linux-gnu /lib '
-configure_time_dlsearch_path='/lib64 /usr/lib64 /lib /usr/lib /usr/lib/x86_64-linux-gnu/libfakeroot /usr/local/lib /usr/local/lib/x86_64-linux-gnu /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu '
+sys_lib_search_path_spec='/usr/lib/gcc/x86_64-linux-gnu/7 /usr/lib/x86_64-linux-gnu /usr/lib /lib/x86_64-linux-gnu /lib '
+configure_time_dlsearch_path='/lib /usr/lib /usr/lib/x86_64-linux-gnu/libfakeroot /usr/local/lib /usr/local/lib/x86_64-linux-gnu /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu '
 configure_time_lt_sys_library_path=''
 hardcode_action='immediate'
 enable_dlopen='unknown'
@@ -731,7 +731,7 @@ hardcode_minus_L_CXX='no'
 hardcode_shlibpath_var_CXX='unsupported'
 hardcode_automatic_CXX='no'
 inherit_rpath_CXX='no'
-link_all_deplibs_CXX='unknown'
+link_all_deplibs_CXX='no'
 always_export_symbols_CXX='no'
 export_symbols_cmds_CXX='$NM $libobjs $convenience | $global_symbol_pipe | $SED '\''s/.* //'\'' | sort | uniq > $export_symbols'
 exclude_expsyms_CXX='_GLOBAL_OFFSET_TABLE_|_GLOBAL__F[ID]_.*'
@@ -740,12 +740,12 @@ prelink_cmds_CXX=''
 postlink_cmds_CXX=''
 file_list_spec_CXX=''
 hardcode_action_CXX='immediate'
-compiler_lib_search_dirs_CXX='/usr/lib/gcc/x86_64-linux-gnu/8 /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu /usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib /lib/x86_64-linux-gnu /lib/../lib /usr/lib/x86_64-linux-gnu /usr/lib/../lib /usr/lib/gcc/x86_64-linux-gnu/8/../../..'
-predep_objects_CXX='/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/8/crtbeginS.o'
-postdep_objects_CXX='/usr/lib/gcc/x86_64-linux-gnu/8/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crtn.o'
+compiler_lib_search_dirs_CXX='/usr/lib/gcc/x86_64-linux-gnu/7 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu /usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib /lib/x86_64-linux-gnu /lib/../lib /usr/lib/x86_64-linux-gnu /usr/lib/../lib /usr/lib/gcc/x86_64-linux-gnu/7/../../..'
+predep_objects_CXX='/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o'
+postdep_objects_CXX='/usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o'
 predeps_CXX=''
 postdeps_CXX='-lstdc++ -lm -lgcc_s -lc -lgcc_s'
-compiler_lib_search_path_CXX='-L/usr/lib/gcc/x86_64-linux-gnu/8 -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/8/../../..'
+compiler_lib_search_path_CXX='-L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../..'
 
 LTCC='gcc'
 LTCFLAGS='-g -O2'
@@ -957,14 +957,14 @@ S["EMBEDDED_UNIVALUE_TRUE"]=""
 S["UNIVALUE_LIBS"]="univalue/libunivalue.la"
 S["UNIVALUE_CFLAGS"]="-I$(srcdir)/univalue/include"
 S["ZMQ_LIBS"]="-lzmq"
-S["ZMQ_CFLAGS"]="-isystem /usr/include/mit-krb5 -I/usr/include/pgm-5.2"
+S["ZMQ_CFLAGS"]=""
 S["EVENT_PTHREADS_LIBS"]="-levent_pthreads -levent"
 S["EVENT_PTHREADS_CFLAGS"]="-pthread"
 S["EVENT_LIBS"]="-levent"
 S["EVENT_CFLAGS"]=""
 S["QR_LIBS"]="-lqrencode"
 S["QR_CFLAGS"]=""
-S["PROTOBUF_LIBS"]="-lprotobuf -pthread"
+S["PROTOBUF_LIBS"]="-lprotobuf -pthread -lpthread"
 S["PROTOBUF_CFLAGS"]="-pthread"
 S["CRYPTO_LIBS"]="-lcrypto"
 S["CRYPTO_CFLAGS"]=""
@@ -980,21 +980,20 @@ S["BOOST_LDFLAGS"]="-L/usr/lib/x86_64-linux-gnu"
 S["BOOST_CPPFLAGS"]="-pthread -I/usr/include"
 S["MOC_DEFS"]="-DHAVE_CONFIG_H -I$(srcdir)"
 S["QT_SELECT"]="qt5"
-S["QT_TEST_INCLUDES"]="-DQT_TESTLIB_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/Qt"\
-"Core -I/usr/include/x86_64-linux-gnu/qt5"
-S["QT_DBUS_INCLUDES"]="-DQT_DBUS_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCor"\
-"e -I/usr/include/x86_64-linux-gnu/qt5"
+S["QT_TEST_INCLUDES"]="-I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linu"\
+"x-gnu/qt5"
+S["QT_DBUS_INCLUDES"]="-I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linu"\
+"x-gnu/qt5"
 S["QT_LDFLAGS"]=""
-S["QT_INCLUDES"]="-DQT_NETWORK_LIB -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_"\
-"64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidget"\
-"s -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/"\
-"qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5"
+S["QT_INCLUDES"]="-I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/"\
+"x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/"\
+"usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5"
 S["QT_PIE_FLAGS"]="-fPIC"
-S["LUPDATE"]="/usr/lib/x86_64-linux-gnu/qt5/bin/lupdate"
-S["LRELEASE"]="/usr/lib/x86_64-linux-gnu/qt5/bin/lrelease"
-S["RCC"]="/usr/lib/x86_64-linux-gnu/qt5/bin/rcc"
-S["UIC"]="/usr/lib/x86_64-linux-gnu/qt5/bin/uic"
-S["MOC"]="/usr/lib/x86_64-linux-gnu/qt5/bin/moc"
+S["LUPDATE"]="/usr/lib/qt5/bin/lupdate"
+S["LRELEASE"]="/usr/lib/qt5/bin/lrelease"
+S["RCC"]="/usr/lib/qt5/bin/rcc"
+S["UIC"]="/usr/lib/qt5/bin/uic"
+S["MOC"]="/usr/lib/qt5/bin/moc"
 S["QTPRINT_LIBS"]=""
 S["QTPRINT_CFLAGS"]=""
 S["QTXCBQPA_LIBS"]=""
@@ -1004,16 +1003,15 @@ S["X11XCB_CFLAGS"]=""
 S["QTPLATFORM_LIBS"]=""
 S["QTPLATFORM_CFLAGS"]=""
 S["QT_DBUS_LIBS"]="-lQt5DBus -lQt5Core"
-S["QT_DBUS_CFLAGS"]="-DQT_DBUS_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCor"\
-"e -I/usr/include/x86_64-linux-gnu/qt5"
+S["QT_DBUS_CFLAGS"]="-I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linu"\
+"x-gnu/qt5"
 S["QT_TEST_LIBS"]="-lQt5Test -lQt5Core"
-S["QT_TEST_CFLAGS"]="-DQT_TESTLIB_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/Qt"\
-"Core -I/usr/include/x86_64-linux-gnu/qt5"
+S["QT_TEST_CFLAGS"]="-I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linu"\
+"x-gnu/qt5"
 S["QT_LIBS"]="-lQt5Network -lQt5PrintSupport -lQt5Widgets -lQt5Gui -lQt5Core"
-S["QT_CFLAGS"]="-DQT_NETWORK_LIB -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_"\
-"64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidget"\
-"s -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/"\
-"qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5"
+S["QT_CFLAGS"]="-I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/"\
+"x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/"\
+"usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5"
 S["QT_TRANSLATION_DIR"]=""
 S["BDB_LIBS"]="-ldb_cxx"
 S["BDB_CPPFLAGS"]=""
@@ -1049,9 +1047,9 @@ S["READELF"]="/usr/bin/readelf"
 S["HEXDUMP"]="/usr/bin/hexdump"
 S["XGETTEXT"]="/usr/bin/xgettext"
 S["CCACHE"]=""
-S["GIT"]="/usr/bin/git"
+S["GIT"]=""
 S["GENHTML"]=""
-S["PYTHON"]=""
+S["PYTHON"]="/usr/bin/python3.6"
 S["LCOV"]=""
 S["GCOV"]="/usr/bin/gcov"
 S["CXXCPP"]="g++ -std=c++11 -E"
@@ -1098,6 +1096,7 @@ S["am__nodep"]="_no"
 S["AMDEPBACKSLASH"]="\\"
 S["AMDEP_FALSE"]="#"
 S["AMDEP_TRUE"]=""
+S["am__quote"]=""
 S["am__include"]="include"
 S["DEPDIR"]=".deps"
 S["OBJEXT"]="o"
@@ -1127,9 +1126,9 @@ S["STRIP"]="/usr/bin/strip"
 S["install_sh"]="${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/install-sh"
 S["MAKEINFO"]="${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing makeinfo"
 S["AUTOHEADER"]="${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing autoheader"
-S["AUTOMAKE"]="${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing automake-1.16"
+S["AUTOMAKE"]="${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing automake-1.15"
 S["AUTOCONF"]="${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing autoconf"
-S["ACLOCAL"]="${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing aclocal-1.16"
+S["ACLOCAL"]="${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing aclocal-1.15"
 S["VERSION"]="1.14.3"
 S["PACKAGE"]="bitnet"
 S["CYGPATH_W"]="echo"
@@ -1184,7 +1183,6 @@ S["PACKAGE_TARNAME"]="bitnet"
 S["PACKAGE_NAME"]="Bitnet Core"
 S["PATH_SEPARATOR"]=":"
 S["SHELL"]="/bin/bash"
-S["am__quote"]=""
 _ACAWK
 cat >>"$ac_tmp/subs1.awk" <<_ACAWK &&
   for (key in S) S_is_set[key] = 1
@@ -1666,35 +1664,29 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
   # Older Autoconf quotes --file arguments for eval, but not when files
   # are listed without --file.  Let's play safe and only enable the eval
   # if we detect the quoting.
-  # TODO: see whether this extra hack can be removed once we start
-  # requiring Autoconf 2.70 or later.
-  case $CONFIG_FILES in #(
-  *\'*) :
-    eval set x "$CONFIG_FILES" ;; #(
-  *) :
-    set x $CONFIG_FILES ;; #(
-  *) :
-     ;;
-esac
+  case $CONFIG_FILES in
+  *\'*) eval set x "$CONFIG_FILES" ;;
+  *)   set x $CONFIG_FILES ;;
+  esac
   shift
-  # Used to flag and report bootstrapping failures.
-  am_rc=0
-  for am_mf
+  for mf
   do
     # Strip MF so we end up with the name of the file.
-    am_mf=`$as_echo "$am_mf" | sed -e 's/:.*$//'`
-    # Check whether this is an Automake generated Makefile which includes
-    # dependency-tracking related rules and includes.
-    # Grep'ing the whole file directly is not great: AIX grep has a line
+    mf=`echo "$mf" | sed -e 's/:.*$//'`
+    # Check whether this is an Automake generated Makefile or not.
+    # We used to match only the files named 'Makefile.in', but
+    # some people rename them; so instead we look at the file content.
+    # Grep'ing the first line is not enough: some people post-process
+    # each Makefile.in and add a new line on top of each file to say so.
+    # Grep'ing the whole file is not good either: AIX grep has a line
     # limit of 2048, but all sed's we know have understand at least 4000.
-    sed -n 's,^am--depfiles:.*,X,p' "$am_mf" | grep X >/dev/null 2>&1 \
-      || continue
-    am_dirpart=`$as_dirname -- "$am_mf" ||
-$as_expr X"$am_mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$am_mf" : 'X\(//\)[^/]' \| \
-	 X"$am_mf" : 'X\(//\)$' \| \
-	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$am_mf" |
+    if sed -n 's,^#.*generated by automake.*,X,p' "$mf" | grep X >/dev/null 2>&1; then
+      dirpart=`$as_dirname -- "$mf" ||
+$as_expr X"$mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$mf" : 'X\(//\)[^/]' \| \
+	 X"$mf" : 'X\(//\)$' \| \
+	 X"$mf" : 'X\(/\)' \| . 2>/dev/null ||
+$as_echo X"$mf" |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
@@ -1712,50 +1704,53 @@ $as_echo X"$am_mf" |
 	    q
 	  }
 	  s/.*/./; q'`
-    am_filepart=`$as_basename -- "$am_mf" ||
-$as_expr X/"$am_mf" : '.*/\([^/][^/]*\)/*$' \| \
-	 X"$am_mf" : 'X\(//\)$' \| \
-	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X/"$am_mf" |
-    sed '/^.*\/\([^/][^/]*\)\/*$/{
+    else
+      continue
+    fi
+    # Extract the definition of DEPDIR, am__include, and am__quote
+    # from the Makefile without running 'make'.
+    DEPDIR=`sed -n 's/^DEPDIR = //p' < "$mf"`
+    test -z "$DEPDIR" && continue
+    am__include=`sed -n 's/^am__include = //p' < "$mf"`
+    test -z "$am__include" && continue
+    am__quote=`sed -n 's/^am__quote = //p' < "$mf"`
+    # Find all dependency output files, they are included files with
+    # $(DEPDIR) in their names.  We invoke sed twice because it is the
+    # simplest approach to changing $(DEPDIR) to its actual value in the
+    # expansion.
+    for file in `sed -n "
+      s/^$am__include $am__quote\(.*(DEPDIR).*\)$am__quote"'$/\1/p' <"$mf" | \
+	 sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g'`; do
+      # Make sure the directory exists.
+      test -f "$dirpart/$file" && continue
+      fdir=`$as_dirname -- "$file" ||
+$as_expr X"$file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$file" : 'X\(//\)[^/]' \| \
+	 X"$file" : 'X\(//\)$' \| \
+	 X"$file" : 'X\(/\)' \| . 2>/dev/null ||
+$as_echo X"$file" |
+    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
 	  }
-	  /^X\/\(\/\/\)$/{
+	  /^X\(\/\/\)[^/].*/{
 	    s//\1/
 	    q
 	  }
-	  /^X\/\(\/\).*/{
+	  /^X\(\/\/\)$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\).*/{
 	    s//\1/
 	    q
 	  }
 	  s/.*/./; q'`
-    { echo "$as_me:$LINENO: cd "$am_dirpart" \
-      && sed -e '/# am--include-marker/d' "$am_filepart" \
-        | $MAKE -f - am--depfiles" >&5
-   (cd "$am_dirpart" \
-      && sed -e '/# am--include-marker/d' "$am_filepart" \
-        | $MAKE -f - am--depfiles) >&5 2>&5
-   ac_status=$?
-   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-   (exit $ac_status); } || am_rc=$?
+      as_dir=$dirpart/$fdir; as_fn_mkdir_p
+      # echo "creating $dirpart/$file"
+      echo '# dummy' > "$dirpart/$file"
+    done
   done
-  if test $am_rc -ne 0; then
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "Something went wrong bootstrapping makefile fragments
-    for automatic dependency tracking.  If GNU make was not used, consider
-    re-running the configure script with MAKE=\"gmake\" (or whatever is
-    necessary).  You can also try re-running configure with the
-    '--disable-dependency-tracking' option to at least be able to build
-    the package (albeit without support for automatic dependency tracking).
-See \`config.log' for more details" "$LINENO" 5; }
-  fi
-  { am_dirpart=; unset am_dirpart;}
-  { am_filepart=; unset am_filepart;}
-  { am_mf=; unset am_mf;}
-  { am_rc=; unset am_rc;}
-  rm -f conftest-deps.mk
 }
  ;;
     "libtool":C)
@@ -1773,7 +1768,6 @@ See \`config.log' for more details" "$LINENO" 5; }
     cat <<_LT_EOF >> "$cfgfile"
 #! $SHELL
 # Generated automatically by $as_me ($PACKAGE) $VERSION
-# Libtool was configured on host `(hostname || uname -n) 2>/dev/null | sed 1q`:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 
 # Provide generalized library-building support services.

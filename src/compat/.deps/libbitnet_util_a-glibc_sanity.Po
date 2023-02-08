@@ -1,15 +1,15 @@
 compat/libbitnet_util_a-glibc_sanity.o: compat/glibc_sanity.cpp \
  /usr/include/stdc-predef.h config/bitcoin-config.h \
- /usr/include/c++/8/cstddef \
- /usr/include/x86_64-linux-gnu/c++/8/bits/c++config.h \
- /usr/include/x86_64-linux-gnu/c++/8/bits/os_defines.h \
+ /usr/include/c++/7/cstddef \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/bits/long-double.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/include/x86_64-linux-gnu/c++/8/bits/cpu_defines.h \
- /usr/lib/gcc/x86_64-linux-gnu/8/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h \
  /usr/include/x86_64-linux-gnu/sys/select.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
@@ -25,11 +25,11 @@ compat/libbitnet_util_a-glibc_sanity.o: compat/glibc_sanity.cpp \
 
 config/bitcoin-config.h:
 
-/usr/include/c++/8/cstddef:
+/usr/include/c++/7/cstddef:
 
-/usr/include/x86_64-linux-gnu/c++/8/bits/c++config.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h:
 
-/usr/include/x86_64-linux-gnu/c++/8/bits/os_defines.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h:
 
 /usr/include/features.h:
 
@@ -43,9 +43,9 @@ config/bitcoin-config.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/include/x86_64-linux-gnu/c++/8/bits/cpu_defines.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/8/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
 

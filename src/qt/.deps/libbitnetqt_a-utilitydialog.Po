@@ -1395,7 +1395,6 @@ qt/libbitnetqt_a-utilitydialog.o: qt/utilitydialog.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QInputDialog \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qinputdialog.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlineedit.h \
- /usr/include/qrencode.h \
  /usr/include/x86_64-linux-gnu/qt5/QtPrintSupport/QPrinter \
  /usr/include/x86_64-linux-gnu/qt5/QtPrintSupport/qprinter.h \
  /usr/include/x86_64-linux-gnu/qt5/QtPrintSupport/qtprintsupportglobal.h \
@@ -4634,8 +4633,6 @@ utilstrencodings.h:
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qinputdialog.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlineedit.h:
-
-/usr/include/qrencode.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtPrintSupport/QPrinter:
 

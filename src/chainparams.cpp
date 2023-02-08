@@ -60,9 +60,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
 
- const char* pszTimestamp = "Bitnet supporting changes to the Bitcoin network!";
-    const CScript genesisOutputScript = CScript() << ParseHex("04a9ed8fcb728928303181916dc4fb795743b3b482887d14338aabe22b4b8687ea7164625f73caca11aa87a53183d4b73de9cc4fb816199dc050602d94762a9288") << OP_CHECKSIG;
-
+ const char* pszTimestamp = "Bitnet supporting changes to the Bitcoin network and beyond!";
+    const CScript genesisOutputScript = CScript() << ParseHex("047dca2902dff8dc8f6f34f9f3741ca6f7a568d383059853bf0aaa5511af402ed929dc56a4c14f9a1d4447e8d5a08a2c9e26f6818d146cfbf55d496b9351f773b9")<< OP_CHECKSIG;
 //044522ae1eaae459e183a2afe0e5c6bdcc01dca3515d7e02dec9fab5b60049dbb768913fd22be929c2e5e6f86a0780e57ac4d44894c1ad528c301e13eef5b8fa95
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 
@@ -103,8 +102,8 @@ public:
         consensus.BIP66Height = 1; // 80d1364201e5df97e696c03bdd24dc885e8617b9de51e453c10a4f629b1e797a - this is the last block that could be v2, 1900 blocks past the last v2 block
     //    consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimit = uint256S("");
-	consensus.nPowTargetTimespan = 1 * 60 * 60; // 1 hour
-        consensus.nPowTargetSpacing = 2.5 * 60; // 2.5 minutes
+        consensus.nPowTargetTimespan = 7 * 24 * 60 * 60; // seven days
+        consensus.nPowTargetSpacing = 10 * 60; // 2.5 minutes
 
 //4 * 60 * 60; // pre-digishield: 4 hours
     //    consensus.nPowTargetSpacing =  60; // 1 minute
@@ -195,11 +194,11 @@ public:
         pchMessageStart[1] = 0xd1;
         pchMessageStart[2] = 0xd1;
         pchMessageStart[3] = 0xd1;
-        vAlertPubKey = ParseHex("04a9ed8fcb728928303181916dc4fb795743b3b482887d14338aabe22b4b8687ea7164625f73caca11aa87a53183d4b73de9cc4fb816199dc050602d94762a9288");
+        vAlertPubKey = ParseHex("047dca2902dff8dc8f6f34f9f3741ca6f7a568d383059853bf0aaa5511af402ed929dc56a4c14f9a1d4447e8d5a08a2c9e26f6818d146cfbf55d496b9351f773b9");
         nDefaultPort = 8333;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1675568712, 203037, 0x1e0ffff0, 1, 88 * COIN);
+        genesis = CreateGenesisBlock(1675886721, 1195632, 0x1e0ffff0, 1, 88 * COIN);
 
 	consensus.hashGenesisBlock = uint256S("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) {
@@ -230,37 +229,20 @@ public:
 
         }
 /*
- Mainnet ---
- main_nonce: 491158
- main_time: 1622171724
- main_hash: 000007ce46e6c59844c34fa7ba5b27c8dac0653a27fcfb7340cc0158849e4afd
- main_merklehash: a26a8a2fd11aa7f3078cb895e75dbb38e64bc833321e7e18307836717421380b
-
-
-
- Mainnet ---
- main_nonce: 1320266
- main_time: 1674585018
- main_hash: 000003e07d5222c1805d2fe2d0c05ff2b4d218df7a1760e5a98e2ef4779a1a98
- main_merklehash: 51c786a22fc02a9875ebbfa2bd0704375272235beb59e2e3e731f6aa946b2b81
-min Main nBit:  5ad1c3bb
-
 
 Mainnet ---
- main_nonce: 203037
- main_time: 1674585018
- main_hash: 00000d4decac1318a754cacfb7b61d6c2969a07fc48f674bd22575b7d6c17726
- main_merklehash: 7ac93e3ee47fd858ccd5501e93bb0d7e1b417a89cb72dabb142fadfdda46e4a3
-min Main nBit:  00000000
-
-1675568712
-
-
-Mainnet ---
- main_nonce: 1787862
+ main_nonce: 1195632
  main_time: 1675568712
- main_hash: 00000addd66a55383dabfdedfa5fbd3d336c356b126165b4d244de3bafbde292
- main_merklehash: 7ac93e3ee47fd858ccd5501e93bb0d7e1b417a89cb72dabb142fadfdda46e4a3
+ main_hash: 00000dfe4660c6d3c48f971f9dd71309b2cbb2adde2b6b1f414e79116d7311f8
+ main_merklehash: 2002eaecd5e0920172de6f24761d653332e01a467dcaf7b0ff1d89d070711fa4
+min Main nBit:  6297c629
+
+
+Mainnet ---
+ main_nonce: 1769621
+ main_time: 1675886721
+ main_hash: 0000049008321e63472304c0fc8d3937b7679cdb2144f8ebe8b8fb29e4deae94
+ main_merklehash: 2002eaecd5e0920172de6f24761d653332e01a467dcaf7b0ff1d89d070711fa4
 
 */
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -274,9 +256,9 @@ Mainnet ---
 
 
 
-        assert(consensus.hashGenesisBlock == uint256S("0x00000addd66a55383dabfdedfa5fbd3d336c356b126165b4d244de3bafbde292"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0000049008321e63472304c0fc8d3937b7679cdb2144f8ebe8b8fb29e4deae94"));
 
-        assert(genesis.hashMerkleRoot == uint256S("0x7ac93e3ee47fd858ccd5501e93bb0d7e1b417a89cb72dabb142fadfdda46e4a3"));
+        assert(genesis.hashMerkleRoot == uint256S("0x2002eaecd5e0920172de6f24761d653332e01a467dcaf7b0ff1d89d070711fa4"));
 
         // use dogecoin network DNS backbone here to find peers
         vSeeds.push_back(CDNSSeedData("multidoge.org", "seed.multidoge.org", true));
@@ -495,6 +477,12 @@ min Test nBit:  5c97a5d7
  Test_hash: 00000776b4ed97121ecf253743b4a84c467b986873464dfa1d7fd09d9fba66c8
  Test_merklehash: 7ac93e3ee47fd858ccd5501e93bb0d7e1b417a89cb72dabb142fadfdda46e4a3
 
+Testnet ---
+ Test_nonce: 503271
+ Test_time: 1486949366
+ Test_hash: 00000a3c106109877cca71fb172796779090fb34d49147b2761a5ba8f451dfc3
+ Test_merklehash: 2002eaecd5e0920172de6f24761d653332e01a467dcaf7b0ff1d89d070711fa4
+
 
 */
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -502,8 +490,8 @@ min Test nBit:  5c97a5d7
         minDifficultyConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
 
-        assert(consensus.hashGenesisBlock == uint256S("0x00000776b4ed97121ecf253743b4a84c467b986873464dfa1d7fd09d9fba66c8"));
-        assert(genesis.hashMerkleRoot == uint256S("0x7ac93e3ee47fd858ccd5501e93bb0d7e1b417a89cb72dabb142fadfdda46e4a3"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000a3c106109877cca71fb172796779090fb34d49147b2761a5ba8f451dfc3"));
+        assert(genesis.hashMerkleRoot == uint256S("0x2002eaecd5e0920172de6f24761d653332e01a467dcaf7b0ff1d89d070711fa4"));
 
 	 vFixedSeeds.clear();
         vSeeds.clear();
@@ -679,15 +667,20 @@ RegTestnet ---
  RegTest_hash: 2d3aa846dec9db8f6259609d07189ea6bcac27d45179839f5e18b68b61866069
  RegTest_merklehash: 7ac93e3ee47fd858ccd5501e93bb0d7e1b417a89cb72dabb142fadfdda46e4a3
 
+
+RegTestnet ---
+ RegTest_nonce: 1
+ RegTest_time: 1296688602
+ RegTest_hash: 62a8836adb34c8dfa69d0b37c602b4fe97475f174dfac2872ad375259552795f
+ RegTest_merklehash: 2002eaecd5e0920172de6f24761d653332e01a467dcaf7b0ff1d89d070711fa4
+
 */
 
      consensus.hashGenesisBlock = genesis.GetHash();
         digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
-        assert(consensus.hashGenesisBlock == uint256S("0x2d3aa846dec9db8f6259609d07189ea6bcac27d45179839f5e18b68b61866069"));
-
-
-        assert(genesis.hashMerkleRoot == uint256S("0x7ac93e3ee47fd858ccd5501e93bb0d7e1b417a89cb72dabb142fadfdda46e4a3"));
+        assert(consensus.hashGenesisBlock == uint256S("0x62a8836adb34c8dfa69d0b37c602b4fe97475f174dfac2872ad375259552795f"));
+        assert(genesis.hashMerkleRoot == uint256S("0x2002eaecd5e0920172de6f24761d653332e01a467dcaf7b0ff1d89d070711fa4"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.

@@ -39,137 +39,134 @@ PATH: /bin
 ## Core tests. ##
 ## ----------- ##
 
-configure:2981: checking build system type
-configure:2995: result: x86_64-pc-linux-gnu
-configure:3015: checking host system type
-configure:3028: result: x86_64-pc-linux-gnu
-configure:3071: checking for a BSD-compatible install
-configure:3139: result: /usr/bin/install -c
-configure:3150: checking whether build environment is sane
-configure:3205: result: yes
-configure:3354: checking for a thread-safe mkdir -p
-configure:3393: result: /bin/mkdir -p
-configure:3400: checking for gawk
-configure:3430: result: no
-configure:3400: checking for mawk
-configure:3416: found /usr/bin/mawk
-configure:3427: result: mawk
-configure:3438: checking whether make sets $(MAKE)
-configure:3460: result: yes
-configure:3489: checking whether make supports nested variables
-configure:3506: result: yes
-configure:3625: checking whether to enable maintainer-specific portions of Makefiles
-configure:3634: result: yes
-configure:3659: checking whether make supports nested variables
-configure:3676: result: yes
-configure:3751: checking for g++
-configure:3767: found /usr/bin/g++
-configure:3778: result: g++
-configure:3805: checking for C++ compiler version
-configure:3814: g++ --version >&5
-g++ (Debian 8.3.0-6) 8.3.0
-Copyright (C) 2018 Free Software Foundation, Inc.
+configure:2985: checking build system type
+configure:2999: result: x86_64-pc-linux-gnu
+configure:3019: checking host system type
+configure:3032: result: x86_64-pc-linux-gnu
+configure:3075: checking for a BSD-compatible install
+configure:3143: result: /usr/bin/install -c
+configure:3154: checking whether build environment is sane
+configure:3209: result: yes
+configure:3360: checking for a thread-safe mkdir -p
+configure:3399: result: /bin/mkdir -p
+configure:3406: checking for gawk
+configure:3436: result: no
+configure:3406: checking for mawk
+configure:3422: found /usr/bin/mawk
+configure:3433: result: mawk
+configure:3444: checking whether make sets $(MAKE)
+configure:3466: result: yes
+configure:3495: checking whether make supports nested variables
+configure:3512: result: yes
+configure:3631: checking whether to enable maintainer-specific portions of Makefiles
+configure:3640: result: yes
+configure:3665: checking whether make supports nested variables
+configure:3682: result: yes
+configure:3757: checking for g++
+configure:3773: found /usr/bin/g++
+configure:3784: result: g++
+configure:3811: checking for C++ compiler version
+configure:3820: g++ --version >&5
+g++ (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+Copyright (C) 2017 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:3825: $? = 0
-configure:3814: g++ -v >&5
+configure:3831: $? = 0
+configure:3820: g++ -v >&5
 Using built-in specs.
 COLLECT_GCC=g++
-COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper
 OFFLOAD_TARGET_NAMES=nvptx-none
 OFFLOAD_TARGET_DEFAULT=1
 Target: x86_64-linux-gnu
-Configured with: ../src/configure -v --with-pkgversion='Debian 8.3.0-6' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 7.5.0-3ubuntu1~18.04' --with-bugurl=file:///usr/share/doc/gcc-7/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-7 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
-gcc version 8.3.0 (Debian 8.3.0-6) 
-configure:3825: $? = 0
-configure:3814: g++ -V >&5
+gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04) 
+configure:3831: $? = 0
+configure:3820: g++ -V >&5
 g++: error: unrecognized command line option '-V'
 g++: fatal error: no input files
 compilation terminated.
-configure:3825: $? = 1
-configure:3814: g++ -qversion >&5
+configure:3831: $? = 1
+configure:3820: g++ -qversion >&5
 g++: error: unrecognized command line option '-qversion'; did you mean '--version'?
 g++: fatal error: no input files
 compilation terminated.
-configure:3825: $? = 1
-configure:3845: checking whether the C++ compiler works
-configure:3867: g++    conftest.cpp  >&5
-configure:3871: $? = 0
-configure:3919: result: yes
-configure:3922: checking for C++ compiler default output file name
-configure:3924: result: a.out
-configure:3930: checking for suffix of executables
-configure:3937: g++ -o conftest    conftest.cpp  >&5
-configure:3941: $? = 0
-configure:3963: result: 
-configure:3985: checking whether we are cross compiling
-configure:3993: g++ -o conftest    conftest.cpp  >&5
-configure:3997: $? = 0
-configure:4004: ./conftest
-configure:4008: $? = 0
-configure:3996: result: no
-configure:4001: checking for suffix of object files
-configure:4023: g++ -c   conftest.cpp >&5
-configure:4027: $? = 0
-configure:4048: result: o
-configure:4052: checking whether we are using the GNU C++ compiler
-configure:4071: g++ -c   conftest.cpp >&5
-configure:4071: $? = 0
-configure:4080: result: yes
-configure:4089: checking whether g++ accepts -g
-configure:4109: g++ -c -g  conftest.cpp >&5
-configure:4109: $? = 0
-configure:4150: result: yes
-configure:4176: checking whether make supports the include directive
-configure:4191: make -f confmf.GNU && cat confinc.out
-this is the am__doit target
-configure:4194: $? = 0
-configure:4213: result: yes (GNU style)
-configure:4238: checking dependency style of g++
-configure:4349: result: gcc3
-configure:4387: checking whether g++ supports C++11 features with -std=c++11
-configure:4683: g++ -std=c++11 -c -g -O2  conftest.cpp >&5
-configure:4683: $? = 0
-configure:4692: result: yes
-configure:4736: checking whether std::atomic can be used without link library
-configure:4754: g++ -std=c++11 -o conftest -g -O2   conftest.cpp  >&5
-configure:4754: $? = 0
-configure:4756: result: yes
-configure:4921: checking for Objective C++ compiler version
-configure:4930: g++ -std=c++11 --version >&5
-g++ (Debian 8.3.0-6) 8.3.0
-Copyright (C) 2018 Free Software Foundation, Inc.
+configure:3831: $? = 1
+configure:3851: checking whether the C++ compiler works
+configure:3873: g++    conftest.cpp  >&5
+configure:3877: $? = 0
+configure:3925: result: yes
+configure:3928: checking for C++ compiler default output file name
+configure:3930: result: a.out
+configure:3936: checking for suffix of executables
+configure:3943: g++ -o conftest    conftest.cpp  >&5
+configure:3947: $? = 0
+configure:3969: result: 
+configure:3991: checking whether we are cross compiling
+configure:3999: g++ -o conftest    conftest.cpp  >&5
+configure:4003: $? = 0
+configure:4010: ./conftest
+configure:4014: $? = 0
+configure:4029: result: no
+configure:4034: checking for suffix of object files
+configure:4056: g++ -c   conftest.cpp >&5
+configure:4060: $? = 0
+configure:4081: result: o
+configure:4085: checking whether we are using the GNU C++ compiler
+configure:4104: g++ -c   conftest.cpp >&5
+configure:4104: $? = 0
+configure:4113: result: yes
+configure:4122: checking whether g++ accepts -g
+configure:4142: g++ -c -g  conftest.cpp >&5
+configure:4142: $? = 0
+configure:4183: result: yes
+configure:4217: checking for style of include used by make
+configure:4245: result: GNU
+configure:4271: checking dependency style of g++
+configure:4382: result: gcc3
+configure:4420: checking whether g++ supports C++11 features with -std=c++11
+configure:4716: g++ -std=c++11 -c -g -O2  conftest.cpp >&5
+configure:4716: $? = 0
+configure:4725: result: yes
+configure:4769: checking whether std::atomic can be used without link library
+configure:4787: g++ -std=c++11 -o conftest -g -O2   conftest.cpp  >&5
+configure:4787: $? = 0
+configure:4789: result: yes
+configure:4954: checking for Objective C++ compiler version
+configure:4963: g++ -std=c++11 --version >&5
+g++ (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+Copyright (C) 2017 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:4941: $? = 0
-configure:4930: g++ -std=c++11 -v >&5
+configure:4974: $? = 0
+configure:4963: g++ -std=c++11 -v >&5
 Using built-in specs.
 COLLECT_GCC=g++
-COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper
 OFFLOAD_TARGET_NAMES=nvptx-none
 OFFLOAD_TARGET_DEFAULT=1
 Target: x86_64-linux-gnu
-Configured with: ../src/configure -v --with-pkgversion='Debian 8.3.0-6' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 7.5.0-3ubuntu1~18.04' --with-bugurl=file:///usr/share/doc/gcc-7/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-7 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
-gcc version 8.3.0 (Debian 8.3.0-6) 
-configure:4941: $? = 0
-configure:4930: g++ -std=c++11 -V >&5
+gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04) 
+configure:4974: $? = 0
+configure:4963: g++ -std=c++11 -V >&5
 g++: error: unrecognized command line option '-V'
 g++: fatal error: no input files
 compilation terminated.
-configure:4941: $? = 1
-configure:4930: g++ -std=c++11 -qversion >&5
+configure:4974: $? = 1
+configure:4963: g++ -std=c++11 -qversion >&5
 g++: error: unrecognized command line option '-qversion'; did you mean '--version'?
 g++: fatal error: no input files
 compilation terminated.
-configure:4941: $? = 1
-configure:4945: checking whether we are using the GNU Objective C++ compiler
-configure:4964: g++ -std=c++11 -c   conftest.mm >&5
+configure:4974: $? = 1
+configure:4978: checking whether we are using the GNU Objective C++ compiler
+configure:4997: g++ -std=c++11 -c   conftest.mm >&5
 g++: error trying to exec 'cc1objplus': execvp: No such file or directory
-configure:4964: $? = 1
+configure:4997: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -191,11 +188,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:4973: result: no
-configure:4982: checking whether g++ -std=c++11 accepts -g
-configure:5002: g++ -std=c++11 -c -g  conftest.mm >&5
+configure:5006: result: no
+configure:5015: checking whether g++ -std=c++11 accepts -g
+configure:5035: g++ -std=c++11 -c -g  conftest.mm >&5
 g++: error trying to exec 'cc1objplus': execvp: No such file or directory
-configure:5002: $? = 1
+configure:5035: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -214,9 +211,9 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:5017: g++ -std=c++11 -c   conftest.mm >&5
+configure:5050: g++ -std=c++11 -c   conftest.mm >&5
 g++: error trying to exec 'cc1objplus': execvp: No such file or directory
-configure:5017: $? = 1
+configure:5050: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -235,9 +232,9 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:5033: g++ -std=c++11 -c -g  conftest.mm >&5
+configure:5066: g++ -std=c++11 -c -g  conftest.mm >&5
 g++: error trying to exec 'cc1objplus': execvp: No such file or directory
-configure:5033: $? = 1
+configure:5066: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -256,153 +253,153 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:5043: result: no
-configure:5068: checking dependency style of g++ -std=c++11
-configure:5177: result: gcc3
-configure:5240: checking how to print strings
-configure:5267: result: printf
-configure:5336: checking for gcc
-configure:5352: found /usr/bin/gcc
-configure:5363: result: gcc
-configure:5592: checking for C compiler version
-configure:5601: gcc --version >&5
-gcc (Debian 8.3.0-6) 8.3.0
-Copyright (C) 2018 Free Software Foundation, Inc.
+configure:5076: result: no
+configure:5101: checking dependency style of g++ -std=c++11
+configure:5210: result: gcc3
+configure:5273: checking how to print strings
+configure:5300: result: printf
+configure:5369: checking for gcc
+configure:5385: found /usr/bin/gcc
+configure:5396: result: gcc
+configure:5625: checking for C compiler version
+configure:5634: gcc --version >&5
+gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+Copyright (C) 2017 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:5612: $? = 0
-configure:5601: gcc -v >&5
+configure:5645: $? = 0
+configure:5634: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
-COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper
 OFFLOAD_TARGET_NAMES=nvptx-none
 OFFLOAD_TARGET_DEFAULT=1
 Target: x86_64-linux-gnu
-Configured with: ../src/configure -v --with-pkgversion='Debian 8.3.0-6' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 7.5.0-3ubuntu1~18.04' --with-bugurl=file:///usr/share/doc/gcc-7/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-7 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
-gcc version 8.3.0 (Debian 8.3.0-6) 
-configure:5612: $? = 0
-configure:5601: gcc -V >&5
+gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04) 
+configure:5645: $? = 0
+configure:5634: gcc -V >&5
 gcc: error: unrecognized command line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
-configure:5612: $? = 1
-configure:5601: gcc -qversion >&5
+configure:5645: $? = 1
+configure:5634: gcc -qversion >&5
 gcc: error: unrecognized command line option '-qversion'; did you mean '--version'?
 gcc: fatal error: no input files
 compilation terminated.
-configure:5612: $? = 1
-configure:5616: checking whether we are using the GNU C compiler
-configure:5635: gcc -c   conftest.c >&5
-configure:5635: $? = 0
-configure:5644: result: yes
-configure:5653: checking whether gcc accepts -g
-configure:5673: gcc -c -g  conftest.c >&5
-configure:5673: $? = 0
-configure:5714: result: yes
-configure:5731: checking for gcc option to accept ISO C89
-configure:5794: gcc  -c -g -O2  conftest.c >&5
-configure:5794: $? = 0
-configure:5807: result: none needed
-configure:5832: checking whether gcc understands -c and -o together
-configure:5854: gcc -c conftest.c -o conftest2.o
-configure:5857: $? = 0
-configure:5854: gcc -c conftest.c -o conftest2.o
-configure:5857: $? = 0
-configure:5869: result: yes
-configure:5888: checking dependency style of gcc
-configure:5999: result: gcc3
-configure:6014: checking for a sed that does not truncate output
-configure:6078: result: /bin/sed
-configure:6096: checking for grep that handles long lines and -e
-configure:6154: result: /bin/grep
-configure:6159: checking for egrep
-configure:6221: result: /bin/grep -E
-configure:6226: checking for fgrep
-configure:6288: result: /bin/grep -F
-configure:6323: checking for ld used by gcc
-configure:6390: result: /usr/bin/ld
-configure:6397: checking if the linker (/usr/bin/ld) is GNU ld
-configure:6412: result: yes
-configure:6424: checking for BSD- or MS-compatible name lister (nm)
-configure:6478: result: /usr/bin/nm -B
-configure:6608: checking the name lister (/usr/bin/nm -B) interface
-configure:6615: gcc -c -g -O2  conftest.c >&5
-configure:6618: /usr/bin/nm -B "conftest.o"
-configure:6621: output
+configure:5645: $? = 1
+configure:5649: checking whether we are using the GNU C compiler
+configure:5668: gcc -c   conftest.c >&5
+configure:5668: $? = 0
+configure:5677: result: yes
+configure:5686: checking whether gcc accepts -g
+configure:5706: gcc -c -g  conftest.c >&5
+configure:5706: $? = 0
+configure:5747: result: yes
+configure:5764: checking for gcc option to accept ISO C89
+configure:5827: gcc  -c -g -O2  conftest.c >&5
+configure:5827: $? = 0
+configure:5840: result: none needed
+configure:5865: checking whether gcc understands -c and -o together
+configure:5887: gcc -c conftest.c -o conftest2.o
+configure:5890: $? = 0
+configure:5887: gcc -c conftest.c -o conftest2.o
+configure:5890: $? = 0
+configure:5902: result: yes
+configure:5921: checking dependency style of gcc
+configure:6032: result: gcc3
+configure:6047: checking for a sed that does not truncate output
+configure:6111: result: /bin/sed
+configure:6129: checking for grep that handles long lines and -e
+configure:6187: result: /bin/grep
+configure:6192: checking for egrep
+configure:6254: result: /bin/grep -E
+configure:6259: checking for fgrep
+configure:6321: result: /bin/grep -F
+configure:6356: checking for ld used by gcc
+configure:6423: result: /usr/bin/ld
+configure:6430: checking if the linker (/usr/bin/ld) is GNU ld
+configure:6445: result: yes
+configure:6457: checking for BSD- or MS-compatible name lister (nm)
+configure:6511: result: /usr/bin/nm -B
+configure:6641: checking the name lister (/usr/bin/nm -B) interface
+configure:6648: gcc -c -g -O2  conftest.c >&5
+configure:6651: /usr/bin/nm -B "conftest.o"
+configure:6654: output
 0000000000000000 B some_variable
-configure:6622: result: BSD nm
-configure:6625: checking whether ln -s works
-configure:6629: result: yes
-configure:6637: checking the maximum length of command line arguments
-configure:6768: result: 1572864
-configure:6816: checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format
-configure:6856: result: func_convert_file_noop
-configure:6863: checking how to convert x86_64-pc-linux-gnu file names to toolchain format
-configure:6883: result: func_convert_file_noop
-configure:6890: checking for /usr/bin/ld option to reload object files
-configure:6897: result: -r
-configure:6971: checking for objdump
-configure:6987: found /usr/bin/objdump
-configure:6998: result: objdump
-configure:7030: checking how to recognize dependent libraries
-configure:7230: result: pass_all
-configure:7315: checking for dlltool
-configure:7345: result: no
-configure:7375: checking how to associate runtime and link libraries
-configure:7402: result: printf %s\n
-configure:7463: checking for ar
-configure:7479: found /usr/bin/ar
-configure:7490: result: ar
-configure:7527: checking for archiver @FILE support
-configure:7544: gcc -c -g -O2  conftest.c >&5
-configure:7544: $? = 0
-configure:7547: ar cru libconftest.a @conftest.lst >&5
+configure:6661: result: BSD nm
+configure:6664: checking whether ln -s works
+configure:6668: result: yes
+configure:6676: checking the maximum length of command line arguments
+configure:6807: result: 1572864
+configure:6855: checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format
+configure:6895: result: func_convert_file_noop
+configure:6902: checking how to convert x86_64-pc-linux-gnu file names to toolchain format
+configure:6922: result: func_convert_file_noop
+configure:6929: checking for /usr/bin/ld option to reload object files
+configure:6936: result: -r
+configure:7010: checking for objdump
+configure:7026: found /usr/bin/objdump
+configure:7037: result: objdump
+configure:7069: checking how to recognize dependent libraries
+configure:7269: result: pass_all
+configure:7354: checking for dlltool
+configure:7384: result: no
+configure:7414: checking how to associate runtime and link libraries
+configure:7441: result: printf %s\n
+configure:7502: checking for ar
+configure:7518: found /usr/bin/ar
+configure:7529: result: ar
+configure:7566: checking for archiver @FILE support
+configure:7583: gcc -c -g -O2  conftest.c >&5
+configure:7583: $? = 0
+configure:7586: ar cru libconftest.a @conftest.lst >&5
 ar: `u' modifier ignored since `D' is the default (see `U')
-configure:7550: $? = 0
-configure:7555: ar cru libconftest.a @conftest.lst >&5
+configure:7589: $? = 0
+configure:7594: ar cru libconftest.a @conftest.lst >&5
 ar: `u' modifier ignored since `D' is the default (see `U')
 ar: conftest.o: No such file or directory
-configure:7558: $? = 1
-configure:7557: result: @
-configure:7615: checking for strip
-configure:7631: found /usr/bin/strip
-configure:7642: result: strip
-configure:7714: checking for ranlib
-configure:7730: found /usr/bin/ranlib
-configure:7741: result: ranlib
-configure:7843: checking command to parse /usr/bin/nm -B output from gcc object
-configure:7996: gcc -c -g -O2  conftest.c >&5
-configure:7999: $? = 0
-configure:8003: /usr/bin/nm -B conftest.o \| sed -n -e 's/^.*[ ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[ ][ ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' | sed '/ __gnu_lto/d' \> conftest.nm
-configure:8006: $? = 0
-configure:8072: gcc -o conftest -g -O2   conftest.c conftstm.o >&5
-configure:8075: $? = 0
-configure:8113: result: ok
-configure:8160: checking for sysroot
-configure:8190: result: no
-configure:8197: checking for a working dd
-configure:8235: result: /bin/dd
-configure:8239: checking how to truncate binary pipes
-configure:8254: result: /bin/dd bs=4096 count=1
-configure:8390: gcc -c -g -O2  conftest.c >&5
-configure:8393: $? = 0
-configure:8583: checking for mt
-configure:8599: found /bin/mt
-configure:8610: result: mt
-configure:8633: checking if mt is a manifest tool
-configure:8639: mt '-?'
-configure:8647: result: no
-configure:9324: checking how to run the C preprocessor
-configure:9355: gcc -E  conftest.c
-configure:9355: $? = 0
-configure:9369: gcc -E  conftest.c
+configure:7597: $? = 1
+configure:7609: result: @
+configure:7667: checking for strip
+configure:7683: found /usr/bin/strip
+configure:7694: result: strip
+configure:7766: checking for ranlib
+configure:7782: found /usr/bin/ranlib
+configure:7793: result: ranlib
+configure:7895: checking command to parse /usr/bin/nm -B output from gcc object
+configure:8048: gcc -c -g -O2  conftest.c >&5
+configure:8051: $? = 0
+configure:8055: /usr/bin/nm -B conftest.o \| sed -n -e 's/^.*[ ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[ ][ ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' | sed '/ __gnu_lto/d' \> conftest.nm
+configure:8058: $? = 0
+configure:8124: gcc -o conftest -g -O2   conftest.c conftstm.o >&5
+configure:8127: $? = 0
+configure:8165: result: ok
+configure:8212: checking for sysroot
+configure:8242: result: no
+configure:8249: checking for a working dd
+configure:8287: result: /bin/dd
+configure:8291: checking how to truncate binary pipes
+configure:8306: result: /bin/dd bs=4096 count=1
+configure:8442: gcc -c -g -O2  conftest.c >&5
+configure:8445: $? = 0
+configure:8635: checking for mt
+configure:8651: found /bin/mt
+configure:8662: result: mt
+configure:8685: checking if mt is a manifest tool
+configure:8691: mt '-?'
+configure:8699: result: no
+configure:9376: checking how to run the C preprocessor
+configure:9407: gcc -E  conftest.c
+configure:9407: $? = 0
+configure:9421: gcc -E  conftest.c
 conftest.c:10:10: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
           ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:9369: $? = 1
+configure:9421: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -414,15 +411,15 @@ configure: failed program was:
 | #define HAVE_CXX11 1
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:9394: result: gcc -E
-configure:9414: gcc -E  conftest.c
-configure:9414: $? = 0
-configure:9428: gcc -E  conftest.c
+configure:9446: result: gcc -E
+configure:9466: gcc -E  conftest.c
+configure:9466: $? = 0
+configure:9480: gcc -E  conftest.c
 conftest.c:10:10: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
           ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:9428: $? = 1
+configure:9480: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -434,106 +431,106 @@ configure: failed program was:
 | #define HAVE_CXX11 1
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:9457: checking for ANSI C header files
-configure:9477: gcc -c -g -O2  conftest.c >&5
-configure:9477: $? = 0
-configure:9550: gcc -o conftest -g -O2   conftest.c  >&5
-configure:9550: $? = 0
-configure:9550: ./conftest
-configure:9550: $? = 0
-configure:9561: result: yes
-configure:9574: checking for sys/types.h
-configure:9574: gcc -c -g -O2  conftest.c >&5
-configure:9574: $? = 0
-configure:9574: result: yes
-configure:9574: checking for sys/stat.h
-configure:9574: gcc -c -g -O2  conftest.c >&5
-configure:9574: $? = 0
-configure:9574: result: yes
-configure:9574: checking for stdlib.h
-configure:9574: gcc -c -g -O2  conftest.c >&5
-configure:9574: $? = 0
-configure:9574: result: yes
-configure:9574: checking for string.h
-configure:9574: gcc -c -g -O2  conftest.c >&5
-configure:9574: $? = 0
-configure:9574: result: yes
-configure:9574: checking for memory.h
-configure:9574: gcc -c -g -O2  conftest.c >&5
-configure:9574: $? = 0
-configure:9574: result: yes
-configure:9574: checking for strings.h
-configure:9574: gcc -c -g -O2  conftest.c >&5
-configure:9574: $? = 0
-configure:9574: result: yes
-configure:9574: checking for inttypes.h
-configure:9574: gcc -c -g -O2  conftest.c >&5
-configure:9574: $? = 0
-configure:9574: result: yes
-configure:9574: checking for stdint.h
-configure:9574: gcc -c -g -O2  conftest.c >&5
-configure:9574: $? = 0
-configure:9574: result: yes
-configure:9574: checking for unistd.h
-configure:9574: gcc -c -g -O2  conftest.c >&5
-configure:9574: $? = 0
-configure:9574: result: yes
-configure:9588: checking for dlfcn.h
-configure:9588: gcc -c -g -O2  conftest.c >&5
-configure:9588: $? = 0
-configure:9588: result: yes
-configure:9853: checking for objdir
-configure:9868: result: .libs
-configure:10132: checking if gcc supports -fno-rtti -fno-exceptions
-configure:10150: gcc -c -g -O2  -fno-rtti -fno-exceptions conftest.c >&5
+configure:9509: checking for ANSI C header files
+configure:9529: gcc -c -g -O2  conftest.c >&5
+configure:9529: $? = 0
+configure:9602: gcc -o conftest -g -O2   conftest.c  >&5
+configure:9602: $? = 0
+configure:9602: ./conftest
+configure:9602: $? = 0
+configure:9613: result: yes
+configure:9626: checking for sys/types.h
+configure:9626: gcc -c -g -O2  conftest.c >&5
+configure:9626: $? = 0
+configure:9626: result: yes
+configure:9626: checking for sys/stat.h
+configure:9626: gcc -c -g -O2  conftest.c >&5
+configure:9626: $? = 0
+configure:9626: result: yes
+configure:9626: checking for stdlib.h
+configure:9626: gcc -c -g -O2  conftest.c >&5
+configure:9626: $? = 0
+configure:9626: result: yes
+configure:9626: checking for string.h
+configure:9626: gcc -c -g -O2  conftest.c >&5
+configure:9626: $? = 0
+configure:9626: result: yes
+configure:9626: checking for memory.h
+configure:9626: gcc -c -g -O2  conftest.c >&5
+configure:9626: $? = 0
+configure:9626: result: yes
+configure:9626: checking for strings.h
+configure:9626: gcc -c -g -O2  conftest.c >&5
+configure:9626: $? = 0
+configure:9626: result: yes
+configure:9626: checking for inttypes.h
+configure:9626: gcc -c -g -O2  conftest.c >&5
+configure:9626: $? = 0
+configure:9626: result: yes
+configure:9626: checking for stdint.h
+configure:9626: gcc -c -g -O2  conftest.c >&5
+configure:9626: $? = 0
+configure:9626: result: yes
+configure:9626: checking for unistd.h
+configure:9626: gcc -c -g -O2  conftest.c >&5
+configure:9626: $? = 0
+configure:9626: result: yes
+configure:9640: checking for dlfcn.h
+configure:9640: gcc -c -g -O2  conftest.c >&5
+configure:9640: $? = 0
+configure:9640: result: yes
+configure:9905: checking for objdir
+configure:9920: result: .libs
+configure:10184: checking if gcc supports -fno-rtti -fno-exceptions
+configure:10202: gcc -c -g -O2  -fno-rtti -fno-exceptions conftest.c >&5
 cc1: warning: command line option '-fno-rtti' is valid for C++/ObjC++ but not for C
-configure:10154: $? = 0
-configure:10167: result: no
-configure:10525: checking for gcc option to produce PIC
-configure:10532: result: -fPIC -DPIC
-configure:10540: checking if gcc PIC flag -fPIC -DPIC works
-configure:10558: gcc -c -g -O2  -fPIC -DPIC -DPIC conftest.c >&5
-configure:10562: $? = 0
-configure:10575: result: yes
-configure:10604: checking if gcc static flag -static works
-configure:10632: result: yes
-configure:10647: checking if gcc supports -c -o file.o
-configure:10668: gcc -c -g -O2  -o out/conftest2.o conftest.c >&5
-configure:10672: $? = 0
-configure:10694: result: yes
-configure:10702: checking if gcc supports -c -o file.o
-configure:10749: result: yes
-configure:10782: checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
-configure:12041: result: yes
-configure:12078: checking whether -lc should be explicitly linked in
-configure:12086: gcc -c -g -O2  conftest.c >&5
-configure:12089: $? = 0
-configure:12104: gcc -shared  -fPIC -DPIC conftest.o  -v -Wl,-soname -Wl,conftest -o conftest 2\>\&1 \| /bin/grep  -lc  \>/dev/null 2\>\&1
-configure:12107: $? = 0
-configure:12121: result: no
-configure:12281: checking dynamic linker characteristics
-configure:12862: gcc -o conftest -g -O2   -Wl,-rpath -Wl,/foo conftest.c  >&5
-configure:12862: $? = 0
-configure:13102: result: GNU/Linux ld.so
-configure:13224: checking how to hardcode library paths into programs
-configure:13249: result: immediate
-configure:13797: checking whether stripping libraries is possible
-configure:13802: result: yes
-configure:13837: checking if libtool supports shared libraries
-configure:13839: result: yes
-configure:13842: checking whether to build shared libraries
+configure:10206: $? = 0
+configure:10219: result: no
+configure:10577: checking for gcc option to produce PIC
+configure:10584: result: -fPIC -DPIC
+configure:10592: checking if gcc PIC flag -fPIC -DPIC works
+configure:10610: gcc -c -g -O2  -fPIC -DPIC -DPIC conftest.c >&5
+configure:10614: $? = 0
+configure:10627: result: yes
+configure:10656: checking if gcc static flag -static works
+configure:10684: result: yes
+configure:10699: checking if gcc supports -c -o file.o
+configure:10720: gcc -c -g -O2  -o out/conftest2.o conftest.c >&5
+configure:10724: $? = 0
+configure:10746: result: yes
+configure:10754: checking if gcc supports -c -o file.o
+configure:10801: result: yes
+configure:10834: checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
+configure:12097: result: yes
+configure:12134: checking whether -lc should be explicitly linked in
+configure:12142: gcc -c -g -O2  conftest.c >&5
+configure:12145: $? = 0
+configure:12160: gcc -shared  -fPIC -DPIC conftest.o  -v -Wl,-soname -Wl,conftest -o conftest 2\>\&1 \| /bin/grep  -lc  \>/dev/null 2\>\&1
+configure:12163: $? = 0
+configure:12177: result: no
+configure:12337: checking dynamic linker characteristics
+configure:12918: gcc -o conftest -g -O2   -Wl,-rpath -Wl,/foo conftest.c  >&5
+configure:12918: $? = 0
+configure:13167: result: GNU/Linux ld.so
+configure:13289: checking how to hardcode library paths into programs
+configure:13314: result: immediate
+configure:13862: checking whether stripping libraries is possible
 configure:13867: result: yes
-configure:13870: checking whether to build static libraries
-configure:13874: result: yes
-configure:10686: checking how to run the C++ preprocessor
-configure:10713: g++ -std=c++11 -E  conftest.cpp
-configure:10713: $? = 0
-configure:10727: g++ -std=c++11 -E  conftest.cpp
+configure:13902: checking if libtool supports shared libraries
+configure:13904: result: yes
+configure:13907: checking whether to build shared libraries
+configure:13932: result: yes
+configure:13935: checking whether to build static libraries
+configure:13939: result: yes
+configure:13962: checking how to run the C++ preprocessor
+configure:13989: g++ -std=c++11 -E  conftest.cpp
+configure:13989: $? = 0
+configure:14003: g++ -std=c++11 -E  conftest.cpp
 conftest.cpp:22:10: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
           ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:10727: $? = 1
+configure:14003: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -557,15 +554,15 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:10752: result: g++ -std=c++11 -E
-configure:10772: g++ -std=c++11 -E  conftest.cpp
-configure:10772: $? = 0
-configure:10786: g++ -std=c++11 -E  conftest.cpp
+configure:14028: result: g++ -std=c++11 -E
+configure:14048: g++ -std=c++11 -E  conftest.cpp
+configure:14048: $? = 0
+configure:14062: g++ -std=c++11 -E  conftest.cpp
 conftest.cpp:22:10: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
           ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:10786: $? = 1
+configure:14062: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -589,116 +586,104 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:10948: checking for ld used by g++ -std=c++11
-configure:11015: result: /usr/bin/ld -m elf_x86_64
-configure:11022: checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld
-configure:11037: result: yes
-configure:11092: checking whether the g++ -std=c++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
-configure:12165: result: yes
-configure:12201: g++ -std=c++11 -c -g -O2  conftest.cpp >&5
-configure:12204: $? = 0
-configure:12685: checking for g++ -std=c++11 option to produce PIC
-configure:12692: result: -fPIC -DPIC
-configure:12700: checking if g++ -std=c++11 PIC flag -fPIC -DPIC works
-configure:12718: g++ -std=c++11 -c -g -O2  -fPIC -DPIC -DPIC conftest.cpp >&5
-configure:12722: $? = 0
-configure:12735: result: yes
-configure:12758: checking if g++ -std=c++11 static flag -static works
-configure:12786: result: yes
-configure:12798: checking if g++ -std=c++11 supports -c -o file.o
-configure:12819: g++ -std=c++11 -c -g -O2  -o out/conftest2.o conftest.cpp >&5
-configure:12823: $? = 0
-configure:12845: result: yes
-configure:12850: checking if g++ -std=c++11 supports -c -o file.o
-configure:12897: result: yes
-configure:12927: checking whether the g++ -std=c++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
-configure:12967: result: yes
-configure:13108: checking dynamic linker characteristics
-configure:13856: result: GNU/Linux ld.so
-configure:13921: checking how to hardcode library paths into programs
-configure:13946: result: immediate
-configure:12897: checking for ar
-configure:12915: found /usr/bin/ar
-configure:12927: result: /usr/bin/ar
-configure:12995: checking for ranlib
-configure:13013: found /usr/bin/ranlib
-configure:13025: result: /usr/bin/ranlib
-configure:13093: checking for strip
-configure:13111: found /usr/bin/strip
-configure:13123: result: /usr/bin/strip
-configure:13191: checking for gcov
-configure:13209: found /usr/bin/gcov
-configure:13221: result: /usr/bin/gcov
-configure:13245: checking for lcov
-configure:13278: result: no
-configure:13287: checking for python3.6
-configure:13320: result: no
-configure:13287: checking for python3.5
-configure:13320: result: no
-configure:13287: checking for python3.4
-configure:13320: result: no
-configure:13287: checking for python3
-configure:13320: result: no
-configure:13287: checking for python2.7
-configure:13320: result: no
-configure:13287: checking for python2
-configure:13320: result: no
-configure:13287: checking for python
-configure:13320: result: no
-configure:13330: checking for genhtml
-configure:13363: result: no
-configure:13370: checking for git
-configure:13388: found /usr/bin/git
-configure:13400: result: /usr/bin/git
-configure:13410: checking for ccache
-configure:13443: result: no
-configure:13450: checking for xgettext
-configure:13468: found /usr/bin/xgettext
-configure:13480: result: /usr/bin/xgettext
-configure:13490: checking for hexdump
-configure:13508: found /usr/bin/hexdump
-configure:13520: result: /usr/bin/hexdump
-configure:13574: checking for readelf
-configure:13592: found /usr/bin/readelf
-configure:13604: result: /usr/bin/readelf
-configure:13672: checking for c++filt
-configure:13690: found /usr/bin/c++filt
-configure:13702: result: /usr/bin/c++filt
-configure:13770: checking for objcopy
-configure:13788: found /usr/bin/objcopy
-configure:13800: result: /usr/bin/objcopy
-configure:13996: checking whether C++ compiler accepts -Werror
-configure:14015: g++ -std=c++11 -c -g -O2  -Werror  conftest.cpp >&5
-configure:14015: $? = 0
-configure:14023: result: yes
-configure:14089: checking whether C++ compiler accepts -Wall
-configure:14108: g++ -std=c++11 -c -g -O2 -Werror -Wall  conftest.cpp >&5
-configure:14108: $? = 0
-configure:14117: result: yes
-configure:14126: checking whether C++ compiler accepts -Wextra
-configure:14145: g++ -std=c++11 -c -g -O2 -Wall -Werror -Wextra  conftest.cpp >&5
-configure:14145: $? = 0
-configure:14154: result: yes
-configure:14163: checking whether C++ compiler accepts -Wformat
-configure:14182: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Werror -Wformat  conftest.cpp >&5
-configure:14182: $? = 0
-configure:14191: result: yes
-configure:14200: checking whether C++ compiler accepts -Wvla
-configure:14219: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Werror -Wvla  conftest.cpp >&5
-configure:14219: $? = 0
-configure:14228: result: yes
-configure:14237: checking whether C++ compiler accepts -Wformat-security
-configure:14256: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Werror -Wformat-security  conftest.cpp >&5
-configure:14256: $? = 0
-configure:14265: result: yes
-configure:14278: checking whether C++ compiler accepts -Wunused-parameter
-configure:14297: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Werror -Wunused-parameter  conftest.cpp >&5
-configure:14297: $? = 0
-configure:14306: result: yes
-configure:14315: checking whether C++ compiler accepts -Wself-assign
-configure:14334: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -Werror -Wself-assign  conftest.cpp >&5
+configure:14224: checking for ld used by g++ -std=c++11
+configure:14291: result: /usr/bin/ld -m elf_x86_64
+configure:14298: checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld
+configure:14313: result: yes
+configure:14368: checking whether the g++ -std=c++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
+configure:15441: result: yes
+configure:15477: g++ -std=c++11 -c -g -O2  conftest.cpp >&5
+configure:15480: $? = 0
+configure:15961: checking for g++ -std=c++11 option to produce PIC
+configure:15968: result: -fPIC -DPIC
+configure:15976: checking if g++ -std=c++11 PIC flag -fPIC -DPIC works
+configure:15994: g++ -std=c++11 -c -g -O2  -fPIC -DPIC -DPIC conftest.cpp >&5
+configure:15998: $? = 0
+configure:16011: result: yes
+configure:16034: checking if g++ -std=c++11 static flag -static works
+configure:16062: result: yes
+configure:16074: checking if g++ -std=c++11 supports -c -o file.o
+configure:16095: g++ -std=c++11 -c -g -O2  -o out/conftest2.o conftest.cpp >&5
+configure:16099: $? = 0
+configure:16121: result: yes
+configure:16126: checking if g++ -std=c++11 supports -c -o file.o
+configure:16173: result: yes
+configure:16203: checking whether the g++ -std=c++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
+configure:16246: result: yes
+configure:16387: checking dynamic linker characteristics
+configure:17144: result: GNU/Linux ld.so
+configure:17209: checking how to hardcode library paths into programs
+configure:17234: result: immediate
+configure:17342: checking for ar
+configure:17360: found /usr/bin/ar
+configure:17372: result: /usr/bin/ar
+configure:17440: checking for ranlib
+configure:17458: found /usr/bin/ranlib
+configure:17470: result: /usr/bin/ranlib
+configure:17538: checking for strip
+configure:17556: found /usr/bin/strip
+configure:17568: result: /usr/bin/strip
+configure:17636: checking for gcov
+configure:17654: found /usr/bin/gcov
+configure:17666: result: /usr/bin/gcov
+configure:17690: checking for lcov
+configure:17723: result: no
+configure:17732: checking for python3.6
+configure:17750: found /usr/bin/python3.6
+configure:17762: result: /usr/bin/python3.6
+configure:17775: checking for genhtml
+configure:17808: result: no
+configure:17815: checking for git
+configure:17848: result: no
+configure:17855: checking for ccache
+configure:17888: result: no
+configure:17895: checking for xgettext
+configure:17913: found /usr/bin/xgettext
+configure:17925: result: /usr/bin/xgettext
+configure:17935: checking for hexdump
+configure:17953: found /usr/bin/hexdump
+configure:17965: result: /usr/bin/hexdump
+configure:18019: checking for readelf
+configure:18037: found /usr/bin/readelf
+configure:18049: result: /usr/bin/readelf
+configure:18117: checking for c++filt
+configure:18135: found /usr/bin/c++filt
+configure:18147: result: /usr/bin/c++filt
+configure:18215: checking for objcopy
+configure:18233: found /usr/bin/objcopy
+configure:18245: result: /usr/bin/objcopy
+configure:18441: checking whether C++ compiler accepts -Werror
+configure:18460: g++ -std=c++11 -c -g -O2  -Werror  conftest.cpp >&5
+configure:18460: $? = 0
+configure:18468: result: yes
+configure:18534: checking whether C++ compiler accepts -Wall
+configure:18553: g++ -std=c++11 -c -g -O2 -Werror -Wall  conftest.cpp >&5
+configure:18553: $? = 0
+configure:18562: result: yes
+configure:18571: checking whether C++ compiler accepts -Wextra
+configure:18590: g++ -std=c++11 -c -g -O2 -Wall -Werror -Wextra  conftest.cpp >&5
+configure:18590: $? = 0
+configure:18599: result: yes
+configure:18608: checking whether C++ compiler accepts -Wformat
+configure:18627: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Werror -Wformat  conftest.cpp >&5
+configure:18627: $? = 0
+configure:18636: result: yes
+configure:18645: checking whether C++ compiler accepts -Wvla
+configure:18664: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Werror -Wvla  conftest.cpp >&5
+configure:18664: $? = 0
+configure:18673: result: yes
+configure:18682: checking whether C++ compiler accepts -Wformat-security
+configure:18701: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Werror -Wformat-security  conftest.cpp >&5
+configure:18701: $? = 0
+configure:18710: result: yes
+configure:18723: checking whether C++ compiler accepts -Wunused-parameter
+configure:18742: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Werror -Wunused-parameter  conftest.cpp >&5
+configure:18742: $? = 0
+configure:18751: result: yes
+configure:18760: checking whether C++ compiler accepts -Wself-assign
+configure:18779: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -Werror -Wself-assign  conftest.cpp >&5
 g++: error: unrecognized command line option '-Wself-assign'; did you mean '-Wcast-align'?
-configure:14334: $? = 1
+configure:18779: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -729,11 +714,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:14343: result: no
-configure:14352: checking whether C++ compiler accepts -Wunused-local-typedef
-configure:14371: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -Werror -Wunused-local-typedef  conftest.cpp >&5
+configure:18788: result: no
+configure:18797: checking whether C++ compiler accepts -Wunused-local-typedef
+configure:18816: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -Werror -Wunused-local-typedef  conftest.cpp >&5
 g++: error: unrecognized command line option '-Wunused-local-typedef'; did you mean '-Wunused-local-typedefs'?
-configure:14371: $? = 1
+configure:18816: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -764,11 +749,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:14380: result: no
-configure:14389: checking whether C++ compiler accepts -Wdeprecated-register
-configure:14408: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -Werror -Wdeprecated-register  conftest.cpp >&5
+configure:18825: result: no
+configure:18834: checking whether C++ compiler accepts -Wdeprecated-register
+configure:18853: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -Werror -Wdeprecated-register  conftest.cpp >&5
 g++: error: unrecognized command line option '-Wdeprecated-register'; did you mean '-frename-registers'?
-configure:14408: $? = 1
+configure:18853: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -799,18 +784,18 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:14417: result: no
-configure:16104: checking for pkg-config
-configure:16122: found /usr/bin/pkg-config
-configure:16134: result: /usr/bin/pkg-config
-configure:16159: checking pkg-config is at least version 0.9.0
-configure:16162: result: yes
-configure:16268: checking whether byte ordering is bigendian
-configure:16283: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:18862: result: no
+configure:20549: checking for pkg-config
+configure:20567: found /usr/bin/pkg-config
+configure:20579: result: /usr/bin/pkg-config
+configure:20604: checking pkg-config is at least version 0.9.0
+configure:20607: result: yes
+configure:20713: checking whether byte ordering is bigendian
+configure:20728: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:23:9: error: expected unqualified-id before 'not' token
          not a universal capable compiler
          ^~~
-configure:16283: $? = 1
+configure:20728: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -838,14 +823,14 @@ configure: failed program was:
 | 	     #endif
 | 	     typedef int dummy;
 | 
-configure:16328: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:16328: $? = 0
-configure:16346: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:20773: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:20773: $? = 0
+configure:20791: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:29:8: error: 'big' was not declared in this scope
     not big endian
         ^~~
-configure:16346: $? = 1
+configure:20791: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -881,47 +866,47 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:16474: result: no
-configure:16676: checking whether gcc is Clang
-configure:16701: result: no
-configure:16824: checking whether pthreads work with -pthread
-configure:16918: gcc -o conftest -g -O2 -pthread  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.c   >&5
-configure:16918: $? = 0
-configure:16927: result: yes
-configure:16946: checking for joinable pthread attribute
-configure:16964: gcc -o conftest -g -O2 -pthread  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.c   >&5
-configure:16964: $? = 0
-configure:16972: result: PTHREAD_CREATE_JOINABLE
-configure:16986: checking whether more special flags are required for pthreads
-configure:16999: result: no
-configure:17007: checking for PTHREAD_PRIO_INHERIT
-configure:17023: gcc -o conftest -g -O2 -pthread  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.c   >&5
-configure:17023: $? = 0
-configure:17032: result: yes
-configure:17145: checking for special C compiler options needed for large files
-configure:17190: result: no
-configure:17196: checking for _FILE_OFFSET_BITS value needed for large files
-configure:17221: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:17221: $? = 0
-configure:17253: result: no
-configure:17339: checking whether strerror_r is declared
-configure:17339: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:17339: $? = 0
-configure:17339: result: yes
-configure:17352: checking for strerror_r
-configure:17352: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
-configure:17352: $? = 0
-configure:17352: result: yes
-configure:17361: checking whether strerror_r returns char *
-configure:17385: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:17385: $? = 0
-configure:17423: result: yes
-configure:17444: checking whether the linker accepts -Wl,--large-address-aware
-configure:17463: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,--large-address-aware conftest.cpp  >&5
+configure:20919: result: no
+configure:21121: checking whether gcc is Clang
+configure:21146: result: no
+configure:21269: checking whether pthreads work with -pthread
+configure:21363: gcc -o conftest -g -O2 -pthread  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.c   >&5
+configure:21363: $? = 0
+configure:21372: result: yes
+configure:21391: checking for joinable pthread attribute
+configure:21409: gcc -o conftest -g -O2 -pthread  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.c   >&5
+configure:21409: $? = 0
+configure:21417: result: PTHREAD_CREATE_JOINABLE
+configure:21431: checking whether more special flags are required for pthreads
+configure:21444: result: no
+configure:21452: checking for PTHREAD_PRIO_INHERIT
+configure:21468: gcc -o conftest -g -O2 -pthread  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.c   >&5
+configure:21468: $? = 0
+configure:21477: result: yes
+configure:21590: checking for special C compiler options needed for large files
+configure:21635: result: no
+configure:21641: checking for _FILE_OFFSET_BITS value needed for large files
+configure:21666: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:21666: $? = 0
+configure:21698: result: no
+configure:21784: checking whether strerror_r is declared
+configure:21784: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:21784: $? = 0
+configure:21784: result: yes
+configure:21797: checking for strerror_r
+configure:21797: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
+configure:21797: $? = 0
+configure:21797: result: yes
+configure:21806: checking whether strerror_r returns char *
+configure:21830: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:21830: $? = 0
+configure:21868: result: yes
+configure:21889: checking whether the linker accepts -Wl,--large-address-aware
+configure:21908: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,--large-address-aware conftest.cpp  >&5
 /usr/bin/ld: unrecognized option '--large-address-aware'
 /usr/bin/ld: use the --help option for usage information
 collect2: error: ld returned 1 exit status
-configure:17463: $? = 1
+configure:21908: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -957,55 +942,55 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:17472: result: no
-configure:17484: checking for __attribute__((visibility))
-configure:17508: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
-configure:17508: $? = 0
-configure:17521: result: yes
-configure:17537: checking for __attribute__((dllexport))
-configure:17558: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
+configure:21917: result: no
+configure:21929: checking for __attribute__((visibility))
+configure:21953: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
+configure:21953: $? = 0
+configure:21966: result: yes
+configure:21982: checking for __attribute__((dllexport))
+configure:22003: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
 conftest.cpp:30:62: warning: 'dllexport' attribute directive ignored [-Wattributes]
                      __attribute__((dllexport)) int foo( void ) { return 0; }
                                                               ^
-configure:17558: $? = 0
-configure:17571: result: no
-configure:17587: checking for __attribute__((dllimport))
-configure:17608: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
+configure:22003: $? = 0
+configure:22016: result: no
+configure:22032: checking for __attribute__((dllimport))
+configure:22053: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
 conftest.cpp:30:62: warning: 'dllimport' attribute directive ignored [-Wattributes]
                      int foo( void ) __attribute__((dllimport));
                                                               ^
-configure:17608: $? = 0
-configure:17621: result: no
-configure:17721: checking for library containing clock_gettime
-configure:17752: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
-configure:17752: $? = 0
-configure:17769: result: none required
-configure:17781: checking whether C++ compiler accepts -fPIC
-configure:17800: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -fPIC  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:17800: $? = 0
-configure:17808: result: yes
-configure:17819: checking whether C++ compiler accepts -Wstack-protector
-configure:17838: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -Wstack-protector  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:17838: $? = 0
-configure:17846: result: yes
-configure:17854: checking whether C++ compiler accepts -fstack-protector-all
-configure:17873: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -fstack-protector-all  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:17873: $? = 0
-configure:17881: result: yes
-configure:17891: checking whether C++ preprocessor accepts -D_FORTIFY_SOURCE=2
-configure:17910: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  -D_FORTIFY_SOURCE=2 conftest.cpp
-configure:17910: $? = 0
-configure:17918: result: yes
-configure:17922: checking whether C++ preprocessor accepts -U_FORTIFY_SOURCE
-configure:17941: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  -U_FORTIFY_SOURCE conftest.cpp
-configure:17941: $? = 0
-configure:17949: result: yes
-configure:17966: checking whether the linker accepts -Wl,--dynamicbase
-configure:17985: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,--dynamicbase conftest.cpp  >&5
+configure:22053: $? = 0
+configure:22066: result: no
+configure:22166: checking for library containing clock_gettime
+configure:22197: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
+configure:22197: $? = 0
+configure:22214: result: none required
+configure:22226: checking whether C++ compiler accepts -fPIC
+configure:22245: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -fPIC  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22245: $? = 0
+configure:22253: result: yes
+configure:22264: checking whether C++ compiler accepts -Wstack-protector
+configure:22283: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -Wstack-protector  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22283: $? = 0
+configure:22291: result: yes
+configure:22299: checking whether C++ compiler accepts -fstack-protector-all
+configure:22318: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -fstack-protector-all  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22318: $? = 0
+configure:22326: result: yes
+configure:22336: checking whether C++ preprocessor accepts -D_FORTIFY_SOURCE=2
+configure:22355: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  -D_FORTIFY_SOURCE=2 conftest.cpp
+configure:22355: $? = 0
+configure:22363: result: yes
+configure:22367: checking whether C++ preprocessor accepts -U_FORTIFY_SOURCE
+configure:22386: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  -U_FORTIFY_SOURCE conftest.cpp
+configure:22386: $? = 0
+configure:22394: result: yes
+configure:22411: checking whether the linker accepts -Wl,--dynamicbase
+configure:22430: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,--dynamicbase conftest.cpp  >&5
 /usr/bin/ld: unrecognized option '--dynamicbase'
 /usr/bin/ld: use the --help option for usage information
 collect2: error: ld returned 1 exit status
-configure:17985: $? = 1
+configure:22430: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1042,13 +1027,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:17994: result: no
-configure:18002: checking whether the linker accepts -Wl,--nxcompat
-configure:18021: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,--nxcompat conftest.cpp  >&5
+configure:22439: result: no
+configure:22447: checking whether the linker accepts -Wl,--nxcompat
+configure:22466: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,--nxcompat conftest.cpp  >&5
 /usr/bin/ld: unrecognized option '--nxcompat'
 /usr/bin/ld: use the --help option for usage information
 collect2: error: ld returned 1 exit status
-configure:18021: $? = 1
+configure:22466: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1085,13 +1070,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18030: result: no
-configure:18038: checking whether the linker accepts -Wl,--high-entropy-va
-configure:18057: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,--high-entropy-va conftest.cpp  >&5
+configure:22475: result: no
+configure:22483: checking whether the linker accepts -Wl,--high-entropy-va
+configure:22502: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,--high-entropy-va conftest.cpp  >&5
 /usr/bin/ld: unrecognized option '--high-entropy-va'
 /usr/bin/ld: use the --help option for usage information
 collect2: error: ld returned 1 exit status
-configure:18057: $? = 1
+configure:22502: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1128,40 +1113,40 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18066: result: no
-configure:18074: checking whether the linker accepts -Wl,-z,relro
-configure:18093: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,-z,relro conftest.cpp  >&5
-configure:18093: $? = 0
-configure:18102: result: yes
-configure:18110: checking whether the linker accepts -Wl,-z,now
-configure:18129: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,-z,now conftest.cpp  >&5
-configure:18129: $? = 0
-configure:18138: result: yes
-configure:18148: checking whether C++ compiler accepts -fPIE
-configure:18167: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -fPIE  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18167: $? = 0
-configure:18175: result: yes
-configure:18183: checking whether the linker accepts -pie
-configure:18202: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -pie conftest.cpp  >&5
-configure:18202: $? = 0
-configure:18211: result: yes
-configure:18310: checking endian.h usability
-configure:18310: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking endian.h presence
-configure:18310: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking for endian.h
-configure:18310: result: yes
-configure:18310: checking sys/endian.h usability
-configure:18310: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22511: result: no
+configure:22519: checking whether the linker accepts -Wl,-z,relro
+configure:22538: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,-z,relro conftest.cpp  >&5
+configure:22538: $? = 0
+configure:22547: result: yes
+configure:22555: checking whether the linker accepts -Wl,-z,now
+configure:22574: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -Wl,-z,now conftest.cpp  >&5
+configure:22574: $? = 0
+configure:22583: result: yes
+configure:22593: checking whether C++ compiler accepts -fPIE
+configure:22612: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -fPIE  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22612: $? = 0
+configure:22620: result: yes
+configure:22628: checking whether the linker accepts -pie
+configure:22647: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS   -pie conftest.cpp  >&5
+configure:22647: $? = 0
+configure:22656: result: yes
+configure:22755: checking endian.h usability
+configure:22755: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking endian.h presence
+configure:22755: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking for endian.h
+configure:22755: result: yes
+configure:22755: checking sys/endian.h usability
+configure:22755: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:62:10: fatal error: sys/endian.h: No such file or directory
  #include <sys/endian.h>
           ^~~~~~~~~~~~~~
 compilation terminated.
-configure:18310: $? = 1
+configure:22755: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1225,14 +1210,14 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include <sys/endian.h>
-configure:18310: result: no
-configure:18310: checking sys/endian.h presence
-configure:18310: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:22755: result: no
+configure:22755: checking sys/endian.h presence
+configure:22755: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
 conftest.cpp:29:10: fatal error: sys/endian.h: No such file or directory
  #include <sys/endian.h>
           ^~~~~~~~~~~~~~
 compilation terminated.
-configure:18310: $? = 1
+configure:22755: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1263,150 +1248,150 @@ configure: failed program was:
 | #define HAVE_ENDIAN_H 1
 | /* end confdefs.h.  */
 | #include <sys/endian.h>
-configure:18310: result: no
-configure:18310: checking for sys/endian.h
-configure:18310: result: no
-configure:18310: checking byteswap.h usability
-configure:18310: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking byteswap.h presence
-configure:18310: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking for byteswap.h
-configure:18310: result: yes
-configure:18310: checking stdio.h usability
-configure:18310: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking stdio.h presence
-configure:18310: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking for stdio.h
-configure:18310: result: yes
-configure:18310: checking for stdlib.h
-configure:18310: result: yes
-configure:18310: checking for unistd.h
-configure:18310: result: yes
-configure:18310: checking for strings.h
-configure:18310: result: yes
-configure:18310: checking for sys/types.h
-configure:18310: result: yes
-configure:18310: checking for sys/stat.h
-configure:18310: result: yes
-configure:18310: checking sys/select.h usability
-configure:18310: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking sys/select.h presence
-configure:18310: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking for sys/select.h
-configure:18310: result: yes
-configure:18310: checking sys/prctl.h usability
-configure:18310: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking sys/prctl.h presence
-configure:18310: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
-configure:18310: $? = 0
-configure:18310: result: yes
-configure:18310: checking for sys/prctl.h
-configure:18310: result: yes
-configure:18321: checking whether strnlen is declared
-configure:18321: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18321: $? = 0
-configure:18321: result: yes
-configure:18334: checking whether daemon is declared
-configure:18334: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18334: $? = 0
-configure:18334: result: yes
-configure:18346: checking whether le16toh is declared
-configure:18346: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18346: $? = 0
-configure:18346: result: yes
-configure:18361: checking whether le32toh is declared
-configure:18361: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18361: $? = 0
-configure:18361: result: yes
-configure:18376: checking whether le64toh is declared
-configure:18376: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18376: $? = 0
-configure:18376: result: yes
-configure:18391: checking whether htole16 is declared
-configure:18391: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18391: $? = 0
-configure:18391: result: yes
-configure:18406: checking whether htole32 is declared
-configure:18406: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18406: $? = 0
-configure:18406: result: yes
-configure:18421: checking whether htole64 is declared
-configure:18421: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18421: $? = 0
-configure:18421: result: yes
-configure:18436: checking whether be16toh is declared
-configure:18436: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18436: $? = 0
-configure:18436: result: yes
-configure:18451: checking whether be32toh is declared
-configure:18451: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18451: $? = 0
-configure:18451: result: yes
-configure:18466: checking whether be64toh is declared
-configure:18466: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18466: $? = 0
-configure:18466: result: yes
-configure:18481: checking whether htobe16 is declared
-configure:18481: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18481: $? = 0
-configure:18481: result: yes
-configure:18496: checking whether htobe32 is declared
-configure:18496: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18496: $? = 0
-configure:18496: result: yes
-configure:18511: checking whether htobe64 is declared
-configure:18511: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18511: $? = 0
-configure:18511: result: yes
-configure:18528: checking whether bswap_16 is declared
-configure:18528: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18528: $? = 0
-configure:18528: result: yes
-configure:18541: checking whether bswap_32 is declared
-configure:18541: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18541: $? = 0
-configure:18541: result: yes
-configure:18554: checking whether bswap_64 is declared
-configure:18554: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18554: $? = 0
-configure:18554: result: yes
-configure:18569: checking for MSG_NOSIGNAL
-configure:18582: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22755: result: no
+configure:22755: checking for sys/endian.h
+configure:22755: result: no
+configure:22755: checking byteswap.h usability
+configure:22755: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking byteswap.h presence
+configure:22755: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking for byteswap.h
+configure:22755: result: yes
+configure:22755: checking stdio.h usability
+configure:22755: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking stdio.h presence
+configure:22755: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking for stdio.h
+configure:22755: result: yes
+configure:22755: checking for stdlib.h
+configure:22755: result: yes
+configure:22755: checking for unistd.h
+configure:22755: result: yes
+configure:22755: checking for strings.h
+configure:22755: result: yes
+configure:22755: checking for sys/types.h
+configure:22755: result: yes
+configure:22755: checking for sys/stat.h
+configure:22755: result: yes
+configure:22755: checking sys/select.h usability
+configure:22755: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking sys/select.h presence
+configure:22755: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking for sys/select.h
+configure:22755: result: yes
+configure:22755: checking sys/prctl.h usability
+configure:22755: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking sys/prctl.h presence
+configure:22755: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:22755: $? = 0
+configure:22755: result: yes
+configure:22755: checking for sys/prctl.h
+configure:22755: result: yes
+configure:22766: checking whether strnlen is declared
+configure:22766: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22766: $? = 0
+configure:22766: result: yes
+configure:22779: checking whether daemon is declared
+configure:22779: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22779: $? = 0
+configure:22779: result: yes
+configure:22791: checking whether le16toh is declared
+configure:22791: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22791: $? = 0
+configure:22791: result: yes
+configure:22806: checking whether le32toh is declared
+configure:22806: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22806: $? = 0
+configure:22806: result: yes
+configure:22821: checking whether le64toh is declared
+configure:22821: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22821: $? = 0
+configure:22821: result: yes
+configure:22836: checking whether htole16 is declared
+configure:22836: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22836: $? = 0
+configure:22836: result: yes
+configure:22851: checking whether htole32 is declared
+configure:22851: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22851: $? = 0
+configure:22851: result: yes
+configure:22866: checking whether htole64 is declared
+configure:22866: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22866: $? = 0
+configure:22866: result: yes
+configure:22881: checking whether be16toh is declared
+configure:22881: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22881: $? = 0
+configure:22881: result: yes
+configure:22896: checking whether be32toh is declared
+configure:22896: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22896: $? = 0
+configure:22896: result: yes
+configure:22911: checking whether be64toh is declared
+configure:22911: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22911: $? = 0
+configure:22911: result: yes
+configure:22926: checking whether htobe16 is declared
+configure:22926: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22926: $? = 0
+configure:22926: result: yes
+configure:22941: checking whether htobe32 is declared
+configure:22941: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22941: $? = 0
+configure:22941: result: yes
+configure:22956: checking whether htobe64 is declared
+configure:22956: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22956: $? = 0
+configure:22956: result: yes
+configure:22973: checking whether bswap_16 is declared
+configure:22973: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22973: $? = 0
+configure:22973: result: yes
+configure:22986: checking whether bswap_32 is declared
+configure:22986: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22986: $? = 0
+configure:22986: result: yes
+configure:22999: checking whether bswap_64 is declared
+configure:22999: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:22999: $? = 0
+configure:22999: result: yes
+configure:23014: checking for MSG_NOSIGNAL
+configure:23027: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:59:6: warning: unused variable 'f' [-Wunused-variable]
   int f = MSG_NOSIGNAL;
       ^
-configure:18582: $? = 0
-configure:18583: result: yes
-configure:18594: checking for mallopt M_ARENA_MAX
-configure:18607: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18607: $? = 0
-configure:18608: result: yes
-configure:18619: checking for visibility attribute
-configure:18628: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
-configure:18628: $? = 0
-configure:18633: result: yes
-configure:18704: checking for Berkeley DB C++ headers
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23027: $? = 0
+configure:23028: result: yes
+configure:23039: checking for mallopt M_ARENA_MAX
+configure:23052: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23052: $? = 0
+configure:23053: result: yes
+configure:23064: checking for visibility attribute
+configure:23073: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp  >&5
+configure:23073: $? = 0
+configure:23078: result: yes
+configure:23149: checking for Berkeley DB C++ headers
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: bdb5.1/db_cxx.h: No such file or directory
        #include <bdb5.1/db_cxx.h>
                 ^~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1479,12 +1464,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: libdb5.1/db_cxx.h: No such file or directory
        #include <libdb5.1/db_cxx.h>
                 ^~~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1557,12 +1542,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: db5.1/db_cxx.h: No such file or directory
        #include <db5.1/db_cxx.h>
                 ^~~~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1635,12 +1620,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: bdb51/db_cxx.h: No such file or directory
        #include <bdb51/db_cxx.h>
                 ^~~~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1713,12 +1698,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: libdb51/db_cxx.h: No such file or directory
        #include <libdb51/db_cxx.h>
                 ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1791,12 +1776,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: db51/db_cxx.h: No such file or directory
        #include <db51/db_cxx.h>
                 ^~~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1869,12 +1854,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: bdb5/db_cxx.h: No such file or directory
        #include <bdb5/db_cxx.h>
                 ^~~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -1947,12 +1932,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: libdb5/db_cxx.h: No such file or directory
        #include <libdb5/db_cxx.h>
                 ^~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2025,12 +2010,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: db5/db_cxx.h: No such file or directory
        #include <db5/db_cxx.h>
                 ^~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2103,12 +2088,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: bdb/db_cxx.h: No such file or directory
        #include <bdb/db_cxx.h>
                 ^~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2181,12 +2166,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: libdb/db_cxx.h: No such file or directory
        #include <libdb/db_cxx.h>
                 ^~~~~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2259,12 +2244,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:59:16: fatal error: db/db_cxx.h: No such file or directory
        #include <db/db_cxx.h>
                 ^~~~~~~~~~~~~
 compilation terminated.
-configure:18735: $? = 1
+configure:23180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2337,13 +2322,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18735: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18735: $? = 0
-configure:18764: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23180: $? = 0
+configure:23209: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp:66:10: error: #error "failed to find bdb 5.1"
          #error "failed to find bdb 5.1"
           ^~~~~
-configure:18764: $? = 1
+configure:23209: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2416,13 +2401,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18779: result: default
-configure:18795: WARNING: Found Berkeley DB other than 5.1; wallets opened by this build will not be portable!
-configure:18826: checking for main in -ldb_cxx-5.1
-configure:18845: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp -ldb_cxx-5.1   >&5
+configure:23224: result: default
+configure:23240: WARNING: Found Berkeley DB other than 5.1; wallets opened by this build will not be portable!
+configure:23271: checking for main in -ldb_cxx-5.1
+configure:23290: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp -ldb_cxx-5.1   >&5
 /usr/bin/ld: cannot find -ldb_cxx-5.1
 collect2: error: ld returned 1 exit status
-configure:18845: $? = 1
+configure:23290: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2490,81 +2475,81 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18855: result: no
-configure:18826: checking for main in -ldb_cxx
-configure:18845: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp -ldb_cxx   >&5
-configure:18845: $? = 0
-configure:18855: result: yes
-configure:18876: checking miniupnpc/miniwget.h usability
-configure:18876: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18876: $? = 0
-configure:18876: result: yes
-configure:18876: checking miniupnpc/miniwget.h presence
-configure:18876: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
-configure:18876: $? = 0
-configure:18876: result: yes
-configure:18876: checking for miniupnpc/miniwget.h
-configure:18876: result: yes
-configure:18881: checking for main in -lminiupnpc
-configure:18900: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp -lminiupnpc   >&5
-configure:18900: $? = 0
-configure:18909: result: yes
-configure:18876: checking miniupnpc/miniupnpc.h usability
-configure:18876: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18876: $? = 0
-configure:18876: result: yes
-configure:18876: checking miniupnpc/miniupnpc.h presence
-configure:18876: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
-configure:18876: $? = 0
-configure:18876: result: yes
-configure:18876: checking for miniupnpc/miniupnpc.h
-configure:18876: result: yes
-configure:18881: checking for main in -lminiupnpc
-configure:18909: result: yes
-configure:18876: checking miniupnpc/upnpcommands.h usability
-configure:18876: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18876: $? = 0
-configure:18876: result: yes
-configure:18876: checking miniupnpc/upnpcommands.h presence
-configure:18876: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
-configure:18876: $? = 0
-configure:18876: result: yes
-configure:18876: checking for miniupnpc/upnpcommands.h
-configure:18876: result: yes
-configure:18881: checking for main in -lminiupnpc
-configure:18909: result: yes
-configure:18876: checking miniupnpc/upnperrors.h usability
-configure:18876: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:18876: $? = 0
-configure:18876: result: yes
-configure:18876: checking miniupnpc/upnperrors.h presence
-configure:18876: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
-configure:18876: $? = 0
-configure:18876: result: yes
-configure:18876: checking for miniupnpc/upnperrors.h
-configure:18876: result: yes
-configure:18881: checking for main in -lminiupnpc
-configure:18909: result: yes
-configure:19019: checking for QT
-configure:19026: $PKG_CONFIG --exists --print-errors "$qt5_modules"
-configure:19029: $? = 0
-configure:19043: $PKG_CONFIG --exists --print-errors "$qt5_modules"
-configure:19046: $? = 0
-configure:19084: result: yes
-configure:19336: checking for QT_TEST
-configure:19343: $PKG_CONFIG --exists --print-errors "${QT_LIB_PREFIX}Test"
-configure:19346: $? = 0
-configure:19360: $PKG_CONFIG --exists --print-errors "${QT_LIB_PREFIX}Test"
-configure:19363: $? = 0
-configure:19401: result: yes
-configure:19408: checking for QT_DBUS
-configure:19415: $PKG_CONFIG --exists --print-errors "${QT_LIB_PREFIX}DBus"
-configure:19418: $? = 0
-configure:19432: $PKG_CONFIG --exists --print-errors "${QT_LIB_PREFIX}DBus"
-configure:19435: $? = 0
-configure:19473: result: yes
-configure:20501: checking for static Qt
-configure:20524: g++ -std=c++11 -c -fPIC -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -DQT_NETWORK_LIB -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23300: result: no
+configure:23271: checking for main in -ldb_cxx
+configure:23290: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp -ldb_cxx   >&5
+configure:23290: $? = 0
+configure:23300: result: yes
+configure:23321: checking miniupnpc/miniwget.h usability
+configure:23321: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23321: $? = 0
+configure:23321: result: yes
+configure:23321: checking miniupnpc/miniwget.h presence
+configure:23321: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:23321: $? = 0
+configure:23321: result: yes
+configure:23321: checking for miniupnpc/miniwget.h
+configure:23321: result: yes
+configure:23326: checking for main in -lminiupnpc
+configure:23345: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS  conftest.cpp -lminiupnpc   >&5
+configure:23345: $? = 0
+configure:23354: result: yes
+configure:23321: checking miniupnpc/miniupnpc.h usability
+configure:23321: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23321: $? = 0
+configure:23321: result: yes
+configure:23321: checking miniupnpc/miniupnpc.h presence
+configure:23321: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:23321: $? = 0
+configure:23321: result: yes
+configure:23321: checking for miniupnpc/miniupnpc.h
+configure:23321: result: yes
+configure:23326: checking for main in -lminiupnpc
+configure:23354: result: yes
+configure:23321: checking miniupnpc/upnpcommands.h usability
+configure:23321: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23321: $? = 0
+configure:23321: result: yes
+configure:23321: checking miniupnpc/upnpcommands.h presence
+configure:23321: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:23321: $? = 0
+configure:23321: result: yes
+configure:23321: checking for miniupnpc/upnpcommands.h
+configure:23321: result: yes
+configure:23326: checking for main in -lminiupnpc
+configure:23354: result: yes
+configure:23321: checking miniupnpc/upnperrors.h usability
+configure:23321: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:23321: $? = 0
+configure:23321: result: yes
+configure:23321: checking miniupnpc/upnperrors.h presence
+configure:23321: g++ -std=c++11 -E  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp
+configure:23321: $? = 0
+configure:23321: result: yes
+configure:23321: checking for miniupnpc/upnperrors.h
+configure:23321: result: yes
+configure:23326: checking for main in -lminiupnpc
+configure:23354: result: yes
+configure:23464: checking for QT
+configure:23471: $PKG_CONFIG --exists --print-errors "$qt5_modules"
+configure:23474: $? = 0
+configure:23488: $PKG_CONFIG --exists --print-errors "$qt5_modules"
+configure:23491: $? = 0
+configure:23529: result: yes
+configure:23781: checking for QT_TEST
+configure:23788: $PKG_CONFIG --exists --print-errors "${QT_LIB_PREFIX}Test"
+configure:23791: $? = 0
+configure:23805: $PKG_CONFIG --exists --print-errors "${QT_LIB_PREFIX}Test"
+configure:23808: $? = 0
+configure:23846: result: yes
+configure:23853: checking for QT_DBUS
+configure:23860: $PKG_CONFIG --exists --print-errors "${QT_LIB_PREFIX}DBus"
+configure:23863: $? = 0
+configure:23877: $PKG_CONFIG --exists --print-errors "${QT_LIB_PREFIX}DBus"
+configure:23880: $? = 0
+configure:23918: result: yes
+configure:24946: checking for static Qt
+configure:24969: g++ -std=c++11 -c -fPIC -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:70:7: error: 'choke' was not declared in this scope
        choke me
@@ -2573,7 +2558,7 @@ conftest.cpp:70:7: note: suggested alternative: 'clone'
        choke me
        ^~~~~
        clone
-configure:20524: $? = 1
+configure:24969: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2650,14 +2635,14 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:20532: result: no
-configure:21468: checking whether -fPIE can be used with this Qt config
-configure:21489: g++ -std=c++11 -c -fPIE -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -DQT_NETWORK_LIB -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:24977: result: no
+configure:25913: checking whether -fPIE can be used with this Qt config
+configure:25934: g++ -std=c++11 -c -fPIE -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:68:15: error: 'choke' was not declared in this scope
                choke;
                ^~~~~
-configure:21489: $? = 1
+configure:25934: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2732,105 +2717,105 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:21493: result: no
-configure:21558: checking for moc-qt5
-configure:21591: result: no
-configure:21558: checking for moc5
-configure:21591: result: no
-configure:21558: checking for moc
-configure:21576: found /usr/lib/x86_64-linux-gnu/qt5/bin/moc
-configure:21588: result: /usr/lib/x86_64-linux-gnu/qt5/bin/moc
-configure:21677: checking for uic-qt5
-configure:21710: result: no
-configure:21677: checking for uic5
-configure:21710: result: no
-configure:21677: checking for uic
-configure:21695: found /usr/lib/x86_64-linux-gnu/qt5/bin/uic
-configure:21707: result: /usr/lib/x86_64-linux-gnu/qt5/bin/uic
-configure:21796: checking for rcc-qt5
-configure:21829: result: no
-configure:21796: checking for rcc5
-configure:21829: result: no
-configure:21796: checking for rcc
-configure:21814: found /usr/lib/x86_64-linux-gnu/qt5/bin/rcc
-configure:21826: result: /usr/lib/x86_64-linux-gnu/qt5/bin/rcc
-configure:21915: checking for lrelease-qt5
-configure:21948: result: no
-configure:21915: checking for lrelease5
-configure:21948: result: no
-configure:21915: checking for lrelease
-configure:21933: found /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease
-configure:21945: result: /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease
-configure:22034: checking for lupdate-qt5
-configure:22067: result: no
-configure:22034: checking for lupdate5
-configure:22067: result: no
-configure:22034: checking for lupdate
-configure:22052: found /usr/lib/x86_64-linux-gnu/qt5/bin/lupdate
-configure:22064: result: /usr/lib/x86_64-linux-gnu/qt5/bin/lupdate
-configure:22249: checking whether to build Bitnet Core GUI
-configure:22279: result: yes (Qt5)
-configure:22353: checking for boostlib >= 1.47.0
-configure:22438: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
-configure:22438: $? = 0
-configure:22440: result: yes
-configure:22627: checking whether the Boost::System library is available
-configure:22652: g++ -std=c++11 -c   -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
-configure:22652: $? = 0
-configure:22667: result: yes
-configure:22683: checking for exit in -lboost_system
-configure:22708: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_system   >&5
+configure:25938: result: no
+configure:26003: checking for moc-qt5
+configure:26036: result: no
+configure:26003: checking for moc5
+configure:26036: result: no
+configure:26003: checking for moc
+configure:26021: found /usr/lib/qt5/bin/moc
+configure:26033: result: /usr/lib/qt5/bin/moc
+configure:26122: checking for uic-qt5
+configure:26155: result: no
+configure:26122: checking for uic5
+configure:26155: result: no
+configure:26122: checking for uic
+configure:26140: found /usr/lib/qt5/bin/uic
+configure:26152: result: /usr/lib/qt5/bin/uic
+configure:26241: checking for rcc-qt5
+configure:26274: result: no
+configure:26241: checking for rcc5
+configure:26274: result: no
+configure:26241: checking for rcc
+configure:26259: found /usr/lib/qt5/bin/rcc
+configure:26271: result: /usr/lib/qt5/bin/rcc
+configure:26360: checking for lrelease-qt5
+configure:26393: result: no
+configure:26360: checking for lrelease5
+configure:26393: result: no
+configure:26360: checking for lrelease
+configure:26378: found /usr/lib/qt5/bin/lrelease
+configure:26390: result: /usr/lib/qt5/bin/lrelease
+configure:26479: checking for lupdate-qt5
+configure:26512: result: no
+configure:26479: checking for lupdate5
+configure:26512: result: no
+configure:26479: checking for lupdate
+configure:26497: found /usr/lib/qt5/bin/lupdate
+configure:26509: result: /usr/lib/qt5/bin/lupdate
+configure:26694: checking whether to build Bitnet Core GUI
+configure:26724: result: yes (Qt5)
+configure:26798: checking for boostlib >= 1.47.0
+configure:26883: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
+configure:26883: $? = 0
+configure:26885: result: yes
+configure:27072: checking whether the Boost::System library is available
+configure:27097: g++ -std=c++11 -c   -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
+configure:27097: $? = 0
+configure:27112: result: yes
+configure:27128: checking for exit in -lboost_system
+configure:27153: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_system   >&5
 conftest.cpp:71:6: warning: declaration of 'char exit()' conflicts with built-in declaration 'void exit(int)' [-Wbuiltin-declaration-mismatch]
  char exit ();
       ^~~~
-configure:22708: $? = 0
-configure:22718: result: yes
-configure:22873: checking whether the Boost::Filesystem library is available
-configure:22897: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
-configure:22897: $? = 0
-configure:22911: result: yes
-configure:22923: checking for exit in -lboost_filesystem
-configure:22948: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_filesystem   -lboost_system >&5
+configure:27153: $? = 0
+configure:27163: result: yes
+configure:27318: checking whether the Boost::Filesystem library is available
+configure:27342: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
+configure:27342: $? = 0
+configure:27356: result: yes
+configure:27368: checking for exit in -lboost_filesystem
+configure:27393: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_filesystem   -lboost_system >&5
 conftest.cpp:72:6: warning: declaration of 'char exit()' conflicts with built-in declaration 'void exit(int)' [-Wbuiltin-declaration-mismatch]
  char exit ();
       ^~~~
-configure:22948: $? = 0
-configure:22958: result: yes
-configure:23108: checking whether the Boost::Program_Options library is available
-configure:23132: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
-configure:23132: $? = 0
-configure:23146: result: yes
-configure:23157: checking for exit in -lboost_program_options
-configure:23182: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_program_options   >&5
+configure:27393: $? = 0
+configure:27403: result: yes
+configure:27553: checking whether the Boost::Program_Options library is available
+configure:27577: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
+configure:27577: $? = 0
+configure:27591: result: yes
+configure:27602: checking for exit in -lboost_program_options
+configure:27627: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_program_options   >&5
 conftest.cpp:73:6: warning: declaration of 'char exit()' conflicts with built-in declaration 'void exit(int)' [-Wbuiltin-declaration-mismatch]
  char exit ();
       ^~~~
-configure:23182: $? = 0
-configure:23192: result: yes
-configure:23335: checking whether the Boost::Thread library is available
-configure:23367: g++ -std=c++11 -c -pthread -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
-configure:23367: $? = 0
-configure:23382: result: yes
-configure:23412: checking for exit in -lboost_thread
-configure:23437: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_thread   >&5
+configure:27627: $? = 0
+configure:27637: result: yes
+configure:27780: checking whether the Boost::Thread library is available
+configure:27812: g++ -std=c++11 -c -pthread -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include conftest.cpp >&5
+configure:27812: $? = 0
+configure:27827: result: yes
+configure:27857: checking for exit in -lboost_thread
+configure:27882: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_thread   >&5
 conftest.cpp:74:6: warning: declaration of 'char exit()' conflicts with built-in declaration 'void exit(int)' [-Wbuiltin-declaration-mismatch]
  char exit ();
       ^~~~
-configure:23437: $? = 0
-configure:23447: result: yes
-configure:23607: checking whether the Boost::Chrono library is available
-configure:23631: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -pthread -I/usr/include conftest.cpp >&5
-configure:23631: $? = 0
-configure:23646: result: yes
-configure:23662: checking for exit in -lboost_chrono
-configure:23687: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -pthread -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_chrono   >&5
+configure:27882: $? = 0
+configure:27892: result: yes
+configure:28052: checking whether the Boost::Chrono library is available
+configure:28076: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -pthread -I/usr/include conftest.cpp >&5
+configure:28076: $? = 0
+configure:28091: result: yes
+configure:28107: checking for exit in -lboost_chrono
+configure:28132: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -pthread -I/usr/include  -L/usr/lib/x86_64-linux-gnu conftest.cpp -lboost_chrono   >&5
 conftest.cpp:75:6: warning: declaration of 'char exit()' conflicts with built-in declaration 'void exit(int)' [-Wbuiltin-declaration-mismatch]
  char exit ();
       ^~~~
-configure:23687: $? = 0
-configure:23697: result: yes
-configure:24129: checking for mismatched boost c++11 scoped enums
-configure:24157: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -pthread -I/usr/include  conftest.cpp -L/usr/lib/x86_64-linux-gnu -lboost_system -lboost_filesystem -lboost_program_options -lboost_thread -lboost_chrono  >&5
+configure:28132: $? = 0
+configure:28142: result: yes
+configure:28574: checking for mismatched boost c++11 scoped enums
+configure:28602: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -pthread -I/usr/include  conftest.cpp -L/usr/lib/x86_64-linux-gnu -lboost_system -lboost_filesystem -lboost_program_options -lboost_thread -lboost_chrono  >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:85:5: error: 'choke' was not declared in this scope
      choke;
@@ -2839,7 +2824,7 @@ conftest.cpp:85:5: note: suggested alternative: 'clone'
      choke;
      ^~~~~
      clone
-configure:24157: $? = 1
+configure:28602: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "Bitnet Core"
@@ -2931,85 +2916,85 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:24161: result: ok
-configure:24193: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -pthread -I/usr/include  conftest.cpp -L/usr/lib/x86_64-linux-gnu -lboost_system -lboost_filesystem -lboost_program_options -lboost_thread -lboost_chrono  >&5
-configure:24193: $? = 0
-configure:24255: checking for SSL
-configure:24262: $PKG_CONFIG --exists --print-errors "libssl"
-configure:24265: $? = 0
-configure:24279: $PKG_CONFIG --exists --print-errors "libssl"
-configure:24282: $? = 0
-configure:24320: result: yes
-configure:24326: checking for CRYPTO
-configure:24333: $PKG_CONFIG --exists --print-errors "libcrypto"
-configure:24336: $? = 0
-configure:24350: $PKG_CONFIG --exists --print-errors "libcrypto"
-configure:24353: $? = 0
-configure:24391: result: yes
-configure:24400: checking for PROTOBUF
-configure:24407: $PKG_CONFIG --exists --print-errors "protobuf"
-configure:24410: $? = 0
-configure:24424: $PKG_CONFIG --exists --print-errors "protobuf"
-configure:24427: $? = 0
-configure:24487: result: yes
-configure:24502: checking for QR
-configure:24509: $PKG_CONFIG --exists --print-errors "libqrencode"
-configure:24512: $? = 0
-configure:24526: $PKG_CONFIG --exists --print-errors "libqrencode"
-configure:24529: $? = 0
-configure:24567: result: yes
-configure:24580: checking for EVENT
-configure:24587: $PKG_CONFIG --exists --print-errors "libevent"
-configure:24590: $? = 0
-configure:24604: $PKG_CONFIG --exists --print-errors "libevent"
-configure:24607: $? = 0
-configure:24645: result: yes
-configure:24652: checking for EVENT_PTHREADS
-configure:24659: $PKG_CONFIG --exists --print-errors "libevent_pthreads"
-configure:24662: $? = 0
-configure:24676: $PKG_CONFIG --exists --print-errors "libevent_pthreads"
-configure:24679: $? = 0
-configure:24717: result: yes
-configure:24727: checking for ZMQ
-configure:24734: $PKG_CONFIG --exists --print-errors "libzmq >= 4"
-configure:24737: $? = 0
-configure:24751: $PKG_CONFIG --exists --print-errors "libzmq >= 4"
-configure:24754: $? = 0
-configure:24802: result: yes
-configure:25195: checking whether EVP_MD_CTX_new is declared
-configure:25195: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter    -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
-configure:25195: $? = 0
-configure:25195: result: yes
-configure:25431: checking for protoc
-configure:25449: found /usr/bin/protoc
-configure:25461: result: /usr/bin/protoc
-configure:25495: checking whether to build bitnetd
-configure:25505: result: yes
-configure:25508: checking whether to build utils (bitnet-cli bitnet-tx)
-configure:25518: result: yes
-configure:25521: checking whether to build libraries
-configure:25538: result: yes
-configure:25549: checking if ccache should be used
-configure:25562: result: no
-configure:25603: checking if wallet should be enabled
-configure:25606: result: yes
-configure:25619: checking whether to build with support for UPnP
-configure:25629: result: yes
-configure:25631: checking whether to build with UPnP enabled by default
-configure:25639: result: no
-configure:25657: checking whether to build GUI with support for D-Bus
-configure:25664: result: yes
-configure:25667: checking whether to build GUI with support for QR codes
-configure:25677: result: yes
-configure:25694: checking whether to build test_bitnet-qt
-configure:25701: result: no
-configure:25715: checking whether to build test_bitnet
-configure:25722: result: no
-configure:25727: checking whether to reduce exports
-configure:25733: result: no
-configure:26052: checking that generated files are newer than configure
-configure:26058: result: done
-configure:26170: creating ./config.status
+configure:28606: result: ok
+configure:28638: g++ -std=c++11 -o conftest -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter  -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS -pthread -I/usr/include  conftest.cpp -L/usr/lib/x86_64-linux-gnu -lboost_system -lboost_filesystem -lboost_program_options -lboost_thread -lboost_chrono  >&5
+configure:28638: $? = 0
+configure:28700: checking for SSL
+configure:28707: $PKG_CONFIG --exists --print-errors "libssl"
+configure:28710: $? = 0
+configure:28724: $PKG_CONFIG --exists --print-errors "libssl"
+configure:28727: $? = 0
+configure:28765: result: yes
+configure:28771: checking for CRYPTO
+configure:28778: $PKG_CONFIG --exists --print-errors "libcrypto"
+configure:28781: $? = 0
+configure:28795: $PKG_CONFIG --exists --print-errors "libcrypto"
+configure:28798: $? = 0
+configure:28836: result: yes
+configure:28845: checking for PROTOBUF
+configure:28852: $PKG_CONFIG --exists --print-errors "protobuf"
+configure:28855: $? = 0
+configure:28869: $PKG_CONFIG --exists --print-errors "protobuf"
+configure:28872: $? = 0
+configure:28932: result: yes
+configure:28947: checking for QR
+configure:28954: $PKG_CONFIG --exists --print-errors "libqrencode"
+configure:28957: $? = 0
+configure:28971: $PKG_CONFIG --exists --print-errors "libqrencode"
+configure:28974: $? = 0
+configure:29012: result: yes
+configure:29025: checking for EVENT
+configure:29032: $PKG_CONFIG --exists --print-errors "libevent"
+configure:29035: $? = 0
+configure:29049: $PKG_CONFIG --exists --print-errors "libevent"
+configure:29052: $? = 0
+configure:29090: result: yes
+configure:29097: checking for EVENT_PTHREADS
+configure:29104: $PKG_CONFIG --exists --print-errors "libevent_pthreads"
+configure:29107: $? = 0
+configure:29121: $PKG_CONFIG --exists --print-errors "libevent_pthreads"
+configure:29124: $? = 0
+configure:29162: result: yes
+configure:29172: checking for ZMQ
+configure:29179: $PKG_CONFIG --exists --print-errors "libzmq >= 4"
+configure:29182: $? = 0
+configure:29196: $PKG_CONFIG --exists --print-errors "libzmq >= 4"
+configure:29199: $? = 0
+configure:29247: result: yes
+configure:29640: checking whether EVP_MD_CTX_new is declared
+configure:29640: g++ -std=c++11 -c -g -O2 -Wall -Wextra -Wformat -Wvla -Wformat-security -Wno-unused-parameter    -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS conftest.cpp >&5
+configure:29640: $? = 0
+configure:29640: result: yes
+configure:29876: checking for protoc
+configure:29894: found /usr/bin/protoc
+configure:29906: result: /usr/bin/protoc
+configure:29940: checking whether to build bitnetd
+configure:29950: result: yes
+configure:29953: checking whether to build utils (bitnet-cli bitnet-tx)
+configure:29963: result: yes
+configure:29966: checking whether to build libraries
+configure:29983: result: yes
+configure:29994: checking if ccache should be used
+configure:30007: result: no
+configure:30048: checking if wallet should be enabled
+configure:30051: result: yes
+configure:30064: checking whether to build with support for UPnP
+configure:30074: result: yes
+configure:30076: checking whether to build with UPnP enabled by default
+configure:30084: result: no
+configure:30102: checking whether to build GUI with support for D-Bus
+configure:30109: result: yes
+configure:30112: checking whether to build GUI with support for QR codes
+configure:30122: result: yes
+configure:30139: checking whether to build test_bitnet-qt
+configure:30146: result: no
+configure:30160: checking whether to build test_bitnet
+configure:30167: result: no
+configure:30172: checking whether to reduce exports
+configure:30178: result: no
+configure:30505: checking that generated files are newer than configure
+configure:30511: result: done
+configure:30623: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -3026,27 +3011,23 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on localhost.localdomain
 
-config.status:1394: creating libbitcoinconsensus.pc
-config.status:1394: creating Makefile
-config.status:1394: creating src/Makefile
-config.status:1394: creating doc/man/Makefile
-config.status:1394: creating share/setup.nsi
-config.status:1394: creating share/qt/Info.plist
-config.status:1394: creating src/test/buildenv.py
-config.status:1394: creating qa/pull-tester/tests_config.py
-config.status:1394: creating contrib/devtools/split-debug.sh
-config.status:1394: creating src/config/bitcoin-config.h
-config.status:1575: src/config/bitcoin-config.h is unchanged
-config.status:1654: executing depfiles commands
-config.status:1731: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
-config.status:1736: $? = 0
-config.status:1654: executing libtool commands
-configure:28695: === configuring in src/univalue (/home/c4pt/opt/BITNET-IO/bitnet-core/src/univalue)
-configure:28758: running /bin/bash ./configure --disable-option-checking '--prefix=/usr'  '--with-incompatible-bdb' '--enable-sse2' '--with-natpmp' '--disable-tests' '--disable-bench' '--disable-shared' '--with-pic' '--with-bignum=no' '--enable-module-recovery' --cache-file=/dev/null --srcdir=.
-configure:28695: === configuring in src/secp256k1 (/home/c4pt/opt/BITNET-IO/bitnet-core/src/secp256k1)
-configure:28758: running /bin/bash ./configure --disable-option-checking '--prefix=/usr'  '--with-incompatible-bdb' '--enable-sse2' '--with-natpmp' '--disable-tests' '--disable-bench' '--disable-shared' '--with-pic' '--with-bignum=no' '--enable-module-recovery' --cache-file=/dev/null --srcdir=.
-configure:28777: result: Fixing libtool for -rpath problems.
+config.status:1396: creating libbitcoinconsensus.pc
+config.status:1396: creating Makefile
+config.status:1396: creating src/Makefile
+config.status:1396: creating doc/man/Makefile
+config.status:1396: creating share/setup.nsi
+config.status:1396: creating share/qt/Info.plist
+config.status:1396: creating src/test/buildenv.py
+config.status:1396: creating qa/pull-tester/tests_config.py
+config.status:1396: creating contrib/devtools/split-debug.sh
+config.status:1396: creating src/config/bitcoin-config.h
+config.status:1656: executing depfiles commands
+config.status:1656: executing libtool commands
+configure:33144: === configuring in src/univalue (/home/c4pt/opt/BITNET-IO/bitnet-core/src/univalue)
+configure:33207: running /bin/bash ./configure --disable-option-checking '--prefix=/usr'  '--with-incompatible-bdb' '--enable-sse2' '--with-natpmp' '--disable-tests' '--disable-bench' '--disable-shared' '--with-pic' '--with-bignum=no' '--enable-module-recovery' --cache-file=/dev/null --srcdir=.
+configure:33144: === configuring in src/secp256k1 (/home/c4pt/opt/BITNET-IO/bitnet-core/src/secp256k1)
+configure:33207: running /bin/bash ./configure --disable-option-checking '--prefix=/usr'  '--with-incompatible-bdb' '--enable-sse2' '--with-natpmp' '--disable-tests' '--disable-bench' '--disable-shared' '--with-pic' '--with-bignum=no' '--enable-module-recovery' --cache-file=/dev/null --srcdir=.
+configure:33226: result: Fixing libtool for -rpath problems.
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -3211,16 +3192,16 @@ ac_cv_objcxx_compiler_gnu=no
 ac_cv_objext=o
 ac_cv_path_EGREP='/bin/grep -E'
 ac_cv_path_FGREP='/bin/grep -F'
-ac_cv_path_GIT=/usr/bin/git
 ac_cv_path_GREP=/bin/grep
 ac_cv_path_HEXDUMP=/usr/bin/hexdump
-ac_cv_path_LRELEASE=/usr/lib/x86_64-linux-gnu/qt5/bin/lrelease
-ac_cv_path_LUPDATE=/usr/lib/x86_64-linux-gnu/qt5/bin/lupdate
-ac_cv_path_MOC=/usr/lib/x86_64-linux-gnu/qt5/bin/moc
+ac_cv_path_LRELEASE=/usr/lib/qt5/bin/lrelease
+ac_cv_path_LUPDATE=/usr/lib/qt5/bin/lupdate
+ac_cv_path_MOC=/usr/lib/qt5/bin/moc
 ac_cv_path_PROTOC=/usr/bin/protoc
-ac_cv_path_RCC=/usr/lib/x86_64-linux-gnu/qt5/bin/rcc
+ac_cv_path_PYTHON=/usr/bin/python3.6
+ac_cv_path_RCC=/usr/lib/qt5/bin/rcc
 ac_cv_path_SED=/bin/sed
-ac_cv_path_UIC=/usr/lib/x86_64-linux-gnu/qt5/bin/uic
+ac_cv_path_UIC=/usr/lib/qt5/bin/uic
 ac_cv_path_XGETTEXT=/usr/bin/xgettext
 ac_cv_path_ac_pt_AR=/usr/bin/ar
 ac_cv_path_ac_pt_CPPFILT=/usr/bin/c++filt
@@ -3334,25 +3315,25 @@ pkg_cv_EVENT_LIBS=-levent
 pkg_cv_EVENT_PTHREADS_CFLAGS=-pthread
 pkg_cv_EVENT_PTHREADS_LIBS='-levent_pthreads -levent'
 pkg_cv_PROTOBUF_CFLAGS=-pthread
-pkg_cv_PROTOBUF_LIBS='-lprotobuf -pthread'
+pkg_cv_PROTOBUF_LIBS='-lprotobuf -pthread -lpthread'
 pkg_cv_QR_CFLAGS=
 pkg_cv_QR_LIBS=-lqrencode
-pkg_cv_QT_CFLAGS='-DQT_NETWORK_LIB -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
-pkg_cv_QT_DBUS_CFLAGS='-DQT_DBUS_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
+pkg_cv_QT_CFLAGS='-I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
+pkg_cv_QT_DBUS_CFLAGS='-I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
 pkg_cv_QT_DBUS_LIBS='-lQt5DBus -lQt5Core'
 pkg_cv_QT_LIBS='-lQt5Network -lQt5PrintSupport -lQt5Widgets -lQt5Gui -lQt5Core'
-pkg_cv_QT_TEST_CFLAGS='-DQT_TESTLIB_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
+pkg_cv_QT_TEST_CFLAGS='-I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
 pkg_cv_QT_TEST_LIBS='-lQt5Test -lQt5Core'
 pkg_cv_SSL_CFLAGS=
 pkg_cv_SSL_LIBS=-lssl
-pkg_cv_ZMQ_CFLAGS='-isystem /usr/include/mit-krb5 -I/usr/include/pgm-5.2'
+pkg_cv_ZMQ_CFLAGS=
 pkg_cv_ZMQ_LIBS=-lzmq
 
 ## ----------------- ##
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing aclocal-1.16'
+ACLOCAL='${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing aclocal-1.15'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
@@ -3364,7 +3345,7 @@ AM_V='$(V)'
 AR='/usr/bin/ar'
 AUTOCONF='${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing autoconf'
 AUTOHEADER='${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing autoheader'
-AUTOMAKE='${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing automake-1.16'
+AUTOMAKE='${SHELL} /home/c4pt/opt/BITNET-IO/bitnet-core/build-aux/missing automake-1.15'
 AWK='mawk'
 BDB_CPPFLAGS=''
 BDB_LIBS='-ldb_cxx'
@@ -3451,7 +3432,7 @@ FGREP='/bin/grep -F'
 GCOV='/usr/bin/gcov'
 GENHTML=''
 GENISOIMAGE=''
-GIT='/usr/bin/git'
+GIT=''
 GLIBC_BACK_COMPAT_FALSE=''
 GLIBC_BACK_COMPAT_TRUE='#'
 GREP='/bin/grep'
@@ -3481,10 +3462,10 @@ LIBTOOL='$(SHELL) $(top_builddir)/libtool'
 LIBTOOL_APP_LDFLAGS=''
 LIPO=''
 LN_S='ln -s'
-LRELEASE='/usr/lib/x86_64-linux-gnu/qt5/bin/lrelease'
+LRELEASE='/usr/lib/qt5/bin/lrelease'
 LTLIBOBJS=''
 LT_SYS_LIBRARY_PATH=''
-LUPDATE='/usr/lib/x86_64-linux-gnu/qt5/bin/lupdate'
+LUPDATE='/usr/lib/qt5/bin/lupdate'
 MAINT=''
 MAINTAINER_MODE_FALSE='#'
 MAINTAINER_MODE_TRUE=''
@@ -3494,7 +3475,7 @@ MANIFEST_TOOL=':'
 MINIUPNPC_CPPFLAGS=''
 MINIUPNPC_LIBS='-lminiupnpc'
 MKDIR_P='/bin/mkdir -p'
-MOC='/usr/lib/x86_64-linux-gnu/qt5/bin/moc'
+MOC='/usr/lib/qt5/bin/moc'
 MOC_DEFS='-DHAVE_CONFIG_H -I$(srcdir)'
 NM='/usr/bin/nm -B'
 NMEDIT=''
@@ -3521,12 +3502,12 @@ PKG_CONFIG_LIBDIR=''
 PKG_CONFIG_PATH=''
 PORT=''
 PROTOBUF_CFLAGS='-pthread'
-PROTOBUF_LIBS='-lprotobuf -pthread'
+PROTOBUF_LIBS='-lprotobuf -pthread -lpthread'
 PROTOC='/usr/bin/protoc'
 PTHREAD_CC='gcc'
 PTHREAD_CFLAGS='-pthread'
 PTHREAD_LIBS=''
-PYTHON=''
+PYTHON='/usr/bin/python3.6'
 PYTHONPATH=''
 QR_CFLAGS=''
 QR_LIBS='-lqrencode'
@@ -3536,21 +3517,21 @@ QTPRINT_CFLAGS=''
 QTPRINT_LIBS=''
 QTXCBQPA_CFLAGS=''
 QTXCBQPA_LIBS=''
-QT_CFLAGS='-DQT_NETWORK_LIB -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
-QT_DBUS_CFLAGS='-DQT_DBUS_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
-QT_DBUS_INCLUDES='-DQT_DBUS_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
+QT_CFLAGS='-I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
+QT_DBUS_CFLAGS='-I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
+QT_DBUS_INCLUDES='-I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
 QT_DBUS_LIBS='-lQt5DBus -lQt5Core'
-QT_INCLUDES='-DQT_NETWORK_LIB -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
+QT_INCLUDES='-I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
 QT_LDFLAGS=''
 QT_LIBS='-lQt5Network -lQt5PrintSupport -lQt5Widgets -lQt5Gui -lQt5Core'
 QT_PIE_FLAGS='-fPIC'
 QT_SELECT='qt5'
-QT_TEST_CFLAGS='-DQT_TESTLIB_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
-QT_TEST_INCLUDES='-DQT_TESTLIB_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
+QT_TEST_CFLAGS='-I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
+QT_TEST_INCLUDES='-I/usr/include/x86_64-linux-gnu/qt5/QtTest -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5'
 QT_TEST_LIBS='-lQt5Test -lQt5Core'
 QT_TRANSLATION_DIR=''
 RANLIB='/usr/bin/ranlib'
-RCC='/usr/lib/x86_64-linux-gnu/qt5/bin/rcc'
+RCC='/usr/lib/qt5/bin/rcc'
 READELF='/usr/bin/readelf'
 RELDFLAGS=''
 RSVG_CONVERT=''
@@ -3566,7 +3547,7 @@ TARGET_WINDOWS_FALSE=''
 TARGET_WINDOWS_TRUE='#'
 TESTDEFS=''
 TIFFCP=''
-UIC='/usr/lib/x86_64-linux-gnu/qt5/bin/uic'
+UIC='/usr/lib/qt5/bin/uic'
 UNIVALUE_CFLAGS='-I$(srcdir)/univalue/include'
 UNIVALUE_LIBS='univalue/libunivalue.la'
 USE_LCOV_FALSE=''
@@ -3581,7 +3562,7 @@ WINDRES=''
 X11XCB_CFLAGS=''
 X11XCB_LIBS=''
 XGETTEXT='/usr/bin/xgettext'
-ZMQ_CFLAGS='-isystem /usr/include/mit-krb5 -I/usr/include/pgm-5.2'
+ZMQ_CFLAGS=''
 ZMQ_LIBS='-lzmq'
 ac_ct_AR='ar'
 ac_ct_CC='gcc'

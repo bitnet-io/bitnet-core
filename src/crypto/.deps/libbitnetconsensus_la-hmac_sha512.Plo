@@ -1,6 +1,6 @@
 crypto/libbitnetconsensus_la-hmac_sha512.lo: crypto/hmac_sha512.cpp \
  /usr/include/stdc-predef.h crypto/hmac_sha512.h crypto/sha512.h \
- /usr/lib/gcc/x86_64-linux-gnu/8/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -12,11 +12,11 @@ crypto/libbitnetconsensus_la-hmac_sha512.lo: crypto/hmac_sha512.cpp \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/c++/8/stdlib.h /usr/include/c++/8/cstdlib \
- /usr/include/x86_64-linux-gnu/c++/8/bits/c++config.h \
- /usr/include/x86_64-linux-gnu/c++/8/bits/os_defines.h \
- /usr/include/x86_64-linux-gnu/c++/8/bits/cpu_defines.h \
- /usr/include/stdlib.h /usr/lib/gcc/x86_64-linux-gnu/8/include/stddef.h \
+ /usr/include/c++/7/stdlib.h /usr/include/c++/7/cstdlib \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h \
+ /usr/include/stdlib.h /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
@@ -30,6 +30,7 @@ crypto/libbitnetconsensus_la-hmac_sha512.lo: crypto/hmac_sha512.cpp \
  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h /usr/include/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endian.h \
  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
  /usr/include/x86_64-linux-gnu/sys/select.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
@@ -38,6 +39,8 @@ crypto/libbitnetconsensus_la-hmac_sha512.lo: crypto/hmac_sha512.cpp \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
  /usr/include/x86_64-linux-gnu/bits/select2.h \
+ /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+ /usr/include/x86_64-linux-gnu/bits/sysmacros.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
@@ -45,7 +48,7 @@ crypto/libbitnetconsensus_la-hmac_sha512.lo: crypto/hmac_sha512.cpp \
  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
- /usr/include/c++/8/bits/std_abs.h /usr/include/string.h \
+ /usr/include/c++/7/bits/std_abs.h /usr/include/string.h \
  /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h
@@ -56,7 +59,7 @@ crypto/hmac_sha512.h:
 
 crypto/sha512.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/8/include/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h:
 
 /usr/include/stdint.h:
 
@@ -84,19 +87,19 @@ crypto/sha512.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
-/usr/include/c++/8/stdlib.h:
+/usr/include/c++/7/stdlib.h:
 
-/usr/include/c++/8/cstdlib:
+/usr/include/c++/7/cstdlib:
 
-/usr/include/x86_64-linux-gnu/c++/8/bits/c++config.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h:
 
-/usr/include/x86_64-linux-gnu/c++/8/bits/os_defines.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h:
 
-/usr/include/x86_64-linux-gnu/c++/8/bits/cpu_defines.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h:
 
 /usr/include/stdlib.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/8/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
@@ -126,6 +129,8 @@ crypto/sha512.h:
 
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
 
+/usr/include/x86_64-linux-gnu/bits/byteswap-16.h:
+
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
@@ -142,6 +147,10 @@ crypto/sha512.h:
 
 /usr/include/x86_64-linux-gnu/bits/select2.h:
 
+/usr/include/x86_64-linux-gnu/sys/sysmacros.h:
+
+/usr/include/x86_64-linux-gnu/bits/sysmacros.h:
+
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
@@ -156,7 +165,7 @@ crypto/sha512.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
-/usr/include/c++/8/bits/std_abs.h:
+/usr/include/c++/7/bits/std_abs.h:
 
 /usr/include/string.h:
 

@@ -1122,8 +1122,7 @@ qt/libbitnetqt_a-receiverequestdialog.o: qt/receiverequestdialog.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qmimedata.h \
  /usr/include/x86_64-linux-gnu/qt5/QtGui/QMouseEvent \
  /usr/include/x86_64-linux-gnu/qt5/QtGui/QPixmap \
- /usr/include/x86_64-linux-gnu/qt5/QtGui/qpixmap.h \
- /usr/include/qrencode.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qpixmap.h
 
 /usr/include/stdc-predef.h:
 
@@ -3730,5 +3729,3 @@ qt/optionsmodel.h:
 /usr/include/x86_64-linux-gnu/qt5/QtGui/QPixmap:
 
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qpixmap.h:
-
-/usr/include/qrencode.h:
