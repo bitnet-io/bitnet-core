@@ -42,6 +42,8 @@ Bitnet-Core based off of radiocoin with improvements
   addnode=seed04.altcoinbuilders.com:8333
   addnode=[2600:3c03::f03c:93ff:fefc:ed9c]:8333
   ```
-# this project is compiled with boost-175 if you have trouble building or installing the debian or rpm packages use the scripts in this folder to build dependencies build-deps.sh and check doc/build-unix or doc/build-windows etc.
-# check periodically in this directory for bitnet.conf for new "addnodes"
-# since this project isnt using DNS you must manually addnodes with addnodes=ip:port for connectivity
+* this project is compiled with boost-175 if you have trouble building or installing the debian or rpm packages use the scripts in this folder to build dependencies build-deps.sh and check doc/build-unix or doc/build-windows etc.
+* check periodically in this directory for bitnet.conf for new "addnodes"
+* since this project isnt using DNS you must manually addnodes with addnodes=ip:port for connectivity
+
+# List of Exchanges (this is a work in progress to get listed since we are a new coin as of 02-08-2023 some things to consider)
