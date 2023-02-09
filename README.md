@@ -1,5 +1,10 @@
 # please update to 1.5.5 to fix invalid headers with sync or build this code from scratch with today's (02-08-2023) changes
 
+
+* bitnet coin explorer is live
+http://bitexplorer.io/
+
+
 * 02-08-2023 some pools to connect to
 * https://mining4people.com/pool/bitnet-pplns
 * https://zeusminingpool.com/
