@@ -10,4 +10,5 @@ We are a new coin as of February 2023
 
 
 # stay tuned for a copy of Bisq modified to support Bitnet transactions using Bitcoin deposits
+* https://github.com/bisq-network/bisq
 # and a copy of Bisq completely modified to support Bitnet deposits directly and allow trading of other coins
