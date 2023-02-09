@@ -1,4 +1,3 @@
-# please update to 1.5.5 to fix invalid headers with sync or build this code from scratch with today's (02-08-2023) changes
 
 
 * bitnet coin explorer is live
@@ -15,12 +14,17 @@ http://bitexplorer.io/
 
 # bitnet-core
 Bitnet-Core based off of radiocoin with improvements
-* 20,000,000,000 total supply (down from 100 B)
+* 2,000,000,000 total supply (down from 100 B)
 * network retargets difficulty every seven days (instead of 14 days bitcoin)
 * blocks readjust every 10 minutes
 * paper wallet to backup funds
 
-* copy bitnet-data-dir-02-04-2023.tar.gz to your /home/user folder for the data dir and tar -xvf for a basic blockchain if you have trouble connecting to a node use updated bitnet.conf (check back time to time as we grow)
+
+
+
+# please update to 1.5.5 to fix invalid headers with sync or build this code from scratch with today's (02-08-2023) changes
+
+* if you have trouble connecting to a node use updated bitnet.conf (check back time to time as we grow)
 
 * 02-08-2023
 * this wallet is a completely different chain using deposit addresses with "B" not for radiocoin or ravencoin only for bitnet-core
