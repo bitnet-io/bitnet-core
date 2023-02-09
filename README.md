@@ -32,7 +32,7 @@ Bitnet-Core based off of radiocoin with improvements
 
 * add these lines to your bitnet.conf if you have trouble finding peers on the network altcoinbuilders.com are permanent seeds
 ```
-addnode=170.187.167.146:8333
+  addnode=170.187.167.146:8333
   addnode=149.28.51.213:8333
   addnode=108.61.149.178:8333
   addnode=45.77.77.239:8333
