@@ -2,9 +2,11 @@
 or download binaries from releases
 * https://github.com/bitnet-io/bitnet-core/releases
  
- * note required after installing the dependcies with the build-deps.sh scripts
- * to build beforehand and afterhand binaries also require the build-deps.sh script 
- * to run in order to build system packages to supporting loading the binary releases
+ * note 
+ * these things are required after installing the dependcies with the build-deps.sh scripts
+ * port 8333 must be open, ntpd, and system must have the correct dependicies to 
+ * build beforehand and afterhand and bitnet.conf must be set in place into the user data-dir folder 
+ 
  ```
  network time protocol daemon for computer system clock to be in sync or there will be header errors
  outbound port and inbound port access to 8333 in a firewall from the default port set
