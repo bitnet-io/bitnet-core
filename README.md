@@ -1,5 +1,6 @@
-* building the project
-
+* build the project
+or download binaries from releases
+* https://github.com/bitnet-io/bitnet-core/releases
  # requires
  ```
  outbound port and inbound port access to 8333 in a firewall from the default port set)
