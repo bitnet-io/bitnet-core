@@ -1,4 +1,7 @@
-* building the project
+* building the project 
+
+* (bitnet.conf must be in the data-dir located in /home/user/.bitnet or /root/.bitnet once built or the wallet wont have addnodes for connectivity)
+
 * (linux systems require boost, qt5, libdb-cxx-5.3-dev and a few other packages provided by the (build-deps.sh scripts)
 
 * ubuntu/debian systems with either 1.65 or 1.67 boost installed (pulled from the build-deps.sh script)
