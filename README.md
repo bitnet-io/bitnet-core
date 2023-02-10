@@ -1,7 +1,10 @@
 * build the project
 or download binaries from releases
 * https://github.com/bitnet-io/bitnet-core/releases
- # required to build beforehand and afterhand
+ 
+ * note required after installing the dependcies with the build-deps.sh scripts
+ * to build beforehand and afterhand binaries also require the build-deps.sh script 
+ * to run in order to build system packages to supporting loading the binary releases
  ```
  network time protocol daemon for computer system clock to be in sync or there will be header errors
  outbound port and inbound port access to 8333 in a firewall from the default port set
