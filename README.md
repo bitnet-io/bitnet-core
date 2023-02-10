@@ -3,12 +3,20 @@ or download binaries from releases
 * https://github.com/bitnet-io/bitnet-core/releases
  # required to build beforehand and afterhand
  ```
- outbound port and inbound port access to 8333 in a firewall from the default port set)
-
- (bitnet.conf must be in the data-dir located in /home/user/.bitnet or /root/.bitnet once
- built or the wallet wont have addnodes for connectivity)
+ network time protocol daemon for computer system clock to be in sync or there will be header errors
+ outbound port and inbound port access to 8333 in a firewall from the default port set
+ bitnet.conf must be in the data-dir located in /home/user/.bitnet or /root/.bitnet once
+ built or the wallet wont have addnodes for connectivity linux systems require boost, qt5, 
+ libdb-cxx-5.3-dev and a few other packages provided by the (build-deps.sh scripts
  
- (linux systems require boost, qt5, libdb-cxx-5.3-dev and a few other packages provided by the (build-deps.sh scripts)
+ ntpd, port 8333, and dependicies from the build-deps.sh for a particular running system
+ ntpd can be set as following on most linux systems same goes for time systems on windows must
+ be synchornized to a network time protocol network time update server
+ 
+ apt or yum install ntpsec or ntpd
+ systemctl enable ntpd
+ systemctl start ntpd
+ ntpdate
 ```
 
 * these instructions build bitnetd , bitnet-cli, bitnet-tx, bitnet-qt to the system /usr/bin path
