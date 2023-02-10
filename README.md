@@ -66,8 +66,8 @@ transaction fee rewards for miners after the 10,000 coins per block reward runs 
 be around 10-100 BIT per block. The rewards won't be 10,000 BIT per block but around 10-100
 thus making a scarcity of BIT coins to be passed around but will keep the interest of our 
 users to buy sell and trade coins for their own uses. (We might reach values of anywhere from 
-0.10 cents to $1.00 estimated per 1 BIT share from the Bitnet wallet where a 100 BIT shares in 
-a users wallet would be estimated to be around $20-$80 USD)
+0.10 cents to $1.00 estimated per 1 BIT share from the Bitnet wallet where a balance with 100 BIT 
+shares should be valued between $20-$80 USD)
 ```
 
 
