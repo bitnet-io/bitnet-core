@@ -1,6 +1,7 @@
-# building the project
+* building the project
+* (linux systems require boost, qt5, libdb-cxx-5.3-dev and a few other packages provided by the (build-deps.sh scripts)
 
-# ubuntu/debian systems with either 1.65 or 1.67 boost installed (pulled from the build-deps.sh script)
+* ubuntu/debian systems with either 1.65 or 1.67 boost installed (pulled from the build-deps.sh script)
 ```
 git clone https://github.com/bitnet-io/bitnet-core
 cd bitnet-core
@@ -13,7 +14,7 @@ make -j8 install
 finally copy bitnet.conf to your /home/user/.bitnet or /root/.bitnet folder after running bitnet-qt or bitnetd which should be in your system path
 ```
 
-# fedora 34/rhel 9 systems with boost 1.75 installed
+* fedora 34/rhel 9 systems with boost 1.75 installed
 ```
 git clone https://github.com/bitnet-io/bitnet-core
 cd bitnet-core
