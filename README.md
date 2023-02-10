@@ -1,10 +1,14 @@
-* building the project (also requires outbound port and inbound port access to 8333 in a firewall from the default port set)
+* building the project
 
-* (bitnet.conf must be in the data-dir located in /home/user/.bitnet or /root/.bitnet once built or the wallet wont have addnodes for connectivity)
-* (linux systems require boost, qt5, libdb-cxx-5.3-dev and a few other packages provided by the (build-deps.sh scripts)
+ # requires
+ ```
+ outbound port and inbound port access to 8333 in a firewall from the default port set)
 
-
-
+ (bitnet.conf must be in the data-dir located in /home/user/.bitnet or /root/.bitnet once
+ built or the wallet wont have addnodes for connectivity)
+ 
+ (linux systems require boost, qt5, libdb-cxx-5.3-dev and a few other packages provided by the (build-deps.sh scripts)
+```
 
 * these instructions build bitnetd , bitnet-cli, bitnet-tx, bitnet-qt to the system /usr/bin path
 
