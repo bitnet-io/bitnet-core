@@ -57,9 +57,15 @@ Bitnet-Core based off of radiocoin with improvements
 
 * what happens after the 10,000 coin blocks run out since the supply is moving fast possibly under a year from launch?
 ```
-the maximum total supply of Bitnet is 2 billion coins with 10,000 coins per block as a PoW scrypt based coin
-The number of Bitnet coins issued will likely never reach 2 billion completely due to the use of rounding operators in the Bitnet codebase.
-When the Bitcoin supply reaches its upper limit, no additional bitcoins will be generated. Bitcoin miners will likely earn income only from transaction fees. We believe the transaction fee rewards for miners after the 10,000 coins per block reward runs out will be around 10-100 BIT per block instead of 10,000 BIT per block thus making a scarcity of BIT coins to be passed around but will keep the interest of our users to buy sell and trade coins for their own uses. (We might reach values of anywhere from 0.10 cents to $1.00 estimated per 1 BIT share from the Bitnet wallet where a 100 BIT shares in a users wallet would be estimated to be around $20-$80 USD)
+  The maximum total supply of Bitnet is 2 billion coins with 10,000 coins per block as a PoW scrypt based coin
+The number of Bitnet coins issued will likely never reach 2 billion completely due to the use of rounding 
+operators in the Bitnet codebase.
+  When the Bitcoin supply reaches its upper limit, no additional bitcoins will be generated. Bitcoin miners 
+will likely earn income only from transaction fees. We believe the transaction fee rewards for miners after the 
+10,000 coins per block reward runs out there will be around 10-100 BIT per block rewards instead of 10,000 BIT 
+per block thus making a scarcity of BIT coins to be passed around but will keep the interest of our users to buy sell 
+and trade coins for their own uses. (We might reach values of anywhere from 0.10 cents to $1.00 estimated per 1 BIT 
+share from the Bitnet wallet where a 100 BIT shares in a users wallet would be estimated to be around $20-$80 USD)
 ```
 
 
