@@ -7,7 +7,7 @@ We are a new coin as of February 2023
 * https://robinhood.com/us/en/support/
 
 * https://support.binance.us/hc/en-us/sections/360008343893-New-Listings
-
+* https://www.stex.com/listing-form
 
 # stay tuned for a copy of Bisq modified to support Bitnet transactions using Bitcoin deposits
 * https://github.com/bisq-network/bisq
