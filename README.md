@@ -99,5 +99,5 @@ shares should be valued between $20-$80 USD)
 * since this project isnt using DNS you must manually addnodes with addnodes=ip:port for connectivity
 * the doc/ folder contains more build instructions for windows or macOS to build natively with those platforms as a cross compile
 
-# List of Exchanges 
-* https://github.com/bitnet-io/bitnet-core/blob/main/doc/Exchange.md
+* stay tuned for possible additions to exchanges in doc/Exchange.md
+
