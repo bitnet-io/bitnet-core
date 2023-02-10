@@ -41,8 +41,11 @@ finally copy bitnet.conf to your /home/user/.bitnet or /root/.bitnet folder afte
 bitnet-qt or bitnetd which should be in your system path
 ```
 # windows 10/11 builds (requires docker or ubuntu 22.04)
+
 * https://github.com/bitnet-io/bitnet-core/releases/tag/windows-64
-see doc/build-windows.md for the process of building for windows platforms in a linux cross compile environment
+
+* see doc/build-windows.md for the process of building for windows platforms from source in a 
+* linux cross compile environment
 
 
 
