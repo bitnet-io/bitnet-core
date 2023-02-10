@@ -72,6 +72,7 @@ http://bitexplorer.io/
 
 
 * 02-08-2023 some pools to connect to
+* https://mine.altcoinbuilders.com/
 * https://mining4people.com/pool/bitnet-pplns
 * https://zeusminingpool.com/
 
