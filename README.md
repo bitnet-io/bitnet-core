@@ -14,7 +14,8 @@ sh build-configure.sh
 make -j8 clean
 make -j8
 make -j8 install
-finally copy bitnet.conf to your /home/user/.bitnet or /root/.bitnet folder after running bitnet-qt or bitnetd which should be in your system path
+finally copy bitnet.conf to your /home/user/.bitnet or /root/.bitnet folder after running bitnet-qt or bitnetd
+which should be in your system path
 ```
 
 * fedora 34/rhel 9 systems with boost 1.75 installed
@@ -27,7 +28,8 @@ sh build-configure.sh
 make -j8 clean
 make -j8
 make -j8 install
-finally copy bitnet.conf to your /home/user/.bitnet or /root/.bitnet folder after running bitnet-qt or bitnetd which should be in your system path
+finally copy bitnet.conf to your /home/user/.bitnet or /root/.bitnet folder after running bitnet-qt or bitnetd 
+which should be in your system path
 ```
 # windows 10/11 builds (requires docker or ubuntu 22.04)
 see doc/build-windows.md for the process of building on windows platforms
