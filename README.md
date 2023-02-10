@@ -1,3 +1,34 @@
+# building the project
+
+# ubuntu/debian systems with either 1.65 or 1.67 boost installed (pulled from the build-deps.sh script)
+```
+git clone https://github.com/bitnet-io/bitnet-core
+cd bitnet-core
+sh build-debian-deps.sh 
+sh autogen.sh
+sh build-configure.sh
+make -j8 clean
+make -j8
+make -j8 install
+finally copy bitnet.conf to your /home/user/.bitnet or /root/.bitnet folder after running bitnet-qt or bitnetd which should be in your system path
+```
+
+# fedora 34/rhel 9 systems with boost 1.75 installed
+```
+git clone https://github.com/bitnet-io/bitnet-core
+cd bitnet-core
+sh build-deps-fedora.sh 
+sh autogen.sh
+sh build-configure.sh
+make -j8 clean
+make -j8
+make -j8 install
+finally copy bitnet.conf to your /home/user/.bitnet or /root/.bitnet folder after running bitnet-qt or bitnetd which should be in your system path
+```
+# windows 10/11 builds (requires docker or ubuntu 22.04)
+see doc/build-windows.md for the process of building on windows platforms
+
+
 * 02-09-2023
 * work in progress ANDROID-wallet for bitnet in releases sweep wallet import is offline right now
 
