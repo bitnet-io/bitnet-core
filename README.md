@@ -79,5 +79,5 @@ Bitnet-Core based off of radiocoin with improvements
 * check periodically in this directory for bitnet.conf for new "addnodes"
 * since this project isnt using DNS you must manually addnodes with addnodes=ip:port for connectivity
 
-# List of Exchanges (this is a work in progress to get listed since we are a new coin as of 02-08-2023 some things to consider)
+# List of Exchanges 
 * https://github.com/bitnet-io/bitnet-core/blob/main/doc/Exchange.md
