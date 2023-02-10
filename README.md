@@ -71,7 +71,8 @@ share from the Bitnet wallet where a 100 BIT shares in a users wallet would be e
 
 
 
-# please update to 1.5.5 to fix invalid headers with sync or build this code from scratch with today's (02-08-2023) changes
+# Troubleshooting 
+* please update to 1.5.5 to fix invalid headers with sync or build this code from scratch with today's (02-08-2023) changes
 
 * if you have trouble connecting to a node use updated bitnet.conf (check back time to time as we grow)
 
@@ -79,7 +80,7 @@ share from the Bitnet wallet where a 100 BIT shares in a users wallet would be e
 * this wallet is a completely different chain using deposit addresses with "B" not for radiocoin or ravencoin only for bitnet-core
 
 
-* add these lines to your bitnet.conf if you have trouble finding peers on the network altcoinbuilders.com are permanent seeds
+* add these lines to your bitnet.conf if you have trouble finding peers on the network the altcoinbuilders.com seeds are permanent seeds
 ```
   addnode=170.187.167.146:8333
   addnode=149.28.51.213:8333
@@ -94,6 +95,7 @@ share from the Bitnet wallet where a 100 BIT shares in a users wallet would be e
 * this project is compiled with boost-175 if you have trouble building or installing the debian or rpm packages use the scripts in this folder to build dependencies build-deps.sh and check doc/build-unix or doc/build-windows etc.
 * check periodically in this directory for bitnet.conf for new "addnodes"
 * since this project isnt using DNS you must manually addnodes with addnodes=ip:port for connectivity
+* the doc/ folder contains more build instructions for windows or macOS to build natively with those platforms as a cross compile
 
 # List of Exchanges 
 * https://github.com/bitnet-io/bitnet-core/blob/main/doc/Exchange.md
