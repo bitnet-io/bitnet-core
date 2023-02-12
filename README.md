@@ -63,6 +63,12 @@ bitnet-qt or bitnetd which should be in your system path
 
 
 # project updates below
+
+* 02-12-2023
+* we have been added to AtomicDEX trading application for Windows, Linux and OSX
+https://github.com/cipig/atomicDEX-Desktop/actions/runs/4139972663
+
+
 * 02-11-2023
 * Electrum style wallet has been built https://github.com/bitnet-io/electrum-bitnet-wallet
 
