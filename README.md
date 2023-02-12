@@ -134,4 +134,5 @@ shares should be valued between $20-$80 USD)
 * the doc/ folder contains more build instructions for windows or macOS to build natively with those platforms as a cross compile
 
 * stay tuned for possible additions to exchanges in doc/Exchange.md
+https://github.com/bitnet-io/bitnet-core/blob/main/doc/Exchange.md
 
