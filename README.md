@@ -63,6 +63,8 @@ bitnet-qt or bitnetd which should be in your system path
 
 
 # project updates below
+* 02-11-2023
+* Electrum style wallet has been built https://github.com/bitnet-io/electrum-bitnet-wallet
 
 * 02-09-2023
 * work in progress ANDROID-wallet for bitnet in releases sweep wallet import is offline right now
