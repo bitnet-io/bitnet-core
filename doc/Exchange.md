@@ -1,3 +1,15 @@
+# 02-12-2023 updates
+we have been added to AtomicDEX for windows, linux, and OSX (we are still in the process of being added to android and WebView clients)
+* see releases at the bottom of this page
+https://github.com/cipig/atomicDEX-Desktop/actions/runs/4139972663
+
+We are also in the process of getting added to "XeggeX" exchange in the next two weeks hopefully
+
+
+
+
+
+
 We are a new coin as of February 2023 
 
 * some exchanges to request Bitnet to be listed on
