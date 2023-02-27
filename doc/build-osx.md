@@ -43,7 +43,7 @@ Build Bitnet Core
 
 1. Clone the Bitnet Core source code:
 
-        git clone https://github.com/bitnet-project/bitnet
+        git clone https://github.com/bitnet-io/bitnet-core
         cd bitnet
 
 2.  Build Bitnet Core:

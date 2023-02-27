@@ -5,7 +5,7 @@ Before every release candidate:
 
 * Update translations (ping wumpus on IRC) see [translation_process.md](https://github.com/bitcoin/bitcoin/blob/master/doc/translation_process.md#synchronising-translations).
 
-* Update manpages, see [gen-manpages.sh](https://github.com/bitnet-project/bitnet/blob/master/contrib/devtools/README.md#gen-manpagessh).
+* Update manpages, see [gen-manpages.sh](https://github.com/bitnet-io/bitnet-core/blob/master/contrib/devtools/README.md#gen-manpagessh).
 * Update release candidate version in `configure.ac` (`CLIENT_VERSION_RC`)
 
 Before every minor and major release:
@@ -35,10 +35,10 @@ If you're using the automated script (found in [contrib/gitian-build.py](/contri
 Check out the source code in the following directory hierarchy.
 
     cd /path/to/your/toplevel/build
-    git clone https://github.com/bitnet-project/gitian.sigs.ltc.git
-    git clone https://github.com/bitnet-project/bitnet-detached-sigs.git
+    git clone https://github.com/bitnet-project/gitian.sigs.bit.git
+    git clone https://github.com/bitnet-io/bitnet-core-detached-sigs.git
     git clone https://github.com/devrandom/gitian-builder.git
-    git clone https://github.com/bitnet-project/bitnet.git
+    git clone https://github.com/bitnet-io/bitnet-core.git
 
 ### Bitnet maintainers/release engineers, suggestion for writing release notes
 
@@ -70,9 +70,9 @@ Setup Gitian descriptors:
     git checkout v${VERSION}
     popd
 
-Ensure your gitian.sigs.ltc are up-to-date if you wish to gverify your builds against other Gitian signatures.
+Ensure your gitian.sigs.bit are up-to-date if you wish to gverify your builds against other Gitian signatures.
 
-    pushd ./gitian.sigs.ltc
+    pushd ./gitian.sigs.bit
     git pull
     popd
 
@@ -121,16 +121,16 @@ The gbuild invocations below <b>DO NOT DO THIS</b> by default.
     
     pushd ./gitian-builder
     ./bin/gbuild --num-make $GITIAN_THREADS --memory $GITIAN_MEMORY --commit bitnet=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-linux --destination ../gitian.sigs.ltc/ ../bitnet/contrib/gitian-descriptors/gitian-linux.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-linux --destination ../gitian.sigs.bit/ ../bitnet/contrib/gitian-descriptors/gitian-linux.yml
     mv build/out/bitnet-*.tar.gz build/out/src/bitnet-*.tar.gz ../
 
     ./bin/gbuild --num-make $GITIAN_THREADS --memory $GITIAN_MEMORY --commit bitnet=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-win-unsigned --destination ../gitian.sigs.ltc/ ../bitnet/contrib/gitian-descriptors/gitian-win.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-win-unsigned --destination ../gitian.sigs.bit/ ../bitnet/contrib/gitian-descriptors/gitian-win.yml
     mv build/out/bitnet-*-win-unsigned.tar.gz inputs/bitnet-win-unsigned.tar.gz
     mv build/out/bitnet-*.zip build/out/bitnet-*.exe ../
 
     ./bin/gbuild --num-make $GITIAN_THREADS --memory $GITIAN_MEMORY --commit bitnet=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-osx.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-osx-unsigned --destination ../gitian.sigs.ltc/ ../bitnet/contrib/gitian-descriptors/gitian-osx.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-osx-unsigned --destination ../gitian.sigs.bit/ ../bitnet/contrib/gitian-descriptors/gitian-osx.yml
     mv build/out/bitnet-*-osx-unsigned.tar.gz inputs/bitnet-osx-unsigned.tar.gz
     mv build/out/bitnet-*.tar.gz build/out/bitnet-*.dmg ../
     popd
@@ -141,7 +141,7 @@ Build output expected:
   2. linux 32-bit and 64-bit dist tarballs (`bitnet-${VERSION}-linux[32|64].tar.gz`)
   3. windows 32-bit and 64-bit unsigned installers and dist zips (`bitnet-${VERSION}-win[32|64]-setup-unsigned.exe`, `bitnet-${VERSION}-win[32|64].zip`)
   4. macOS unsigned installer and dist tarball (`bitnet-${VERSION}-osx-unsigned.dmg`, `bitnet-${VERSION}-osx64.tar.gz`)
-  5. Gitian signatures (in `gitian.sigs.ltc/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
+  5. Gitian signatures (in `gitian.sigs.bit/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
 
 ### Verify other gitian builders signatures to your own. (Optional)
 
@@ -150,16 +150,16 @@ Add other gitian builders keys to your gpg keyring, and/or refresh keys: See `..
 Verify the signatures
 
     pushd ./gitian-builder
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-linux ../bitnet/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-win-unsigned ../bitnet/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-osx-unsigned ../bitnet/contrib/gitian-descriptors/gitian-osx.yml
+    ./bin/gverify -v -d ../gitian.sigs.bit/ -r ${VERSION}-linux ../bitnet/contrib/gitian-descriptors/gitian-linux.yml
+    ./bin/gverify -v -d ../gitian.sigs.bit/ -r ${VERSION}-win-unsigned ../bitnet/contrib/gitian-descriptors/gitian-win.yml
+    ./bin/gverify -v -d ../gitian.sigs.bit/ -r ${VERSION}-osx-unsigned ../bitnet/contrib/gitian-descriptors/gitian-osx.yml
     popd
 
 ### Next steps:
 
-Commit your signature to gitian.sigs.ltc:
+Commit your signature to gitian.sigs.bit:
 
-    pushd gitian.sigs.ltc
+    pushd gitian.sigs.bit
     git add ${VERSION}-linux/"${SIGNER}"
     git add ${VERSION}-win-unsigned/"${SIGNER}"
     git add ${VERSION}-osx-unsigned/"${SIGNER}"
@@ -201,14 +201,14 @@ Codesigner only: Commit the detached codesign payloads:
 Non-codesigners: wait for Windows/macOS detached signatures:
 
 - Once the Windows/macOS builds each have 3 matching signatures, they will be signed with their respective release keys.
-- Detached signatures will then be committed to the [bitnet-detached-sigs](https://github.com/bitnet-project/bitnet-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
+- Detached signatures will then be committed to the [bitnet-detached-sigs](https://github.com/bitnet-io/bitnet-core-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
 
 Create (and optionally verify) the signed macOS binary:
 
     pushd ./gitian-builder
     ./bin/gbuild -i --commit signature=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-osx-signed --destination ../gitian.sigs.ltc/ ../bitnet/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-osx-signed ../bitnet/contrib/gitian-descriptors/gitian-osx-signer.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-osx-signed --destination ../gitian.sigs.bit/ ../bitnet/contrib/gitian-descriptors/gitian-osx-signer.yml
+    ./bin/gverify -v -d ../gitian.sigs.bit/ -r ${VERSION}-osx-signed ../bitnet/contrib/gitian-descriptors/gitian-osx-signer.yml
     mv build/out/bitnet-osx-signed.dmg ../bitnet-${VERSION}-osx.dmg
     popd
 
@@ -216,19 +216,19 @@ Create (and optionally verify) the signed Windows binaries:
 
     pushd ./gitian-builder
     ./bin/gbuild -i --commit signature=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-win-signed --destination ../gitian.sigs.ltc/ ../bitnet/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-win-signed ../bitnet/contrib/gitian-descriptors/gitian-win-signer.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-win-signed --destination ../gitian.sigs.bit/ ../bitnet/contrib/gitian-descriptors/gitian-win-signer.yml
+    ./bin/gverify -v -d ../gitian.sigs.bit/ -r ${VERSION}-win-signed ../bitnet/contrib/gitian-descriptors/gitian-win-signer.yml
     mv build/out/bitnet-*win64-setup.exe ../bitnet-${VERSION}-win64-setup.exe
     mv build/out/bitnet-*win32-setup.exe ../bitnet-${VERSION}-win32-setup.exe
     popd
 
 Commit your signature for the signed macOS/Windows binaries:
 
-    pushd gitian.sigs.ltc
+    pushd gitian.sigs.bit
     git add ${VERSION}-osx-signed/"${SIGNER}"
     git add ${VERSION}-win-signed/"${SIGNER}"
     git commit -a
-    git push  # Assuming you can push to the gitian.sigs.ltc tree
+    git push  # Assuming you can push to the gitian.sigs.bit tree
     popd
 
 ### After 3 or more people have gitian-built and their results match:
@@ -257,7 +257,7 @@ The `*-debug*` files generated by the gitian build contain debug symbols
 for troubleshooting by developers. It is assumed that anyone that is interested
 in debugging can run gitian to generate the files for themselves. To avoid
 end-user confusion about which file to pick, as well as save storage
-space *do not upload these to the bitnet.org server, nor put them in the torrent*.
+space *do not upload these to the bitnet.io server, nor put them in the torrent*.
 
 - GPG-sign it, delete the unsigned file:
 ```
@@ -267,10 +267,10 @@ rm SHA256SUMS
 (the digest algorithm is forced to sha256 to avoid confusion of the `Hash:` header that GPG adds with the SHA256 used for the files)
 Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spurious/nonsensical entry.
 
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the bitnet.org server.
+- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the bitnet.io server.
 
 ```
-- Update bitnet.org version
+- Update bitnet.io version
 
 - Update other repositories and websites for new version
 
@@ -278,7 +278,7 @@ Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spur
 
   - bitnet-dev mailing list
 
-  - blog.bitnet.org blog post
+  - blog.bitnet.io blog post
 
   - Update title of #bitnet and #bitnet-dev on Freenode IRC
 
@@ -286,6 +286,6 @@ Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spur
 
   - Archive release notes for the new version to `doc/release-notes/` (branch `master` and branch of the release)
 
-  - Create a [new GitHub release](https://github.com/bitnet-project/bitnet/releases/new) with a link to the archived release notes.
+  - Create a [new GitHub release](https://github.com/bitnet-io/bitnet-core/releases/new) with a link to the archived release notes.
 
   - Celebrate

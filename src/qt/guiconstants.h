@@ -47,7 +47,7 @@ static const int MAX_URI_LENGTH = 255;
 #define SPINNER_FRAMES 36
 
 #define QAPP_ORG_NAME "Bitnet"
-#define QAPP_ORG_DOMAIN "bitnet.org"
+#define QAPP_ORG_DOMAIN "bitnet.io"
 #define QAPP_APP_NAME_DEFAULT "Bitnet-Qt"
 #define QAPP_APP_NAME_TESTNET "Bitnet-Qt-testnet"
 #define QAPP_APP_NAME_REGTEST "Bitnet-Qt-regtest"

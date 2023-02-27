@@ -28,7 +28,7 @@ packages:
 - "python-setuptools"
 - "fonts-tuffy"
 remotes:
-- "url": "https://github.com/bitnet-project/bitnet.git"
+- "url": "https://github.com/bitnet-io/bitnet-core.git"
   "dir": "bitnet"
 files:
 - "MacOSX10.11.sdk.tar.gz"

@@ -7,7 +7,7 @@ architectures:
 packages:
 - "faketime"
 remotes:
-- "url": "https://github.com/bitnet-project/bitnet-detached-sigs.git"
+- "url": "https://github.com/bitnet-io/bitnet-core-detached-sigs.git"
   "dir": "signature"
 files:
 - "bitnet-osx-unsigned.tar.gz"

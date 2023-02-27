@@ -22,7 +22,7 @@ libtool
 pkg-config
 python37
 
-git clone https://github.com/bitnet-project/bitnet.git
+git clone https://github.com/bitnet-io/bitnet-core.git
 ```
 
 See [dependencies.md](dependencies.md) for a complete overview.

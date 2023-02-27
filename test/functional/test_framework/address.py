@@ -9,7 +9,7 @@ from .util import bytes_to_hex_str, hex_str_to_bytes
 
 from . import segwit_addr
 
-ADDRESS_BCRT1_UNSPENDABLE = 'rltc1qt5aqjfq74dfdcjaep37028ympxtf5u55tp7efm'
+ADDRESS_BCRT1_UNSPENDABLE = 'rbit1qt5aqjfq74dfdcjaep37028ympxtf5u55tp7efm'
 
 chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
@@ -60,7 +60,7 @@ def program_to_witness(version, program, main = False):
     assert 0 <= version <= 16
     assert 2 <= len(program) <= 40
     assert version > 0 or len(program) in [20, 32]
-    return segwit_addr.encode("ltc" if main else "rltc", version, program)
+    return segwit_addr.encode("bit" if main else "rbit", version, program)
 
 def script_to_p2wsh(script, main = False):
     script = check_script(script)

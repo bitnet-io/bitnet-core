@@ -2,7 +2,7 @@
 
 General bitnet questions and/or support requests and are best directed to the [bitnettalk.io forums](https://bitnettalk.io/).
 
-For reporting security issues, please contact the Bitnet developers on the #bitnet-dev Freenode IRC channel or alternatively you can email us at contact@bitnet.org.
+For reporting security issues, please contact the Bitnet developers on the #bitnet-dev Freenode IRC channel or alternatively you can email us at contact@bitnet.io.
 
 If the node is "stuck" during sync or giving "block checksum mismatch" errors, please ensure your hardware is stable by running memtest and observe CPU temperature with a load-test tool such as linpack before creating an issue! -->
 
