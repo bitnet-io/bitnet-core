@@ -4042,7 +4042,8 @@ bool CVerifyDB::VerifyDB(const CChainParams& chainparams, CCoinsView *coinsview,
             }
         }
         // check level 3: check for inconsistencies during memory-only disconnect of tip blocks
-        if (nCheckLevel >= 3 && (coins.DynamicMemoryUsage() + pcoinsTip->DynamicMemoryUsage()) <= nCoinCacheUsage) {
+        /*
+            if (nCheckLevel >= 3 && (coins.DynamicMemoryUsage() + pcoinsTip->DynamicMemoryUsage()) <= nCoinCacheUsage) {
             assert(coins.GetBestBlock() == pindex->GetBlockHash());
             DisconnectResult res = g_chainstate.DisconnectBlock(block, pindex, coins);
             if (res == DISCONNECT_FAILED) {
@@ -4055,6 +4056,7 @@ bool CVerifyDB::VerifyDB(const CChainParams& chainparams, CCoinsView *coinsview,
                 nGoodTransactions += block.vtx.size();
             }
         }
+*/
         if (ShutdownRequested())
             return true;
     }

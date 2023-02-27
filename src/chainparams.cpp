@@ -92,21 +92,21 @@ public:
 
         // Deployment of BIP68, BIP112, and BIP113.
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1485561600; // January 28, 2017
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1517356801; // January 31st, 2018
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1677414786; // January 28, 2017
+      //  consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1517356801; // January 31st, 2018
 
         // Deployment of SegWit (BIP141, BIP143, and BIP147)
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].bit = 1;
-        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nStartTime = 1485561600; // January 28, 2017
-        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 1517356801; // January 31st, 2018
+        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nStartTime = 1677414786; // January 28, 2017
+      //  consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 1517356801; // January 31st, 2018
 
         // The best chain should have at least this much work.
-        //consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000002ee655bf00bf13b4cca");
-        consensus.nMinimumChainWork = uint256S("");
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000002ee655bf00bf13b4cca");
+        //consensus.nMinimumChainWork = uint256S("");
 
         // By default assume that the signatures in ancestors of this block are valid.
       // consensus.defaultAssumeValid = uint256S("0x3e00c2ecd6d46a94ad7f7f05a5d917436637ed5caf440f27c213fdd99e21aa2d"); //1683528
-       consensus.defaultAssumeValid = uint256S("0x6ec454a26bf659790b2d68686ef00f2c8ccd6116ebd879b0225c0ab89c0cf1ef"); //1683528
+      // consensus.defaultAssumeValid = uint256S("0x6ec454a26bf659790b2d68686ef00f2c8ccd6116ebd879b0225c0ab89c0cf1ef"); //1683528
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -194,7 +194,7 @@ base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,25);
 
         checkpointData = {
             {
-		{ 0, uint256S("0x00000561e60ba80b52bf47ec772ae0b3f7326ce0d635340bc5c23ef87f3ce69e")},
+	//	{ 0, uint256S("0x00000561e60ba80b52bf47ec772ae0b3f7326ce0d635340bc5c23ef87f3ce69e")},
 /*
                 {  1500, uint256S("0x841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967")},
                 {  4032, uint256S("0x9ce90e427198fc0ef05e5905ce3503725b80e26afd35a987965fd7e3d9cf0846")},
