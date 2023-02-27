@@ -5,24 +5,24 @@ SetCompressor /SOLID lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.14.3
 !define COMPANY "Bitnet Core project"
-!define URL https://bitnet.com/
+!define URL https://bitnet.org/
 
 # MUI Symbol Definitions
-!define MUI_ICON "/home/c4pt/opt/BITNET-IO/bitnet-core/share/pixmaps/bitcoin.ico"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/BITNET-IO/bitnet-core/share/pixmaps/nsis-wizard.bmp"
+!define MUI_ICON "/home/c4pt/opt/litecoin-0.18.1-mod/share/pixmaps/bitcoin.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/litecoin-0.18.1-mod/share/pixmaps/nsis-wizard.bmp"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP "/home/c4pt/opt/BITNET-IO/bitnet-core/share/pixmaps/nsis-header.bmp"
+!define MUI_HEADERIMAGE_BITMAP "/home/c4pt/opt/litecoin-0.18.1-mod/share/pixmaps/nsis-header.bmp"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "Bitnet Core"
-!define MUI_FINISHPAGE_RUN $INSTDIR\bitnet-qt
+!define MUI_FINISHPAGE_RUN "$WINDIR\explorer.exe"
+!define MUI_FINISHPAGE_RUN_PARAMETERS $INSTDIR\bitnet-qt
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/BITNET-IO/bitnet-core/share/pixmaps/nsis-wizard.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/litecoin-0.18.1-mod/share/pixmaps/nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
@@ -48,7 +48,7 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile /home/c4pt/opt/BITNET-IO/bitnet-core/bitnet-${VERSION}-win-setup.exe
+OutFile /home/c4pt/opt/litecoin-0.18.1-mod/bitnet-0.18.1-win-setup.exe
 !if "" == "64"
 InstallDir $PROGRAMFILES64\Bitnet
 !else
@@ -58,12 +58,12 @@ CRCCheck on
 XPStyle on
 BrandingText " "
 ShowInstDetails show
-VIProductVersion ${VERSION}.0
+VIProductVersion 0.18.1.0
 VIAddVersionKey ProductName "Bitnet Core"
-VIAddVersionKey ProductVersion "${VERSION}"
+VIAddVersionKey ProductVersion "0.18.1"
 VIAddVersionKey CompanyName "${COMPANY}"
 VIAddVersionKey CompanyWebsite "${URL}"
-VIAddVersionKey FileVersion "${VERSION}"
+VIAddVersionKey FileVersion "0.18.1"
 VIAddVersionKey FileDescription ""
 VIAddVersionKey LegalCopyright ""
 InstallDirRegKey HKCU "${REGKEY}" Path
@@ -73,14 +73,16 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /home/c4pt/opt/BITNET-IO/bitnet-core/release/bitnet-qt
-    File /oname=COPYING.txt /home/c4pt/opt/BITNET-IO/bitnet-core/COPYING
-    File /oname=readme.txt /home/c4pt/opt/BITNET-IO/bitnet-core/doc/README_windows.txt
+    File /home/c4pt/opt/litecoin-0.18.1-mod/release/bitnet-qt
+    File /oname=COPYING.txt /home/c4pt/opt/litecoin-0.18.1-mod/COPYING
+    File /oname=readme.txt /home/c4pt/opt/litecoin-0.18.1-mod/doc/README_windows.txt
     SetOutPath $INSTDIR\daemon
-    File /home/c4pt/opt/BITNET-IO/bitnet-core/release/bitnetd
-    File /home/c4pt/opt/BITNET-IO/bitnet-core/release/bitnet-cli
+    File /home/c4pt/opt/litecoin-0.18.1-mod/release/bitnetd
+    File /home/c4pt/opt/litecoin-0.18.1-mod/release/bitnet-cli
+    File /home/c4pt/opt/litecoin-0.18.1-mod/release/bitnet-tx
+    File /home/c4pt/opt/litecoin-0.18.1-mod/release/bitnet-wallet
     SetOutPath $INSTDIR\doc
-    File /r /home/c4pt/opt/BITNET-IO/bitnet-core/doc\*.*
+    File /r /x Makefile* /home/c4pt/opt/litecoin-0.18.1-mod/doc\*.*
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 SectionEnd
@@ -96,7 +98,7 @@ Section -post SEC0001
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk" $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
-    WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
+    WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "0.18.1"
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" Publisher "${COMPANY}"
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" URLInfoAbout "${URL}"
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayIcon $INSTDIR\uninstall.exe
@@ -137,7 +139,7 @@ Section -un.post UNSEC0001
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Bitnet Core (testnet, -bit).lnk"
-    Delete /REBOOTOK "$SMSTARTUP\Bitcoin.lnk"
+    Delete /REBOOTOK "$SMSTARTUP\Bitnet.lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
     Delete /REBOOTOK $INSTDIR\debug.log
     Delete /REBOOTOK $INSTDIR\db.log

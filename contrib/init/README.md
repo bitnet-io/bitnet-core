@@ -1,12 +1,12 @@
 Sample configuration files for:
-
-SystemD: bitnetd.service
-Upstart: bitnetd.conf
-OpenRC:  bitnetd.openrc
-         bitnetd.openrcconf
-CentOS:  bitnetd.init
-OS X:    org.bitnet.bitnetd.plist
-
+```
+SystemD: bitcoind.service
+Upstart: bitcoind.conf
+OpenRC:  bitcoind.openrc
+         bitcoind.openrcconf
+CentOS:  bitcoind.init
+macOS:   org.bitcoin.bitcoind.plist
+```
 have been made available to assist packagers in creating node packages here.
 
 See doc/init.md for more information.

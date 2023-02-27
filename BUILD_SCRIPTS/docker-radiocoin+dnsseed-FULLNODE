@@ -1,7 +1,0 @@
-#!/bin/bash
-docker run -it -d c4pt/radio-fullnode bash
-echo "
-docker exec -it <docker-random-hash> bash
-/usr/bin/full-node && exit
-ps ax | grep dns
-"

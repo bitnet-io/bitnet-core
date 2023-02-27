@@ -58,14 +58,15 @@ leveldb/util/libleveldb_a-env_posix.o: leveldb/util/env_posix.cc \
  /usr/include/bits/string_fortified.h /usr/include/sys/mman.h \
  /usr/include/bits/mman.h /usr/include/bits/mman-map-flags-generic.h \
  /usr/include/bits/mman-linux.h /usr/include/bits/mman-shared.h \
- /usr/include/sys/stat.h /usr/include/bits/statx.h \
- /usr/include/linux/stat.h /usr/include/linux/types.h \
- /usr/include/asm/types.h /usr/include/asm-generic/types.h \
- /usr/include/asm-generic/int-ll64.h /usr/include/asm/bitsperlong.h \
- /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
- /usr/include/linux/stddef.h /usr/include/asm/posix_types.h \
- /usr/include/asm/posix_types_64.h /usr/include/asm-generic/posix_types.h \
- /usr/include/bits/statx-generic.h \
+ /usr/include/sys/resource.h /usr/include/bits/resource.h \
+ /usr/include/bits/types/struct_rusage.h /usr/include/sys/stat.h \
+ /usr/include/bits/statx.h /usr/include/linux/stat.h \
+ /usr/include/linux/types.h /usr/include/asm/types.h \
+ /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
+ /usr/include/asm/bitsperlong.h /usr/include/asm-generic/bitsperlong.h \
+ /usr/include/linux/posix_types.h /usr/include/linux/stddef.h \
+ /usr/include/asm/posix_types.h /usr/include/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h /usr/include/bits/statx-generic.h \
  /usr/include/bits/types/struct_statx_timestamp.h \
  /usr/include/bits/types/struct_statx.h /usr/include/sys/time.h \
  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
@@ -100,8 +101,8 @@ leveldb/util/libleveldb_a-env_posix.o: leveldb/util/env_posix.cc \
  /usr/include/c++/11/bits/stl_deque.h \
  /usr/include/c++/11/initializer_list \
  /usr/include/c++/11/bits/range_access.h \
- /usr/include/c++/11/bits/deque.tcc /usr/include/c++/11/set \
- /usr/include/c++/11/bits/stl_tree.h \
+ /usr/include/c++/11/bits/deque.tcc /usr/include/c++/11/limits \
+ /usr/include/c++/11/set /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/bits/stl_function.h \
  /usr/include/c++/11/backward/binders.h \
  /usr/include/c++/11/ext/aligned_buffer.h \
@@ -150,7 +151,8 @@ leveldb/util/libleveldb_a-env_posix.o: leveldb/util/env_posix.cc \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/stl_heap.h \
  /usr/include/c++/11/bits/stl_tempbuf.h \
- /usr/include/c++/11/bits/uniform_int_dist.h
+ /usr/include/c++/11/bits/uniform_int_dist.h \
+ leveldb/util/env_posix_test_helper.h
 /usr/include/stdc-predef.h:
 /usr/include/dirent.h:
 /usr/include/features.h:
@@ -260,6 +262,9 @@ leveldb/util/libleveldb_a-env_posix.o: leveldb/util/env_posix.cc \
 /usr/include/bits/mman-map-flags-generic.h:
 /usr/include/bits/mman-linux.h:
 /usr/include/bits/mman-shared.h:
+/usr/include/sys/resource.h:
+/usr/include/bits/resource.h:
+/usr/include/bits/types/struct_rusage.h:
 /usr/include/sys/stat.h:
 /usr/include/bits/statx.h:
 /usr/include/linux/stat.h:
@@ -319,6 +324,7 @@ leveldb/util/libleveldb_a-env_posix.o: leveldb/util/env_posix.cc \
 /usr/include/c++/11/initializer_list:
 /usr/include/c++/11/bits/range_access.h:
 /usr/include/c++/11/bits/deque.tcc:
+/usr/include/c++/11/limits:
 /usr/include/c++/11/set:
 /usr/include/c++/11/bits/stl_tree.h:
 /usr/include/c++/11/bits/stl_function.h:
@@ -390,3 +396,4 @@ leveldb/util/posix_logger.h:
 /usr/include/c++/11/bits/stl_heap.h:
 /usr/include/c++/11/bits/stl_tempbuf.h:
 /usr/include/c++/11/bits/uniform_int_dist.h:
+leveldb/util/env_posix_test_helper.h:

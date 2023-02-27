@@ -48,7 +48,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitnetGUI</name>
+    <name>BitcoinGUI</name>
     <message>
         <source>&amp;Transactions</source>
         <translation>&amp;Транзакциялар</translation>
@@ -74,15 +74,11 @@
         <translation>Биткоин</translation>
     </message>
     <message>
-        <source>Wallet</source>
-        <translation>Әмиян</translation>
-    </message>
-    <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>Жіберу</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>Алу</translation>
     </message>
     <message>
@@ -169,6 +165,10 @@
 <context>
     <name>Intro</name>
     <message>
+        <source>Bitnet</source>
+        <translation>Биткоин</translation>
+    </message>
+    <message>
         <source>Error</source>
         <translation>қате</translation>
     </message>
@@ -184,6 +184,10 @@
     <message>
         <source>W&amp;allet</source>
         <translation>Әмиян</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>қате</translation>
     </message>
     </context>
 <context>
@@ -228,6 +232,10 @@
     </context>
 <context>
     <name>ReceiveRequestDialog</name>
+    <message>
+        <source>Wallet</source>
+        <translation>Әмиян</translation>
+    </message>
     </context>
 <context>
     <name>RecentRequestsTableModel</name>
@@ -289,6 +297,9 @@
     <name>UnitDisplayStatusBarControl</name>
     </context>
 <context>
+    <name>WalletController</name>
+    </context>
+<context>
     <name>WalletFrame</name>
     </context>
 <context>
@@ -298,7 +309,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>bitnet-core</name>
+    <name>bitcoin-core</name>
     <message>
         <source>Information</source>
         <translation>Информация</translation>

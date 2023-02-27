@@ -105,7 +105,8 @@ leveldb/port/libleveldb_a-port_posix.o: leveldb/port/port_posix.cc \
  /usr/include/c++/11/atomic /usr/include/c++/11/bits/atomic_base.h \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h /usr/include/string.h \
  /usr/include/strings.h /usr/include/bits/strings_fortified.h \
- /usr/include/bits/string_fortified.h
+ /usr/include/bits/string_fortified.h \
+ /usr/lib/gcc/x86_64-redhat-linux/11/include/cpuid.h
 /usr/include/stdc-predef.h:
 leveldb/port/port_posix.h:
 /usr/include/endian.h:
@@ -267,3 +268,4 @@ leveldb/port/atomic_pointer.h:
 /usr/include/strings.h:
 /usr/include/bits/strings_fortified.h:
 /usr/include/bits/string_fortified.h:
+/usr/lib/gcc/x86_64-redhat-linux/11/include/cpuid.h:

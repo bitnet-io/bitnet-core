@@ -40,9 +40,9 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitnetGUI</name>
+    <name>BitcoinGUI</name>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;ناردن</translation>
     </message>
     <message>
@@ -137,6 +137,10 @@
         <source>Options</source>
         <translation>هەڵبژاردنەکان</translation>
     </message>
+    <message>
+        <source>Error</source>
+        <translation>هەڵە</translation>
+    </message>
     </context>
 <context>
     <name>OverviewPage</name>
@@ -150,6 +154,10 @@
     </context>
 <context>
     <name>PeerTableModel</name>
+    <message>
+        <source>Sent</source>
+        <translation>نێدرا</translation>
+    </message>
     </context>
 <context>
     <name>QObject</name>
@@ -197,10 +205,6 @@
     <message>
         <source>&amp;Open</source>
         <translation>&amp;کردنەوە</translation>
-    </message>
-    <message>
-        <source>&amp;Clear</source>
-        <translation>&amp;پاککردنەوە</translation>
     </message>
     <message>
         <source>Totals</source>
@@ -294,10 +298,6 @@
         <source>Fee:</source>
         <translation>تێچوون:</translation>
     </message>
-    <message>
-        <source>fast</source>
-        <translation>خێرا</translation>
-    </message>
     </context>
 <context>
     <name>SendCoinsEntry</name>
@@ -361,6 +361,9 @@
     <name>UnitDisplayStatusBarControl</name>
     </context>
 <context>
+    <name>WalletController</name>
+    </context>
+<context>
     <name>WalletFrame</name>
     </context>
 <context>
@@ -374,11 +377,7 @@
     </message>
     </context>
 <context>
-    <name>bitnet-core</name>
-    <message>
-        <source>Options:</source>
-        <translation>هەڵبژاردنەکان:</translation>
-    </message>
+    <name>bitcoin-core</name>
     <message>
         <source>Information</source>
         <translation>زانیاری</translation>
