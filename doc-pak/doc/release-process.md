@@ -1,268 +1,322 @@
 Release Process
 ====================
 
-Before every release candidate:
+## Branch updates
 
-* Update translations (ping wumpus on IRC) see [translation_process.md](https://github.com/bitnet/bitnet/blob/master/doc/translation_process.md#synchronising-translations).
+### Before every release candidate
 
-* Update manpages, see [gen-manpages.sh](https://github.com/bitnet/bitnet/blob/master/contrib/devtools/README.md#gen-manpagessh).
+* Update translations see [translation_process.md](https://github.com/bitnet/bitnet/blob/master/doc/translation_process.md#synchronising-translations).
+* Update release candidate version in `configure.ac` (`CLIENT_VERSION_RC`).
+* Update manpages (after rebuilding the binaries), see [gen-manpages.py](https://github.com/bitnet/bitnet/blob/master/contrib/devtools/README.md#gen-manpagespy).
+* Update bitnet.conf and commit, see [gen-bitnet-conf.sh](https://github.com/bitnet/bitnet/blob/master/contrib/devtools/README.md#gen-bitnet-confsh).
 
-Before every minor and major release:
+### Before every major and minor release
 
-* Update [bips.md](bips.md) to account for changes since the last release.
-* Update version in sources (see below)
-* Write release notes (see below)
-* Update `src/chainparams.cpp` nMinimumChainWork with information from the getblockchaininfo rpc.
-* Update `src/chainparams.cpp` defaultAssumeValid  with information from the getblockhash rpc.
-  - The selected value must not be orphaned so it may be useful to set the value two blocks back from the tip.
-  - Testnet should be set some tens of thousands back from the tip due to reorgs there.
-  - This update should be reviewed with a reindex-chainstate with assumevalid=0 to catch any defect
-     that causes rejection of blocks in the past history.
+* Update [bips.md](bips.md) to account for changes since the last release (don't forget to bump the version number on the first line).
+* Update version in `configure.ac` (don't forget to set `CLIENT_VERSION_RC` to `0`).
+* Update manpages (see previous section)
+* Write release notes (see "Write the release notes" below).
 
-Before every major release:
+### Before every major release
+
+* On both the master branch and the new release branch:
+  - update `CLIENT_VERSION_MAJOR` in [`configure.ac`](../configure.ac)
+* On the new release branch in [`configure.ac`](../configure.ac)(see [this commit](https://github.com/bitnet/bitnet/commit/742f7dd)):
+  - set `CLIENT_VERSION_MINOR` to `0`
+  - set `CLIENT_VERSION_BUILD` to `0`
+  - set `CLIENT_VERSION_IS_RELEASE` to `true`
+
+#### Before branch-off
 
 * Update hardcoded [seeds](/contrib/seeds/README.md), see [this pull request](https://github.com/bitnet/bitnet/pull/7415) for an example.
-* Update [`BLOCK_CHAIN_SIZE`](/src/qt/intro.cpp) to the current size plus some overhead.
+* Update the following variables in [`src/chainparams.cpp`](/src/chainparams.cpp) for mainnet, testnet, and signet:
+  - `m_assumed_blockchain_size` and `m_assumed_chain_state_size` with the current size plus some overhead (see
+    [this](#how-to-calculate-assumed-blockchain-and-chain-state-size) for information on how to calculate them).
+  - The following updates should be reviewed with `reindex-chainstate` and `assumevalid=0` to catch any defect
+    that causes rejection of blocks in the past history.
+  - `chainTxData` with statistics about the transaction count and rate. Use the output of the `getchaintxstats` RPC with an
+    `nBlocks` of 4096 (28 days) and a `bestblockhash` of RPC `getbestblockhash`; see
+    [this pull request](https://github.com/bitnet/bitnet/pull/20263) for an example. Reviewers can verify the results by running
+    `getchaintxstats <window_block_count> <window_final_block_hash>` with the `window_block_count` and `window_final_block_hash` from your output.
+  - `defaultAssumeValid` with the output of RPC `getblockhash` using the `height` of `window_final_block_height` above
+    (and update the block height comment with that height), taking into account the following:
+    - On mainnet, the selected value must not be orphaned, so it may be useful to set the height two blocks back from the tip.
+    - Testnet should be set with a height some tens of thousands back from the tip, due to reorgs there.
+  - `nMinimumChainWork` with the "chainwork" value of RPC `getblockheader` using the same height as that selected for the previous step.
+- Clear the release notes and move them to the wiki (see "Write the release notes" below).
+- Translations on Transifex:
+    - Pull translations from Transifex into the master branch.
+    - Create [a new resource](https://www.transifex.com/bitnet/bitnet/content/) named after the major version with the slug `[bitnet.qt-translation-<RRR>x]`, where `RRR` is the major branch number padded with zeros. Use `src/qt/locale/bitnet_en.xlf` to create it.
+    - In the project workflow settings, ensure that [Translation Memory Fill-up](https://docs.transifex.com/translation-memory/enabling-autofill) is enabled and that [Translation Memory Context Matching](https://docs.transifex.com/translation-memory/translation-memory-with-context) is disabled.
+    - Update the Transifex slug in [`.tx/config`](/.tx/config) to the slug of the resource created in the first step. This identifies which resource the translations will be synchronized from.
+    - Make an announcement that translators can start translating for the new version. You can use one of the [previous announcements](https://www.transifex.com/bitnet/bitnet/announcements/) as a template.
+    - Change the auto-update URL for the resource to `master`, e.g. `https://raw.githubusercontent.com/bitnet/bitnet/master/src/qt/locale/bitnet_en.xlf`. (Do this only after the previous steps, to prevent an auto-update from interfering.)
+
+#### After branch-off (on the major release branch)
+
+- Update the versions.
+- Create the draft, named "*version* Release Notes Draft", as a [collaborative wiki](https://github.com/bitnet-core/bitnet-devwiki/wiki/_new).
+- Clear the release notes: `cp doc/release-notes-empty-template.md doc/release-notes.md`
+- Create a pinned meta-issue for testing the release candidate (see [this issue](https://github.com/bitnet/bitnet/issues/17079) for an example) and provide a link to it in the release announcements where useful.
+- Translations on Transifex
+    - Change the auto-update URL for the new major version's resource away from `master` and to the branch, e.g. `https://raw.githubusercontent.com/bitnet/bitnet/<branch>/src/qt/locale/bitnet_en.xlf`. Do not forget this or it will keep tracking the translations on master instead, drifting away from the specific major release.
+
+#### Before final release
+
+- Merge the release notes from [the wiki](https://github.com/bitnet-core/bitnet-devwiki/wiki/) into the branch.
+- Ensure the "Needs release note" label is removed from all relevant pull requests and issues.
+
+#### Tagging a release (candidate)
+
+To tag the version (or release candidate) in git, use the `make-tag.py` script from [bitnet-maintainer-tools](https://github.com/bitnet-core/bitnet-maintainer-tools). From the root of the repository run:
+
+    ../bitnet-maintainer-tools/make-tag.py v(new version, e.g. 23.0)
+
+This will perform a few last-minute consistency checks in the build system files, and if they pass, create a signed tag.
+
+## Building
 
 ### First time / New builders
 
-If you're using the automated script (found in [contrib/gitian-build.sh](/contrib/gitian-build.sh)), then at this point you should run it with the "--setup" command. Otherwise ignore this.
+Install Guix using one of the installation methods detailed in
+[contrib/guix/INSTALL.md](/contrib/guix/INSTALL.md).
 
 Check out the source code in the following directory hierarchy.
 
     cd /path/to/your/toplevel/build
-    git clone https://github.com/bitnet-core/gitian.sigs.git
+    git clone https://github.com/bitnet-core/guix.sigs.git
     git clone https://github.com/bitnet-core/bitnet-detached-sigs.git
-    git clone https://github.com/devrandom/gitian-builder.git
     git clone https://github.com/bitnet/bitnet.git
 
-### Bitnet maintainers/release engineers, update version in sources
+### Write the release notes
 
-Update the following:
+Open a draft of the release notes for collaborative editing at https://github.com/bitnet-core/bitnet-devwiki/wiki.
 
-- `configure.ac`:
-    - `_CLIENT_VERSION_MAJOR`
-    - `_CLIENT_VERSION_MINOR`
-    - `_CLIENT_VERSION_REVISION`
-    - Don't forget to set `_CLIENT_VERSION_IS_RELEASE` to `true`
-- `src/clientversion.h`: (this mirrors `configure.ac` - see issue #3539)
-    - `CLIENT_VERSION_MAJOR`
-    - `CLIENT_VERSION_MINOR`
-    - `CLIENT_VERSION_REVISION`
-    - Don't forget to set `CLIENT_VERSION_IS_RELEASE` to `true`
-- `doc/README.md` and `doc/README_windows.txt`
-- `doc/Doxyfile`: `PROJECT_NUMBER` contains the full version
-- `contrib/gitian-descriptors/*.yml`: usually one'd want to do this on master after branching off the release - but be sure to at least do it before a new major release
+For the period during which the notes are being edited on the wiki, the version on the branch should be wiped and replaced with a link to the wiki which should be used for all announcements until `-final`.
 
-Write release notes. git shortlog helps a lot, for example:
-
-    git shortlog --no-merges v(current version, e.g. 0.7.2)..v(new version, e.g. 0.8.0)
-
-(or ping @wumpus on IRC, he has specific tooling to generate the list of merged pulls
-and sort them into categories based on labels)
+Generate the change log. As this is a huge amount of work to do manually, there is the `list-pulls` script to do a pre-sorting step based on github PR metadata. See the [documentation in the README.md](https://github.com/bitnet-core/bitnet-maintainer-tools/blob/master/README.md#list-pulls).
 
 Generate list of authors:
 
-    git log --format='%aN' "$*" | sort -ui | sed -e 's/^/- /'
+    git log --format='- %aN' v(current version, e.g. 0.20.0)..v(new version, e.g. 0.20.1) | sort -fiu
 
-Tag version (or release candidate) in git
+### Setup and perform Guix builds
 
-    git tag -s v(new version, e.g. 0.8.0)
+Checkout the Bitnet Core version you'd like to build:
 
-### Setup and perform Gitian builds
+```sh
+pushd ./bitnet
+SIGNER='(your builder key, ie bluematt, sipa, etc)'
+VERSION='(new version without v-prefix, e.g. 0.20.0)'
+git fetch origin "v${VERSION}"
+git checkout "v${VERSION}"
+popd
+```
 
-If you're using the automated script (found in [contrib/gitian-build.sh](/contrib/gitian-build.sh)), then at this point you should run it with the "--build" command. Otherwise ignore this.
+Ensure your guix.sigs are up-to-date if you wish to `guix-verify` your builds
+against other `guix-attest` signatures.
 
-Setup Gitian descriptors:
+```sh
+git -C ./guix.sigs pull
+```
 
-    pushd ./bitnet
-    export SIGNER=(your Gitian key, ie bluematt, sipa, etc)
-    export VERSION=(new version, e.g. 0.8.0)
-    git fetch
-    git checkout v${VERSION}
-    popd
+### Create the macOS SDK tarball (first time, or when SDK version changes)
 
-Ensure your gitian.sigs are up-to-date if you wish to gverify your builds against other Gitian signatures.
+Create the macOS SDK tarball, see the [macdeploy
+instructions](/contrib/macdeploy/README.md#deterministic-macos-dmg-notes) for
+details.
 
-    pushd ./gitian.sigs
-    git pull
-    popd
+### Build and attest to build outputs
 
-Ensure gitian-builder is up-to-date:
+Follow the relevant Guix README.md sections:
+- [Building](/contrib/guix/README.md#building)
+- [Attesting to build outputs](/contrib/guix/README.md#attesting-to-build-outputs)
 
-    pushd ./gitian-builder
-    git pull
-    popd
+### Verify other builders' signatures to your own (optional)
 
-### Fetch and create inputs: (first time, or when dependency versions change)
+- [Verifying build output attestations](/contrib/guix/README.md#verifying-build-output-attestations)
 
-    pushd ./gitian-builder
-    mkdir -p inputs
-    wget -P inputs https://bitcoincore.org/cfields/osslsigncode-Backports-to-1.7.1.patch
-    wget -P inputs http://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-1.7.1.tar.gz
-    popd
+### Commit your non codesigned signature to guix.sigs
 
-Create the OS X SDK tarball, see the [OS X readme](README_osx.md) for details, and copy it into the inputs directory.
+```sh
+pushd ./guix.sigs
+git add "${VERSION}/${SIGNER}"/noncodesigned.SHA256SUMS{,.asc}
+git commit -m "Add attestations by ${SIGNER} for ${VERSION} non-codesigned"
+git push  # Assuming you can push to the guix.sigs tree
+popd
+```
 
-### Optional: Seed the Gitian sources cache and offline git repositories
+## Codesigning
 
-By default, Gitian will fetch source files as needed. To cache them ahead of time:
+### macOS codesigner only: Create detached macOS signatures (assuming [signapple](https://github.com/achow101/signapple/) is installed and up to date with master branch)
 
-    pushd ./gitian-builder
-    make -C ../bitnet/depends download SOURCES_PATH=`pwd`/cache/common
-    popd
+    tar xf bitnet-osx-unsigned.tar.gz
+    ./detached-sig-create.sh /path/to/codesign.p12
+    Enter the keychain password and authorize the signature
+    signature-osx.tar.gz will be created
 
-Only missing files will be fetched, so this is safe to re-run for each build.
+### Windows codesigner only: Create detached Windows signatures
 
-NOTE: Offline builds must use the --url flag to ensure Gitian fetches only from local URLs. For example:
+    tar xf bitnet-win-unsigned.tar.gz
+    ./detached-sig-create.sh -key /path/to/codesign.key
+    Enter the passphrase for the key when prompted
+    signature-win.tar.gz will be created
 
-    pushd ./gitian-builder
-    ./bin/gbuild --url bitnet=/path/to/bitnet,signature=/path/to/sigs {rest of arguments}
-    popd
+### Windows and macOS codesigners only: test code signatures
+It is advised to test that the code signature attaches properly prior to tagging by performing the `guix-codesign` step.
+However if this is done, once the release has been tagged in the bitnet-detached-sigs repo, the `guix-codesign` step must be performed again in order for the guix attestation to be valid when compared against the attestations of non-codesigner builds.
 
-The gbuild invocations below <b>DO NOT DO THIS</b> by default.
+### Windows and macOS codesigners only: Commit the detached codesign payloads
 
-### Build and sign Bitnet Core for Linux, Windows, and OS X:
+```sh
+pushd ./bitnet-detached-sigs
+# checkout the appropriate branch for this release series
+rm -rf ./*
+tar xf signature-osx.tar.gz
+tar xf signature-win.tar.gz
+git add -A
+git commit -m "point to ${VERSION}"
+git tag -s "v${VERSION}" HEAD
+git push the current branch and new tag
+popd
+```
 
-    pushd ./gitian-builder
-    ./bin/gbuild --memory 3000 --commit bitnet=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../bitnet/contrib/gitian-descriptors/gitian-linux.yml
-    mv build/out/bitnet-*.tar.gz build/out/src/bitnet-*.tar.gz ../
+### Non-codesigners: wait for Windows and macOS detached signatures
 
-    ./bin/gbuild --memory 3000 --commit bitnet=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs/ ../bitnet/contrib/gitian-descriptors/gitian-win.yml
-    mv build/out/bitnet-*-win-unsigned.tar.gz inputs/bitnet-win-unsigned.tar.gz
-    mv build/out/bitnet-*.zip build/out/bitnet-*.exe ../
+- Once the Windows and macOS builds each have 3 matching signatures, they will be signed with their respective release keys.
+- Detached signatures will then be committed to the [bitnet-detached-sigs](https://github.com/bitnet-core/bitnet-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
 
-    ./bin/gbuild --memory 3000 --commit bitnet=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-osx.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../bitnet/contrib/gitian-descriptors/gitian-osx.yml
-    mv build/out/bitnet-*-osx-unsigned.tar.gz inputs/bitnet-osx-unsigned.tar.gz
-    mv build/out/bitnet-*.tar.gz build/out/bitnet-*.dmg ../
-    popd
+### Create the codesigned build outputs
 
-Build output expected:
+- [Codesigning build outputs](/contrib/guix/README.md#codesigning-build-outputs)
 
-  1. source tarball (`bitnet-${VERSION}.tar.gz`)
-  2. linux 32-bit and 64-bit dist tarballs (`bitnet-${VERSION}-linux[32|64].tar.gz`)
-  3. windows 32-bit and 64-bit unsigned installers and dist zips (`bitnet-${VERSION}-win[32|64]-setup-unsigned.exe`, `bitnet-${VERSION}-win[32|64].zip`)
-  4. OS X unsigned installer and dist tarball (`bitnet-${VERSION}-osx-unsigned.dmg`, `bitnet-${VERSION}-osx64.tar.gz`)
-  5. Gitian signatures (in `gitian.sigs/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
+### Verify other builders' signatures to your own (optional)
 
-### Verify other gitian builders signatures to your own. (Optional)
+- [Verifying build output attestations](/contrib/guix/README.md#verifying-build-output-attestations)
 
-Add other gitian builders keys to your gpg keyring, and/or refresh keys.
+### Commit your codesigned signature to guix.sigs (for the signed macOS/Windows binaries)
 
-    gpg --import bitnet/contrib/gitian-keys/*.pgp
-    gpg --refresh-keys
+```sh
+pushd ./guix.sigs
+git add "${VERSION}/${SIGNER}"/all.SHA256SUMS{,.asc}
+git commit -m "Add attestations by ${SIGNER} for ${VERSION} codesigned"
+git push  # Assuming you can push to the guix.sigs tree
+popd
+```
 
-Verify the signatures
+## After 3 or more people have guix-built and their results match
 
-    pushd ./gitian-builder
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-linux ../bitnet/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-unsigned ../bitnet/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-unsigned ../bitnet/contrib/gitian-descriptors/gitian-osx.yml
-    popd
-
-### Next steps:
-
-Commit your signature to gitian.sigs:
-
-    pushd gitian.sigs
-    git add ${VERSION}-linux/${SIGNER}
-    git add ${VERSION}-win-unsigned/${SIGNER}
-    git add ${VERSION}-osx-unsigned/${SIGNER}
-    git commit -a
-    git push  # Assuming you can push to the gitian.sigs tree
-    popd
-
-Wait for Windows/OS X detached signatures:
-
-- Once the Windows/OS X builds each have 3 matching signatures, they will be signed with their respective release keys.
-- Detached signatures will then be committed to the [bitnet-detached-sigs](https://github.com/doge/bitnet-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
-
-Create (and optionally verify) the signed OS X binary:
-
-    pushd ./gitian-builder
-    ./bin/gbuild -i --commit signature=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../bitnet/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../bitnet/contrib/gitian-descriptors/gitian-osx-signer.yml
-    mv build/out/bitnet-osx-signed.dmg ../bitnet-${VERSION}-osx.dmg
-    popd
-
-Create (and optionally verify) the signed Windows binaries:
-
-    pushd ./gitian-builder
-    ./bin/gbuild -i --commit signature=v${VERSION} ../bitnet/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../bitnet/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-signed ../bitnet/contrib/gitian-descriptors/gitian-win-signer.yml
-    mv build/out/bitnet-*win64-setup.exe ../bitnet-${VERSION}-win64-setup.exe
-    mv build/out/bitnet-*win32-setup.exe ../bitnet-${VERSION}-win32-setup.exe
-    popd
-
-Commit your signature for the signed OS X/Windows binaries:
-
-    pushd gitian.sigs
-    git add ${VERSION}-osx-signed/${SIGNER}
-    git add ${VERSION}-win-signed/${SIGNER}
-    git commit -a
-    git push  # Assuming you can push to the gitian.sigs tree
-    popd
-
-### After 3 or more people have gitian-built and their results match:
-
-- Create `SHA256SUMS.asc` for the builds, and GPG-sign it:
+Combine the `all.SHA256SUMS.asc` file from all signers into `SHA256SUMS.asc`:
 
 ```bash
-sha256sum * > SHA256SUMS
+cat "$VERSION"/*/all.SHA256SUMS.asc > SHA256SUMS.asc
 ```
 
-The list of files should be:
-```
-bitnet-${VERSION}-aarch64-linux-gnu.tar.gz
-bitnet-${VERSION}-arm-linux-gnueabihf.tar.gz
-bitnet-${VERSION}-i686-pc-linux-gnu.tar.gz
-bitnet-${VERSION}-x86_64-linux-gnu.tar.gz
-bitnet-${VERSION}-osx64.tar.gz
-bitnet-${VERSION}-osx.dmg
-bitnet-${VERSION}.tar.gz
-bitnet-${VERSION}-win32-setup.exe
-bitnet-${VERSION}-win32.zip
-bitnet-${VERSION}-win64-setup.exe
-bitnet-${VERSION}-win64.zip
-```
-The `*-debug*` files generated by the gitian build contain debug symbols
-for troubleshooting by developers. It is assumed that anyone that is interested
-in debugging can run gitian to generate the files for themselves. To avoid
-end-user confusion about which file to pick, as well as save storage
-space *do not upload these to the bitnet.com server, nor put them in the torrent*.
 
-- GPG-sign it, delete the unsigned file:
-```
-gpg --digest-algo sha256 --clearsign SHA256SUMS # outputs SHA256SUMS.asc
-rm SHA256SUMS
-```
-(the digest algorithm is forced to sha256 to avoid confusion of the `Hash:` header that GPG adds with the SHA256 used for the files)
-Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spurious/nonsensical entry.
+- Upload to the bitnetcore.org server (`/var/www/bin/bitnet-core-${VERSION}/`):
+    1. The contents of each `./bitnet/guix-build-${VERSION}/output/${HOST}/` directory, except for
+       `*-debug*` files.
 
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the bitnet.com Github repo
+       Guix will output all of the results into host subdirectories, but the SHA256SUMS
+       file does not include these subdirectories. In order for downloads via torrent
+       to verify without directory structure modification, all of the uploaded files
+       need to be in the same directory as the SHA256SUMS file.
 
-- Create a [new GitHub release](https://github.com/bitnet/bitnet/releases/new) with a link to the archived release notes.
+       The `*-debug*` files generated by the guix build contain debug symbols
+       for troubleshooting by developers. It is assumed that anyone that is
+       interested in debugging can run guix to generate the files for
+       themselves. To avoid end-user confusion about which file to pick, as well
+       as save storage space *do not upload these to the bitnetcore.org server,
+       nor put them in the torrent*.
 
-- Update bitnet.com version - Langerhans to do
+       ```sh
+       find guix-build-${VERSION}/output/ -maxdepth 2 -type f -not -name "SHA256SUMS.part" -and -not -name "*debug*" -exec scp {} user@bitnetcore.org:/var/www/bin/bitnet-core-${VERSION} \;
+       ```
+
+    2. The `SHA256SUMS` file
+
+    3. The `SHA256SUMS.asc` combined signature file you just created
+
+- Create a torrent of the `/var/www/bin/bitnet-core-${VERSION}` directory such
+  that at the top level there is only one file: the `bitnet-core-${VERSION}`
+  directory containing everything else. Name the torrent
+  `bitnet-${VERSION}.torrent` (note that there is no `-core-` in this name).
+
+  Optionally help seed this torrent. To get the `magnet:` URI use:
+
+  ```sh
+  transmission-show -m <torrent file>
+  ```
+
+  Insert the magnet URI into the announcement sent to mailing lists. This permits
+  people without access to `bitnetcore.org` to download the binary distribution.
+  Also put it into the `optional_magnetlink:` slot in the YAML file for
+  bitnetcore.org.
+
+- Update other repositories and websites for new version
+
+  - bitnetcore.org blog post
+
+  - bitnetcore.org maintained versions update:
+    [table](https://github.com/bitnet-core/bitnetcore.org/commits/master/_includes/posts/maintenance-table.md)
+
+  - Delete post-EOL [release branches](https://github.com/bitnet/bitnet/branches/all) and create a tag `v${branch_name}-final`.
+
+  - Delete ["Needs backport" labels](https://github.com/bitnet/bitnet/labels?q=backport) for non-existing branches.
+
+  - bitnetcore.org RPC documentation update
+
+      - Install [golang](https://golang.org/doc/install)
+
+      - Install the new Bitnet Core release
+
+      - Run bitnetd on regtest
+
+      - Clone the [bitnetcore.org repository](https://github.com/bitnet-core/bitnetcore.org)
+
+      - Run: `go run generate.go` while being in `contrib/doc-gen` folder, and with bitnet-cli in PATH
+
+      - Add the generated files to git
+
+  - Update packaging repo
+
+      - Push the flatpak to flathub, e.g. https://github.com/flathub/org.bitnetcore.bitnet-qt/pull/2
+
+      - Push the snap, see https://github.com/bitnet-core/packaging/blob/master/snap/build.md
+
+  - This repo
+
+      - Archive the release notes for the new version to `doc/release-notes/` (branch `master` and branch of the release)
+
+      - Create a [new GitHub release](https://github.com/bitnet/bitnet/releases/new) with a link to the archived release notes
 
 - Announce the release:
 
-  - Release sticky on Bitnet Forums: http://forum.bitnet.com/forum/news-community/community-announcements
+  - bitnet-dev and bitnet-core-dev mailing list
 
-  - Bitnet-development mailing list
+  - Bitnet Core announcements list https://bitnetcore.org/en/list/announcements/join/
 
-  - Twitter, reddit /r/bitnet
+  - Bitnet Core Twitter https://twitter.com/bitnetcoreorg
 
-  - Update title of #bitnet on Freenode IRC
+  - Celebrate
 
-  - Announce on reddit /r/bitnet, /r/bitnetdev
+### Additional information
 
-- Add release notes for the new version to the directory `doc/release-notes` in git master
+#### <a name="how-to-calculate-assumed-blockchain-and-chain-state-size"></a>How to calculate `m_assumed_blockchain_size` and `m_assumed_chain_state_size`
 
-- To the moon!
+Both variables are used as a guideline for how much space the user needs on their drive in total, not just strictly for the blockchain.
+Note that all values should be taken from a **fully synced** node and have an overhead of 5-10% added on top of its base value.
 
+To calculate `m_assumed_blockchain_size`, take the size in GiB of these directories:
+- For `mainnet` -> the data directory, excluding the `/testnet3`, `/signet`, and `/regtest` directories and any overly large files, e.g. a huge `debug.log`
+- For `testnet` -> `/testnet3`
+- For `signet` -> `/signet`
+
+To calculate `m_assumed_chain_state_size`, take the size in GiB of these directories:
+- For `mainnet` -> `/chainstate`
+- For `testnet` -> `/testnet3/chainstate`
+- For `signet` -> `/signet/chainstate`
+
+Notes:
+- When taking the size for `m_assumed_blockchain_size`, there's no need to exclude the `/chainstate` directory since it's a guideline value and an overhead will be added anyway.
+- The expected overhead for growth may change over time. Consider whether the percentage needs to be changed in response; if so, update it here in this section.

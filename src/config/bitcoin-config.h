@@ -1,5 +1,5 @@
-/* src/config/bitcoin-config.h.  Generated from bitcoin-config.h.in by configure.  */
-/* src/config/bitcoin-config.h.in.  Generated from configure.ac by autoheader.  */
+/* src/config/bitnet-config.h.  Generated from bitnet-config.h.in by configure.  */
+/* src/config/bitnet-config.h.in.  Generated from configure.ac by autoheader.  */
 
 #ifndef BITCOIN_CONFIG_H
 
@@ -8,71 +8,84 @@
 /* Define if building universal (internal helper macro) */
 /* #undef AC_APPLE_UNIVERSAL_BUILD */
 
+/* Define this symbol if type char equals int8_t */
+/* #undef CHAR_EQUALS_INT8 */
+
 /* Version Build */
 #define CLIENT_VERSION_BUILD 0
 
 /* Version is release */
-#define CLIENT_VERSION_IS_RELEASE true
+#define CLIENT_VERSION_IS_RELEASE false
 
 /* Major version */
-#define CLIENT_VERSION_MAJOR 1
+#define CLIENT_VERSION_MAJOR 24
 
 /* Minor version */
-#define CLIENT_VERSION_MINOR 14
-
-/* Build revision */
-#define CLIENT_VERSION_REVISION 3
+#define CLIENT_VERSION_MINOR 99
 
 /* Copyright holder(s) before %s replacement */
 #define COPYRIGHT_HOLDERS "The %s developers"
 
 /* Copyright holder(s) */
-#define COPYRIGHT_HOLDERS_FINAL "The Bitcoin Core and Bitnet Core developers"
+#define COPYRIGHT_HOLDERS_FINAL "The Bitnet Core developers"
 
 /* Replacement for %s in copyright holders string */
-#define COPYRIGHT_HOLDERS_SUBSTITUTION "Bitcoin Core and Bitnet Core"
+#define COPYRIGHT_HOLDERS_SUBSTITUTION "Bitnet Core"
 
 /* Copyright year */
-#define COPYRIGHT_YEAR 2021
+#define COPYRIGHT_YEAR 2023
+
+/* Define this symbol to build code that uses ARMv8 SHA-NI intrinsics */
+/* #undef ENABLE_ARM_SHANI */
+
+/* Define this symbol to build code that uses AVX2 intrinsics */
+#define ENABLE_AVX2 1
+
+/* Define if external signer support is enabled */
+/* #undef ENABLE_EXTERNAL_SIGNER */
+
+/* Define this symbol to build code that uses SSE4.1 intrinsics */
+#define ENABLE_SSE41 1
+
+/* Define to 1 to enable tracepoints for Userspace, Statically Defined Tracing
+   */
+/* #undef ENABLE_TRACING */
 
 /* Define to 1 to enable wallet functions */
 #define ENABLE_WALLET 1
 
+/* Define this symbol to build code that uses x86 SHA-NI intrinsics */
+#define ENABLE_X86_SHANI 1
+
 /* Define to 1 to enable ZMQ functions */
 #define ENABLE_ZMQ 1
-
-/* parameter and return value type for __fdelt_chk */
-/* #undef FDELT_TYPE */
 
 /* define if the Boost library is available */
 #define HAVE_BOOST /**/
 
-/* define if the Boost::Chrono library is available */
-#define HAVE_BOOST_CHRONO /**/
+/* Define this symbol if you have __builtin_clzl */
+#define HAVE_BUILTIN_CLZL 1
 
-/* define if the Boost::Filesystem library is available */
-#define HAVE_BOOST_FILESYSTEM /**/
+/* Define this symbol if you have __builtin_clzll */
+#define HAVE_BUILTIN_CLZLL 1
 
-/* define if the Boost::PROGRAM_OPTIONS library is available */
-#define HAVE_BOOST_PROGRAM_OPTIONS /**/
-
-/* define if the Boost::System library is available */
-#define HAVE_BOOST_SYSTEM /**/
-
-/* define if the Boost::Thread library is available */
-#define HAVE_BOOST_THREAD /**/
-
-/* define if the Boost::Unit_Test_Framework library is available */
-/* #undef HAVE_BOOST_UNIT_TEST_FRAMEWORK */
+/* Define if you have a working __builtin_mul_overflow */
+/* #undef HAVE_BUILTIN_MUL_OVERFLOW */
 
 /* Define to 1 if you have the <byteswap.h> header file. */
 #define HAVE_BYTESWAP_H 1
 
+/* Define this symbol if clmul instructions can be used */
+#define HAVE_CLMUL 1
+
 /* Define this symbol if the consensus lib has been built */
 #define HAVE_CONSENSUS_LIB 1
 
-/* define if the compiler supports basic C++11 syntax */
-#define HAVE_CXX11 1
+/* define if the compiler supports basic C++17 syntax */
+#define HAVE_CXX17 1
+
+/* define if the compiler supports basic C++20 syntax */
+/* #undef HAVE_CXX20 */
 
 /* Define to 1 if you have the declaration of `be16toh', and to 0 if you
    don't. */
@@ -98,13 +111,17 @@
    don't. */
 #define HAVE_DECL_BSWAP_64 1
 
-/* Define to 1 if you have the declaration of `daemon', and to 0 if you don't.
+/* Define to 1 if you have the declaration of `fork', and to 0 if you don't.
    */
-#define HAVE_DECL_DAEMON 1
+#define HAVE_DECL_FORK 1
 
-/* Define to 1 if you have the declaration of `EVP_MD_CTX_new', and to 0 if
-   you don't. */
-#define HAVE_DECL_EVP_MD_CTX_NEW 1
+/* Define to 1 if you have the declaration of `freeifaddrs', and to 0 if you
+   don't. */
+#define HAVE_DECL_FREEIFADDRS 1
+
+/* Define to 1 if you have the declaration of `getifaddrs', and to 0 if you
+   don't. */
+#define HAVE_DECL_GETIFADDRS 1
 
 /* Define to 1 if you have the declaration of `htobe16', and to 0 if you
    don't. */
@@ -142,28 +159,42 @@
    don't. */
 #define HAVE_DECL_LE64TOH 1
 
+/* Define to 1 if you have the declaration of `pipe2', and to 0 if you don't.
+   */
+#define HAVE_DECL_PIPE2 1
+
+/* Define to 1 if you have the declaration of `setsid', and to 0 if you don't.
+   */
+#define HAVE_DECL_SETSID 1
+
 /* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
    don't. */
 #define HAVE_DECL_STRERROR_R 1
 
-/* Define to 1 if you have the declaration of `strnlen', and to 0 if you
-   don't. */
-#define HAVE_DECL_STRNLEN 1
+/* Define if the visibility attribute is supported. */
+#define HAVE_DEFAULT_VISIBILITY_ATTRIBUTE 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
+/* Define if the dllexport attribute is supported. */
+/* #undef HAVE_DLLEXPORT_ATTRIBUTE */
+
 /* Define to 1 if you have the <endian.h> header file. */
 #define HAVE_ENDIAN_H 1
 
-/* Define to 1 if the system has the `dllexport' function attribute */
-/* #undef HAVE_FUNC_ATTRIBUTE_DLLEXPORT */
+/* Define this symbol if evhttp_connection_get_peer expects const char** */
+/* #undef HAVE_EVHTTP_CONNECTION_GET_PEER_CONST_CHAR */
 
-/* Define to 1 if the system has the `dllimport' function attribute */
-/* #undef HAVE_FUNC_ATTRIBUTE_DLLIMPORT */
+/* Define to 1 if fdatasync is available. */
+#define HAVE_FDATASYNC 1
 
-/* Define to 1 if the system has the `visibility' function attribute */
-#define HAVE_FUNC_ATTRIBUTE_VISIBILITY 1
+/* Define this symbol if the BSD getentropy system call is available with
+   sys/random.h */
+#define HAVE_GETENTROPY_RAND 1
+
+/* Define this symbol if gmtime_r is available */
+#define HAVE_GMTIME_R 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
@@ -177,14 +208,8 @@
 /* Define to 1 if you have the `comdlg32' library (-lcomdlg32). */
 /* #undef HAVE_LIBCOMDLG32 */
 
-/* Define to 1 if you have the `crypt32' library (-lcrypt32). */
-/* #undef HAVE_LIBCRYPT32 */
-
 /* Define to 1 if you have the `gdi32' library (-lgdi32). */
 /* #undef HAVE_LIBGDI32 */
-
-/* Define to 1 if you have the `imm32' library (-limm32). */
-/* #undef HAVE_LIBIMM32 */
 
 /* Define to 1 if you have the `iphlpapi' library (-liphlpapi). */
 /* #undef HAVE_LIBIPHLPAPI */
@@ -192,23 +217,11 @@
 /* Define to 1 if you have the `kernel32' library (-lkernel32). */
 /* #undef HAVE_LIBKERNEL32 */
 
-/* Define to 1 if you have the `mingwthrd' library (-lmingwthrd). */
-/* #undef HAVE_LIBMINGWTHRD */
-
-/* Define to 1 if you have the `mswsock' library (-lmswsock). */
-/* #undef HAVE_LIBMSWSOCK */
-
 /* Define to 1 if you have the `ole32' library (-lole32). */
 /* #undef HAVE_LIBOLE32 */
 
 /* Define to 1 if you have the `oleaut32' library (-loleaut32). */
 /* #undef HAVE_LIBOLEAUT32 */
-
-/* Define to 1 if you have the `rpcrt4' library (-lrpcrt4). */
-/* #undef HAVE_LIBRPCRT4 */
-
-/* Define to 1 if you have the `rt' library (-lrt). */
-/* #undef HAVE_LIBRT */
 
 /* Define to 1 if you have the `shell32' library (-lshell32). */
 /* #undef HAVE_LIBSHELL32 */
@@ -228,14 +241,11 @@
 /* Define to 1 if you have the `winmm' library (-lwinmm). */
 /* #undef HAVE_LIBWINMM */
 
-/* Define to 1 if you have the `winspool' library (-lwinspool). */
-/* #undef HAVE_LIBWINSPOOL */
-
 /* Define to 1 if you have the `ws2_32' library (-lws2_32). */
 /* #undef HAVE_LIBWS2_32 */
 
-/* Define to 1 if you have the `z ' library (-lz ). */
-/* #undef HAVE_LIBZ_ */
+/* Define this symbol if you have malloc_info */
+#define HAVE_MALLOC_INFO 1
 
 /* Define this symbol if you have mallopt with M_ARENA_MAX */
 #define HAVE_MALLOPT_ARENA_MAX 1
@@ -246,17 +256,20 @@
 /* Define to 1 if you have the <miniupnpc/miniupnpc.h> header file. */
 #define HAVE_MINIUPNPC_MINIUPNPC_H 1
 
-/* Define to 1 if you have the <miniupnpc/miniwget.h> header file. */
-#define HAVE_MINIUPNPC_MINIWGET_H 1
-
 /* Define to 1 if you have the <miniupnpc/upnpcommands.h> header file. */
 #define HAVE_MINIUPNPC_UPNPCOMMANDS_H 1
 
 /* Define to 1 if you have the <miniupnpc/upnperrors.h> header file. */
 #define HAVE_MINIUPNPC_UPNPERRORS_H 1
 
-/* Define this symbol if you have MSG_NOSIGNAL */
-#define HAVE_MSG_NOSIGNAL 1
+/* Define to 1 if you have the <natpmp.h> header file. */
+/* #undef HAVE_NATPMP_H */
+
+/* Define to 1 if O_CLOEXEC flag is available. */
+#define HAVE_O_CLOEXEC 1
+
+/* Define this symbol if you have posix_fallocate */
+#define HAVE_POSIX_FALLOCATE 1
 
 /* Define if you have POSIX threads libraries and header files. */
 #define HAVE_PTHREAD 1
@@ -266,9 +279,6 @@
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
-
-/* Define to 1 if you have the <stdio.h> header file. */
-#define HAVE_STDIO_H 1
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
@@ -282,11 +292,29 @@
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING_H 1
 
+/* Define this symbol to build code that uses getauxval) */
+#define HAVE_STRONG_GETAUXVAL 1
+
+/* Define this symbol if the BSD sysctl() is available */
+/* #undef HAVE_SYSCTL */
+
+/* Define this symbol if the BSD sysctl(KERN_ARND) is available */
+/* #undef HAVE_SYSCTL_ARND */
+
+/* Define to 1 if std::system or ::wsystem is available. */
+#define HAVE_SYSTEM 1
+
 /* Define to 1 if you have the <sys/endian.h> header file. */
 /* #undef HAVE_SYS_ENDIAN_H */
 
+/* Define this symbol if the Linux getrandom system call is available */
+#define HAVE_SYS_GETRANDOM 1
+
 /* Define to 1 if you have the <sys/prctl.h> header file. */
 #define HAVE_SYS_PRCTL_H 1
+
+/* Define to 1 if you have the <sys/resources.h> header file. */
+/* #undef HAVE_SYS_RESOURCES_H */
 
 /* Define to 1 if you have the <sys/select.h> header file. */
 #define HAVE_SYS_SELECT_H 1
@@ -294,20 +322,26 @@
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
+/* Define to 1 if you have the <sys/sysctl.h> header file. */
+/* #undef HAVE_SYS_SYSCTL_H */
+
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
+
+/* Define to 1 if you have the <sys/vmmeter.h> header file. */
+/* #undef HAVE_SYS_VMMETER_H */
+
+/* Define if thread_local is supported. */
+#define HAVE_THREAD_LOCAL 1
+
+/* Define to 1 if you have the `timingsafe_bcmp' function. */
+/* #undef HAVE_TIMINGSAFE_BCMP */
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Define if the visibility attribute is supported. */
-#define HAVE_VISIBILITY_ATTRIBUTE 1
-
-/* Define this symbol if boost sleep works */
-/* #undef HAVE_WORKING_BOOST_SLEEP */
-
-/* Define this symbol if boost sleep_for works */
-#define HAVE_WORKING_BOOST_SLEEP_FOR 1
+/* Define to 1 if you have the <vm/vm_param.h> header file. */
+/* #undef HAVE_VM_VM_PARAM_H */
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
@@ -319,23 +353,29 @@
 #define PACKAGE_NAME "Bitnet Core"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Bitnet Core 1.14.3"
+#define PACKAGE_STRING "Bitnet Core 24.99.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bitnet"
 
 /* Define to the home page for this package. */
-#define PACKAGE_URL "https://bitnet.com/"
+#define PACKAGE_URL "https://bitnetcore.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.14.3"
+#define PACKAGE_VERSION "24.99.0"
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */
 /* #undef PTHREAD_CREATE_JOINABLE */
 
+/* Define this symbol if the qt platform is android */
+/* #undef QT_QPA_PLATFORM_ANDROID */
+
 /* Define this symbol if the qt platform is cocoa */
 /* #undef QT_QPA_PLATFORM_COCOA */
+
+/* Define this symbol if the minimal qt platform exists */
+/* #undef QT_QPA_PLATFORM_MINIMAL */
 
 /* Define this symbol if the qt platform is windows */
 /* #undef QT_QPA_PLATFORM_WINDOWS */
@@ -352,15 +392,29 @@
 /* Define to 1 if strerror_r returns char *. */
 #define STRERROR_R_CHAR_P 1
 
+/* Define this symbol to build in assembly routines */
+#define USE_ASM 1
+
+/* Define if BDB support should be compiled in */
+#define USE_BDB 1
+
 /* Define if dbus support should be compiled in */
 #define USE_DBUS 1
+
+/* Define to 1 if UPnP support should be compiled in. */
+/* #undef USE_NATPMP */
 
 /* Define if QR support should be compiled in */
 #define USE_QRCODE 1
 
-/* UPnP support not compiled if undefined, otherwise value (0 or 1) determines
-   default state */
-#define USE_UPNP 0
+/* Define if sqlite support should be compiled in */
+#define USE_SQLITE 1
+
+/* Define this symbol to build with syscall sandbox support. */
+#define USE_SYSCALL_SANDBOX 1
+
+/* Define to 1 if UPnP support should be compiled in. */
+#define USE_UPNP 1
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */

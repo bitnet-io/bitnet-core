@@ -1,36 +1,40 @@
-Name "Bitnet Core (-bit)"
+Name "Bitnet Core (64-bit)"
 
 RequestExecutionLevel highest
 SetCompressor /SOLID lzma
+SetDateSave off
+Unicode true
+
+# Uncomment these lines when investigating reproducibility errors
+#SetCompress off
+#SetDatablockOptimize off
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.14.3
 !define COMPANY "Bitnet Core project"
-!define URL https://bitnet.com/
+!define URL https://bitnetcore.org/
 
 # MUI Symbol Definitions
-!define MUI_ICON "/home/c4pt/opt/BITNET-IO/bitnet-core/share/pixmaps/bitcoin.ico"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/BITNET-IO/bitnet-core/share/pixmaps/nsis-wizard.bmp"
+!define MUI_ICON "/home/c4pt/opt/bitnet-CURRENT-sha256/share/pixmaps/bitnet.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/bitnet-CURRENT-sha256/share/pixmaps/nsis-wizard.bmp"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP "/home/c4pt/opt/BITNET-IO/bitnet-core/share/pixmaps/nsis-header.bmp"
+!define MUI_HEADERIMAGE_BITMAP "/home/c4pt/opt/bitnet-CURRENT-sha256/share/pixmaps/nsis-header.bmp"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "Bitnet Core"
-!define MUI_FINISHPAGE_RUN $INSTDIR\bitnet-qt
+!define MUI_FINISHPAGE_RUN "$WINDIR\explorer.exe"
+!define MUI_FINISHPAGE_RUN_PARAMETERS $INSTDIR\bitnet-qt.exe
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/BITNET-IO/bitnet-core/share/pixmaps/nsis-wizard.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/bitnet-CURRENT-sha256/share/pixmaps/nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
 !include Sections.nsh
 !include MUI2.nsh
-!if "" == "64"
 !include x64.nsh
-!endif
 
 # Variables
 Var StartMenuGroup
@@ -48,24 +52,19 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile /home/c4pt/opt/BITNET-IO/bitnet-core/bitnet-${VERSION}-win-setup.exe
-!if "" == "64"
 InstallDir $PROGRAMFILES64\Bitnet
-!else
-InstallDir $PROGRAMFILES\Bitnet
-!endif
-CRCCheck on
+CRCCheck force
 XPStyle on
 BrandingText " "
 ShowInstDetails show
-VIProductVersion ${VERSION}.0
+VIProductVersion 24.99.0.0
 VIAddVersionKey ProductName "Bitnet Core"
-VIAddVersionKey ProductVersion "${VERSION}"
+VIAddVersionKey ProductVersion "24.99.0"
 VIAddVersionKey CompanyName "${COMPANY}"
 VIAddVersionKey CompanyWebsite "${URL}"
-VIAddVersionKey FileVersion "${VERSION}"
-VIAddVersionKey FileDescription ""
-VIAddVersionKey LegalCopyright ""
+VIAddVersionKey FileVersion "24.99.0"
+VIAddVersionKey FileDescription "Installer for Bitnet Core"
+VIAddVersionKey LegalCopyright "Copyright (C) 2009-2023 The Bitnet Core developers"
 InstallDirRegKey HKCU "${REGKEY}" Path
 ShowUninstDetails show
 
@@ -73,14 +72,18 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /home/c4pt/opt/BITNET-IO/bitnet-core/release/bitnet-qt
-    File /oname=COPYING.txt /home/c4pt/opt/BITNET-IO/bitnet-core/COPYING
-    File /oname=readme.txt /home/c4pt/opt/BITNET-IO/bitnet-core/doc/README_windows.txt
+    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnet-qt.exe
+    File /oname=COPYING.txt /home/c4pt/opt/bitnet-CURRENT-sha256/COPYING
+    File /oname=readme.txt /home/c4pt/opt/bitnet-CURRENT-sha256/doc/README_windows.txt
+    File /home/c4pt/opt/bitnet-CURRENT-sha256/share/examples/bitnet.conf
+    SetOutPath $INSTDIR\share\rpcauth
+    File /home/c4pt/opt/bitnet-CURRENT-sha256/share/rpcauth/*.*
     SetOutPath $INSTDIR\daemon
-    File /home/c4pt/opt/BITNET-IO/bitnet-core/release/bitnetd
-    File /home/c4pt/opt/BITNET-IO/bitnet-core/release/bitnet-cli
-    SetOutPath $INSTDIR\doc
-    File /r /home/c4pt/opt/BITNET-IO/bitnet-core/doc\*.*
+    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnetd.exe
+    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnet-cli.exe
+    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnet-tx.exe
+    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnet-wallet.exe
+    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/test_bitnet.exe
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 SectionEnd
@@ -91,22 +94,22 @@ Section -post SEC0001
     WriteUninstaller $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     CreateDirectory $SMPROGRAMS\$StartMenuGroup
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" $INSTDIR\bitnet-qt
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Bitnet Core (testnet, -bit).lnk" "$INSTDIR\bitnet-qt" "-testnet" "$INSTDIR\bitnet-qt" 1
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" $INSTDIR\bitnet-qt.exe
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Bitnet Core (testnet, 64-bit).lnk" "$INSTDIR\bitnet-qt.exe" "-testnet" "$INSTDIR\bitnet-qt.exe" 1
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk" $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
-    WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
+    WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "24.99.0"
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" Publisher "${COMPANY}"
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" URLInfoAbout "${URL}"
-    WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayIcon $INSTDIR\uninstall.exe
+    WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayIcon $INSTDIR\bitnet-qt.exe
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\uninstall.exe
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
     WriteRegStr HKCR "bitnet" "URL Protocol" ""
     WriteRegStr HKCR "bitnet" "" "URL:Bitnet"
-    WriteRegStr HKCR "bitnet\DefaultIcon" "" $INSTDIR\bitnet-qt
-    WriteRegStr HKCR "bitnet\shell\open\command" "" '"$INSTDIR\bitnet-qt" "%1"'
+    WriteRegStr HKCR "bitnet\DefaultIcon" "" $INSTDIR\bitnet-qt.exe
+    WriteRegStr HKCR "bitnet\shell\open\command" "" '"$INSTDIR\bitnet-qt.exe" "%1"'
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -124,11 +127,12 @@ done${UNSECTION_ID}:
 
 # Uninstaller sections
 Section /o -un.Main UNSEC0000
-    Delete /REBOOTOK $INSTDIR\bitnet-qt
+    Delete /REBOOTOK $INSTDIR\bitnet-qt.exe
     Delete /REBOOTOK $INSTDIR\COPYING.txt
     Delete /REBOOTOK $INSTDIR\readme.txt
+    Delete /REBOOTOK $INSTDIR\bitnet.conf
+    RMDir /r /REBOOTOK $INSTDIR\share
     RMDir /r /REBOOTOK $INSTDIR\daemon
-    RMDir /r /REBOOTOK $INSTDIR\doc
     DeleteRegValue HKCU "${REGKEY}\Components" Main
 SectionEnd
 
@@ -136,8 +140,8 @@ Section -un.post UNSEC0001
     DeleteRegKey HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk"
-    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Bitnet Core (testnet, -bit).lnk"
-    Delete /REBOOTOK "$SMSTARTUP\Bitcoin.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Bitnet Core (testnet, 64-bit).lnk"
+    Delete /REBOOTOK "$SMSTARTUP\Bitnet.lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
     Delete /REBOOTOK $INSTDIR\debug.log
     Delete /REBOOTOK $INSTDIR\db.log
@@ -158,7 +162,6 @@ SectionEnd
 # Installer functions
 Function .onInit
     InitPluginsDir
-!if "" == "64"
     ${If} ${RunningX64}
       ; disable registry redirection (enable access to 64-bit portion of registry)
       SetRegView 64
@@ -166,7 +169,6 @@ Function .onInit
       MessageBox MB_OK|MB_ICONSTOP "Cannot install 64-bit version on a 32-bit system."
       Abort
     ${EndIf}
-!endif
 FunctionEnd
 
 # Uninstaller functions

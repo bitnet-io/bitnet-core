@@ -1,5 +1,5 @@
-Bitnet Core 0.14.2
-=====================
+Bitnet Core
+=============
 
 Intro
 -----
@@ -18,6 +18,6 @@ However, it downloads and stores the entire history of Bitnet transactions;
 depending on the speed of your computer and network connection, the synchronization
 process can take anywhere from a few hours to a day or more.
 
-See the Bitnet wiki at:
-  https://www.reddit.com/r/bitnet/wiki/bitnetcoreguide
+See the bitnet wiki at:
+  https://en.bitnet.it/wiki/Main_Page
 for more help and information.

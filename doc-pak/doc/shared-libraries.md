@@ -7,11 +7,11 @@ The purpose of this library is to make the verification functionality that is cr
 
 ### API
 
-The interface is defined in the C header `bitnetconsensus.h` located in  `src/script/bitnetconsensus.h`.
+The interface is defined in the C header `bitnetconsensus.h` located in `src/script/bitnetconsensus.h`.
 
 #### Version
 
-`bitnetconsensus_version` returns an `unsigned int` with the API version *(currently at an experimental `0`)*.
+`bitnetconsensus_version` returns an `unsigned int` with the API version *(currently `1`)*.
 
 #### Script Validation
 
@@ -28,12 +28,12 @@ The interface is defined in the C header `bitnetconsensus.h` located in  `src/sc
 
 ##### Script Flags
 - `bitnetconsensus_SCRIPT_FLAGS_VERIFY_NONE`
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_P2SH` - Evaluate P2SH ([BIP16](https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki)) subscripts
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_DERSIG` - Enforce strict DER ([BIP66](https://github.com/bitcoin/bips/blob/master/bip-0066.mediawiki)) compliance
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_NULLDUMMY` - Enforce NULLDUMMY ([BIP147](https://github.com/bitcoin/bips/blob/master/bip-0147.mediawiki))
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_CHECKLOCKTIMEVERIFY` - Enable CHECKLOCKTIMEVERIFY ([BIP65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki))
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_CHECKSEQUENCEVERIFY` - Enable CHECKSEQUENCEVERIFY ([BIP112](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki))
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_WITNESS` - Enable WITNESS ([BIP141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki))
+- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_P2SH` - Evaluate P2SH ([BIP16](https://github.com/bitnet/bips/blob/master/bip-0016.mediawiki)) subscripts
+- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_DERSIG` - Enforce strict DER ([BIP66](https://github.com/bitnet/bips/blob/master/bip-0066.mediawiki)) compliance
+- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_NULLDUMMY` - Enforce NULLDUMMY ([BIP147](https://github.com/bitnet/bips/blob/master/bip-0147.mediawiki))
+- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_CHECKLOCKTIMEVERIFY` - Enable CHECKLOCKTIMEVERIFY ([BIP65](https://github.com/bitnet/bips/blob/master/bip-0065.mediawiki))
+- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_CHECKSEQUENCEVERIFY` - Enable CHECKSEQUENCEVERIFY ([BIP112](https://github.com/bitnet/bips/blob/master/bip-0112.mediawiki))
+- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_WITNESS` - Enable WITNESS ([BIP141](https://github.com/bitnet/bips/blob/master/bip-0141.mediawiki))
 
 ##### Errors
 - `bitnetconsensus_ERR_OK` - No errors with input parameters *(see the return value of `bitnetconsensus_verify_script` for the verification status)*
@@ -41,9 +41,10 @@ The interface is defined in the C header `bitnetconsensus.h` located in  `src/sc
 - `bitnetconsensus_ERR_TX_SIZE_MISMATCH` - `txToLen` did not match with the size of `txTo`
 - `bitnetconsensus_ERR_DESERIALIZE` - An error deserializing `txTo`
 - `bitnetconsensus_ERR_AMOUNT_REQUIRED` - Input amount is required if WITNESS is used
+- `bitnetconsensus_ERR_INVALID_FLAGS` - Script verification `flags` are invalid (i.e. not part of the libconsensus interface)
 
 ### Example Implementations
-- [NBitcoin](https://github.com/NicolasDorier/NBitcoin/blob/master/NBitcoin/Script.cs#L814) (.NET Bindings)
+- [NBitnet](https://github.com/MetacoSA/NBitnet/blob/5e1055cd7c4186dee4227c344af8892aea54faec/NBitnet/Script.cs#L979-#L1031) (.NET Bindings)
 - [node-libbitnetconsensus](https://github.com/bitpay/node-libbitnetconsensus) (Node.js Bindings)
 - [java-libbitnetconsensus](https://github.com/dexX7/java-libbitnetconsensus) (Java Bindings)
 - [bitnetconsensus-php](https://github.com/Bit-Wasp/bitnetconsensus-php) (PHP Bindings)

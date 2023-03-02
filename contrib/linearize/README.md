@@ -1,17 +1,17 @@
 # Linearize
-Construct a linear, no-fork, best version of the Bitnet blockchain. The scripts
-run using Python 3 but are compatible with Python 2.
+Construct a linear, no-fork, best version of the Bitnet blockchain.
 
 ## Step 1: Download hash list
 
     $ ./linearize-hashes.py linearize.cfg > hashlist.txt
 
 Required configuration file settings for linearize-hashes:
-* RPC: `rpcuser`, `rpcpassword`
+* RPC: `datadir` (Required if `rpcuser` and `rpcpassword` are not specified)
+* RPC: `rpcuser`, `rpcpassword` (Required if `datadir` is not specified)
 
 Optional config file setting for linearize-hashes:
 * RPC: `host`  (Default: `127.0.0.1`)
-* RPC: `port`  (Default: `22555`)
+* RPC: `port`  (Default: `8332`)
 * Blockchain: `min_height`, `max_height`
 * `rev_hash_bytes`: If true, the written block hash list will be
 byte-reversed. (In other words, the hash returned by getblockhash will have its
@@ -45,7 +45,7 @@ linearize-hashes.py.
 (Default: `1000*1000*1000 bytes`)
 * `netmagic`: Network magic number.
 * `out_of_order_cache_sz`: If out-of-order blocks are being read, the block can
-be written to a cache so that the blockchain doesn't have to be seeked again.
+be written to a cache so that the blockchain doesn't have to be sought again.
 This option specifies the cache size. (Default: `100*1000*1000 bytes`)
 * `rev_hash_bytes`: If true, the block hash list written by linearize-hashes.py
 will be byte-reversed when read by linearize-data.py. See the linearize-hashes

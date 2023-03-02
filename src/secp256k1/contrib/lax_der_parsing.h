@@ -1,8 +1,8 @@
-/**********************************************************************
- * Copyright (c) 2015 Pieter Wuille                                   *
- * Distributed under the MIT software license, see the accompanying   *
- * file COPYING or http://www.opensource.org/licenses/mit-license.php.*
- **********************************************************************/
+/***********************************************************************
+ * Copyright (c) 2015 Pieter Wuille                                    *
+ * Distributed under the MIT software license, see the accompanying    *
+ * file COPYING or https://www.opensource.org/licenses/mit-license.php.*
+ ***********************************************************************/
 
 /****
  * Please do not link this file directly. It is not part of the libsecp256k1
@@ -48,14 +48,20 @@
  *   8.3.1.
  */
 
-#ifndef _SECP256K1_CONTRIB_LAX_DER_PARSING_H_
-#define _SECP256K1_CONTRIB_LAX_DER_PARSING_H_
+#ifndef SECP256K1_CONTRIB_LAX_DER_PARSING_H
+#define SECP256K1_CONTRIB_LAX_DER_PARSING_H
 
+/* #include secp256k1.h only when it hasn't been included yet.
+   This enables this file to be #included directly in other project
+   files (such as tests.c) without the need to set an explicit -I flag,
+   which would be necessary to locate secp256k1.h. */
+#ifndef SECP256K1_H
 #include <secp256k1.h>
+#endif
 
-# ifdef __cplusplus
+#ifdef __cplusplus
 extern "C" {
-# endif
+#endif
 
 /** Parse a signature in "lax DER" format
  *
@@ -68,7 +74,7 @@ extern "C" {
  *  This function will accept any valid DER encoded signature, even if the
  *  encoded numbers are out of range. In addition, it will accept signatures
  *  which violate the DER spec in various ways. Its purpose is to allow
- *  validation of the Bitcoin blockchain, which includes non-DER signatures
+ *  validation of the Bitnet blockchain, which includes non-DER signatures
  *  from before the network rules were updated to enforce DER. Note that
  *  the set of supported violations is a strict subset of what OpenSSL will
  *  accept.
@@ -88,4 +94,4 @@ int ecdsa_signature_parse_der_lax(
 }
 #endif
 
-#endif
+#endif /* SECP256K1_CONTRIB_LAX_DER_PARSING_H */

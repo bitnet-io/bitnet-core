@@ -1,3 +1,17 @@
+* 02-27-23 project had blockchain reset to 0 to add segwit support paper wallet removed for now
+
+* 02-26-23
+* the project will ONLY SUPPORT BOOST 1.67 now...the entire project was rebased to support segwit using litecoin's source code to rebuild the project
+```
+wget https://boostorg.jfrog.io/artifactory/main/release/1.67.0/source/boost_1_67_0.tar.gz
+tar -xvf boost_1_67_0.tar.gz
+sh bootstrap.sh --prefix=/usr
+./b2 -j8 (for number of processing cores)
+./bjam install
+
+```
+* ironing out bugs
+
 * 02-05-2023 check the releases tab for binary updates
 * https://github.com/bitnet-io/bitnet-core/releases
 

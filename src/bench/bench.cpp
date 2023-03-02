@@ -1,102 +1,139 @@
-// Copyright (c) 2015-2016 The Bitcoin Core developers
+// Copyright (c) 2015-2022 The Bitnet Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "bench.h"
-#include "perf.h"
+#include <bench/bench.h>
 
+#include <fs.h>
+#include <test/util/setup_common.h>
+#include <util/string.h>
+
+#include <chrono>
+#include <fstream>
+#include <functional>
 #include <iostream>
-#include <iomanip>
-#include <sys/time.h>
+#include <map>
+#include <regex>
+#include <string>
+#include <vector>
 
-benchmark::BenchRunner::BenchmarkMap &benchmark::BenchRunner::benchmarks() {
-    static std::map<std::string, benchmark::BenchFunction> benchmarks_map;
+using namespace std::chrono_literals;
+
+const std::function<void(const std::string&)> G_TEST_LOG_FUN{};
+
+const std::function<std::vector<const char*>()> G_TEST_COMMAND_LINE_ARGUMENTS{};
+
+namespace {
+
+void GenerateTemplateResults(const std::vector<ankerl::nanobench::Result>& benchmarkResults, const fs::path& file, const char* tpl)
+{
+    if (benchmarkResults.empty() || file.empty()) {
+        // nothing to write, bail out
+        return;
+    }
+    std::ofstream fout{file};
+    if (fout.is_open()) {
+        ankerl::nanobench::render(tpl, benchmarkResults, fout);
+        std::cout << "Created " << file << std::endl;
+    } else {
+        std::cout << "Could not write to file " << file << std::endl;
+    }
+}
+
+} // namespace
+
+namespace benchmark {
+
+// map a label to one or multiple priority levels
+std::map<std::string, uint8_t> map_label_priority = {
+    {"high", PriorityLevel::HIGH},
+    {"low", PriorityLevel::LOW},
+    {"all", 0xff}
+};
+
+std::string ListPriorities()
+{
+    using item_t = std::pair<std::string, uint8_t>;
+    auto sort_by_priority = [](item_t a, item_t b){ return a.second < b.second; };
+    std::set<item_t, decltype(sort_by_priority)> sorted_priorities(map_label_priority.begin(), map_label_priority.end(), sort_by_priority);
+    return Join(sorted_priorities, ',', [](const auto& entry){ return entry.first; });
+}
+
+uint8_t StringToPriority(const std::string& str)
+{
+    auto it = map_label_priority.find(str);
+    if (it == map_label_priority.end()) throw std::runtime_error(strprintf("Unknown priority level %s", str));
+    return it->second;
+}
+
+BenchRunner::BenchmarkMap& BenchRunner::benchmarks()
+{
+    static BenchmarkMap benchmarks_map;
     return benchmarks_map;
 }
 
-static double gettimedouble(void) {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return tv.tv_usec * 0.000001 + tv.tv_sec;
+BenchRunner::BenchRunner(std::string name, BenchFunction func, PriorityLevel level)
+{
+    benchmarks().insert(std::make_pair(name, std::make_pair(func, level)));
 }
 
-benchmark::BenchRunner::BenchRunner(std::string name, benchmark::BenchFunction func)
+void BenchRunner::RunAll(const Args& args)
 {
-    benchmarks().insert(std::make_pair(name, func));
-}
+    std::regex reFilter(args.regex_filter);
+    std::smatch baseMatch;
 
-void
-benchmark::BenchRunner::RunAll(double elapsedTimeForOne)
-{
-    perf_init();
-    std::cout << "#Benchmark" << "," << "count" << "," << "min" << "," << "max" << "," << "average" << ","
-              << "min_cycles" << "," << "max_cycles" << "," << "average_cycles" << "\n";
-
-    for (const auto &p: benchmarks()) {
-        State state(p.first, elapsedTimeForOne);
-        p.second(state);
+    if (args.sanity_check) {
+        std::cout << "Running with -sanity-check option, output is being suppressed as benchmark results will be useless." << std::endl;
     }
-    perf_fini();
-}
 
-bool benchmark::State::KeepRunning()
-{
-    if (count & countMask) {
-      ++count;
-      return true;
-    }
-    double now;
-    uint64_t nowCycles;
-    if (count == 0) {
-        lastTime = beginTime = now = gettimedouble();
-        lastCycles = beginCycles = nowCycles = perf_cpucycles();
-    }
-    else {
-        now = gettimedouble();
-        double elapsed = now - lastTime;
-        double elapsedOne = elapsed * countMaskInv;
-        if (elapsedOne < minTime) minTime = elapsedOne;
-        if (elapsedOne > maxTime) maxTime = elapsedOne;
+    std::vector<ankerl::nanobench::Result> benchmarkResults;
+    for (const auto& [name, bench_func] : benchmarks()) {
+        const auto& [func, priority_level] = bench_func;
 
-        // We only use relative values, so don't have to handle 64-bit wrap-around specially
-        nowCycles = perf_cpucycles();
-        uint64_t elapsedOneCycles = (nowCycles - lastCycles) * countMaskInv;
-        if (elapsedOneCycles < minCycles) minCycles = elapsedOneCycles;
-        if (elapsedOneCycles > maxCycles) maxCycles = elapsedOneCycles;
-
-        if (elapsed*128 < maxElapsed) {
-          // If the execution was much too fast (1/128th of maxElapsed), increase the count mask by 8x and restart timing.
-          // The restart avoids including the overhead of this code in the measurement.
-          countMask = ((countMask<<3)|7) & ((1LL<<60)-1);
-          countMaskInv = 1./(countMask+1);
-          count = 0;
-          minTime = std::numeric_limits<double>::max();
-          maxTime = std::numeric_limits<double>::min();
-          minCycles = std::numeric_limits<uint64_t>::max();
-          maxCycles = std::numeric_limits<uint64_t>::min();
-          return true;
+        if (!(priority_level & args.priority)) {
+            continue;
         }
-        if (elapsed*16 < maxElapsed) {
-          uint64_t newCountMask = ((countMask<<1)|1) & ((1LL<<60)-1);
-          if ((count & newCountMask)==0) {
-              countMask = newCountMask;
-              countMaskInv = 1./(countMask+1);
-          }
+
+        if (!std::regex_match(name, baseMatch, reFilter)) {
+            continue;
+        }
+
+        if (args.is_list_only) {
+            std::cout << name << std::endl;
+            continue;
+        }
+
+        Bench bench;
+        if (args.sanity_check) {
+            bench.epochs(1).epochIterations(1);
+            bench.output(nullptr);
+        }
+        bench.name(name);
+        if (args.min_time > 0ms) {
+            // convert to nanos before dividing to reduce rounding errors
+            std::chrono::nanoseconds min_time_ns = args.min_time;
+            bench.minEpochTime(min_time_ns / bench.epochs());
+        }
+
+        if (args.asymptote.empty()) {
+            func(bench);
+        } else {
+            for (auto n : args.asymptote) {
+                bench.complexityN(n);
+                func(bench);
+            }
+            std::cout << bench.complexityBigO() << std::endl;
+        }
+
+        if (!bench.results().empty()) {
+            benchmarkResults.push_back(bench.results().back());
         }
     }
-    lastTime = now;
-    lastCycles = nowCycles;
-    ++count;
 
-    if (now - beginTime < maxElapsed) return true; // Keep going
-
-    --count;
-
-    // Output results
-    double average = (now-beginTime)/count;
-    int64_t averageCycles = (nowCycles-beginCycles)/count;
-    std::cout << std::fixed << std::setprecision(15) << name << "," << count << "," << minTime << "," << maxTime << "," << average << ","
-              << minCycles << "," << maxCycles << "," << averageCycles << "\n";
-
-    return false;
+    GenerateTemplateResults(benchmarkResults, args.output_csv, "# Benchmark, evals, iterations, total, min, max, median\n"
+                                                               "{{#result}}{{name}}, {{epochs}}, {{average(iterations)}}, {{sumProduct(iterations, elapsed)}}, {{minimum(elapsed)}}, {{maximum(elapsed)}}, {{median(elapsed)}}\n"
+                                                               "{{/result}}");
+    GenerateTemplateResults(benchmarkResults, args.output_json, ankerl::nanobench::templates::json());
 }
+
+} // namespace benchmark

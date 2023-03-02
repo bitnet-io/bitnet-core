@@ -1,4 +1,0 @@
-#ubuntu 20.10 docker mingw32 build deps
-apt-get update -y 
-apt-get install build-essential *mingw* aclocal automake libtool curl libdb* \
-libboost* libssl-dev qt5-* -y

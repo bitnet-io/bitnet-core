@@ -1,0 +1,7 @@
+[main]
+host = https://www.transifex.com
+
+[o:bitnet:p:bitnet:r:qt-translation-024x]
+file_filter = src/qt/locale/bitnet_<lang>.xlf
+source_file = src/qt/locale/bitnet_en.xlf
+source_lang = en

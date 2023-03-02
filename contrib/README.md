@@ -3,10 +3,10 @@ Repository Tools
 
 ### [Developer tools](/contrib/devtools) ###
 Specific tools for developers working on this repository.
-Contains the script `github-merge.py` for merging GitHub pull requests securely and signing them using GPG.
+Additional tools, including the `github-merge.py` script, are available in the [maintainer-tools](https://github.com/bitnet-core/bitnet-maintainer-tools) repository.
 
 ### [Verify-Commits](/contrib/verify-commits) ###
-Tool to verify that every merge commit was signed by a developer using the above `github-merge.py` script.
+Tool to verify that every merge commit was signed by a developer using the `github-merge.py` script.
 
 ### [Linearize](/contrib/linearize) ###
 Construct a linear, no-fork, best version of the blockchain.
@@ -21,30 +21,25 @@ Utility to generate the pnSeed[] array that is compiled into the client.
 Build Tools and Keys
 ---------------------
 
-### [Debian](/contrib/debian) ###
-Contains files used to package bitnetd/bitnet-qt
-for Debian-based Linux systems. If you compile bitnetd/bitnet-qt yourself, there are some useful files here.
+### Packaging ###
+The [Debian](/contrib/debian) subfolder contains the copyright file.
 
-### [Gitian-descriptors](/contrib/gitian-descriptors) ###
-Notes on getting Gitian builds up and running using KVM.
-
-### [Gitian-keys](/contrib/gitian-keys)
-PGP keys used for signing Bitnet Core [Gitian release](/doc/release-process.md) results.
+All other packaging related files can be found in the [bitnet-core/packaging](https://github.com/bitnet-core/packaging) repository.
 
 ### [MacDeploy](/contrib/macdeploy) ###
-Scripts and notes for Mac builds. 
+Scripts and notes for Mac builds.
 
-### [RPM](/contrib/rpm) ###
-RPM spec file for building bitnet-core on RPM based distributions
-
-### [Gitian-build](/contrib/gitian-build.sh) ###
-Script for running full Gitian builds.
-
-Test and Verify Tools 
+Test and Verify Tools
 ---------------------
 
 ### [TestGen](/contrib/testgen) ###
 Utilities to generate test vectors for the data-driven Bitnet tests.
 
 ### [Verify Binaries](/contrib/verifybinaries) ###
-This script attempts to download and verify the signature file SHA256SUMS.asc from bitnet.com.
+This script attempts to download and verify the signature file SHA256SUMS.asc from bitnet.org.
+
+Command Line Tools
+---------------------
+
+### [Completions](/contrib/completions) ###
+Shell completions for bash and fish.
