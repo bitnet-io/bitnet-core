@@ -37,7 +37,8 @@
 #include <QUrlQuery>
 
 const int BITCOIN_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
-const QString BITCOIN_IPC_PREFIX("bitnet:");
+//const QString BITCOIN_IPC_PREFIX("bitnet:");
+const QString BITCOIN_IPC_PREFIX("");
 
 //
 // Create a name that is unique for:
