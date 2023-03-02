@@ -1,3 +1,12 @@
+# please update to the sha256 version with segwit as of 03-01-2023 we are on a fresh blockchain
+
+* 03-02-2023
+check releases for the recent electrum-android version of Bitnet
+
+https://github.com/bitnet-io/bitnet-core/releases
+
+* 03-01-2023 (we offically relaunched and are done with blockchain changes all changes now are only wallet based themes, functionality of the wallet, and general improvements
+
 * 02-27-23 project had blockchain reset to 0 to add segwit support paper wallet removed for now
 
 * 02-26-23
@@ -17,12 +26,11 @@ sh bootstrap.sh --prefix=/usr
 
 # bitnet-core
 Bitnet-Core based off of radiocoin with improvements
-* 20,000,000,000 total supply (down from 100 B)
+* 2,000,000,000 total supply (down from 100 B)
 * network retargets difficulty every seven days (instead of 14 days bitcoin)
 * blocks readjust every 10 minutes
 * paper wallet to backup funds
 
-* copy bitnet-data-dir-02-04-2023.tar.gz to your /home/user folder for the data dir and tar -xvf for a basic blockchain if you have trouble connecting to a node use updated bitnet.conf (check back time to time as we grow)
 
 * 02-08-2023
 * this wallet is a completely different chain using deposit addresses with "B" not for radiocoin or ravencoin only for bitnet-core
@@ -42,4 +50,3 @@ addnode=170.187.167.146:8333
   ```
 # this project is compiled with boost-175 if you have trouble building or installing the debian or rpm packages use the scripts in this folder to build dependencies build-deps.sh and check doc/build-unix or doc/build-windows etc.
 # check periodically in this directory for bitnet.conf for new "addnodes"
-# since this project isnt using DNS you must manually addnodes with addnodes=ip:port for connectivity
