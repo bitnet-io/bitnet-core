@@ -27,8 +27,8 @@ sh bootstrap.sh --prefix=/usr
 # bitnet-core
 Bitnet-Core based off of radiocoin with improvements
 * 2,000,000,000 total supply (down from 100 B)
-* network retargets difficulty every seven days (instead of 14 days bitcoin)
-* blocks readjust every 10 minutes
+* network retargets difficulty every 24 hours (instead of 14 days bitcoin)
+* blocks readjust every 3.5 minutes
 * paper wallet to backup funds
 
 
