@@ -38,18 +38,9 @@ Bitnet-Core based off of radiocoin with improvements
 
 * add these lines to your bitnet.conf if you have trouble finding peers on the network altcoinbuilders.com are permanent seeds
 ```
-addnode=170.187.167.146:8333
-  addnode=65.109.52.145:18333
-  addnode=172.104.5.209:18333
-
-  addnode=149.28.51.213:8333
-  addnode=108.61.149.178:8333
-  addnode=45.77.77.239:8333
-  addnode=seed01.altcoinbuilders.com:8333
-  addnode=seed02.altcoinbuilders.com:8333
-  addnode=seed03.altcoinbuilders.com:8333
-  addnode=seed04.altcoinbuilders.com:8333
-  addnode=[2600:3c03::f03c:93ff:fefc:ed9c]:8333
+addnode=bitexplorer.io:8333
+  addnode=us.mining4people.com:18333
+  addnode=fi.mining4people.com:18333
 
   ```
 # this project is compiled with boost-175 if you have trouble building or installing the debian or rpm packages use the scripts in this folder to build dependencies build-deps.sh and check doc/build-unix or doc/build-windows etc.
