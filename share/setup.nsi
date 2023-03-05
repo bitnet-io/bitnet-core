@@ -15,11 +15,11 @@ Unicode true
 !define URL https://bitnetcore.org/
 
 # MUI Symbol Definitions
-!define MUI_ICON "/home/c4pt/opt/bitnet-CURRENT-sha256/share/pixmaps/bitnet.ico"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/bitnet-CURRENT-sha256/share/pixmaps/nsis-wizard.bmp"
+!define MUI_ICON "/home/c4pt/opt/bitnet-core/share/pixmaps/bitnet.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/bitnet-core/share/pixmaps/nsis-wizard.bmp"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP "/home/c4pt/opt/bitnet-CURRENT-sha256/share/pixmaps/nsis-header.bmp"
+!define MUI_HEADERIMAGE_BITMAP "/home/c4pt/opt/bitnet-core/share/pixmaps/nsis-header.bmp"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
@@ -28,7 +28,7 @@ Unicode true
 !define MUI_FINISHPAGE_RUN "$WINDIR\explorer.exe"
 !define MUI_FINISHPAGE_RUN_PARAMETERS $INSTDIR\bitnet-qt
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/bitnet-CURRENT-sha256/share/pixmaps/nsis-wizard.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/bitnet-core/share/pixmaps/nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
@@ -72,18 +72,18 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnet-qt
-    File /oname=COPYING.txt /home/c4pt/opt/bitnet-CURRENT-sha256/COPYING
-    File /oname=readme.txt /home/c4pt/opt/bitnet-CURRENT-sha256/doc/README_windows.txt
-    File /home/c4pt/opt/bitnet-CURRENT-sha256/share/examples/bitnet.conf
+    File /home/c4pt/opt/bitnet-core/release/bitnet-qt
+    File /oname=COPYING.txt /home/c4pt/opt/bitnet-core/COPYING
+    File /oname=readme.txt /home/c4pt/opt/bitnet-core/doc/README_windows.txt
+    File /home/c4pt/opt/bitnet-core/share/examples/bitnet.conf
     SetOutPath $INSTDIR\share\rpcauth
-    File /home/c4pt/opt/bitnet-CURRENT-sha256/share/rpcauth/*.*
+    File /home/c4pt/opt/bitnet-core/share/rpcauth/*.*
     SetOutPath $INSTDIR\daemon
-    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnetd
-    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnet-cli
-    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnet-tx
-    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/bitnet-wallet
-    File /home/c4pt/opt/bitnet-CURRENT-sha256/release/test_bitnet
+    File /home/c4pt/opt/bitnet-core/release/bitnetd
+    File /home/c4pt/opt/bitnet-core/release/bitnet-cli
+    File /home/c4pt/opt/bitnet-core/release/bitnet-tx
+    File /home/c4pt/opt/bitnet-core/release/bitnet-wallet
+    File /home/c4pt/opt/bitnet-core/release/test_bitnet
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 SectionEnd

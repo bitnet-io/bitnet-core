@@ -170,8 +170,9 @@ min Main nBit:  1b172947
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
         vSeeds.emplace_back("bitexplorer.io");
-        vSeeds.emplace_back("149.28.51.213");
-        vSeeds.emplace_back("45.77.77.239");
+        vSeeds.emplace_back("seed.bitexplorer.io");
+        vSeeds.emplace_back("us.mining4people.com");
+        vSeeds.emplace_back("fi.mining4people.com");
 /*
         vSeeds.emplace_back("dnsseed.bluematt.me."); // Matt Corallo, only supports x9
         vSeeds.emplace_back("dnsseed.bitcoin.dashjr.org."); // Luke Dashjr
