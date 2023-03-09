@@ -1025,7 +1025,7 @@ void BitnetGUI::updateHeadersSyncProgressLabel()
     int headersTipHeight = clientModel->getHeaderTipHeight();
     int estHeadersLeft = (GetTime() - headersTipTime) / Params().GetConsensus().nPowTargetSpacing;
     if (estHeadersLeft > HEADER_HEIGHT_DELTA_SYNC)
-        progressBarLabel->setText(tr("Syncing Headers (%1%)…").arg(QString::number(100.0 / (headersTipHeight+estHeadersLeft)*headersTipHeight, 'f', 1)));
+      progressBarLabel->setText(tr("Syncing Headers (%1%)…").arg(QString::number(100.0 / (headersTipHeight+estHeadersLeft)*headersTipHeight, 'f', 1)));
 }
 
 void BitnetGUI::updateHeadersPresyncProgressLabel(int64_t height, const QDateTime& blockDate)
@@ -1104,7 +1104,11 @@ void BitnetGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVeri
     QString tooltip;
 
     QDateTime currentDate = QDateTime::currentDateTime();
-    qint64 secs = blockDate.secsTo(currentDate);
+    //modified here 
+    //qint64 secs = blockDate.secsTo(currentDate);
+
+	//just show a checkmark without the sync window
+    qint64 secs = 0;
 
     tooltip = tr("Processed %n block(s) of transaction history.", "", count);
 

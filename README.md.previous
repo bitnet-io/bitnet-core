@@ -39,14 +39,9 @@ Bitnet-Core based off of radiocoin with improvements
 * add these lines to your bitnet.conf if you have trouble finding peers on the network altcoinbuilders.com are permanent seeds
 ```
   addnode=bitexplorer.io:8333
-  addnode=23.244.172.101:8333
-  addnode=bitnet.caldera.network  
   addnode=us.mining4people.com:18333
   addnode=fi.mining4people.com:18333
-  addnode=au.mining4people.com:18333
-  addnode=br.mining4people.com:18333
-  addnode=de.mining4people.com:18333
-  addnode=in.mining4people.com:18333
+  addnode=23.244.172.101:8333
 
 
   ```

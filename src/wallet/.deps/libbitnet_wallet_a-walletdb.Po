@@ -237,10 +237,9 @@ wallet/libbitnet_wallet_a-walletdb.o: wallet/walletdb.cpp \
  crypto/chacha20.h util/strencodings.h util/string.h util/spanparsing.h \
  /usr/include/c++/11/charconv protocol.h util/bip32.h util/system.h \
  compat/assumptions.h logging.h util/settings.h /usr/include/c++/11/any \
- util/translation.h wallet/bdb.h /usr/include/libdb/db_cxx.h \
- /usr/include/libdb/db.h /usr/include/inttypes.h wallet/sqlite.h \
- /usr/include/sqlite3.h wallet/wallet.h interfaces/chain.h blockfilter.h \
- undo.h consensus/consensus.h util/bytevectorhash.h interfaces/handler.h \
+ util/translation.h wallet/sqlite.h /usr/include/sqlite3.h \
+ wallet/wallet.h interfaces/chain.h blockfilter.h undo.h \
+ consensus/consensus.h util/bytevectorhash.h interfaces/handler.h \
  policy/feerate.h psbt.h node/transaction.h util/error.h util/message.h \
  util/result.h util/ui_change_type.h validationinterface.h \
  kernel/cs_main.h wallet/crypter.h wallet/scriptpubkeyman.h \
@@ -1380,10 +1379,6 @@ logging.h:
 util/settings.h:
 /usr/include/c++/11/any:
 util/translation.h:
-wallet/bdb.h:
-/usr/include/libdb/db_cxx.h:
-/usr/include/libdb/db.h:
-/usr/include/inttypes.h:
 wallet/sqlite.h:
 /usr/include/sqlite3.h:
 wallet/wallet.h:

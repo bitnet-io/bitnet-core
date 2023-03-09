@@ -1,10 +1,10 @@
 qt/libbitnetqt_a-winshutdownmonitor.o: qt/winshutdownmonitor.cpp \
  qt/winshutdownmonitor.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/QByteArray \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qbytearray.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qrefcount.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qatomic.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qglobal.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/QByteArray \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qbytearray.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qrefcount.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qatomic.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qglobal.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/type_traits \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/x86_64-w64-mingw32/bits/c++config.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/x86_64-w64-mingw32/bits/os_defines.h \
@@ -36,11 +36,11 @@ qt/libbitnetqt_a-winshutdownmonitor.o: qt/winshutdownmonitor.cpp \
  /usr/share/mingw-w64/include/sec_api/stdlib_s.h \
  /usr/share/mingw-w64/include/malloc.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/std_abs.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qconfig.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qtcore-config.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qsystemdetection.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qprocessordetection.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qcompilerdetection.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qconfig.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qtcore-config.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qsystemdetection.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qprocessordetection.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qcompilerdetection.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/algorithm \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_algobase.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/functexcept.h \
@@ -107,23 +107,23 @@ qt/libbitnetqt_a-winshutdownmonitor.o: qt/winshutdownmonitor.cpp \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_bvector.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/vector.tcc \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/pstl/execution_defs.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qtypeinfo.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qsysinfo.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qlogging.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qflags.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qbasicatomic.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qatomic_cxx11.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qgenericatomic.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qtypeinfo.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qsysinfo.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qlogging.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qflags.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qbasicatomic.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qatomic_cxx11.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qgenericatomic.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/atomic \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/atomic_base.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/stdint.h \
  /usr/share/mingw-w64/include/stdint.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/atomic_lockfree_defines.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qglobalstatic.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qnumeric.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qversiontagging.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qnamespace.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qarraydata.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qglobalstatic.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qnumeric.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qversiontagging.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qnamespace.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qarraydata.h \
  /usr/share/mingw-w64/include/string.h \
  /usr/share/mingw-w64/include/sec_api/string_s.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/stdarg.h \
@@ -186,15 +186,15 @@ qt/libbitnetqt_a-winshutdownmonitor.o: qt/winshutdownmonitor.cpp \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/x86_64-w64-mingw32/bits/error_constants.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/stdexcept \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/streambuf.tcc \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/QString \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstring.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qchar.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qbytearray.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringliteral.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringalgorithms.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringview.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringbuilder.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstring.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/QString \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstring.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qchar.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qbytearray.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringliteral.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringalgorithms.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringview.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringbuilder.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstring.h \
  /usr/share/mingw-w64/include/windef.h \
  /usr/share/mingw-w64/include/winapifamily.h \
  /usr/share/mingw-w64/include/minwindef.h \
@@ -297,8 +297,8 @@ qt/libbitnetqt_a-winshutdownmonitor.o: qt/winshutdownmonitor.cpp \
  /usr/share/mingw-w64/include/pshpack8.h \
  /usr/share/mingw-w64/include/pshpack8.h \
  /usr/share/mingw-w64/include/ktmtypes.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/QAbstractNativeEventFilter \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qabstractnativeeventfilter.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/QAbstractNativeEventFilter \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qabstractnativeeventfilter.h \
  shutdown.h util/translation.h tinyformat.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/iostream \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/ostream \
@@ -370,42 +370,42 @@ qt/libbitnetqt_a-winshutdownmonitor.o: qt/winshutdownmonitor.cpp \
  /usr/share/mingw-w64/include/sec_api/stralign_s.h \
  /usr/share/mingw-w64/include/winsvc.h /usr/share/mingw-w64/include/mcx.h \
  /usr/share/mingw-w64/include/imm.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/QDebug \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qdebug.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qalgorithms.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qhash.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qiterator.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qlist.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qhashfunctions.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qpair.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/QDebug \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qdebug.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qalgorithms.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qhash.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qiterator.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qlist.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qhashfunctions.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qpair.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/numeric \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_numeric.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/pstl/glue_numeric_defs.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qvector.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qcontainertools_impl.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qvector.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qcontainertools_impl.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/list \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_list.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/allocated_ptr.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/list.tcc \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qbytearraylist.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringlist.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qregexp.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringmatcher.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qmap.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qbytearraylist.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringlist.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qregexp.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringmatcher.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qmap.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/map \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_tree.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_map.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_multimap.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qtextstream.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qiodevice.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qobject.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qobjectdefs.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qobjectdefs_impl.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qscopedpointer.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qmetatype.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qvarlengtharray.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qcontainerfwd.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qobject_impl.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qtextstream.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qiodevice.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qobject.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qobjectdefs.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qobjectdefs_impl.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qscopedpointer.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qmetatype.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qvarlengtharray.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qcontainerfwd.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qobject_impl.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/chrono \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/ratio \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/ctime \
@@ -413,14 +413,14 @@ qt/libbitnetqt_a-winshutdownmonitor.o: qt/winshutdownmonitor.cpp \
  /usr/share/mingw-w64/include/_timeval.h \
  /usr/share/mingw-w64/include/pthread_time.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/parse_numbers.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qlocale.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qvariant.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qlocale.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qvariant.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/variant \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qshareddata.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qset.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qcontiguouscache.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qsharedpointer.h \
- /home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qsharedpointer_impl.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qshareddata.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qset.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qcontiguouscache.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qsharedpointer.h \
+ /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qsharedpointer_impl.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/memory \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_raw_storage_iter.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/ranges_uninitialized.h \
@@ -432,11 +432,11 @@ qt/libbitnetqt_a-winshutdownmonitor.o: qt/winshutdownmonitor.cpp \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/backward/auto_ptr.h \
  /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/pstl/glue_memory_defs.h
 qt/winshutdownmonitor.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/QByteArray:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qbytearray.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qrefcount.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qatomic.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qglobal.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/QByteArray:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qbytearray.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qrefcount.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qatomic.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qglobal.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/type_traits:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/x86_64-w64-mingw32/bits/c++config.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/x86_64-w64-mingw32/bits/os_defines.h:
@@ -468,11 +468,11 @@ qt/winshutdownmonitor.h:
 /usr/share/mingw-w64/include/sec_api/stdlib_s.h:
 /usr/share/mingw-w64/include/malloc.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/std_abs.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qconfig.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qtcore-config.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qsystemdetection.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qprocessordetection.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qcompilerdetection.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qconfig.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qtcore-config.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qsystemdetection.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qprocessordetection.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qcompilerdetection.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/algorithm:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_algobase.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/functexcept.h:
@@ -539,23 +539,23 @@ qt/winshutdownmonitor.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_bvector.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/vector.tcc:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/pstl/execution_defs.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qtypeinfo.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qsysinfo.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qlogging.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qflags.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qbasicatomic.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qatomic_cxx11.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qgenericatomic.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qtypeinfo.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qsysinfo.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qlogging.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qflags.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qbasicatomic.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qatomic_cxx11.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qgenericatomic.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/atomic:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/atomic_base.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/stdint.h:
 /usr/share/mingw-w64/include/stdint.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/atomic_lockfree_defines.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qglobalstatic.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qnumeric.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qversiontagging.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qnamespace.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qarraydata.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qglobalstatic.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qnumeric.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qversiontagging.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qnamespace.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qarraydata.h:
 /usr/share/mingw-w64/include/string.h:
 /usr/share/mingw-w64/include/sec_api/string_s.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/stdarg.h:
@@ -618,15 +618,15 @@ qt/winshutdownmonitor.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/x86_64-w64-mingw32/bits/error_constants.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/stdexcept:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/streambuf.tcc:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/QString:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstring.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qchar.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qbytearray.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringliteral.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringalgorithms.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringview.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringbuilder.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstring.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/QString:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstring.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qchar.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qbytearray.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringliteral.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringalgorithms.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringview.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringbuilder.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstring.h:
 /usr/share/mingw-w64/include/windef.h:
 /usr/share/mingw-w64/include/winapifamily.h:
 /usr/share/mingw-w64/include/minwindef.h:
@@ -729,8 +729,8 @@ qt/winshutdownmonitor.h:
 /usr/share/mingw-w64/include/pshpack8.h:
 /usr/share/mingw-w64/include/pshpack8.h:
 /usr/share/mingw-w64/include/ktmtypes.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/QAbstractNativeEventFilter:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qabstractnativeeventfilter.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/QAbstractNativeEventFilter:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qabstractnativeeventfilter.h:
 shutdown.h:
 util/translation.h:
 tinyformat.h:
@@ -805,42 +805,42 @@ tinyformat.h:
 /usr/share/mingw-w64/include/winsvc.h:
 /usr/share/mingw-w64/include/mcx.h:
 /usr/share/mingw-w64/include/imm.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/QDebug:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qdebug.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qalgorithms.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qhash.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qiterator.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qlist.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qhashfunctions.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qpair.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/QDebug:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qdebug.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qalgorithms.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qhash.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qiterator.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qlist.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qhashfunctions.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qpair.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/numeric:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_numeric.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/pstl/glue_numeric_defs.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qvector.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qcontainertools_impl.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qvector.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qcontainertools_impl.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/list:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_list.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/allocated_ptr.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/list.tcc:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qbytearraylist.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringlist.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qregexp.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qstringmatcher.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qmap.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qbytearraylist.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringlist.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qregexp.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qstringmatcher.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qmap.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/map:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_tree.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_map.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_multimap.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qtextstream.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qiodevice.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qobject.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qobjectdefs.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qobjectdefs_impl.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qscopedpointer.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qmetatype.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qvarlengtharray.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qcontainerfwd.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qobject_impl.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qtextstream.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qiodevice.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qobject.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qobjectdefs.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qobjectdefs_impl.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qscopedpointer.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qmetatype.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qvarlengtharray.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qcontainerfwd.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qobject_impl.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/chrono:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/ratio:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/ctime:
@@ -848,14 +848,14 @@ tinyformat.h:
 /usr/share/mingw-w64/include/_timeval.h:
 /usr/share/mingw-w64/include/pthread_time.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/parse_numbers.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qlocale.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qvariant.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qlocale.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qvariant.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/variant:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qshareddata.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qset.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qcontiguouscache.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qsharedpointer.h:
-/home/c4pt/opt/bitnet-CURRENT-sha256/depends/x86_64-w64-mingw32/include/QtCore/qsharedpointer_impl.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qshareddata.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qset.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qcontiguouscache.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qsharedpointer.h:
+/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore/qsharedpointer_impl.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/memory:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/stl_raw_storage_iter.h:
 /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/c++/bits/ranges_uninitialized.h:
