@@ -1,3 +1,6 @@
+# 03-10-2023
+# we are now offically listed on AtomicDEX Desktop and Mobile offical releases. trade for KMD token or any other asset
+
 # please update to the sha256 version with segwit as of 03-01-2023 we are on a fresh blockchain
 
 * 03-02-2023
