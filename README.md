@@ -1,5 +1,5 @@
 # 03-11-2023
-# we are now offically listed on https://bitxonex.com after testing
+# we are now offically listed on https://bitxonex.com after we tested for a few hours to iron out bugs
 ![s1](https://github.com/bitnet-io/bitnet-core/releases/download/exchanges/listing-bitxonex.com.png)
 ![s1](https://github.com/bitnet-io/bitnet-core/releases/download/exchanges/deposit-address.png)
 
