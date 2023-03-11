@@ -2,6 +2,8 @@
 # we are now offically listed on AtomicDEX Desktop and Mobile offical releases. trade for KMD token or any other asset
 ![s1](https://github.com/bitnet-io/bitnet-core/releases/download/exchanges/komodo.png)
 
+# exchanges 
+https://github.com/bitnet-io/bitnet-core/releases/tag/exchanges
 
 # pools
 https://github.com/bitnet-io/bitnet-core/releases/tag/pools
