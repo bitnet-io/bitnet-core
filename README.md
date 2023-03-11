@@ -2,6 +2,10 @@
 # we are now offically listed on AtomicDEX Desktop and Mobile offical releases. trade for KMD token or any other asset
 ![s1](https://github.com/bitnet-io/bitnet-core/releases/download/exchanges/komodo.png)
 
+
+# pools
+https://github.com/bitnet-io/bitnet-core/releases/tag/pools
+
 # please update to the sha256 version with segwit as of 03-01-2023 we are on a fresh blockchain
 
 * 03-02-2023
