@@ -65,5 +65,4 @@ Bitnet-Core based off of radiocoin with improvements
 
 
   ```
-# this project is compiled with boost-175 if you have trouble building or installing the debian or rpm packages use the scripts in this folder to build dependencies build-deps.sh and check doc/build-unix or doc/build-windows etc.
-# check periodically in this directory for bitnet.conf for new "addnodes"
+
