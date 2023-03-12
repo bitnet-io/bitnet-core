@@ -1,6 +1,6 @@
 #!/bin/bash
  sudo apt-get install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev -y
-    sudo apt-get install libboost-all-dev -y
+    sudo apt-get install libboost-all-dev libsqlite3-dev build-essential pkg-config -y
     sudo apt-get install libdb5.1-dev libdb5.1++-dev -y
     sudo apt-get install libminiupnpc-dev -y
     sudo apt-get install libzmq3-dev -y
