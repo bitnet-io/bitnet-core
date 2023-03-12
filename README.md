@@ -14,6 +14,7 @@ https://github.com/bitnet-io/bitnet-core/releases/tag/exchanges
 https://github.com/bitnet-io/bitnet-core/releases/tag/pools
 
 # please update to the sha256 version with segwit as of 03-01-2023 we are on a fresh blockchain
+(no support to build this with ubuntu 18.04 if you are on ubuntu 18.04 please update to ubuntu 22.04)
 
 * 03-02-2023
 check releases for the recent electrum-android version of Bitnet
