@@ -1,3 +1,7 @@
+# 03-14-2023
+# we are now listed on Xeggex exchange
+![s1](https://github.com/bitnet-io/bitnet-core/releases/download/exchanges/bitnet-listing.png)
+
 # 03-12-2023
 changes to validation.cpp for halving it is advised everyone running a full node as a pool or an exchange should update to the latest changes of src/validation.cpp in the code (we are trying to change from 10,000 blocks to 100,000 blocks for halving)
 
