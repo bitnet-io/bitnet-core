@@ -69,7 +69,7 @@ public:
         strNetworkID = CBaseChainParams::MAIN;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 100000;
+        consensus.nSubsidyHalvingInterval = 210000;
         consensus.script_flag_exceptions.emplace( // BIP16 exception
             uint256S("0x00000000000002dc756eebf4f49723ed8d30cc28a5f108eb94b1ba88ac4f9c22"), SCRIPT_VERIFY_NONE);
         consensus.script_flag_exceptions.emplace( // Taproot exception
@@ -83,13 +83,14 @@ public:
         consensus.MinBIP9WarningHeight = 2026; // segwit activation height + miner confirmation window
         consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 //        consensus.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 9999 * 365 * 24 * 60 * 60; // 24 * 60 * 60 one day
-        consensus.nPowTargetSpacing = 9999 * 365 * 24 * 60 * 60;     // 3.5 * 60 3.5 minutes
+        consensus.nPowTargetTimespan = 24 * 60 * 60; // 24 * 60 * 60 one day
+        consensus.nPowTargetSpacing = 3.5 * 60;     // 3.5 * 60 3.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
-        consensus.fPowNoRetargeting = false;
+        consensus.fPowNoRetargeting = false; //no more Pow retargeting our chain works
+  //      consensus.nRuleChangeActivationThreshold = 1815; // 90% of 2016
         consensus.nRuleChangeActivationThreshold = 1815; // 90% of 2016
  //lastworking       consensus.nMinerConfirmationWindow = 100; // nPowTargetTimespan / nPowTargetSpacing
-        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nMinerConfirmationWindow = 100; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = Consensus::BIP9Deployment::NEVER_ACTIVE;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
@@ -103,7 +104,7 @@ public:
 
        // consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000003404ba0801921119f903495e");
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000100010");
-        consensus.defaultAssumeValid = uint256S("0x00000caff19214512f927af2b7cead4b33a54c096e432a275628cb4cf8d4b73c"); // 751565
+        consensus.defaultAssumeValid = uint256S("0x00000000000000026851db0a5df86ec01d797889678612d7cb48bddc3e79f115"); // 751565
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -203,7 +204,7 @@ min Main nBit:  1b172947
         checkpointData = {
             {
 
-                { 0, uint256S("0x00000caff19214512f927af2b7cead4b33a54c096e432a275628cb4cf8d4b73c")},
+                { 11614, uint256S("0x00000000000000026851db0a5df86ec01d797889678612d7cb48bddc3e79f115")},
 /*
                 { 11111, uint256S("0x0000000069e244f73d78e8fd29ba2fd2ed618bd6fa2ee92559f542fdb26e7c1d")},
                 { 33333, uint256S("0x000000002dd5588a74784eaa7ab0507a18ad16a236e7b1ce69f00d7ddfb5d0a6")},

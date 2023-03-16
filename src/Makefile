@@ -141,7 +141,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-pc-linux-gnu
-host_triplet = x86_64-pc-linux-gnu
+host_triplet = x86_64-w64-mingw32
 bin_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
 	$(am__EXEEXT_4) $(am__EXEEXT_5) $(am__EXEEXT_6) \
 	$(am__EXEEXT_7) $(am__EXEEXT_8) $(am__EXEEXT_9) \
@@ -168,11 +168,11 @@ am__append_16 = wallet/bdb.cpp wallet/salvage.cpp
 am__append_17 = crypto/sha256_sse4.cpp
 am__append_18 = $(EVENT_CFLAGS)
 am__append_19 = common/url.cpp
-#am__append_20 = bitnetd-res.rc
-#am__append_21 = bitnet-cli-res.rc
-#am__append_22 = bitnet-tx-res.rc
-#am__append_23 = bitnet-wallet-res.rc
-#am__append_24 = bitnet-util-res.rc
+am__append_20 = bitnetd-res.rc
+am__append_21 = bitnet-cli-res.rc
+am__append_22 = bitnet-tx-res.rc
+am__append_23 = bitnet-wallet-res.rc
+am__append_24 = bitnet-util-res.rc
 #
 
 # bitnetkernel library #
@@ -199,10 +199,10 @@ am__append_40 = $(LIBCRC32C_SSE42_INT)
 #am__append_42 = $(LIBCRC32C_ARM_CRC_INT)
 #am__append_43 = -DLEVELDB_IS_BIG_ENDIAN=1
 am__append_44 = -DLEVELDB_IS_BIG_ENDIAN=0
-#am__append_45 = -DLEVELDB_PLATFORM_WINDOWS -D_UNICODE -DUNICODE -D__USE_MINGW_ANSI_STDIO=1
-am__append_46 = -DLEVELDB_PLATFORM_POSIX
-#am__append_47 = leveldb/util/env_windows.cc
-am__append_48 = leveldb/util/env_posix.cc
+am__append_45 = -DLEVELDB_PLATFORM_WINDOWS -D_UNICODE -DUNICODE -D__USE_MINGW_ANSI_STDIO=1
+#am__append_46 = -DLEVELDB_PLATFORM_POSIX
+am__append_47 = leveldb/util/env_windows.cc
+#am__append_48 = leveldb/util/env_posix.cc
 am__append_49 = wallet/test/util.h
 am__append_50 = wallet/test/util.cpp
 #am__append_51 = test/fuzz/fuzz
@@ -255,10 +255,10 @@ am__append_63 = $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 am__append_71 = qt/bitnet-qt
 #am__append_72 = bitnet-gui
 am__append_73 = qt/libbitnetqt.a
-#am__append_74 = $(BITCOIN_QT_WINDOWS_CPP)
+am__append_74 = $(BITCOIN_QT_WINDOWS_CPP)
 am__append_75 = $(BITCOIN_QT_WALLET_CPP)
 #am__append_76 = $(BITCOIN_MM)
-#am__append_77 = $(BITCOIN_QT_RC)
+am__append_77 = $(BITCOIN_QT_RC)
 am__append_78 = $(LIBBITCOIN_UTIL) $(LIBBITCOIN_WALLET)
 am__append_79 = $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 am__append_80 = $(CLEAN_QT)
@@ -1141,8 +1141,8 @@ am__objects_17 =  \
 	qt/libbitnetqt_a-utilitydialog.$(OBJEXT)
 am__objects_18 =  \
 	qt/libbitnetqt_a-winshutdownmonitor.$(OBJEXT)
-#am__objects_19 =  \
-#	$(am__objects_18)
+am__objects_19 =  \
+	$(am__objects_18)
 am__objects_20 =  \
 	qt/libbitnetqt_a-addressbookpage.$(OBJEXT) \
 	qt/libbitnetqt_a-addresstablemodel.$(OBJEXT) \
@@ -1418,9 +1418,9 @@ am__leveldb_libleveldb_la_SOURCES_DIST = leveldb/port/port_stdcxx.h \
 	leveldb/util/logging.cc leveldb/util/options.cc \
 	leveldb/util/status.cc leveldb/util/env_windows.cc \
 	leveldb/util/env_posix.cc
-#am__objects_29 = leveldb/util/libleveldb_la-env_windows.lo
-am__objects_30 =  \
-	leveldb/util/libleveldb_la-env_posix.lo
+am__objects_29 = leveldb/util/libleveldb_la-env_windows.lo
+#am__objects_30 =  \
+#	leveldb/util/libleveldb_la-env_posix.lo
 am_leveldb_libleveldb_la_OBJECTS =  \
 	leveldb/db/libleveldb_la-builder.lo \
 	leveldb/db/libleveldb_la-c.lo \
@@ -1748,7 +1748,7 @@ bitnet_chainstate_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(bitnet_chainstate_CXXFLAGS) $(CXXFLAGS) \
 	$(bitnet_chainstate_LDFLAGS) $(LDFLAGS) -o $@
 am__bitnet_cli_SOURCES_DIST = bitnet-cli.cpp bitnet-cli-res.rc
-#am__objects_37 = bitnet-cli-res.$(OBJEXT)
+am__objects_37 = bitnet-cli-res.$(OBJEXT)
 am_bitnet_cli_OBJECTS = bitnet_cli-bitnet-cli.$(OBJEXT) \
 	$(am__objects_37)
 bitnet_cli_OBJECTS = $(am_bitnet_cli_OBJECTS)
@@ -1761,8 +1761,8 @@ bitnet_cli_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 am__bitnet_gui_SOURCES_DIST = qt/main.cpp qt/res/bitnet-qt-res.rc \
 	init/bitnet-gui.cpp
 am__objects_38 = qt/res/bitnet-qt-res.$(OBJEXT)
-#am__objects_39 =  \
-#	$(am__objects_38)
+am__objects_39 =  \
+	$(am__objects_38)
 am__objects_40 = qt/bitnet_gui-main.$(OBJEXT) \
 	$(am__objects_39)
 am_bitnet_gui_OBJECTS = $(am__objects_40) \
@@ -1791,7 +1791,7 @@ bitnet_gui_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(bitnet_gui_LDFLAGS) $(LDFLAGS) -o $@
 am__bitnet_node_SOURCES_DIST = bitnetd.cpp bitnetd-res.rc \
 	init/bitnet-node.cpp
-#am__objects_41 = bitnetd-res.$(OBJEXT)
+am__objects_41 = bitnetd-res.$(OBJEXT)
 am__objects_42 = bitnet_node-bitnetd.$(OBJEXT) $(am__objects_41)
 am_bitnet_node_OBJECTS = $(am__objects_42) \
 	init/bitnet_node-bitnet-node.$(OBJEXT)
@@ -1809,7 +1809,7 @@ bitnet_node_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(bitnet_node_CXXFLAGS) \
 	$(CXXFLAGS) $(bitnet_node_LDFLAGS) $(LDFLAGS) -o $@
 am__bitnet_tx_SOURCES_DIST = bitnet-tx.cpp bitnet-tx-res.rc
-#am__objects_43 = bitnet-tx-res.$(OBJEXT)
+am__objects_43 = bitnet-tx-res.$(OBJEXT)
 am_bitnet_tx_OBJECTS = bitnet_tx-bitnet-tx.$(OBJEXT) $(am__objects_43)
 bitnet_tx_OBJECTS = $(am_bitnet_tx_OBJECTS)
 bitnet_tx_DEPENDENCIES = $(LIBUNIVALUE) $(LIBBITCOIN_COMMON) \
@@ -1819,7 +1819,7 @@ bitnet_tx_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(bitnet_tx_CXXFLAGS) \
 	$(CXXFLAGS) $(bitnet_tx_LDFLAGS) $(LDFLAGS) -o $@
 am__bitnet_util_SOURCES_DIST = bitnet-util.cpp bitnet-util-res.rc
-#am__objects_44 = bitnet-util-res.$(OBJEXT)
+am__objects_44 = bitnet-util-res.$(OBJEXT)
 am_bitnet_util_OBJECTS = bitnet_util-bitnet-util.$(OBJEXT) \
 	$(am__objects_44)
 bitnet_util_OBJECTS = $(am_bitnet_util_OBJECTS)
@@ -1831,7 +1831,7 @@ bitnet_util_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(CXXFLAGS) $(bitnet_util_LDFLAGS) $(LDFLAGS) -o $@
 am__bitnet_wallet_SOURCES_DIST = bitnet-wallet.cpp \
 	init/bitnet-wallet.cpp bitnet-wallet-res.rc
-#am__objects_45 = bitnet-wallet-res.$(OBJEXT)
+am__objects_45 = bitnet-wallet-res.$(OBJEXT)
 am_bitnet_wallet_OBJECTS = bitnet_wallet-bitnet-wallet.$(OBJEXT) \
 	init/bitnet_wallet-bitnet-wallet.$(OBJEXT) $(am__objects_45)
 bitnet_wallet_OBJECTS = $(am_bitnet_wallet_OBJECTS)
@@ -3549,7 +3549,7 @@ am__set_TESTS_bases = \
 AM_TESTSUITE_SUMMARY_HEADER = ' for $(PACKAGE_STRING)'
 RECHECK_LOGS = $(TEST_LOGS)
 TEST_SUITE_LOG = test-suite.log
-TEST_EXTENSIONS =  .test
+TEST_EXTENSIONS = .exe .test
 LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
 LOG_COMPILE = $(LOG_COMPILER) $(AM_LOG_FLAGS) $(LOG_FLAGS)
 am__set_b = \
@@ -3563,7 +3563,7 @@ am__set_b = \
       b='$*';; \
   esac
 am__test_logs1 = $(TESTS:=.log)
-am__test_logs2 = $(am__test_logs1:.log=.log)
+am__test_logs2 = $(am__test_logs1:.exe.log=.log)
 TEST_LOGS = $(am__test_logs2:.test.log=.log)
 TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
 TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
@@ -3613,16 +3613,16 @@ ACLOCAL = ${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' aclocal-1.16
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 0
 ANDROID_ARCH = 
-AR = ar
+AR = x86_64-w64-mingw32-ar
 ARFLAGS = cr
 ARM_CRC_CXXFLAGS = 
 ARM_SHANI_CXXFLAGS = 
-AS = as
+AS = x86_64-w64-mingw32-as
 AUTOCONF = ${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' autoconf
 AUTOHEADER = ${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' autoheader
 AUTOMAKE = ${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' automake-1.16
 AVX2_CXXFLAGS = -mavx -mavx2
-AWK = gawk
+AWK = mawk
 BDB_CFLAGS = 
 BDB_CPPFLAGS = 
 BDB_LIBS = -ldb_cxx-4.8
@@ -3636,9 +3636,9 @@ BITCOIN_TEST_NAME = test_bitnet
 BITCOIN_TX_NAME = bitnet-tx
 BITCOIN_UTIL_NAME = bitnet-util
 BITCOIN_WALLET_TOOL_NAME = bitnet-wallet
-BOOST_CPPFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include -DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION
+BOOST_CPPFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION -DBOOST_NO_CXX98_FUNCTION_BASE
 BREW = 
-CC = gcc -m64
+CC = x86_64-w64-mingw32-gcc
 CCACHE = 
 CCDEPMODE = depmode=gcc3
 CFLAGS = -pipe -std=c11 -O2 
@@ -3651,17 +3651,17 @@ COPYRIGHT_HOLDERS = The %s developers
 COPYRIGHT_HOLDERS_FINAL = The Bitnet Core developers
 COPYRIGHT_HOLDERS_SUBSTITUTION = Bitnet Core
 COPYRIGHT_YEAR = 2023
-CORE_CPPFLAGS =  -DHAVE_BUILD_INFO
+CORE_CPPFLAGS =  -DHAVE_BUILD_INFO -D_MT -DWIN32 -D_WINDOWS -D_WIN32_WINNT=0x0601 -D_WIN32_IE=0x0501 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -D_FILE_OFFSET_BITS=64
 CORE_CXXFLAGS =  -fno-extended-identifiers
-CORE_LDFLAGS = 
+CORE_LDFLAGS =  -Wl,--major-subsystem-version -Wl,6 -Wl,--minor-subsystem-version -Wl,1
 COV_TOOL = 
 COV_TOOL_WRAPPER = 
-CPP = gcc -m64 -E
-CPPFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/ 
+CPP = x86_64-w64-mingw32-gcc -E
+CPPFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/ 
 CSCOPE = cscope
 CTAGS = ctags
-CXX = g++ -m64 -std=c++17
-CXXCPP = g++ -m64 -std=c++17 -E
+CXX = x86_64-w64-mingw32-g++-posix -std=c++17
+CXXCPP = x86_64-w64-mingw32-g++-posix -std=c++17 -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -pipe -std=c++17 -O2 
 CYGPATH_W = echo
@@ -3669,7 +3669,7 @@ DEBUG_CPPFLAGS =
 DEBUG_CXXFLAGS = 
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
-DLLTOOL = false
+DLLTOOL = x86_64-w64-mingw32-dlltool
 DOXYGEN = 
 DSYMUTIL = 
 DUMPBIN = 
@@ -3680,33 +3680,33 @@ EGREP = /usr/bin/grep -E
 ENABLE_EXTERNAL_SIGNER = 
 ERROR_CXXFLAGS = 
 ETAGS = etags
-EVENT_CFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include 
-EVENT_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -levent 
-EVENT_PTHREADS_CFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include 
-EVENT_PTHREADS_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -levent_pthreads -levent 
-EXEEXT = 
+EVENT_CFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+EVENT_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -levent -lws2_32
+EVENT_PTHREADS_CFLAGS = 
+EVENT_PTHREADS_LIBS = 
+EXEEXT = .exe
 EXTENDED_FUNCTIONAL_TESTS = 
 FGREP = /usr/bin/grep -F
 FILECMD = file
-GCOV = /usr/bin/gcov
+GCOV = /usr/bin/x86_64-w64-mingw32-gcov
 GENHTML = 
 GIT = /usr/bin/git
 GPROF_CXXFLAGS = 
 GPROF_LDFLAGS = 
 GREP = /usr/bin/grep
 HARDENED_CPPFLAGS =  -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3
-HARDENED_CXXFLAGS =  -fstack-reuse=none -Wstack-protector -fstack-protector-all -fcf-protection=full -fstack-clash-protection
-HARDENED_LDFLAGS =  -Wl,-z,relro -Wl,-z,now -Wl,-z,separate-code -pie
+HARDENED_CXXFLAGS =  -fstack-reuse=none -Wstack-protector -fstack-protector-all -fcf-protection=full
+HARDENED_LDFLAGS =  -Wl,--enable-reloc-section -Wl,--dynamicbase -Wl,--nxcompat -Wl,--high-entropy-va -pie
 HAVE_BUILTIN_PREFETCH = 1
 HAVE_CXX17 = 1
 HAVE_CXX20 = 
 HAVE_EVHTTP_CONNECTION_GET_PEER_CONST_CHAR = 
-HAVE_FDATASYNC = 1
+HAVE_FDATASYNC = 0
 HAVE_FULLFSYNC = 0
 HAVE_GMTIME_R = 
 HAVE_MM_PREFETCH = 1
-HAVE_O_CLOEXEC = 1
-HAVE_STRONG_GETAUXVAL = 1
+HAVE_O_CLOEXEC = 0
+HAVE_STRONG_GETAUXVAL = 0
 HEXDUMP = /usr/bin/hexdump
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
@@ -3714,46 +3714,46 @@ INSTALL_NAME_TOOL =
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-LCONVERT = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/lconvert
+LCONVERT = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/bin/lconvert
 LCOV = 
 LCOV_OPTS = 
-LD = /usr/bin/ld -m elf_x86_64
-LDFLAGS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib 
+LD = /usr/bin/x86_64-w64-mingw32-ld
+LDFLAGS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib 
 LIBMULTIPROCESS_CFLAGS = 
 LIBMULTIPROCESS_LIBS = 
 LIBOBJS = 
-LIBS = 
+LIBS = -lssp -liphlpapi -lshlwapi -lws2_32 -ladvapi32 -luuid -loleaut32 -lole32 -lcomctl32 -lshell32 -lwinmm -lcomdlg32 -lgdi32 -luser32 -lkernel32 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
-LIBTOOL_APP_LDFLAGS = 
+LIBTOOL_APP_LDFLAGS =  -all-static
 LIPO = 
 LLVM_COV = 
 LN_S = ln -s
-LRELEASE = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/lrelease
+LRELEASE = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/bin/lrelease
 LTLIBOBJS = 
 LTO_CXXFLAGS = 
 LTO_LDFLAGS = 
 LT_SYS_LIBRARY_PATH = 
-LUPDATE = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/lupdate
+LUPDATE = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/bin/lupdate
 MAINT = 
 MAKEINFO = ${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' makeinfo
-MAKENSIS = 
+MAKENSIS = /usr/bin/makensis
 MANIFEST_TOOL = :
-MINIUPNPC_CPPFLAGS = 
+MINIUPNPC_CPPFLAGS =  -DSTATICLIB -DMINIUPNP_STATICLIB
 MINIUPNPC_LIBS =  -lminiupnpc -lminiupnpc -lminiupnpc
 MKDIR_P = /usr/bin/mkdir -p
-MOC = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/moc
+MOC = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/bin/moc
 MOC_DEFS = -DHAVE_CONFIG_H -I$(srcdir)
 MPGEN_PREFIX = 
 NATPMP_CPPFLAGS = 
 NATPMP_LIBS = 
-NM = nm
+NM = x86_64-w64-mingw32-nm
 NMEDIT = 
 NOWARN_CXXFLAGS = 
-OBJCOPY = /usr/bin/objcopy
-OBJCXX = g++ -m64 -std=c++17
+OBJCOPY = /usr/bin/x86_64-w64-mingw32-objcopy
+OBJCXX = x86_64-w64-mingw32-g++-posix -std=c++17
 OBJCXXDEPMODE = depmode=gcc3
 OBJCXXFLAGS = 
-OBJDUMP = objdump
+OBJDUMP = x86_64-w64-mingw32-objdump
 OBJEXT = o
 OTOOL = 
 OTOOL64 = 
@@ -3765,71 +3765,71 @@ PACKAGE_TARNAME = bitnet
 PACKAGE_URL = https://bitnetcore.org/
 PACKAGE_VERSION = 24.99.0
 PATH_SEPARATOR = :
-PIC_FLAGS = -fPIC
+PIC_FLAGS = 
 PIE_FLAGS = -fPIE
-PKG_CONFIG = env PKG_CONFIG_LIBDIR=/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/pkgconfig env PKG_CONFIG_PATH=/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/share/pkgconfig:/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/pkgconfig /usr/bin/pkg-config --static
-PKG_CONFIG_LIBDIR = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/pkgconfig
-PKG_CONFIG_PATH = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/share/pkgconfig:/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/pkgconfig
-PTHREAD_CC = gcc -m64
+PKG_CONFIG = env PKG_CONFIG_LIBDIR=/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/pkgconfig env PKG_CONFIG_PATH=/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/share/pkgconfig:/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/pkgconfig /usr/bin/pkg-config --static
+PKG_CONFIG_LIBDIR = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/pkgconfig
+PKG_CONFIG_PATH = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/share/pkgconfig:/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/pkgconfig
+PTHREAD_CC = x86_64-w64-mingw32-gcc
 PTHREAD_CFLAGS = -pthread
-PTHREAD_CXX = g++ -m64 -std=c++17
+PTHREAD_CXX = x86_64-w64-mingw32-g++-posix -std=c++17
 PTHREAD_LIBS = -lpthread
-PYTHON = /usr/bin/python3.10
-PYTHONPATH = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/lib/python3/dist-packages
-QR_CFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include 
-QR_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lqrencode -lpthread 
-QT_ACCESSIBILITY_CFLAGS = -DQT_ACCESSIBILITY_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtAccessibilitySupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB 
-QT_ACCESSIBILITY_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5AccessibilitySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
+PYTHON = 
+PYTHONPATH = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/lib/python3/dist-packages
+QR_CFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QR_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lqrencode -lpthread
+QT_ACCESSIBILITY_CFLAGS = -DQT_ACCESSIBILITY_SUPPORT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtAccessibilitySupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_ACCESSIBILITY_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5AccessibilitySupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
 QT_CLIPBOARD_CFLAGS = 
 QT_CLIPBOARD_LIBS = 
-QT_CORE_CFLAGS = -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore 
-QT_CORE_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_DBUS_CFLAGS = -DQT_DBUS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDBus -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore 
-QT_DBUS_INCLUDES = -DQT_DBUS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDBus -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore 
-QT_DBUS_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5DBus /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_DEVICEDISCOVERY_CFLAGS = -DQT_DEVICEDISCOVERY_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDeviceDiscoverySupport -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore 
-QT_DEVICEDISCOVERY_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_EDID_CFLAGS = -DQT_EDID_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtEdidSupport -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore 
-QT_EDID_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5EdidSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
+QT_CORE_CFLAGS = -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_CORE_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
+QT_DBUS_CFLAGS = 
+QT_DBUS_INCLUDES = 
+QT_DBUS_LIBS = 
+QT_DEVICEDISCOVERY_CFLAGS = -DQT_DEVICEDISCOVERY_SUPPORT_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtDeviceDiscoverySupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_DEVICEDISCOVERY_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
+QT_EDID_CFLAGS = -DQT_EDID_SUPPORT_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtEdidSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_EDID_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5EdidSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
 QT_EGL_CFLAGS = 
 QT_EGL_LIBS = 
-QT_EVENTDISPATCHER_CFLAGS = -DQT_EVENTDISPATCHER_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtEventDispatcherSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB 
-QT_EVENTDISPATCHER_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5EventDispatcherSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_FB_CFLAGS = -DQT_FB_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtFbSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB 
-QT_FB_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5FbSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_FONTDATABASE_CFLAGS = -DQT_FONTDATABASE_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtFontDatabaseSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB 
-QT_FONTDATABASE_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5FontDatabaseSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
+QT_EVENTDISPATCHER_CFLAGS = -DQT_EVENTDISPATCHER_SUPPORT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtEventDispatcherSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_EVENTDISPATCHER_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5EventDispatcherSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
+QT_FB_CFLAGS = -DQT_FB_SUPPORT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtFbSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_FB_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5FbSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
+QT_FONTDATABASE_CFLAGS = -DQT_FONTDATABASE_SUPPORT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtFontDatabaseSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_FONTDATABASE_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5FontDatabaseSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -ldwrite -ld2d1 -ladvapi32 -lole32 -luser32 -lgdi32 -luuid -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
 QT_GRAPHICS_CFLAGS = 
 QT_GRAPHICS_LIBS = 
-QT_GUI_CFLAGS = -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore 
-QT_GUI_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_INCLUDES = -DQT_NETWORK_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtNetwork -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore  -DQT_WIDGETS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtWidgets -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB  -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore  -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore  
-QT_INPUT_CFLAGS = -DQT_INPUT_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtInputSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_DEVICEDISCOVERY_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDeviceDiscoverySupport -DQT_CORE_LIB 
-QT_INPUT_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5InputSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DeviceDiscoverySupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_LDFLAGS = 
-QT_LIBS = -lqxcb -lqminimal -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5XkbCommonSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5XcbQpa /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5ServiceSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5ThemeSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5FontDatabaseSupport.a -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5XkbCommonSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5EdidSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lxcb-icccm -lxcb-image -lxcb-shm -lxcb-keysyms -lxcb-randr -lxcb-render-util -lxcb-render -lxcb-shape -lxcb-sync -lxcb-xfixes -lxcb-xinerama -lxcb-xkb -lxcb -lxkbcommon-x11 -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5ServiceSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DBus /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5FontDatabaseSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5EdidSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5XkbCommonSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5ServiceSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DBus /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5InputSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DeviceDiscoverySupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5FontDatabaseSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5FbSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5EventDispatcherSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5EdidSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5AccessibilitySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Network /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lgssapi_krb5 -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Widgets /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a   -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/plugins/platforms
-QT_NETWORK_CFLAGS = -DQT_NETWORK_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtNetwork -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore 
-QT_NETWORK_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Network /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lgssapi_krb5 -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
+QT_GUI_CFLAGS = -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_GUI_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
+QT_INCLUDES = -DQT_NETWORK_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtNetwork -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtWidgets -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include 
+QT_INPUT_CFLAGS = 
+QT_INPUT_LIBS = 
+QT_LDFLAGS =  -mwindows
+QT_LIBS = -lqwindowsvistastyle -lqwindows -lqminimal -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5WindowsUIAutomationSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5FontDatabaseSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -ldwrite -ld2d1 -ladvapi32 -lole32 -luser32 -lgdi32 -luuid -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5FbSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5EventDispatcherSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5EdidSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5AccessibilitySupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5Network /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -ldnsapi -liphlpapi /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -ladvapi32 -lws2_32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5Widgets /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -luxtheme -ldwmapi -lshell32 -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm  -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/plugins/platforms -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/plugins/styles -lwtsapi32
+QT_NETWORK_CFLAGS = -DQT_NETWORK_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtNetwork -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_NETWORK_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5Network /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -ldnsapi -liphlpapi /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -ladvapi32 -lws2_32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
 QT_PIE_FLAGS = -fPIE
 QT_SELECT = qt5
-QT_SERVICE_CFLAGS = -DQT_SERVICE_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtServiceSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_DBUS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDBus -DQT_CORE_LIB 
-QT_SERVICE_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5ServiceSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DBus /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_TEST_CFLAGS = -DQT_TESTLIB_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtTest -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore 
-QT_TEST_INCLUDES = -DQT_TESTLIB_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtTest -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore 
-QT_TEST_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Test /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_THEME_CFLAGS = -DQT_THEME_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtThemeSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB 
-QT_THEME_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_TRANSLATION_DIR = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/translations
-QT_WIDGETS_CFLAGS = -DQT_WIDGETS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtWidgets -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB 
-QT_WIDGETS_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Widgets /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_WINDOWSUIAUTOMATION_CFLAGS = 
-QT_WINDOWSUIAUTOMATION_LIBS = 
-QT_XCBQPA_CFLAGS = -DQT_XCB_QPA_LIB_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtXcbQpa -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_SERVICE_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtServiceSupport -DQT_DBUS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDBus -DQT_THEME_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtThemeSupport -DQT_FONTDATABASE_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtFontDatabaseSupport -DQT_EDID_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtEdidSupport -DQT_XKBCOMMON_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtXkbCommonSupport -DQT_GUI_LIB -DQT_CORE_LIB 
-QT_XCBQPA_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5XcbQpa /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5ServiceSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5ThemeSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5FontDatabaseSupport.a -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5XkbCommonSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5EdidSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lxcb-icccm -lxcb-image -lxcb-shm -lxcb-keysyms -lxcb-randr -lxcb-render-util -lxcb-render -lxcb-shape -lxcb-sync -lxcb-xfixes -lxcb-xinerama -lxcb-xkb -lxcb -lxkbcommon-x11 -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5ServiceSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DBus /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5FontDatabaseSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5EdidSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5XkbCommonSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-QT_XKBCOMMON_CFLAGS = -DQT_XKBCOMMON_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtXkbCommonSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB 
-QT_XKBCOMMON_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5XkbCommonSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a 
-RANLIB = ranlib
-RCC = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/rcc
+QT_SERVICE_CFLAGS = 
+QT_SERVICE_LIBS = 
+QT_TEST_CFLAGS = -DQT_TESTLIB_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtTest -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_TEST_INCLUDES = -DQT_TESTLIB_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtTest -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_TEST_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5Test /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
+QT_THEME_CFLAGS = -DQT_THEME_SUPPORT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtThemeSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_THEME_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
+QT_TRANSLATION_DIR = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/translations
+QT_WIDGETS_CFLAGS = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtWidgets -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_WIDGETS_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5Widgets /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -luxtheme -ldwmapi -lshell32 -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
+QT_WINDOWSUIAUTOMATION_CFLAGS = -DQT_WINDOWSUIAUTOMATION_SUPPORT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtWindowsUIAutomationSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtGui -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+QT_WINDOWSUIAUTOMATION_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lQt5WindowsUIAutomationSupport /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm -lQt5Gui -ld3d11 -ldxgi -ldxguid /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libQt5Core.a -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtharfbuzz.a -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -luser32 -ladvapi32 -lQt5Core -lmpr -luserenv -lversion /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib/libqtpcre2.a -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm
+QT_XCBQPA_CFLAGS = 
+QT_XCBQPA_LIBS = 
+QT_XKBCOMMON_CFLAGS = 
+QT_XKBCOMMON_LIBS = 
+RANLIB = x86_64-w64-mingw32-ranlib
+RCC = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/bin/rcc
 RELDFLAGS = 
 RUNTIME_LDFLAGS = 
 SANITIZER_CXXFLAGS = 
@@ -3837,25 +3837,25 @@ SANITIZER_LDFLAGS =
 SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
-SQLITE_CFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include 
-SQLITE_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lsqlite3 -lz -lm 
+SQLITE_CFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include
+SQLITE_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lsqlite3
 SSE41_CXXFLAGS = -msse4.1
 SSE42_CXXFLAGS = -msse4.2
-STRIP = strip
+STRIP = x86_64-w64-mingw32-strip
 TESTDEFS = 
-UIC = /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/uic
+UIC = /home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/bin/uic
 USE_BDB = 
 USE_QRCODE = 
 USE_SQLITE = 
 USE_UPNP = 
 VERSION = 24.99.0
 WARN_CXXFLAGS = 
-WINDRES = 
+WINDRES = /usr/bin/x86_64-w64-mingw32-windres
 X86_SHANI_CXXFLAGS = -msse4 -msha
 XGETTEXT = 
 XORRISOFS = 
-ZMQ_CFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include 
-ZMQ_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lzmq -lpthread -lrt 
+ZMQ_CFLAGS = -I/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/include -DZMQ_STATIC
+ZMQ_LIBS = -L/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/lib -lzmq -liphlpapi -lpthread
 abs_builddir = /home/c4pt/opt/bitnet-core/src
 abs_srcdir = /home/c4pt/opt/bitnet-core/src
 abs_top_builddir = /home/c4pt/opt/bitnet-core
@@ -3883,11 +3883,11 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = x86_64-pc-linux-gnu
-host_alias = x86_64-pc-linux-gnu
+host = x86_64-w64-mingw32
+host_alias = x86_64-w64-mingw32
 host_cpu = x86_64
-host_os = linux-gnu
-host_vendor = pc
+host_os = mingw32
+host_vendor = w64
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
@@ -3900,7 +3900,7 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /home/c4pt/opt/bitnet-core/bitnet-shared
+prefix = /home/c4pt/opt/bitnet-core/bitnet-shared-windows-diff
 program_transform_name = s,x,x,
 psdir = ${docdir}
 runstatedir = ${localstatedir}/run
@@ -4723,7 +4723,7 @@ LIBCRC32C = $(LIBCRC32C_INT) $(am__append_40) $(am__append_42)
 CRC32C_CPPFLAGS_INT = -I$(srcdir)/crc32c/include \
 	-DHAVE_BUILTIN_PREFETCH=1 \
 	-DHAVE_MM_PREFETCH=1 \
-	-DHAVE_STRONG_GETAUXVAL=1 \
+	-DHAVE_STRONG_GETAUXVAL=0 \
 	-DCRC32C_TESTS_BUILT_WITH_GLOG=0 $(am__append_33) \
 	$(am__append_34) $(am__append_35) $(am__append_36) \
 	$(am__append_37) $(am__append_38)
@@ -4758,9 +4758,9 @@ LIBMEMENV = $(LIBMEMENV_INT)
 LEVELDB_CPPFLAGS = -I$(srcdir)/leveldb/include
 LEVELDB_CPPFLAGS_INT = -I$(srcdir)/leveldb -I$(srcdir)/crc32c/include \
 	-D__STDC_LIMIT_MACROS -DHAVE_SNAPPY=0 -DHAVE_CRC32C=1 \
-	-DHAVE_FDATASYNC=1 \
+	-DHAVE_FDATASYNC=0 \
 	-DHAVE_FULLFSYNC=0 \
-	-DHAVE_O_CLOEXEC=1 \
+	-DHAVE_O_CLOEXEC=0 \
 	-DFALLTHROUGH_INTENDED=[[fallthrough]] $(am__append_43) \
 	$(am__append_44) $(am__append_45) $(am__append_46)
 leveldb_libleveldb_la_CPPFLAGS = $(AM_CPPFLAGS) $(LEVELDB_CPPFLAGS_INT) $(LEVELDB_CPPFLAGS)
@@ -19585,13 +19585,13 @@ qt/test/test_bitnet-qt.log: qt/test/test_bitnet-qt$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_TEST_LOG_DRIVER_FLAGS) $(TEST_LOG_DRIVER_FLAGS) -- $(TEST_LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-#.test$(EXEEXT).log:
-#	@p='$<'; \
-#	$(am__set_b); \
-#	$(am__check_pre) $(TEST_LOG_DRIVER) --test-name "$$f" \
-#	--log-file $$b.log --trs-file $$b.trs \
-#	$(am__common_driver_flags) $(AM_TEST_LOG_DRIVER_FLAGS) $(TEST_LOG_DRIVER_FLAGS) -- $(TEST_LOG_COMPILE) \
-#	"$$tst" $(AM_TESTS_FD_REDIRECT)
+.test$(EXEEXT).log:
+	@p='$<'; \
+	$(am__set_b); \
+	$(am__check_pre) $(TEST_LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_TEST_LOG_DRIVER_FLAGS) $(TEST_LOG_DRIVER_FLAGS) -- $(TEST_LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 distdir: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) distdir-am
 
@@ -21611,9 +21611,9 @@ ipc/capnp/libbitnet_ipc_a-protocol.$(OBJEXT): $(libbitnet_ipc_mpgen_input:=.h)
 
 $(BITCOIN_TESTS): $(GENERATED_TEST_FILES)
 
-#bitnet_test: $(TEST_BINARY)
-#bitnet_test: $(TEST_BINARY) $(BENCH_BINARY)
 bitnet_test: $(TEST_BINARY)
+##bitnet_test: $(TEST_BINARY) $(BENCH_BINARY)
+#bitnet_test: $(TEST_BINARY)
 
 bitnet_test_check: $(TEST_BINARY) FORCE
 	$(MAKE) check-TESTS TESTS=$^
@@ -21626,8 +21626,8 @@ check-local: $(BITCOIN_TESTS:.cpp=.cpp.test)
 	$(PYTHON) $(top_builddir)/test/util/test_runner.py
 	@echo "Running test/util/rpcauth-test.py..."
 	$(PYTHON) $(top_builddir)/test/util/rpcauth-test.py
-#	@echo "Running bench/bench_bitnet (one iteration sanity check, only high priority)..."
-#	$(BENCH_BINARY) -sanity-check -priority-level=high
+##	@echo "Running bench/bench_bitnet (one iteration sanity check, only high priority)..."
+##	$(BENCH_BINARY) -sanity-check -priority-level=high
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C secp256k1 check
 
 %.cpp.test: %.cpp
