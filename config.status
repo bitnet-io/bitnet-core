@@ -16,14 +16,16 @@ export SHELL
 
 # Be more Bourne compatible
 DUALCASE=1; export DUALCASE # for MKS sh
-if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then :
+as_nop=:
+if test ${ZSH_VERSION+y} && (emulate sh) >/dev/null 2>&1
+then :
   emulate sh
   NULLCMD=:
   # Pre-4.2 versions of Zsh do word splitting on ${1+"$@"}, which
   # is contrary to our usage.  Disable this feature.
   alias -g '${1+"$@"}'='"$@"'
   setopt NO_GLOB_SUBST
-else
+else $as_nop
   case `(set -o) 2>/dev/null` in #(
   *posix*) :
     set -o posix ;; #(
@@ -33,46 +35,46 @@ esac
 fi
 
 
+
+# Reset variables that may have inherited troublesome values from
+# the environment.
+
+# IFS needs to be set, to space, tab, and newline, in precisely that order.
+# (If _AS_PATH_WALK were called with IFS unset, it would have the
+# side effect of setting IFS to empty, thus disabling word splitting.)
+# Quoting is to prevent editors from complaining about space-tab.
 as_nl='
 '
 export as_nl
-# Printing a long string crashes Solaris 7 /usr/bin/printf.
-as_echo='\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\'
-as_echo=$as_echo$as_echo$as_echo$as_echo$as_echo
-as_echo=$as_echo$as_echo$as_echo$as_echo$as_echo$as_echo
-# Prefer a ksh shell builtin over an external printf program on Solaris,
-# but without wasting forks for bash or zsh.
-if test -z "$BASH_VERSION$ZSH_VERSION" \
-    && (test "X`print -r -- $as_echo`" = "X$as_echo") 2>/dev/null; then
-  as_echo='print -r --'
-  as_echo_n='print -rn --'
-elif (test "X`printf %s $as_echo`" = "X$as_echo") 2>/dev/null; then
-  as_echo='printf %s\n'
-  as_echo_n='printf %s'
-else
-  if test "X`(/usr/ucb/echo -n -n $as_echo) 2>/dev/null`" = "X-n $as_echo"; then
-    as_echo_body='eval /usr/ucb/echo -n "$1$as_nl"'
-    as_echo_n='/usr/ucb/echo -n'
-  else
-    as_echo_body='eval expr "X$1" : "X\\(.*\\)"'
-    as_echo_n_body='eval
-      arg=$1;
-      case $arg in #(
-      *"$as_nl"*)
-	expr "X$arg" : "X\\(.*\\)$as_nl";
-	arg=`expr "X$arg" : ".*$as_nl\\(.*\\)"`;;
-      esac;
-      expr "X$arg" : "X\\(.*\\)" | tr -d "$as_nl"
-    '
-    export as_echo_n_body
-    as_echo_n='sh -c $as_echo_n_body as_echo'
-  fi
-  export as_echo_body
-  as_echo='sh -c $as_echo_body as_echo'
-fi
+IFS=" ""	$as_nl"
+
+PS1='$ '
+PS2='> '
+PS4='+ '
+
+# Ensure predictable behavior from utilities with locale-dependent output.
+LC_ALL=C
+export LC_ALL
+LANGUAGE=C
+export LANGUAGE
+
+# We cannot yet rely on "unset" to work, but we need these variables
+# to be unset--not just set to an empty or harmless value--now, to
+# avoid bugs in old shells (e.g. pre-3.0 UWIN ksh).  This construct
+# also avoids known problems related to "unset" and subshell syntax
+# in other old shells (e.g. bash 2.01 and pdksh 5.2.14).
+for as_var in BASH_ENV ENV MAIL MAILPATH CDPATH
+do eval test \${$as_var+y} \
+  && ( (unset $as_var) || exit 1) >/dev/null 2>&1 && unset $as_var || :
+done
+
+# Ensure that fds 0, 1, and 2 are open.
+if (exec 3>&0) 2>/dev/null; then :; else exec 0</dev/null; fi
+if (exec 3>&1) 2>/dev/null; then :; else exec 1>/dev/null; fi
+if (exec 3>&2)            ; then :; else exec 2>/dev/null; fi
 
 # The user is always right.
-if test "${PATH_SEPARATOR+set}" != set; then
+if ${PATH_SEPARATOR+false} :; then
   PATH_SEPARATOR=:
   (PATH='/bin;/bin'; FPATH=$PATH; sh -c :) >/dev/null 2>&1 && {
     (PATH='/bin:/bin'; FPATH=$PATH; sh -c :) >/dev/null 2>&1 ||
@@ -80,13 +82,6 @@ if test "${PATH_SEPARATOR+set}" != set; then
   }
 fi
 
-
-# IFS
-# We need space, tab and new line, in precisely that order.  Quoting is
-# there to prevent editors from complaining about space-tab.
-# (If _AS_PATH_WALK were called with IFS unset, it would disable word
-# splitting by setting IFS to empty value.)
-IFS=" ""	$as_nl"
 
 # Find who we are.  Look in the path if we contain no directory separator.
 as_myself=
@@ -96,8 +91,12 @@ case $0 in #((
 for as_dir in $PATH
 do
   IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    test -r "$as_dir/$0" && as_myself=$as_dir/$0 && break
+  case $as_dir in #(((
+    '') as_dir=./ ;;
+    */) ;;
+    *) as_dir=$as_dir/ ;;
+  esac
+    test -r "$as_dir$0" && as_myself=$as_dir$0 && break
   done
 IFS=$as_save_IFS
 
@@ -109,30 +108,10 @@ if test "x$as_myself" = x; then
   as_myself=$0
 fi
 if test ! -f "$as_myself"; then
-  $as_echo "$as_myself: error: cannot find myself; rerun with an absolute file name" >&2
+  printf "%s\n" "$as_myself: error: cannot find myself; rerun with an absolute file name" >&2
   exit 1
 fi
 
-# Unset variables that we do not need and which cause bugs (e.g. in
-# pre-3.0 UWIN ksh).  But do not cause bugs in bash 2.01; the "|| exit 1"
-# suppresses any "Segmentation fault" message there.  '((' could
-# trigger a bug in pdksh 5.2.14.
-for as_var in BASH_ENV ENV MAIL MAILPATH
-do eval test x\${$as_var+set} = xset \
-  && ( (unset $as_var) || exit 1) >/dev/null 2>&1 && unset $as_var || :
-done
-PS1='$ '
-PS2='> '
-PS4='+ '
-
-# NLS nuisances.
-LC_ALL=C
-export LC_ALL
-LANGUAGE=C
-export LANGUAGE
-
-# CDPATH.
-(unset CDPATH) >/dev/null 2>&1 && unset CDPATH
 
 
 # as_fn_error STATUS ERROR [LINENO LOG_FD]
@@ -145,11 +124,12 @@ as_fn_error ()
   as_status=$1; test $as_status -eq 0 && as_status=1
   if test "$4"; then
     as_lineno=${as_lineno-"$3"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-    $as_echo "$as_me:${as_lineno-$LINENO}: error: $2" >&$4
+    printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: $2" >&$4
   fi
-  $as_echo "$as_me: error: $2" >&2
+  printf "%s\n" "$as_me: error: $2" >&2
   as_fn_exit $as_status
 } # as_fn_error
+
 
 
 # as_fn_set_status STATUS
@@ -178,18 +158,20 @@ as_fn_unset ()
   { eval $1=; unset $1;}
 }
 as_unset=as_fn_unset
+
 # as_fn_append VAR VALUE
 # ----------------------
 # Append the text in VALUE to the end of the definition contained in VAR. Take
 # advantage of any shell optimizations that allow amortized linear growth over
 # repeated appends, instead of the typical quadratic growth present in naive
 # implementations.
-if (eval "as_var=1; as_var+=2; test x\$as_var = x12") 2>/dev/null; then :
+if (eval "as_var=1; as_var+=2; test x\$as_var = x12") 2>/dev/null
+then :
   eval 'as_fn_append ()
   {
     eval $1+=\$2
   }'
-else
+else $as_nop
   as_fn_append ()
   {
     eval $1=\$$1\$2
@@ -201,12 +183,13 @@ fi # as_fn_append
 # Perform arithmetic evaluation on the ARGs, and store the result in the
 # global $as_val. Take advantage of shells that can avoid forks. The arguments
 # must be portable across $(()) and expr.
-if (eval "test \$(( 1 + 1 )) = 2") 2>/dev/null; then :
+if (eval "test \$(( 1 + 1 )) = 2") 2>/dev/null
+then :
   eval 'as_fn_arith ()
   {
     as_val=$(( $* ))
   }'
-else
+else $as_nop
   as_fn_arith ()
   {
     as_val=`expr "$@" || test $? -eq 1`
@@ -237,7 +220,7 @@ as_me=`$as_basename -- "$0" ||
 $as_expr X/"$0" : '.*/\([^/][^/]*\)/*$' \| \
 	 X"$0" : 'X\(//\)$' \| \
 	 X"$0" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X/"$0" |
+printf "%s\n" X/"$0" |
     sed '/^.*\/\([^/][^/]*\)\/*$/{
 	    s//\1/
 	    q
@@ -259,6 +242,10 @@ as_cr_Letters=$as_cr_letters$as_cr_LETTERS
 as_cr_digits='0123456789'
 as_cr_alnum=$as_cr_Letters$as_cr_digits
 
+
+# Determine whether it's possible to make 'echo' print without a newline.
+# These variables are no longer used directly by Autoconf, but are AC_SUBSTed
+# for compatibility with existing Makefiles.
 ECHO_C= ECHO_N= ECHO_T=
 case `echo -n x` in #(((((
 -n*)
@@ -271,6 +258,12 @@ case `echo -n x` in #(((((
 *)
   ECHO_N='-n';;
 esac
+
+# For backward compatibility with old third-party macros, we provide
+# the shell variables $as_echo and $as_echo_n.  New code should use
+# AS_ECHO(["message"]) and AS_ECHO_N(["message"]), respectively.
+as_echo='printf %s\n'
+as_echo_n='printf %s'
 
 rm -f conf$$ conf$$.exe conf$$.file
 if test -d conf$$.dir; then
@@ -313,7 +306,7 @@ as_fn_mkdir_p ()
     as_dirs=
     while :; do
       case $as_dir in #(
-      *\'*) as_qdir=`$as_echo "$as_dir" | sed "s/'/'\\\\\\\\''/g"`;; #'(
+      *\'*) as_qdir=`printf "%s\n" "$as_dir" | sed "s/'/'\\\\\\\\''/g"`;; #'(
       *) as_qdir=$as_dir;;
       esac
       as_dirs="'$as_qdir' $as_dirs"
@@ -322,7 +315,7 @@ $as_expr X"$as_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
 	 X"$as_dir" : 'X\(//\)[^/]' \| \
 	 X"$as_dir" : 'X\(//\)$' \| \
 	 X"$as_dir" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$as_dir" |
+printf "%s\n" X"$as_dir" |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
@@ -381,7 +374,7 @@ exec 6>&1
 # values after options handling.
 ac_log="
 This file was extended by Bitnet Core $as_me 24.99.0, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
+generated by GNU Autoconf 2.71.  Invocation command line was
 
   CONFIG_FILES    = $CONFIG_FILES
   CONFIG_HEADERS  = $CONFIG_HEADERS
@@ -432,20 +425,20 @@ $config_commands
 Report bugs to <https://github.com/bitnet/bitnet/issues>.
 Bitnet Core home page: <https://bitnetcore.org/>."
 
-ac_cs_config="'--prefix=/usr' '--disable-tests' '--disable-fuzz' '--disable-bench' '--disable-fuzz-binary' '--disable-shared' '--with-pic' '--enable-benchmark=no' '--enable-module-recovery' '--disable-module-ecdh' 'PYTHONPATH=/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/lib/python3/dist-packages' --disable-shared --with-pic --enable-benchmark=no --enable-module-recovery --disable-module-ecdh"
+ac_cs_config='--prefix=/home/c4pt/opt/bitnet-core/bitnet-shared --with-incompatible-bdb --enable-sse2 --without-natpmp --disable-tests --disable-bench --disable-fuzz --disable-fuzz-binary --disable-shared --with-pic --enable-benchmark=no --enable-module-recovery --disable-module-ecdh'
 ac_cs_version="\
 Bitnet Core config.status 24.99.0
-configured by ./configure, generated by GNU Autoconf 2.69,
+configured by ./configure, generated by GNU Autoconf 2.71,
   with options \"$ac_cs_config\"
 
-Copyright (C) 2012 Free Software Foundation, Inc.
+Copyright (C) 2021 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
 ac_pwd='/home/c4pt/opt/bitnet-core'
 srcdir='.'
-INSTALL='/bin/install -c'
-MKDIR_P='/bin/mkdir -p'
+INSTALL='/usr/bin/install -c'
+MKDIR_P='/usr/bin/mkdir -p'
 AWK='gawk'
 test -n "$AWK" || AWK=awk
 # The default lists apply if the user does not specify any file.
@@ -475,15 +468,15 @@ do
   -recheck | --recheck | --rechec | --reche | --rech | --rec | --re | --r)
     ac_cs_recheck=: ;;
   --version | --versio | --versi | --vers | --ver | --ve | --v | -V )
-    $as_echo "$ac_cs_version"; exit ;;
+    printf "%s\n" "$ac_cs_version"; exit ;;
   --config | --confi | --conf | --con | --co | --c )
-    $as_echo "$ac_cs_config"; exit ;;
+    printf "%s\n" "$ac_cs_config"; exit ;;
   --debug | --debu | --deb | --de | --d | -d )
     debug=: ;;
   --file | --fil | --fi | --f )
     $ac_shift
     case $ac_optarg in
-    *\'*) ac_optarg=`$as_echo "$ac_optarg" | sed "s/'/'\\\\\\\\''/g"` ;;
+    *\'*) ac_optarg=`printf "%s\n" "$ac_optarg" | sed "s/'/'\\\\\\\\''/g"` ;;
     '') as_fn_error $? "missing file argument" ;;
     esac
     as_fn_append CONFIG_FILES " '$ac_optarg'"
@@ -491,7 +484,7 @@ do
   --header | --heade | --head | --hea )
     $ac_shift
     case $ac_optarg in
-    *\'*) ac_optarg=`$as_echo "$ac_optarg" | sed "s/'/'\\\\\\\\''/g"` ;;
+    *\'*) ac_optarg=`printf "%s\n" "$ac_optarg" | sed "s/'/'\\\\\\\\''/g"` ;;
     esac
     as_fn_append CONFIG_HEADERS " '$ac_optarg'"
     ac_need_defaults=false;;
@@ -500,7 +493,7 @@ do
     as_fn_error $? "ambiguous option: \`$1'
 Try \`$0 --help' for more information.";;
   --help | --hel | -h )
-    $as_echo "$ac_cs_usage"; exit ;;
+    printf "%s\n" "$ac_cs_usage"; exit ;;
   -q | -quiet | --quiet | --quie | --qui | --qu | --q \
   | -silent | --silent | --silen | --sile | --sil | --si | --s)
     ac_cs_silent=: ;;
@@ -524,9 +517,9 @@ if $ac_cs_silent; then
 fi
 
 if $ac_cs_recheck; then
-  set X /bin/bash './configure'  '--prefix=/usr' '--disable-tests' '--disable-fuzz' '--disable-bench' '--disable-fuzz-binary' '--disable-shared' '--with-pic' '--enable-benchmark=no' '--enable-module-recovery' '--disable-module-ecdh' 'PYTHONPATH=/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/lib/python3/dist-packages' --disable-shared --with-pic --enable-benchmark=no --enable-module-recovery --disable-module-ecdh $ac_configure_extra_args --no-create --no-recursion
+  set X /bin/bash './configure'  '--prefix=/home/c4pt/opt/bitnet-core/bitnet-shared' '--with-incompatible-bdb' '--enable-sse2' '--without-natpmp' '--disable-tests' '--disable-bench' '--disable-fuzz' '--disable-fuzz-binary' --disable-shared --with-pic --enable-benchmark=no --enable-module-recovery --disable-module-ecdh $ac_configure_extra_args --no-create --no-recursion
   shift
-  $as_echo "running CONFIG_SHELL=/bin/bash $*" >&6
+  \printf "%s\n" "running CONFIG_SHELL=/bin/bash $*" >&6
   CONFIG_SHELL='/bin/bash'
   export CONFIG_SHELL
   exec "$@"
@@ -538,13 +531,13 @@ exec 5>>config.log
   sed 'h;s/./-/g;s/^.../## /;s/...$/ ##/;p;x;p;x' <<_ASBOX
 ## Running $as_me. ##
 _ASBOX
-  $as_echo "$ac_log"
+  printf "%s\n" "$ac_log"
 } >&5
 
 #
 # INIT-COMMANDS
 #
-AMDEP_TRUE="" ac_aux_dir="build-aux"
+AMDEP_TRUE="" MAKE="make"
 
 
 # The HP-UX ksh and POSIX shell print the target directory to stdout
@@ -554,32 +547,32 @@ AMDEP_TRUE="" ac_aux_dir="build-aux"
 sed_quote_subst='s/\(["`$\\]\)/\\\1/g'
 double_quote_subst='s/\(["`\\]\)/\\\1/g'
 delay_variable_subst='s/\\\\\\\\\\\$/\\\\\\$/g'
-macro_version='2.4.6'
-macro_revision='2.4.6'
+macro_version='2.4.7'
+macro_revision='2.4.7'
 pic_mode='yes'
 AS='as'
 DLLTOOL='false'
 OBJDUMP='objdump'
-enable_shared='no'
+enable_shared='yes'
 enable_static='yes'
 enable_fast_install='needless'
 shared_archive_member_spec=''
 SHELL='/bin/bash'
 ECHO='printf %s\n'
 PATH_SEPARATOR=':'
-host_alias=''
+host_alias='x86_64-pc-linux-gnu'
 host='x86_64-pc-linux-gnu'
 host_os='linux-gnu'
 build_alias=''
 build='x86_64-pc-linux-gnu'
 build_os='linux-gnu'
-SED='/bin/sed'
-Xsed='/bin/sed -e 1s/^X//'
-GREP='/bin/grep'
-EGREP='/bin/grep -E'
-FGREP='/bin/grep -F'
-LD='/bin/ld -m elf_x86_64'
-NM='/bin/nm -B'
+SED='/usr/bin/sed'
+Xsed='/usr/bin/sed -e 1s/^X//'
+GREP='/usr/bin/grep'
+EGREP='/usr/bin/grep -E'
+FGREP='/usr/bin/grep -F'
+LD='/usr/bin/ld -m elf_x86_64'
+NM='nm'
 LN_S='ln -s'
 max_cmd_len='1572864'
 ac_objext='o'
@@ -591,13 +584,15 @@ lt_cv_to_host_file_cmd='func_convert_file_noop'
 lt_cv_to_tool_file_cmd='func_convert_file_noop'
 reload_flag=' -r'
 reload_cmds='$LD$reload_flag -o $output$reload_objs'
+FILECMD='file'
 deplibs_check_method='pass_all'
 file_magic_cmd='$MAGIC_CMD'
 file_magic_glob=''
 want_nocaseglob='no'
 sharedlib_from_linklib_cmd='printf %s\n'
-AR='/bin/ar'
-AR_FLAGS='cru'
+AR='ar'
+lt_ar_flags='cr'
+AR_FLAGS='cr'
 archiver_list_spec='@'
 STRIP='strip'
 RANLIB='ranlib'
@@ -605,25 +600,25 @@ old_postinstall_cmds='chmod 644 $oldlib~$RANLIB $tool_oldlib'
 old_postuninstall_cmds=''
 old_archive_cmds='$AR $AR_FLAGS $oldlib$oldobjs~$RANLIB $tool_oldlib'
 lock_old_archive_extraction='no'
-CC='gcc'
-CFLAGS='-g -O2'
-compiler='g++ -std=c++17'
+CC='gcc -m64'
+CFLAGS='-pipe -std=c11 -O2 '
+compiler='g++ -m64 -std=c++17'
 GCC='yes'
-lt_cv_sys_global_symbol_pipe='sed -n -e '\''s/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p'\'' | sed '\''/ __gnu_lto/d'\'''
-lt_cv_sys_global_symbol_to_cdecl='sed -n -e '\''s/^T .* \(.*\)$/extern int \1();/p'\'' -e '\''s/^[ABCDGIRSTW][ABCDGIRSTW]* .* \(.*\)$/extern char \1;/p'\'''
+lt_cv_sys_global_symbol_pipe='/usr/bin/sed -n -e '\''s/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p'\'' | /usr/bin/sed '\''/ __gnu_lto/d'\'''
+lt_cv_sys_global_symbol_to_cdecl='/usr/bin/sed -n -e '\''s/^T .* \(.*\)$/extern int \1();/p'\'' -e '\''s/^[ABCDGIRSTW][ABCDGIRSTW]* .* \(.*\)$/extern char \1;/p'\'''
 lt_cv_sys_global_symbol_to_import=''
-lt_cv_sys_global_symbol_to_c_name_address='sed -n -e '\''s/^: \(.*\) .*$/  {"\1", (void *) 0},/p'\'' -e '\''s/^[ABCDGIRSTW][ABCDGIRSTW]* .* \(.*\)$/  {"\1", (void *) \&\1},/p'\'''
-lt_cv_sys_global_symbol_to_c_name_address_lib_prefix='sed -n -e '\''s/^: \(.*\) .*$/  {"\1", (void *) 0},/p'\'' -e '\''s/^[ABCDGIRSTW][ABCDGIRSTW]* .* \(lib.*\)$/  {"\1", (void *) \&\1},/p'\'' -e '\''s/^[ABCDGIRSTW][ABCDGIRSTW]* .* \(.*\)$/  {"lib\1", (void *) \&\1},/p'\'''
+lt_cv_sys_global_symbol_to_c_name_address='/usr/bin/sed -n -e '\''s/^: \(.*\) .*$/  {"\1", (void *) 0},/p'\'' -e '\''s/^[ABCDGIRSTW][ABCDGIRSTW]* .* \(.*\)$/  {"\1", (void *) \&\1},/p'\'''
+lt_cv_sys_global_symbol_to_c_name_address_lib_prefix='/usr/bin/sed -n -e '\''s/^: \(.*\) .*$/  {"\1", (void *) 0},/p'\'' -e '\''s/^[ABCDGIRSTW][ABCDGIRSTW]* .* \(lib.*\)$/  {"\1", (void *) \&\1},/p'\'' -e '\''s/^[ABCDGIRSTW][ABCDGIRSTW]* .* \(.*\)$/  {"lib\1", (void *) \&\1},/p'\'''
 lt_cv_nm_interface='BSD nm'
 nm_file_list_spec='@'
 lt_sysroot=''
-lt_cv_truncate_bin='/bin/dd bs=4096 count=1'
+lt_cv_truncate_bin='/usr/bin/dd bs=4096 count=1'
 objdir='.libs'
 MAGIC_CMD='file'
 lt_prog_compiler_no_builtin_flag=' -fno-builtin'
 lt_prog_compiler_pic=' -fPIC -DPIC'
 lt_prog_compiler_wl='-Wl,'
-lt_prog_compiler_static=''
+lt_prog_compiler_static='-static'
 lt_cv_prog_compiler_c_o='yes'
 need_locks='no'
 MANIFEST_TOOL=':'
@@ -635,7 +630,7 @@ OTOOL64=''
 libext='a'
 shrext_cmds='.so'
 extract_expsyms_cmds=''
-archive_cmds_need_lc='yes'
+archive_cmds_need_lc='no'
 enable_shared_with_static_runtimes='no'
 export_dynamic_flag_spec='$wl--export-dynamic'
 whole_archive_flag_spec='$wl--whole-archive$convenience $wl--no-whole-archive'
@@ -644,7 +639,7 @@ old_archive_from_new_cmds=''
 old_archive_from_expsyms_cmds=''
 archive_cmds='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname -o $lib'
 archive_expsym_cmds='echo "{ global:" > $output_objdir/$libname.ver~
-            cat $export_symbols | sed -e "s/\(.*\)/\1;/" >> $output_objdir/$libname.ver~
+            cat $export_symbols | $SED -e "s/\(.*\)/\1;/" >> $output_objdir/$libname.ver~
             echo "local: *; };" >> $output_objdir/$libname.ver~
             $CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname $wl-version-script $wl$output_objdir/$libname.ver -o $lib'
 module_cmds=''
@@ -674,7 +669,7 @@ need_version='no'
 version_type='linux'
 runpath_var='LD_RUN_PATH'
 shlibpath_var='LD_LIBRARY_PATH'
-shlibpath_overrides_runpath='no'
+shlibpath_overrides_runpath='yes'
 libname_spec='lib$name'
 library_names_spec='$libname$release$shared_ext$versuffix $libname$release$shared_ext$major $libname$shared_ext'
 soname_spec='$libname$release$shared_ext$major'
@@ -684,8 +679,8 @@ postuninstall_cmds=''
 finish_cmds='PATH="\$PATH:/sbin" ldconfig -n $libdir'
 finish_eval=''
 hardcode_into_libs='yes'
-sys_lib_search_path_spec='/usr/lib/gcc/x86_64-redhat-linux/11 /usr/lib64 /lib64 /usr/lib /lib '
-configure_time_dlsearch_path='/lib /usr/lib /usr/lib64/dyninst /usr/x86_64-w64-mingw32/lib/ /usr/lib64/pipewire-0.3/jack/ /usr/lib64/wine/ '
+sys_lib_search_path_spec='/usr/lib/gcc/x86_64-linux-gnu/12 /usr/lib/x86_64-linux-gnu /usr/lib /lib/x86_64-linux-gnu /lib '
+configure_time_dlsearch_path='/lib /usr/lib /usr/lib/x86_64-linux-gnu/libfakeroot /usr/local/lib /usr/lib/oracle/19.6/client64/lib/ /usr/local/lib/x86_64-linux-gnu /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu /lib32 /usr/lib32 '
 configure_time_lt_sys_library_path=''
 hardcode_action='immediate'
 enable_dlopen='unknown'
@@ -699,16 +694,16 @@ postdep_objects=''
 predeps=''
 postdeps=''
 compiler_lib_search_path=''
-LD_CXX='/bin/ld -m elf_x86_64'
+LD_CXX='/usr/bin/ld -m elf_x86_64'
 reload_flag_CXX=' -r'
 reload_cmds_CXX='$LD$reload_flag -o $output$reload_objs'
 old_archive_cmds_CXX='$AR $AR_FLAGS $oldlib$oldobjs~$RANLIB $tool_oldlib'
-compiler_CXX='g++ -std=c++17'
+compiler_CXX='g++ -m64 -std=c++17'
 GCC_CXX='yes'
 lt_prog_compiler_no_builtin_flag_CXX=' -fno-builtin'
 lt_prog_compiler_pic_CXX=' -fPIC -DPIC'
 lt_prog_compiler_wl_CXX='-Wl,'
-lt_prog_compiler_static_CXX=''
+lt_prog_compiler_static_CXX='-static'
 lt_cv_prog_compiler_c_o_CXX='yes'
 archive_cmds_need_lc_CXX='no'
 enable_shared_with_static_runtimes_CXX='no'
@@ -741,16 +736,16 @@ prelink_cmds_CXX=''
 postlink_cmds_CXX=''
 file_list_spec_CXX=''
 hardcode_action_CXX='immediate'
-compiler_lib_search_dirs_CXX='/usr/lib/gcc/x86_64-redhat-linux/11 /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 /lib/../lib64 /usr/lib/../lib64 /usr/lib/gcc/x86_64-redhat-linux/11/../../..'
-predep_objects_CXX='/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbeginS.o'
-postdep_objects_CXX='/usr/lib/gcc/x86_64-redhat-linux/11/crtendS.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o'
+compiler_lib_search_dirs_CXX='/usr/lib/gcc/x86_64-linux-gnu/12 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu /usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib /lib/x86_64-linux-gnu /lib/../lib /usr/lib/x86_64-linux-gnu /usr/lib/../lib /usr/lib/gcc/x86_64-linux-gnu/12/../../..'
+predep_objects_CXX='/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o'
+postdep_objects_CXX='/usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o'
 predeps_CXX=''
 postdeps_CXX='-lstdc++ -lm -lgcc_s -lc -lgcc_s'
-compiler_lib_search_path_CXX='-L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../..'
+compiler_lib_search_path_CXX='-L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../..'
 
-LTCC='gcc'
-LTCFLAGS='-g -O2'
-compiler='gcc'
+LTCC='gcc -m64'
+LTCFLAGS='-pipe -std=c11 -O2 '
+compiler='gcc -m64'
 
 # A function that is used when there is no print builtin or printf.
 func_fallback_echo ()
@@ -761,7 +756,7 @@ _LTECHO_EOF'
 }
 
 # Quote evaled strings.
-for var in AS DLLTOOL OBJDUMP SHELL ECHO PATH_SEPARATOR SED GREP EGREP FGREP LD NM LN_S lt_SP2NL lt_NL2SP reload_flag deplibs_check_method file_magic_cmd file_magic_glob want_nocaseglob sharedlib_from_linklib_cmd AR AR_FLAGS archiver_list_spec STRIP RANLIB CC CFLAGS compiler lt_cv_sys_global_symbol_pipe lt_cv_sys_global_symbol_to_cdecl lt_cv_sys_global_symbol_to_import lt_cv_sys_global_symbol_to_c_name_address lt_cv_sys_global_symbol_to_c_name_address_lib_prefix lt_cv_nm_interface nm_file_list_spec lt_cv_truncate_bin lt_prog_compiler_no_builtin_flag lt_prog_compiler_pic lt_prog_compiler_wl lt_prog_compiler_static lt_cv_prog_compiler_c_o need_locks MANIFEST_TOOL DSYMUTIL NMEDIT LIPO OTOOL OTOOL64 shrext_cmds export_dynamic_flag_spec whole_archive_flag_spec compiler_needs_object with_gnu_ld allow_undefined_flag no_undefined_flag hardcode_libdir_flag_spec hardcode_libdir_separator exclude_expsyms include_expsyms file_list_spec variables_saved_for_relink libname_spec library_names_spec soname_spec install_override_mode finish_eval old_striplib striplib compiler_lib_search_dirs predep_objects postdep_objects predeps postdeps compiler_lib_search_path LD_CXX reload_flag_CXX compiler_CXX lt_prog_compiler_no_builtin_flag_CXX lt_prog_compiler_pic_CXX lt_prog_compiler_wl_CXX lt_prog_compiler_static_CXX lt_cv_prog_compiler_c_o_CXX export_dynamic_flag_spec_CXX whole_archive_flag_spec_CXX compiler_needs_object_CXX with_gnu_ld_CXX allow_undefined_flag_CXX no_undefined_flag_CXX hardcode_libdir_flag_spec_CXX hardcode_libdir_separator_CXX exclude_expsyms_CXX include_expsyms_CXX file_list_spec_CXX compiler_lib_search_dirs_CXX predep_objects_CXX postdep_objects_CXX predeps_CXX postdeps_CXX compiler_lib_search_path_CXX; do
+for var in AS DLLTOOL OBJDUMP SHELL ECHO PATH_SEPARATOR SED GREP EGREP FGREP LD NM LN_S lt_SP2NL lt_NL2SP reload_flag FILECMD deplibs_check_method file_magic_cmd file_magic_glob want_nocaseglob sharedlib_from_linklib_cmd AR archiver_list_spec STRIP RANLIB CC CFLAGS compiler lt_cv_sys_global_symbol_pipe lt_cv_sys_global_symbol_to_cdecl lt_cv_sys_global_symbol_to_import lt_cv_sys_global_symbol_to_c_name_address lt_cv_sys_global_symbol_to_c_name_address_lib_prefix lt_cv_nm_interface nm_file_list_spec lt_cv_truncate_bin lt_prog_compiler_no_builtin_flag lt_prog_compiler_pic lt_prog_compiler_wl lt_prog_compiler_static lt_cv_prog_compiler_c_o need_locks MANIFEST_TOOL DSYMUTIL NMEDIT LIPO OTOOL OTOOL64 shrext_cmds export_dynamic_flag_spec whole_archive_flag_spec compiler_needs_object with_gnu_ld allow_undefined_flag no_undefined_flag hardcode_libdir_flag_spec hardcode_libdir_separator exclude_expsyms include_expsyms file_list_spec variables_saved_for_relink libname_spec library_names_spec soname_spec install_override_mode finish_eval old_striplib striplib compiler_lib_search_dirs predep_objects postdep_objects predeps postdeps compiler_lib_search_path LD_CXX reload_flag_CXX compiler_CXX lt_prog_compiler_no_builtin_flag_CXX lt_prog_compiler_pic_CXX lt_prog_compiler_wl_CXX lt_prog_compiler_static_CXX lt_cv_prog_compiler_c_o_CXX export_dynamic_flag_spec_CXX whole_archive_flag_spec_CXX compiler_needs_object_CXX with_gnu_ld_CXX allow_undefined_flag_CXX no_undefined_flag_CXX hardcode_libdir_flag_spec_CXX hardcode_libdir_separator_CXX exclude_expsyms_CXX include_expsyms_CXX file_list_spec_CXX compiler_lib_search_dirs_CXX predep_objects_CXX postdep_objects_CXX predeps_CXX postdeps_CXX compiler_lib_search_path_CXX; do
     case `eval \\$ECHO \\""\\$$var"\\"` in
     *[\\\`\"\$]*)
       eval "lt_$var=\\\"\`\$ECHO \"\$$var\" | \$SED \"\$sed_quote_subst\"\`\\\"" ## exclude from sc_prohibit_nested_quotes
@@ -784,7 +779,7 @@ for var in reload_cmds old_postinstall_cmds old_postuninstall_cmds old_archive_c
     esac
 done
 
-ac_aux_dir='build-aux'
+ac_aux_dir='./build-aux/'
 
 # See if we are running on zsh, and set the options that allow our
 # commands through without removal of \ escapes INIT.
@@ -843,10 +838,10 @@ done
 # We use the long form for the default assignment because of an extremely
 # bizarre bug on SunOS 4.1.3.
 if $ac_need_defaults; then
-  test "${CONFIG_FILES+set}" = set || CONFIG_FILES=$config_files
-  test "${CONFIG_HEADERS+set}" = set || CONFIG_HEADERS=$config_headers
-  test "${CONFIG_LINKS+set}" = set || CONFIG_LINKS=$config_links
-  test "${CONFIG_COMMANDS+set}" = set || CONFIG_COMMANDS=$config_commands
+  test ${CONFIG_FILES+y} || CONFIG_FILES=$config_files
+  test ${CONFIG_HEADERS+y} || CONFIG_HEADERS=$config_headers
+  test ${CONFIG_LINKS+y} || CONFIG_LINKS=$config_links
+  test ${CONFIG_COMMANDS+y} || CONFIG_COMMANDS=$config_commands
 fi
 
 # Have a temporary directory for convenience.  Make it in the build tree
@@ -943,9 +938,8 @@ S["GPROF_LDFLAGS"]=""
 S["GPROF_CXXFLAGS"]=""
 S["ERROR_CXXFLAGS"]=""
 S["DEBUG_CXXFLAGS"]=""
-S["NOWARN_CXXFLAGS"]=" -Wno-unused-parameter -Wno-deprecated-copy"
-S["WARN_CXXFLAGS"]=" -Wall -Wextra -Wformat -Wformat-security -Wvla -Wredundant-decls -Wdate-time -Wduplicated-branches -Wduplicated-cond -Wlogical-op -Woverloaded-virt"\
-"ual -Wsuggest-override -Wimplicit-fallthrough"
+S["NOWARN_CXXFLAGS"]=""
+S["WARN_CXXFLAGS"]=""
 S["DEBUG_CPPFLAGS"]=""
 S["CORE_CXXFLAGS"]=" -fno-extended-identifiers"
 S["CORE_CPPFLAGS"]=" -DHAVE_BUILD_INFO"
@@ -1013,8 +1007,8 @@ S["ENABLE_FUZZ_FALSE"]=""
 S["ENABLE_FUZZ_TRUE"]="#"
 S["ENABLE_TESTS_FALSE"]=""
 S["ENABLE_TESTS_TRUE"]="#"
-S["USE_BDB_FALSE"]=""
-S["USE_BDB_TRUE"]="#"
+S["USE_BDB_FALSE"]="#"
+S["USE_BDB_TRUE"]=""
 S["USE_SQLITE_FALSE"]="#"
 S["USE_SQLITE_TRUE"]=""
 S["ENABLE_WALLET_FALSE"]="#"
@@ -1054,43 +1048,188 @@ S["BUILD_MULTIPROCESS_FALSE"]=""
 S["BUILD_MULTIPROCESS_TRUE"]="#"
 S["LIBMULTIPROCESS_LIBS"]=""
 S["LIBMULTIPROCESS_CFLAGS"]=""
-S["ZMQ_LIBS"]="-lzmq "
-S["ZMQ_CFLAGS"]=""
-S["QR_LIBS"]="-lqrencode "
-S["QR_CFLAGS"]=""
-S["EVENT_PTHREADS_LIBS"]="-levent_pthreads -levent "
-S["EVENT_PTHREADS_CFLAGS"]=""
-S["EVENT_LIBS"]="-levent "
-S["EVENT_CFLAGS"]=""
+S["ZMQ_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lzmq -lpthread -lrt "
+S["ZMQ_CFLAGS"]="-I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include "
+S["QR_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lqrencode -lpthread "
+S["QR_CFLAGS"]="-I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include "
+S["EVENT_PTHREADS_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -levent_pthreads -levent "
+S["EVENT_PTHREADS_CFLAGS"]="-I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include "
+S["EVENT_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -levent "
+S["EVENT_CFLAGS"]="-I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include "
 S["ENABLE_SYSCALL_SANDBOX_FALSE"]="#"
 S["ENABLE_SYSCALL_SANDBOX_TRUE"]=""
-S["ENABLE_EXTERNAL_SIGNER_FALSE"]=""
-S["ENABLE_EXTERNAL_SIGNER_TRUE"]="#"
-S["BOOST_CPPFLAGS"]="-I/usr/include -DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION -DBOOST_NO_CXX98_FUNCTION_BASE"
-S["ENABLE_USDT_TRACEPOINTS_FALSE"]=""
-S["ENABLE_USDT_TRACEPOINTS_TRUE"]="#"
-S["SQLITE_LIBS"]="-lsqlite3 "
-S["SQLITE_CFLAGS"]=""
-S["BDB_CPPFLAGS"]=" -I/usr/include/libdb/"
-S["BDB_LIBS"]=""
+S["ENABLE_EXTERNAL_SIGNER_FALSE"]="#"
+S["ENABLE_EXTERNAL_SIGNER_TRUE"]=""
+S["BOOST_CPPFLAGS"]="-I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include -DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION"
+S["ENABLE_USDT_TRACEPOINTS_FALSE"]="#"
+S["ENABLE_USDT_TRACEPOINTS_TRUE"]=""
+S["SQLITE_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lsqlite3 -lz -lm "
+S["SQLITE_CFLAGS"]="-I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include "
+S["BDB_CPPFLAGS"]=""
+S["BDB_LIBS"]="-ldb_cxx-4.8"
 S["BDB_CFLAGS"]=""
 S["RUNTIME_LDFLAGS"]=""
 S["MOC_DEFS"]="-DHAVE_CONFIG_H -I$(srcdir)"
 S["QT_SELECT"]="qt5"
-S["QT_TEST_INCLUDES"]="-DQT_TESTLIB_LIB -I/usr/include/qt5/QtTest -I/usr/include/qt5 -DQT_CORE_LIB -I/usr/include/qt5/QtCore "
-S["QT_DBUS_INCLUDES"]="-DQT_DBUS_LIB -I/usr/include/qt5/QtDBus -I/usr/include/qt5 -DQT_CORE_LIB -I/usr/include/qt5/QtCore "
+S["QT_TEST_INCLUDES"]="-DQT_TESTLIB_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtTest -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-p"\
+"c-linux-gnu/include/QtCore "
+S["QT_DBUS_INCLUDES"]="-DQT_DBUS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDBus -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-l"\
+"inux-gnu/include/QtCore "
 S["QT_LDFLAGS"]=""
-S["QT_LIBS"]="-lQt5Network -lQt5Core  -lQt5Widgets -lQt5Gui -lQt5Core  -lQt5Gui -lQt5Core  -lQt5Core  "
-S["QT_INCLUDES"]="-DQT_NETWORK_LIB -I/usr/include/qt5/QtNetwork -I/usr/include/qt5 -DQT_CORE_LIB -I/usr/include/qt5/QtCore  -DQT_WIDGETS_LIB -I/usr/include/qt5/QtWidg"\
-"ets -I/usr/include/qt5 -I/usr/include/qt5/QtCore -DQT_GUI_LIB -I/usr/include/qt5/QtGui -DQT_CORE_LIB  -DQT_GUI_LIB -I/usr/include/qt5/QtGui -I/usr/i"\
-"nclude/qt5 -DQT_CORE_LIB -I/usr/include/qt5/QtCore  -DQT_CORE_LIB -I/usr/include/qt5/QtCore -I/usr/include/qt5  "
+S["QT_LIBS"]="-lqxcb -lqminimal -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5XkbCommonSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-li"\
+"nux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-"\
+"gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/lib/libqtpcre2.a -lpthread -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/"\
+"depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bit"\
+"net-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/"\
+"opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /"\
+"home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux"\
+"-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5XcbQpa /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-g"\
+"nu/lib/libQt5ServiceSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5ThemeSupport.a /home/c4pt/opt/bitnet-core/depends/x86"\
+"_64-pc-linux-gnu/lib/libQt5FontDatabaseSupport.a -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype /home/c4pt/opt"\
+"/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5XkbCommonSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c"\
+"4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c"\
+"4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5EdidSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /hom"\
+"e/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpt"\
+"hread -lxcb-icccm -lxcb-image -lxcb-shm -lxcb-keysyms -lxcb-randr -lxcb-render-util -lxcb-render -lxcb-shape -lxcb-sync -lxcb-xfixes -lxcb-xinerama "\
+"-lxcb-xkb -lxcb -lxkbcommon-x11 -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4p"\
+"t/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread"\
+" /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -l"\
+"pthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqt"\
+"harfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bi"\
+"tnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4"\
+"pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /"\
+"home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libq"\
+"tpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_6"\
+"4-pc-linux-gnu/lib/libqtpcre2.a -lQt5ServiceSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-cor"\
+"e/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-cor"\
+"e/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-cor"\
+"e/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5"\
+"Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre"\
+"2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/li"\
+"bQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-"\
+"gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DBus /home/c4pt/opt/bit"\
+"net-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthrea"\
+"d -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-g"\
+"nu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/l"\
+"ib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gn"\
+"u/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-li"\
+"nux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/op"\
+"t/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /hom"\
+"e/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng"\
+".a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/"\
+"libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x"\
+"86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5FontDatabaseSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/b"\
+"itnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/b"\
+"itnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lfont"\
+"config -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/"\
+"lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-l"\
+"inux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_"\
+"64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/de"\
+"pends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5E"\
+"didSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/li"\
+"bqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5XkbCommonSupport /home/c4pt/opt/bitn"\
+"et-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-c"\
+"ore/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitne"\
+"t-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lxkbcommon -lpthread -lm"\
+" /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5C"\
+"ore.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/l"\
+"ib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-"\
+"linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-"\
+"core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5ServiceSupport /home/c4pt/opt/b"\
+"itnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitne"\
+"t-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet"\
+"-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -"\
+"lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt"\
+"5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu"\
+"/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-p"\
+"c-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitne"\
+"t-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DBus /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt"\
+"/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-g"\
+"nu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5InputSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/lib/libQt5DeviceDiscoverySupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/"\
+"x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/"\
+"x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/"\
+"opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /h"\
+"ome/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibp"\
+"ng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/li"\
+"b/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends"\
+"/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/"\
+"c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc"\
+"-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-"\
+"linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_"\
+"64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home"\
+"/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a "\
+"-lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/lib"\
+"qtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-"\
+"gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/d"\
+"epends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5FontDatabaseSupport /home/c4pt/opt/bi"\
+"tnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet"\
+"-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bit"\
+"net-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype"\
+" -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-g"\
+"nu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-"\
+"pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depe"\
+"nds/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4"\
+"pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5FbSupport /home/c"\
+"4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/"\
+"opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4"\
+"pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/l"\
+"ibqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-"\
+"gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc"\
+"-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends"\
+"/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4"\
+"pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5EventDispatcherSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui."\
+"a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz."\
+"a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2."\
+"a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64"\
+"-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depe"\
+"nds/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitne"\
+"t-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -"\
+"lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5EdidSu"\
+"pport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpc"\
+"re2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depend"\
+"s/x86_64-pc-linux-gnu/lib -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bit"\
+"net-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/l"\
+"ibqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5AccessibilitySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-g"\
+"nu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linu"\
+"x-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitne"\
+"t-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt"\
+"/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm"\
+" /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a "\
+"-lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linu"\
+"x-gnu/lib -lQt5Network /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linu"\
+"x-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/de"\
+"pends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lgssapi_krb5 -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcr"\
+"e2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Widgets /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui"\
+".a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz"\
+".a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2"\
+".a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_6"\
+"4-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/dep"\
+"ends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitn"\
+"et-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread "\
+"-lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Gui /"\
+"home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -"\
+"lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5C"\
+"ore.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/l"\
+"ib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a  -L/home/c4pt/opt/bitnet-core/dep"\
+"ends/x86_64-pc-linux-gnu/lib -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a   -L/home/c4pt/opt/bitn"\
+"et-core/depends/x86_64-pc-linux-gnu/plugins/platforms"
+S["QT_INCLUDES"]="-DQT_NETWORK_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtNetwork -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_6"\
+"4-pc-linux-gnu/include/QtCore  -DQT_WIDGETS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtWidgets -I/home/c4pt/opt/bitnet-c"\
+"ore/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB  -D"\
+"QT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux"\
+"-gnu/include/QtCore  -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore  "
 S["QT_PIE_FLAGS"]="-fPIE"
-S["LCONVERT"]="/usr/lib64/qt5/bin/lconvert-qt5"
-S["LUPDATE"]="/usr/lib64/qt5/bin/lupdate-qt5"
-S["LRELEASE"]="/usr/lib64/qt5/bin/lrelease-qt5"
-S["RCC"]="/usr/lib64/qt5/bin/rcc-qt5"
-S["UIC"]="/usr/lib64/qt5/bin/uic-qt5"
-S["MOC"]="/usr/lib64/qt5/bin/moc-qt5"
+S["LCONVERT"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/lconvert"
+S["LUPDATE"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/lupdate"
+S["LRELEASE"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/lrelease"
+S["RCC"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/rcc"
+S["UIC"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/uic"
+S["MOC"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/bin/moc"
 S["QT_EGL_LIBS"]=""
 S["QT_EGL_CFLAGS"]=""
 S["QT_WINDOWSUIAUTOMATION_LIBS"]=""
@@ -1099,46 +1238,210 @@ S["QT_GRAPHICS_LIBS"]=""
 S["QT_GRAPHICS_CFLAGS"]=""
 S["QT_CLIPBOARD_LIBS"]=""
 S["QT_CLIPBOARD_CFLAGS"]=""
-S["QT_XKBCOMMON_LIBS"]=""
-S["QT_XKBCOMMON_CFLAGS"]=""
-S["QT_XCBQPA_LIBS"]=""
-S["QT_XCBQPA_CFLAGS"]=""
-S["QT_SERVICE_LIBS"]=""
-S["QT_SERVICE_CFLAGS"]=""
-S["QT_INPUT_LIBS"]=""
-S["QT_INPUT_CFLAGS"]=""
-S["QT_THEME_LIBS"]=""
-S["QT_THEME_CFLAGS"]=""
-S["QT_FONTDATABASE_LIBS"]=""
-S["QT_FONTDATABASE_CFLAGS"]=""
-S["QT_FB_LIBS"]=""
-S["QT_FB_CFLAGS"]=""
-S["QT_EVENTDISPATCHER_LIBS"]=""
-S["QT_EVENTDISPATCHER_CFLAGS"]=""
-S["QT_EDID_LIBS"]=""
-S["QT_EDID_CFLAGS"]=""
-S["QT_DEVICEDISCOVERY_LIBS"]=""
-S["QT_DEVICEDISCOVERY_CFLAGS"]=""
-S["QT_ACCESSIBILITY_LIBS"]=""
-S["QT_ACCESSIBILITY_CFLAGS"]=""
-S["QT_DBUS_LIBS"]="-lQt5DBus -lQt5Core "
-S["QT_DBUS_CFLAGS"]="-DQT_DBUS_LIB -I/usr/include/qt5/QtDBus -I/usr/include/qt5 -DQT_CORE_LIB -I/usr/include/qt5/QtCore "
-S["QT_TEST_LIBS"]="-lQt5Test -lQt5Core "
-S["QT_TEST_CFLAGS"]="-DQT_TESTLIB_LIB -I/usr/include/qt5/QtTest -I/usr/include/qt5 -DQT_CORE_LIB -I/usr/include/qt5/QtCore "
-S["QT_NETWORK_LIBS"]="-lQt5Network -lQt5Core "
-S["QT_NETWORK_CFLAGS"]="-DQT_NETWORK_LIB -I/usr/include/qt5/QtNetwork -I/usr/include/qt5 -DQT_CORE_LIB -I/usr/include/qt5/QtCore "
-S["QT_WIDGETS_LIBS"]="-lQt5Widgets -lQt5Gui -lQt5Core "
-S["QT_WIDGETS_CFLAGS"]="-DQT_WIDGETS_LIB -I/usr/include/qt5/QtWidgets -I/usr/include/qt5 -I/usr/include/qt5/QtCore -DQT_GUI_LIB -I/usr/include/qt5/QtGui -DQT_CORE_LIB "
-S["QT_GUI_LIBS"]="-lQt5Gui -lQt5Core "
-S["QT_GUI_CFLAGS"]="-DQT_GUI_LIB -I/usr/include/qt5/QtGui -I/usr/include/qt5 -DQT_CORE_LIB -I/usr/include/qt5/QtCore "
-S["QT_CORE_LIBS"]="-lQt5Core "
-S["QT_CORE_CFLAGS"]="-DQT_CORE_LIB -I/usr/include/qt5/QtCore -I/usr/include/qt5 "
-S["QT_TRANSLATION_DIR"]=""
+S["QT_XKBCOMMON_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5XkbCommonSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5"\
+"Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfb"\
+"uzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpc"\
+"re2.a -lpthread -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-"\
+"linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x"\
+"86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/de"\
+"pends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitn"\
+"et-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre"\
+"2.a "
+S["QT_XKBCOMMON_CFLAGS"]="-DQT_XKBCOMMON_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtXkbCommonSupport -I/home/c4pt/opt/bitnet-core/depends/"\
+"x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB "
+S["QT_XCBQPA_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5XcbQpa /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5ServiceSup"\
+"port.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5ThemeSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/li"\
+"bQt5FontDatabaseSupport.a -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype /home/c4pt/opt/bitnet-core/depends/x8"\
+"6_64-pc-linux-gnu/lib/libQt5XkbCommonSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/dep"\
+"ends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/dep"\
+"ends/x86_64-pc-linux-gnu/lib/libQt5EdidSupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/"\
+"depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lxcb-icccm -lxcb"\
+"-image -lxcb-shm -lxcb-keysyms -lxcb-randr -lxcb-render-util -lxcb-render -lxcb-shape -lxcb-sync -lxcb-xfixes -lxcb-xinerama -lxcb-xkb -lxcb -lxkbco"\
+"mmon-x11 -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depen"\
+"ds/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-"\
+"core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/"\
+"opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -l"\
+"pthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_6"\
+"4-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depe"\
+"nds/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-co"\
+"re/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt"\
+"/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libq"\
+"tpcre2.a -lQt5ServiceSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitn"\
+"et-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4p"\
+"t/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -l"\
+"m /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a"\
+" -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5DBus /home/c4pt/opt/bitnet-core/depends/x86_64"\
+"-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bi"\
+"tnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /hom"\
+"e/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /hom"\
+"e/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpt"\
+"hread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core."\
+"a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x"\
+"86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/"\
+"depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitne"\
+"t-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt"\
+"/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/"\
+"libqtpcre2.a -lQt5FontDatabaseSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_"\
+"64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_"\
+"64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lfontconfig -L/home/c4pt/opt"\
+"/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5G"\
+"ui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2"\
+".a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/lib"\
+"Qt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-g"\
+"nu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5EdidSupport /home/c4pt/o"\
+"pt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -l"\
+"pthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5XkbCommonSupport /home/c4pt/opt/bitnet-core/depends/x86_64-"\
+"pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-l"\
+"inux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-p"\
+"c-linux-gnu/lib/libqtpcre2.a -lpthread -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lxkbcommon -lpthread -lm /home/c4pt/opt/bitnet-"\
+"core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/op"\
+"t/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/"\
+"c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre"\
+"2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-"\
+"linux-gnu/lib/libqtpcre2.a "
+S["QT_XCBQPA_CFLAGS"]="-DQT_XCB_QPA_LIB_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtXcbQpa -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-"\
+"gnu/include/QtCore -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_SERVICE_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depe"\
+"nds/x86_64-pc-linux-gnu/include/QtServiceSupport -DQT_DBUS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDBus -DQT_THEME_SU"\
+"PPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtThemeSupport -DQT_FONTDATABASE_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core"\
+"/depends/x86_64-pc-linux-gnu/include/QtFontDatabaseSupport -DQT_EDID_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/Qt"\
+"EdidSupport -DQT_XKBCOMMON_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtXkbCommonSupport -DQT_GUI_LIB -DQT_CORE_LI"\
+"B "
+S["QT_SERVICE_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5ServiceSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gu"\
+"i.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuz"\
+"z.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a "\
+"-lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_"\
+"64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depen"\
+"ds/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-"\
+"core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a"\
+" -lQt5DBus /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/li"\
+"bqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a "
+S["QT_SERVICE_CFLAGS"]="-DQT_SERVICE_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtServiceSupport -I/home/c4pt/opt/bitnet-core/depends/x86_"\
+"64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_DBUS_LIB -I/home/c4pt/opt/bi"\
+"tnet-core/depends/x86_64-pc-linux-gnu/include/QtDBus -DQT_CORE_LIB "
+S["QT_INPUT_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5InputSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Devi"\
+"ceDiscoverySupport.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/l"\
+"ib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/l"\
+"ib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depen"\
+"ds/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-c"\
+"ore/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/b"\
+"itnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/"\
+"c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/"\
+"lib/libqtpcre2.a -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/"\
+"depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2"\
+".a "
+S["QT_INPUT_CFLAGS"]="-DQT_INPUT_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtInputSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-p"\
+"c-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_DEVICEDISCOVERY_SUPPORT_LIB -I/h"\
+"ome/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDeviceDiscoverySupport -DQT_CORE_LIB "
+S["QT_THEME_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5ThemeSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui."\
+"a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz."\
+"a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2."\
+"a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5DBus.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt"\
+"5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/dep"\
+"ends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet"\
+"-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt"\
+"/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /hom"\
+"e/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gn"\
+"u/lib/libqtpcre2.a "
+S["QT_THEME_CFLAGS"]="-DQT_THEME_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtThemeSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-p"\
+"c-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB "
+S["QT_FONTDATABASE_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5FontDatabaseSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/lib"\
+"Qt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtha"\
+"rfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libq"\
+"tpcre2.a -lpthread -lfontconfig -L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lfreetype -lpthread -lm /home/c4pt/opt/bitnet-core/dep"\
+"ends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet"\
+"-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt"\
+"/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /hom"\
+"e/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gn"\
+"u/lib/libqtpcre2.a "
+S["QT_FONTDATABASE_CFLAGS"]="-DQT_FONTDATABASE_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtFontDatabaseSupport -I/home/c4pt/opt/bitnet-core/de"\
+"pends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB "
+S["QT_FB_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5FbSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /"\
+"home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /"\
+"home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -"\
+"lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc"\
+"-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends"\
+"/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-c"\
+"ore/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm "\
+"/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a "
+S["QT_FB_CFLAGS"]="-DQT_FB_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtFbSupport -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linu"\
+"x-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB "
+S["QT_EVENTDISPATCHER_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5EventDispatcherSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/"\
+"libQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libq"\
+"tharfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/l"\
+"ibqtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depe"\
+"nds/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet"\
+"-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt"\
+"/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -"\
+"lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a "
+S["QT_EVENTDISPATCHER_CFLAGS"]="-DQT_EVENTDISPATCHER_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtEventDispatcherSupport -I/home/c4pt/opt/bitnet-c"\
+"ore/depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB "
+S["QT_EDID_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5EdidSupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core."\
+"a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x"\
+"86_64-pc-linux-gnu/lib/libqtpcre2.a "
+S["QT_EDID_CFLAGS"]="-DQT_EDID_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtEdidSupport -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depe"\
+"nds/x86_64-pc-linux-gnu/include/QtCore "
+S["QT_DEVICEDISCOVERY_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5DeviceDiscoverySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/"\
+"libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-cor"\
+"e/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a "
+S["QT_DEVICEDISCOVERY_CFLAGS"]="-DQT_DEVICEDISCOVERY_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDeviceDiscoverySupport -DQT_CORE_LIB -I/home/c4p"\
+"t/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore "
+S["QT_ACCESSIBILITY_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5AccessibilitySupport /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/li"\
+"bQt5Gui.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqth"\
+"arfbuzz.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/lib"\
+"qtpcre2.a -lpthread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depend"\
+"s/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-c"\
+"ore/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/o"\
+"pt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lp"\
+"thread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a "
+S["QT_ACCESSIBILITY_CFLAGS"]="-DQT_ACCESSIBILITY_SUPPORT_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtAccessibilitySupport -I/home/c4pt/opt/bitnet-core/"\
+"depends/x86_64-pc-linux-gnu/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB "
+S["QT_DBUS_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5DBus /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /"\
+"home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-p"\
+"c-linux-gnu/lib/libqtpcre2.a "
+S["QT_DBUS_CFLAGS"]="-DQT_DBUS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtDBus -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-l"\
+"inux-gnu/include/QtCore "
+S["QT_TEST_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Test /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /"\
+"home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-p"\
+"c-linux-gnu/lib/libqtpcre2.a "
+S["QT_TEST_CFLAGS"]="-DQT_TESTLIB_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtTest -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-p"\
+"c-linux-gnu/include/QtCore "
+S["QT_NETWORK_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Network /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -l"\
+"m /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt"\
+"5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lgssapi_krb5 -lQt5Core -lpthread -lm /home/c4pt/opt/b"\
+"itnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a "
+S["QT_NETWORK_CFLAGS"]="-DQT_NETWORK_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtNetwork -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_6"\
+"4-pc-linux-gnu/include/QtCore "
+S["QT_WIDGETS_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Widgets /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Gui.a /ho"\
+"me/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a /ho"\
+"me/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lp"\
+"thread -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-l"\
+"inux-gnu/lib/libQt5Core.a -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x"\
+"86_64-pc-linux-gnu/lib/libqtlibpng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-cor"\
+"e/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /h"\
+"ome/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a "
+S["QT_WIDGETS_CFLAGS"]="-DQT_WIDGETS_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtWidgets -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu"\
+"/include/QtCore -DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB "
+S["QT_GUI_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Gui /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lm /h"\
+"ome/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtpcre2.a -lpthread /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtlibp"\
+"ng.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libQt5Core.a -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/li"\
+"b/libqtpcre2.a /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libqtharfbuzz.a -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends"\
+"/x86_64-pc-linux-gnu/lib/libqtpcre2.a "
+S["QT_GUI_CFLAGS"]="-DQT_GUI_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtGui -DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-lin"\
+"ux-gnu/include/QtCore "
+S["QT_CORE_LIBS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib -lQt5Core -lpthread -lm /home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/libq"\
+"tpcre2.a "
+S["QT_CORE_CFLAGS"]="-DQT_CORE_LIB -I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/QtCore "
+S["QT_TRANSLATION_DIR"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/translations"
 S["PTHREAD_CFLAGS"]="-pthread"
 S["PTHREAD_LIBS"]="-lpthread"
-S["PTHREAD_CXX"]="g++ -std=c++17"
-S["PTHREAD_CC"]="gcc"
+S["PTHREAD_CXX"]="g++ -m64 -std=c++17"
+S["PTHREAD_CC"]="gcc -m64"
 S["ax_pthread_config"]=""
+S["CPP"]="gcc -m64 -E"
 S["LCOV_OPTS"]=""
 S["COV_TOOL_WRAPPER"]=""
 S["COV_TOOL"]=""
@@ -1150,22 +1453,21 @@ S["WINDRES"]=""
 S["MAKENSIS"]=""
 S["ENABLE_MAN_FALSE"]="#"
 S["ENABLE_MAN_TRUE"]=""
-S["PYTHONPATH"]="/home/c4pt/opt/bitnet-core/depends/x86_64-w64-mingw32/native/lib/python3/dist-packages"
+S["PYTHONPATH"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/native/lib/python3/dist-packages"
 S["HAVE_DOXYGEN_FALSE"]=""
 S["HAVE_DOXYGEN_TRUE"]="#"
 S["DOXYGEN"]=""
-S["OBJCOPY"]="/bin/objcopy"
-S["HEXDUMP"]="/bin/hexdump"
-S["XGETTEXT"]="/bin/xgettext"
+S["OBJCOPY"]="/usr/bin/objcopy"
+S["HEXDUMP"]="/usr/bin/hexdump"
+S["XGETTEXT"]=""
 S["CCACHE"]=""
-S["GIT"]="/bin/git"
+S["GIT"]="/usr/bin/git"
 S["GENHTML"]=""
-S["PYTHON"]="/bin/python3.9"
+S["PYTHON"]="/usr/bin/python3.10"
 S["LCOV"]=""
 S["LLVM_COV"]=""
-S["GCOV"]="/bin/gcov"
-S["CXXCPP"]="g++ -std=c++17 -E"
-S["CPP"]="gcc -E"
+S["GCOV"]="/usr/bin/gcov"
+S["CXXCPP"]="g++ -m64 -std=c++17 -E"
 S["LT_SYS_LIBRARY_PATH"]=""
 S["OTOOL64"]=""
 S["OTOOL"]=""
@@ -1174,23 +1476,24 @@ S["NMEDIT"]=""
 S["DSYMUTIL"]=""
 S["MANIFEST_TOOL"]=":"
 S["RANLIB"]="ranlib"
-S["ac_ct_AR"]="ar"
-S["AR"]="/bin/ar"
+S["ac_ct_AR"]=""
+S["AR"]="ar"
+S["FILECMD"]="file"
 S["LN_S"]="ln -s"
-S["NM"]="/bin/nm -B"
+S["NM"]="nm"
 S["ac_ct_DUMPBIN"]=""
 S["DUMPBIN"]=""
-S["LD"]="/bin/ld -m elf_x86_64"
-S["FGREP"]="/bin/grep -F"
-S["EGREP"]="/bin/grep -E"
-S["GREP"]="/bin/grep"
-S["SED"]="/bin/sed"
+S["LD"]="/usr/bin/ld -m elf_x86_64"
+S["FGREP"]="/usr/bin/grep -F"
+S["EGREP"]="/usr/bin/grep -E"
+S["GREP"]="/usr/bin/grep"
+S["SED"]="/usr/bin/sed"
 S["am__fastdepCC_FALSE"]="#"
 S["am__fastdepCC_TRUE"]=""
 S["CCDEPMODE"]="depmode=gcc3"
-S["ac_ct_CC"]="gcc"
-S["CFLAGS"]="-g -O2"
-S["CC"]="gcc"
+S["ac_ct_CC"]=""
+S["CFLAGS"]="-pipe -std=c11 -O2 "
+S["CC"]="gcc -m64"
 S["LIBTOOL"]="$(SHELL) $(top_builddir)/libtool"
 S["OBJDUMP"]="objdump"
 S["DLLTOOL"]="false"
@@ -1200,7 +1503,7 @@ S["am__fastdepOBJCXX_TRUE"]=""
 S["OBJCXXDEPMODE"]="depmode=gcc3"
 S["ac_ct_OBJCXX"]=""
 S["OBJCXXFLAGS"]=""
-S["OBJCXX"]="g++ -std=c++17"
+S["OBJCXX"]="g++ -m64 -std=c++17"
 S["HAVE_CXX20"]=""
 S["HAVE_CXX17"]="1"
 S["am__fastdepCXX_FALSE"]="#"
@@ -1210,16 +1513,15 @@ S["am__nodep"]="_no"
 S["AMDEPBACKSLASH"]="\\"
 S["AMDEP_FALSE"]="#"
 S["AMDEP_TRUE"]=""
-S["am__quote"]=""
 S["am__include"]="include"
 S["DEPDIR"]=".deps"
 S["OBJEXT"]="o"
 S["EXEEXT"]=""
-S["ac_ct_CXX"]="g++"
-S["CPPFLAGS"]=""
-S["LDFLAGS"]=""
-S["CXXFLAGS"]="-g -O2"
-S["CXX"]="g++ -std=c++17"
+S["ac_ct_CXX"]=""
+S["CPPFLAGS"]="-I/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/include/ "
+S["LDFLAGS"]="-L/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib "
+S["CXXFLAGS"]="-pipe -std=c++17 -O2 "
+S["CXX"]="g++ -m64 -std=c++17"
 S["MAINT"]=""
 S["MAINTAINER_MODE_FALSE"]="#"
 S["MAINTAINER_MODE_TRUE"]=""
@@ -1227,6 +1529,9 @@ S["AM_BACKSLASH"]="\\"
 S["AM_DEFAULT_VERBOSITY"]="0"
 S["AM_DEFAULT_V"]="$(AM_DEFAULT_VERBOSITY)"
 S["AM_V"]="$(V)"
+S["CSCOPE"]="cscope"
+S["ETAGS"]="etags"
+S["CTAGS"]="ctags"
 S["am__untar"]="$${TAR-tar} xf -"
 S["am__tar"]="$${TAR-tar} chof - \"$$tardir\""
 S["AMTAR"]="$${TAR-tar}"
@@ -1234,15 +1539,15 @@ S["am__leading_dot"]="."
 S["SET_MAKE"]=""
 S["AWK"]="gawk"
 S["mkdir_p"]="$(MKDIR_P)"
-S["MKDIR_P"]="/bin/mkdir -p"
+S["MKDIR_P"]="/usr/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]="strip"
 S["install_sh"]="${SHELL} /home/c4pt/opt/bitnet-core/build-aux/install-sh"
-S["MAKEINFO"]="${SHELL} /home/c4pt/opt/bitnet-core/build-aux/missing makeinfo"
-S["AUTOHEADER"]="${SHELL} /home/c4pt/opt/bitnet-core/build-aux/missing autoheader"
-S["AUTOMAKE"]="${SHELL} /home/c4pt/opt/bitnet-core/build-aux/missing automake-1.15"
-S["AUTOCONF"]="${SHELL} /home/c4pt/opt/bitnet-core/build-aux/missing autoconf"
-S["ACLOCAL"]="${SHELL} /home/c4pt/opt/bitnet-core/build-aux/missing aclocal-1.15"
+S["MAKEINFO"]="${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' makeinfo"
+S["AUTOHEADER"]="${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' autoheader"
+S["AUTOMAKE"]="${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' automake-1.16"
+S["AUTOCONF"]="${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' autoconf"
+S["ACLOCAL"]="${SHELL} '/home/c4pt/opt/bitnet-core/build-aux/missing' aclocal-1.16"
 S["VERSION"]="24.99.0"
 S["PACKAGE"]="bitnet"
 S["CYGPATH_W"]="echo"
@@ -1259,11 +1564,12 @@ S["build_vendor"]="pc"
 S["build_cpu"]="x86_64"
 S["build"]="x86_64-pc-linux-gnu"
 S["ARFLAGS"]="cr"
-S["PKG_CONFIG_LIBDIR"]=""
-S["PKG_CONFIG_PATH"]=""
-S["PKG_CONFIG"]="/bin/pkg-config"
+S["PKG_CONFIG_LIBDIR"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/pkgconfig"
+S["PKG_CONFIG_PATH"]="/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/share/pkgconfig:/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/pkgconfig"
+S["PKG_CONFIG"]="env PKG_CONFIG_LIBDIR=/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/pkgconfig env PKG_CONFIG_PATH=/home/c4pt/opt/bitnet-core/depends/x8"\
+"6_64-pc-linux-gnu/share/pkgconfig:/home/c4pt/opt/bitnet-core/depends/x86_64-pc-linux-gnu/lib/pkgconfig /usr/bin/pkg-config --static"
 S["target_alias"]=""
-S["host_alias"]=""
+S["host_alias"]="x86_64-pc-linux-gnu"
 S["build_alias"]=""
 S["LIBS"]=""
 S["ECHO_T"]=""
@@ -1272,7 +1578,7 @@ S["ECHO_C"]=""
 S["DEFS"]="-DHAVE_CONFIG_H"
 S["mandir"]="${datarootdir}/man"
 S["localedir"]="${datarootdir}/locale"
-S["libdir"]="${exec_prefix}/lib64"
+S["libdir"]="${exec_prefix}/lib"
 S["psdir"]="${docdir}"
 S["pdfdir"]="${docdir}"
 S["dvidir"]="${docdir}"
@@ -1282,16 +1588,16 @@ S["docdir"]="${datarootdir}/doc/${PACKAGE_TARNAME}"
 S["oldincludedir"]="/usr/include"
 S["includedir"]="${prefix}/include"
 S["runstatedir"]="${localstatedir}/run"
-S["localstatedir"]="/var"
-S["sharedstatedir"]="/var"
-S["sysconfdir"]="/etc"
+S["localstatedir"]="${prefix}/var"
+S["sharedstatedir"]="${prefix}/com"
+S["sysconfdir"]="${prefix}/etc"
 S["datadir"]="${datarootdir}"
 S["datarootdir"]="${prefix}/share"
 S["libexecdir"]="${exec_prefix}/libexec"
 S["sbindir"]="${exec_prefix}/sbin"
 S["bindir"]="${exec_prefix}/bin"
 S["program_transform_name"]="s,x,x,"
-S["prefix"]="/usr"
+S["prefix"]="/home/c4pt/opt/bitnet-core/bitnet-shared"
 S["exec_prefix"]="${prefix}"
 S["PACKAGE_URL"]="https://bitnetcore.org/"
 S["PACKAGE_BUGREPORT"]="https://github.com/bitnet/bitnet/issues"
@@ -1301,6 +1607,7 @@ S["PACKAGE_TARNAME"]="bitnet"
 S["PACKAGE_NAME"]="Bitnet Core"
 S["PATH_SEPARATOR"]=":"
 S["SHELL"]="/bin/bash"
+S["am__quote"]=""
 _ACAWK
 cat >>"$ac_tmp/subs1.awk" <<_ACAWK &&
   for (key in S) S_is_set[key] = 1
@@ -1349,16 +1656,16 @@ D["PACKAGE_STRING"]=" \"Bitnet Core 24.99.0\""
 D["PACKAGE_BUGREPORT"]=" \"https://github.com/bitnet/bitnet/issues\""
 D["PACKAGE_URL"]=" \"https://bitnetcore.org/\""
 D["HAVE_CXX17"]=" 1"
-D["STDC_HEADERS"]=" 1"
-D["HAVE_SYS_TYPES_H"]=" 1"
-D["HAVE_SYS_STAT_H"]=" 1"
+D["HAVE_STDIO_H"]=" 1"
 D["HAVE_STDLIB_H"]=" 1"
 D["HAVE_STRING_H"]=" 1"
-D["HAVE_MEMORY_H"]=" 1"
-D["HAVE_STRINGS_H"]=" 1"
 D["HAVE_INTTYPES_H"]=" 1"
 D["HAVE_STDINT_H"]=" 1"
+D["HAVE_STRINGS_H"]=" 1"
+D["HAVE_SYS_STAT_H"]=" 1"
+D["HAVE_SYS_TYPES_H"]=" 1"
 D["HAVE_UNISTD_H"]=" 1"
+D["STDC_HEADERS"]=" 1"
 D["HAVE_DLFCN_H"]=" 1"
 D["LT_OBJDIR"]=" \".libs/\""
 D["USE_ASM"]=" 1"
@@ -1409,11 +1716,17 @@ D["HAVE_FDATASYNC"]=" 1"
 D["HAVE_O_CLOEXEC"]=" 1"
 D["HAVE_STRONG_GETAUXVAL"]=" 1"
 D["HAVE_SYSTEM"]=" 1"
+D["QT_STATICPLUGIN"]=" 1"
+D["QT_QPA_PLATFORM_MINIMAL"]=" 1"
+D["QT_QPA_PLATFORM_XCB"]=" 1"
+D["USE_BDB"]=" 1"
 D["USE_SQLITE"]=" 1"
+D["ENABLE_TRACING"]=" 1"
 D["HAVE_MINIUPNPC_MINIUPNPC_H"]=" 1"
 D["HAVE_MINIUPNPC_UPNPCOMMANDS_H"]=" 1"
 D["HAVE_MINIUPNPC_UPNPERRORS_H"]=" 1"
 D["HAVE_BOOST"]=" /**/"
+D["ENABLE_EXTERNAL_SIGNER"]=" 1"
 D["USE_SYSCALL_SANDBOX"]=" 1"
 D["ENABLE_ZMQ"]=" 1"
 D["HAVE_CONSENSUS_LIB"]=" 1"
@@ -1504,7 +1817,7 @@ do
 	   esac ||
 	   as_fn_error 1 "cannot find input file: \`$ac_f'" "$LINENO" 5;;
       esac
-      case $ac_f in *\'*) ac_f=`$as_echo "$ac_f" | sed "s/'/'\\\\\\\\''/g"`;; esac
+      case $ac_f in *\'*) ac_f=`printf "%s\n" "$ac_f" | sed "s/'/'\\\\\\\\''/g"`;; esac
       as_fn_append ac_file_inputs " '$ac_f'"
     done
 
@@ -1512,17 +1825,17 @@ do
     # use $as_me), people would be surprised to read:
     #    /* config.h.  Generated by config.status.  */
     configure_input='Generated from '`
-	  $as_echo "$*" | sed 's|^[^:]*/||;s|:[^:]*/|, |g'
+	  printf "%s\n" "$*" | sed 's|^[^:]*/||;s|:[^:]*/|, |g'
 	`' by configure.'
     if test x"$ac_file" != x-; then
       configure_input="$ac_file.  $configure_input"
-      { $as_echo "$as_me:${as_lineno-$LINENO}: creating $ac_file" >&5
-$as_echo "$as_me: creating $ac_file" >&6;}
+      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: creating $ac_file" >&5
+printf "%s\n" "$as_me: creating $ac_file" >&6;}
     fi
     # Neutralize special characters interpreted by sed in replacement strings.
     case $configure_input in #(
     *\&* | *\|* | *\\* )
-       ac_sed_conf_input=`$as_echo "$configure_input" |
+       ac_sed_conf_input=`printf "%s\n" "$configure_input" |
        sed 's/[\\\\&|]/\\\\&/g'`;; #(
     *) ac_sed_conf_input=$configure_input;;
     esac
@@ -1539,7 +1852,7 @@ $as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
 	 X"$ac_file" : 'X\(//\)[^/]' \| \
 	 X"$ac_file" : 'X\(//\)$' \| \
 	 X"$ac_file" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$ac_file" |
+printf "%s\n" X"$ac_file" |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
@@ -1563,9 +1876,9 @@ $as_echo X"$ac_file" |
 case "$ac_dir" in
 .) ac_dir_suffix= ac_top_builddir_sub=. ac_top_build_prefix= ;;
 *)
-  ac_dir_suffix=/`$as_echo "$ac_dir" | sed 's|^\.[\\/]||'`
+  ac_dir_suffix=/`printf "%s\n" "$ac_dir" | sed 's|^\.[\\/]||'`
   # A ".." for each directory in $ac_dir_suffix.
-  ac_top_builddir_sub=`$as_echo "$ac_dir_suffix" | sed 's|/[^\\/]*|/..|g;s|/||'`
+  ac_top_builddir_sub=`printf "%s\n" "$ac_dir_suffix" | sed 's|/[^\\/]*|/..|g;s|/||'`
   case $ac_top_builddir_sub in
   "") ac_top_builddir_sub=. ac_top_build_prefix= ;;
   *)  ac_top_build_prefix=$ac_top_builddir_sub/ ;;
@@ -1624,8 +1937,8 @@ ac_sed_dataroot='
 case `eval "sed -n \"\$ac_sed_dataroot\" $ac_file_inputs"` in
 *datarootdir*) ac_datarootdir_seen=yes;;
 *@datadir@*|*@docdir@*|*@infodir@*|*@localedir@*|*@mandir@*)
-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $ac_file_inputs seems to ignore the --datarootdir setting" >&5
-$as_echo "$as_me: WARNING: $ac_file_inputs seems to ignore the --datarootdir setting" >&2;}
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: $ac_file_inputs seems to ignore the --datarootdir setting" >&5
+printf "%s\n" "$as_me: WARNING: $ac_file_inputs seems to ignore the --datarootdir setting" >&2;}
   ac_datarootdir_hack='
   s&@datadir@&${datarootdir}&g
   s&@docdir@&${datarootdir}/doc/${PACKAGE_TARNAME}&g
@@ -1674,9 +1987,9 @@ test -z "$ac_datarootdir_hack$ac_datarootdir_seen" &&
   { ac_out=`sed -n '/\${datarootdir}/p' "$ac_tmp/out"`; test -n "$ac_out"; } &&
   { ac_out=`sed -n '/^[	 ]*datarootdir[	 ]*:*=/p' \
       "$ac_tmp/out"`; test -z "$ac_out"; } &&
-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $ac_file contains a reference to the variable \`datarootdir'
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: $ac_file contains a reference to the variable \`datarootdir'
 which seems to be undefined.  Please make sure it is defined" >&5
-$as_echo "$as_me: WARNING: $ac_file contains a reference to the variable \`datarootdir'
+printf "%s\n" "$as_me: WARNING: $ac_file contains a reference to the variable \`datarootdir'
 which seems to be undefined.  Please make sure it is defined" >&2;}
 
   rm -f "$ac_tmp/stdin"
@@ -1692,20 +2005,20 @@ which seems to be undefined.  Please make sure it is defined" >&2;}
   #
   if test x"$ac_file" != x-; then
     {
-      $as_echo "/* $configure_input  */" \
+      printf "%s\n" "/* $configure_input  */" >&1 \
       && eval '$AWK -f "$ac_tmp/defines.awk"' "$ac_file_inputs"
     } >"$ac_tmp/config.h" \
       || as_fn_error $? "could not create $ac_file" "$LINENO" 5
     if diff "$ac_file" "$ac_tmp/config.h" >/dev/null 2>&1; then
-      { $as_echo "$as_me:${as_lineno-$LINENO}: $ac_file is unchanged" >&5
-$as_echo "$as_me: $ac_file is unchanged" >&6;}
+      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: $ac_file is unchanged" >&5
+printf "%s\n" "$as_me: $ac_file is unchanged" >&6;}
     else
       rm -f "$ac_file"
       mv "$ac_tmp/config.h" "$ac_file" \
 	|| as_fn_error $? "could not create $ac_file" "$LINENO" 5
     fi
   else
-    $as_echo "/* $configure_input  */" \
+    printf "%s\n" "/* $configure_input  */" >&1 \
       && eval '$AWK -f "$ac_tmp/defines.awk"' "$ac_file_inputs" \
       || as_fn_error $? "could not create -" "$LINENO" 5
   fi
@@ -1725,7 +2038,7 @@ $as_expr X"$_am_arg" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
 	 X"$_am_arg" : 'X\(//\)[^/]' \| \
 	 X"$_am_arg" : 'X\(//\)$' \| \
 	 X"$_am_arg" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$_am_arg" |
+printf "%s\n" X"$_am_arg" |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
@@ -1757,8 +2070,8 @@ $as_echo X"$_am_arg" |
       ac_source=$srcdir/$ac_source
     fi
 
-    { $as_echo "$as_me:${as_lineno-$LINENO}: linking $ac_source to $ac_file" >&5
-$as_echo "$as_me: linking $ac_source to $ac_file" >&6;}
+    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: linking $ac_source to $ac_file" >&5
+printf "%s\n" "$as_me: linking $ac_source to $ac_file" >&6;}
 
     if test ! -r "$ac_source"; then
       as_fn_error $? "$ac_source: file not found" "$LINENO" 5
@@ -1776,8 +2089,8 @@ $as_echo "$as_me: linking $ac_source to $ac_file" >&6;}
       as_fn_error $? "cannot link or copy $ac_source to $ac_file" "$LINENO" 5
   fi
  ;;
-  :C)  { $as_echo "$as_me:${as_lineno-$LINENO}: executing $ac_file commands" >&5
-$as_echo "$as_me: executing $ac_file commands" >&6;}
+  :C)  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: executing $ac_file commands" >&5
+printf "%s\n" "$as_me: executing $ac_file commands" >&6;}
  ;;
   esac
 
@@ -1787,29 +2100,35 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
   # Older Autoconf quotes --file arguments for eval, but not when files
   # are listed without --file.  Let's play safe and only enable the eval
   # if we detect the quoting.
-  case $CONFIG_FILES in
-  *\'*) eval set x "$CONFIG_FILES" ;;
-  *)   set x $CONFIG_FILES ;;
-  esac
+  # TODO: see whether this extra hack can be removed once we start
+  # requiring Autoconf 2.70 or later.
+  case $CONFIG_FILES in #(
+  *\'*) :
+    eval set x "$CONFIG_FILES" ;; #(
+  *) :
+    set x $CONFIG_FILES ;; #(
+  *) :
+     ;;
+esac
   shift
-  for mf
+  # Used to flag and report bootstrapping failures.
+  am_rc=0
+  for am_mf
   do
     # Strip MF so we end up with the name of the file.
-    mf=`echo "$mf" | sed -e 's/:.*$//'`
-    # Check whether this is an Automake generated Makefile or not.
-    # We used to match only the files named 'Makefile.in', but
-    # some people rename them; so instead we look at the file content.
-    # Grep'ing the first line is not enough: some people post-process
-    # each Makefile.in and add a new line on top of each file to say so.
-    # Grep'ing the whole file is not good either: AIX grep has a line
+    am_mf=`printf "%s\n" "$am_mf" | sed -e 's/:.*$//'`
+    # Check whether this is an Automake generated Makefile which includes
+    # dependency-tracking related rules and includes.
+    # Grep'ing the whole file directly is not great: AIX grep has a line
     # limit of 2048, but all sed's we know have understand at least 4000.
-    if sed -n 's,^#.*generated by automake.*,X,p' "$mf" | grep X >/dev/null 2>&1; then
-      dirpart=`$as_dirname -- "$mf" ||
-$as_expr X"$mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$mf" : 'X\(//\)[^/]' \| \
-	 X"$mf" : 'X\(//\)$' \| \
-	 X"$mf" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$mf" |
+    sed -n 's,^am--depfiles:.*,X,p' "$am_mf" | grep X >/dev/null 2>&1 \
+      || continue
+    am_dirpart=`$as_dirname -- "$am_mf" ||
+$as_expr X"$am_mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$am_mf" : 'X\(//\)[^/]' \| \
+	 X"$am_mf" : 'X\(//\)$' \| \
+	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
+printf "%s\n" X"$am_mf" |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
@@ -1827,53 +2146,50 @@ $as_echo X"$mf" |
 	    q
 	  }
 	  s/.*/./; q'`
-    else
-      continue
-    fi
-    # Extract the definition of DEPDIR, am__include, and am__quote
-    # from the Makefile without running 'make'.
-    DEPDIR=`sed -n 's/^DEPDIR = //p' < "$mf"`
-    test -z "$DEPDIR" && continue
-    am__include=`sed -n 's/^am__include = //p' < "$mf"`
-    test -z "$am__include" && continue
-    am__quote=`sed -n 's/^am__quote = //p' < "$mf"`
-    # Find all dependency output files, they are included files with
-    # $(DEPDIR) in their names.  We invoke sed twice because it is the
-    # simplest approach to changing $(DEPDIR) to its actual value in the
-    # expansion.
-    for file in `sed -n "
-      s/^$am__include $am__quote\(.*(DEPDIR).*\)$am__quote"'$/\1/p' <"$mf" | \
-	 sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g'`; do
-      # Make sure the directory exists.
-      test -f "$dirpart/$file" && continue
-      fdir=`$as_dirname -- "$file" ||
-$as_expr X"$file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$file" : 'X\(//\)[^/]' \| \
-	 X"$file" : 'X\(//\)$' \| \
-	 X"$file" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$file" |
-    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
+    am_filepart=`$as_basename -- "$am_mf" ||
+$as_expr X/"$am_mf" : '.*/\([^/][^/]*\)/*$' \| \
+	 X"$am_mf" : 'X\(//\)$' \| \
+	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
+printf "%s\n" X/"$am_mf" |
+    sed '/^.*\/\([^/][^/]*\)\/*$/{
 	    s//\1/
 	    q
 	  }
-	  /^X\(\/\/\)[^/].*/{
+	  /^X\/\(\/\/\)$/{
 	    s//\1/
 	    q
 	  }
-	  /^X\(\/\/\)$/{
-	    s//\1/
-	    q
-	  }
-	  /^X\(\/\).*/{
+	  /^X\/\(\/\).*/{
 	    s//\1/
 	    q
 	  }
 	  s/.*/./; q'`
-      as_dir=$dirpart/$fdir; as_fn_mkdir_p
-      # echo "creating $dirpart/$file"
-      echo '# dummy' > "$dirpart/$file"
-    done
+    { echo "$as_me:$LINENO: cd "$am_dirpart" \
+      && sed -e '/# am--include-marker/d' "$am_filepart" \
+        | $MAKE -f - am--depfiles" >&5
+   (cd "$am_dirpart" \
+      && sed -e '/# am--include-marker/d' "$am_filepart" \
+        | $MAKE -f - am--depfiles) >&5 2>&5
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&5
+   (exit $ac_status); } || am_rc=$?
   done
+  if test $am_rc -ne 0; then
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "Something went wrong bootstrapping makefile fragments
+    for automatic dependency tracking.  If GNU make was not used, consider
+    re-running the configure script with MAKE=\"gmake\" (or whatever is
+    necessary).  You can also try re-running configure with the
+    '--disable-dependency-tracking' option to at least be able to build
+    the package (albeit without support for automatic dependency tracking).
+See \`config.log' for more details" "$LINENO" 5; }
+  fi
+  { am_dirpart=; unset am_dirpart;}
+  { am_filepart=; unset am_filepart;}
+  { am_mf=; unset am_mf;}
+  { am_rc=; unset am_rc;}
+  rm -f conftest-deps.mk
 }
  ;;
     "libtool":C)
@@ -2019,6 +2335,9 @@ to_host_file_cmd=$lt_cv_to_host_file_cmd
 # convert \$build files to toolchain format.
 to_tool_file_cmd=$lt_cv_to_tool_file_cmd
 
+# A file(cmd) program that detects file types.
+FILECMD=$lt_FILECMD
+
 # Method to check whether dependent libraries are shared objects.
 deplibs_check_method=$lt_deplibs_check_method
 
@@ -2037,8 +2356,11 @@ sharedlib_from_linklib_cmd=$lt_sharedlib_from_linklib_cmd
 # The archiver.
 AR=$lt_AR
 
+# Flags to create an archive (by configure).
+lt_ar_flags=$lt_ar_flags
+
 # Flags to create an archive.
-AR_FLAGS=$lt_AR_FLAGS
+AR_FLAGS=\${ARFLAGS-"\$lt_ar_flags"}
 
 # How to feed a file listing to the archiver.
 archiver_list_spec=$lt_archiver_list_spec
@@ -2420,6 +2742,7 @@ _LT_EOF
   esac
 
 
+
 ltmain=$ac_aux_dir/ltmain.sh
 
 
@@ -2427,7 +2750,7 @@ ltmain=$ac_aux_dir/ltmain.sh
   # if finds mixed CR/LF and LF-only lines.  Since sed operates in
   # text mode, it properly converts lines to CR/LF.  This bash problem
   # is reportedly fixed, but why not run on old versions too?
-  sed '$q' "$ltmain" >> "$cfgfile" \
+  $SED '$q' "$ltmain" >> "$cfgfile" \
      || (rm -f "$cfgfile"; exit 1)
 
    mv -f "$cfgfile" "$ofile" ||
