@@ -26,7 +26,7 @@ Unicode true
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "Bitnet Core"
 !define MUI_FINISHPAGE_RUN "$WINDIR\explorer.exe"
-!define MUI_FINISHPAGE_RUN_PARAMETERS $INSTDIR\bitnet-qt.exe
+!define MUI_FINISHPAGE_RUN_PARAMETERS $INSTDIR\bitnet-qt
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/c4pt/opt/bitnet-core/share/pixmaps/nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
@@ -72,18 +72,18 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /home/c4pt/opt/bitnet-core/release/bitnet-qt.exe
+    File /home/c4pt/opt/bitnet-core/release/bitnet-qt
     File /oname=COPYING.txt /home/c4pt/opt/bitnet-core/COPYING
     File /oname=readme.txt /home/c4pt/opt/bitnet-core/doc/README_windows.txt
     File /home/c4pt/opt/bitnet-core/share/examples/bitnet.conf
     SetOutPath $INSTDIR\share\rpcauth
     File /home/c4pt/opt/bitnet-core/share/rpcauth/*.*
     SetOutPath $INSTDIR\daemon
-    File /home/c4pt/opt/bitnet-core/release/bitnetd.exe
-    File /home/c4pt/opt/bitnet-core/release/bitnet-cli.exe
-    File /home/c4pt/opt/bitnet-core/release/bitnet-tx.exe
-    File /home/c4pt/opt/bitnet-core/release/bitnet-wallet.exe
-    File /home/c4pt/opt/bitnet-core/release/test_bitnet.exe
+    File /home/c4pt/opt/bitnet-core/release/bitnetd
+    File /home/c4pt/opt/bitnet-core/release/bitnet-cli
+    File /home/c4pt/opt/bitnet-core/release/bitnet-tx
+    File /home/c4pt/opt/bitnet-core/release/bitnet-wallet
+    File /home/c4pt/opt/bitnet-core/release/test_bitnet
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 SectionEnd
@@ -94,8 +94,8 @@ Section -post SEC0001
     WriteUninstaller $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     CreateDirectory $SMPROGRAMS\$StartMenuGroup
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" $INSTDIR\bitnet-qt.exe
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Bitnet Core (testnet, 64-bit).lnk" "$INSTDIR\bitnet-qt.exe" "-testnet" "$INSTDIR\bitnet-qt.exe" 1
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" $INSTDIR\bitnet-qt
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Bitnet Core (testnet, 64-bit).lnk" "$INSTDIR\bitnet-qt" "-testnet" "$INSTDIR\bitnet-qt" 1
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk" $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
@@ -108,8 +108,8 @@ Section -post SEC0001
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
     WriteRegStr HKCR "bitnet" "URL Protocol" ""
     WriteRegStr HKCR "bitnet" "" "URL:Bitnet"
-    WriteRegStr HKCR "bitnet\DefaultIcon" "" $INSTDIR\bitnet-qt.exe
-    WriteRegStr HKCR "bitnet\shell\open\command" "" '"$INSTDIR\bitnet-qt.exe" "%1"'
+    WriteRegStr HKCR "bitnet\DefaultIcon" "" $INSTDIR\bitnet-qt
+    WriteRegStr HKCR "bitnet\shell\open\command" "" '"$INSTDIR\bitnet-qt" "%1"'
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -127,7 +127,7 @@ done${UNSECTION_ID}:
 
 # Uninstaller sections
 Section /o -un.Main UNSEC0000
-    Delete /REBOOTOK $INSTDIR\bitnet-qt.exe
+    Delete /REBOOTOK $INSTDIR\bitnet-qt
     Delete /REBOOTOK $INSTDIR\COPYING.txt
     Delete /REBOOTOK $INSTDIR\readme.txt
     Delete /REBOOTOK $INSTDIR\bitnet.conf

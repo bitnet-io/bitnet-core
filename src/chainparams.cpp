@@ -87,6 +87,8 @@ public:
         consensus.nPowTargetSpacing = 3.5 * 60;     // 3.5 * 60 3.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false; //no more Pow retargeting our chain works
+	consensus.nPowKGWHeight = 100;
+        consensus.nPowDGWHeight = 300;
   //      consensus.nRuleChangeActivationThreshold = 1815; // 90% of 2016
         consensus.nRuleChangeActivationThreshold = 1815; // 90% of 2016
  //lastworking       consensus.nMinerConfirmationWindow = 100; // nPowTargetTimespan / nPowTargetSpacing
@@ -237,6 +239,14 @@ min Main nBit:  1b172947
             /* nTxCount */ 0,
             /* dTxRate  */ 0.000
         };
+
+// void UpdateDevnetSubsidyAndDiffParameters(int nMinimumDifficultyBlocks, int nHighSubsidyBlocks, int nHighSubsidyFactor)
+  //  {
+    //    consensus.nMinimumDifficultyBlocks = nMinimumDifficultyBlocks;
+      //  consensus.nHighSubsidyBlocks = nHighSubsidyBlocks;
+      //  consensus.nHighSubsidyFactor = nHighSubsidyFactor;
+   // }
+
 
 
     }

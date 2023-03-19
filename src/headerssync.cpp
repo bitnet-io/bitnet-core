@@ -186,11 +186,11 @@ bool HeadersSyncState::ValidateAndProcessSingleHeader(const CBlockHeader& curren
     // work chain if they compress the work into as few blocks as possible,
     // so don't let anyone give a chain that would violate the difficulty
     // adjustment maximum.
-    if (!PermittedDifficultyTransition(m_consensus_params, next_height,
-                m_last_header_received.nBits, current.nBits)) {
-        LogPrint(BCLog::NET, "Initial headers sync aborted with peer=%d: invalid difficulty transition at height=%i (presync phase)\n", m_id, next_height);
-        return false;
-    }
+//    if (!PermittedDifficultyTransition(m_consensus_params, next_height,
+  //              m_last_header_received.nBits, current.nBits)) {
+    //    LogPrint(BCLog::NET, "Initial headers sync aborted with peer=%d: invalid difficulty transition at height=%i (presync phase)\n", m_id, next_height);
+      //  return false;
+   // }
 
     if (next_height % HEADER_COMMITMENT_PERIOD == m_commit_offset) {
         // Add a commitment.
@@ -234,11 +234,11 @@ bool HeadersSyncState::ValidateAndStoreRedownloadedHeader(const CBlockHeader& he
         previous_nBits = m_chain_start->nBits;
     }
 
-    if (!PermittedDifficultyTransition(m_consensus_params, next_height,
-                previous_nBits, header.nBits)) {
-        LogPrint(BCLog::NET, "Initial headers sync aborted with peer=%d: invalid difficulty transition at height=%i (redownload phase)\n", m_id, next_height);
-        return false;
-    }
+//    if (!PermittedDifficultyTransition(m_consensus_params, next_height,
+  //              previous_nBits, header.nBits)) {
+    //    LogPrint(BCLog::NET, "Initial headers sync aborted with peer=%d: invalid difficulty transition at height=%i (redownload phase)\n", m_id, next_height);
+      //  return false;
+    //}
 
     // Track work on the redownloaded chain
     m_redownload_chain_work += GetBlockProof(CBlockIndex(header));
