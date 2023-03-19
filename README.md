@@ -1,3 +1,7 @@
+# 03-18-2023
+# DarkGravityWave has now replaced pow.cpp to protect miners with the updated algorithm in the github source 
+# updated binaries soon
+
 # 03-14-2023
 # we are now listed on Xeggex exchange
 ![s1](https://github.com/bitnet-io/bitnet-core/releases/download/exchanges/bitnet-listing.png)
