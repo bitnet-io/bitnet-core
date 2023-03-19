@@ -1,6 +1,6 @@
 # 03-18-2023
 # DarkGravityWave has now replaced pow.cpp to protect miners with the updated algorithm in the github source 
-# updated binaries soon
+# updated binaries also
 
 # 03-14-2023
 # we are now listed on Xeggex exchange
