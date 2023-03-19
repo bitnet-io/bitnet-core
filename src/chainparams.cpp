@@ -87,12 +87,13 @@ public:
         consensus.nPowTargetSpacing = 3.5 * 60;     // 3.5 * 60 3.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false; //no more Pow retargeting our chain works
-	consensus.nPowKGWHeight = 100;
-        consensus.nPowDGWHeight = 300;
-  //      consensus.nRuleChangeActivationThreshold = 1815; // 90% of 2016
-        consensus.nRuleChangeActivationThreshold = 1815; // 90% of 2016
- //lastworking       consensus.nMinerConfirmationWindow = 100; // nPowTargetTimespan / nPowTargetSpacing
-        consensus.nMinerConfirmationWindow = 100; // nPowTargetTimespan / nPowTargetSpacing
+     	consensus.nPowKGWHeight = 11625;
+        consensus.nPowDGWHeight = 11625;
+        consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
+        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
+
+                                                        //        consensus.nMinerConfirmationWindow = 100; // nPowTargetTimespan / nPowTargetSpacing
+
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = Consensus::BIP9Deployment::NEVER_ACTIVE;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
