@@ -16,7 +16,7 @@
  * for both bitnetd and bitnet-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string CLIENT_NAME("BitRazor");
+const std::string CLIENT_NAME("BitBag");
 
 
 #ifdef HAVE_BUILD_INFO
