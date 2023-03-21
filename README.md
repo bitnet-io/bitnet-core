@@ -1,3 +1,6 @@
+# 03-21-2023
+# we had an issue at block 11622 please update to the latest changes as we brace for DGW at block 11625
+
 # 03-18-2023
 # DarkGravityWave has now replaced pow.cpp to protect miners with the updated algorithm in the github source 
 # updated binaries also
