@@ -1,4 +1,5 @@
 # 03-21-2023
+# please update to the changes from 03-21-2023
 # we had an issue at block 11622 please update to the latest changes as we brace for DGW at block 11625
 
 # 03-18-2023
