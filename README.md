@@ -1,3 +1,9 @@
+# 03-21-2023 continued
+# DarkGravityWave is stable and it kicked in @11625 as a result our blockchain difficulty has drastically 
+# decreased and miners are happy
+# we dropped down from 1,250,000,000 difficulty to around 100,000,000 difficulty and miners sure are pleased.
+
+
 # 03-21-2023
 # please update to the changes from 03-21-2023 and -reindex
 # we had an issue at block 11622 please update to the latest changes as we brace for DGW at block 11625
