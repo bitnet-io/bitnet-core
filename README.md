@@ -1,3 +1,9 @@
+# 04-18-2023
+# we are now listed on bimex.live which is a new exchange getting off the ground
+# https://bimex.live/trade/index/market/bit_usdt/
+![s1](https://github.com/bitnet-io/bitnet-core/releases/download/exchanges/bimex.png)
+
+
 # 03-21-2023 continued
 # DarkGravityWave is stable and it kicked in @11625 as a result our blockchain difficulty has drastically 
 # decreased and miners are happy
