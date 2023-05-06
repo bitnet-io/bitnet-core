@@ -1105,10 +1105,10 @@ void BitnetGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVeri
 
     QDateTime currentDate = QDateTime::currentDateTime();
     //modified here 
-    //qint64 secs = blockDate.secsTo(currentDate);
+    qint64 secs = blockDate.secsTo(currentDate);
 
 	//just show a checkmark without the sync window
-    qint64 secs = 0;
+    //qint64 secs = 0;
 
     tooltip = tr("Processed %n block(s) of transaction history.", "", count);
 
