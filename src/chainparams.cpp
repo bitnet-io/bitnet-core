@@ -106,8 +106,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 709632; // Approximately November 12th, 2021
 
        // consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000003404ba0801921119f903495e");
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000100010");
-        consensus.defaultAssumeValid = uint256S("0x00000000000000026851db0a5df86ec01d797889678612d7cb48bddc3e79f115"); // 751565
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000001c098a087afb5f07823");
+        consensus.defaultAssumeValid = uint256S("0x0000000000000077e0bdbcfd186e5ecd6c389b2d8d41eca88f604f5e1133e73d"); // 34700
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -154,7 +154,7 @@ consensus.hashGenesisBlock = uint256S("0xfffffffffffffffffffffffffffffffffffffff
 
 
         }
-
+*/
 /*
 Mainnet ---
  main_nonce: 1196422
@@ -208,6 +208,7 @@ min Main nBit:  1b172947
             {
 
                 { 11614, uint256S("0x00000000000000026851db0a5df86ec01d797889678612d7cb48bddc3e79f115")},
+		{ 34700, uint256S("0x0000000000000077e0bdbcfd186e5ecd6c389b2d8d41eca88f604f5e1133e73d")},
 /*
                 { 11111, uint256S("0x0000000069e244f73d78e8fd29ba2fd2ed618bd6fa2ee92559f542fdb26e7c1d")},
                 { 33333, uint256S("0x000000002dd5588a74784eaa7ab0507a18ad16a236e7b1ce69f00d7ddfb5d0a6")},
@@ -222,7 +223,6 @@ min Main nBit:  1b172947
                 {250000, uint256S("0x000000000000003887df1f29024b06fc2200b55f8af8f35453d7be294df2d214")},
                 {279000, uint256S("0x0000000000000001ae8c72a0b0c301f67e3afca10e819efa9041e458e9bd7e40")},
                 {295000, uint256S("0x00000000000000004d9b4ef50f0f9d686fd69db2e03af35a100370c64632a983")},
-  
 */
           }
         };
@@ -236,9 +236,9 @@ min Main nBit:  1b172947
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats
-            /* nTime    */ 1677414786,
-            /* nTxCount */ 0,
-            /* dTxRate  */ 0.000
+            /* nTime    */ 1684633076,
+            /* nTxCount */ 43308,
+            /* dTxRate  */ 0.005
         };
 
 // void UpdateDevnetSubsidyAndDiffParameters(int nMinimumDifficultyBlocks, int nHighSubsidyBlocks, int nHighSubsidyFactor)

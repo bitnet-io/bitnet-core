@@ -662,7 +662,7 @@ static RPCHelpMan getblocktemplate()
         }
 
         if (active_chainstate.IsInitialBlockDownload()) {
-         //   throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, PACKAGE_NAME " is in initial sync and waiting for blocks...");
+            throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, PACKAGE_NAME " is in initial sync and waiting for blocks...");
         }
     }
 

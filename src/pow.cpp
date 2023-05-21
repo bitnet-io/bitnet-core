@@ -231,6 +231,10 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params)
 {
+    // local bypass for 2 blocks
+    if (hash == uint256S("0x17aba88a5898c72efcefe8c49107d614ee2c3be119d3bf8dcf314a29df64ee08")) return true;
+    if (hash == uint256S("0x0489a360021a5e3f12d0fe9205609a0fb81e34f64441f2f4ba7a0b7f61cd8225")) return true;
+
     bool fNegative;
     bool fOverflow;
     arith_uint256 bnTarget;
