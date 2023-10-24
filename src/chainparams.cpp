@@ -109,7 +109,7 @@ public:
 
        // consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000003404ba0801921119f903495e");
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000001c098a087afb5f07823");
-        consensus.defaultAssumeValid = uint256S("0x0000000000000077e0bdbcfd186e5ecd6c389b2d8d41eca88f604f5e1133e73d"); // 34700
+        consensus.defaultAssumeValid = uint256S("0x000000000000002d05e938bb1360c7dea3f15628eacb260fd5657d839c4e58c6"); // 92345 current 10-24-2023
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -209,9 +209,9 @@ min Main nBit:  1b172947
         checkpointData = {
             {
 
-                { 11614, uint256S("0x00000000000000026851db0a5df86ec01d797889678612d7cb48bddc3e79f115")},
-		{ 34700, uint256S("0x0000000000000077e0bdbcfd186e5ecd6c389b2d8d41eca88f604f5e1133e73d")},
-/*
+ //               { 11614, uint256S("0x00000000000000026851db0a5df86ec01d797889678612d7cb48bddc3e79f115")},
+//		{ 34700, uint256S("0x0000000000000077e0bdbcfd186e5ecd6c389b2d8d41eca88f604f5e1133e73d")},
+		{ 92345, uint256S("0x000000000000002d05e938bb1360c7dea3f15628eacb260fd5657d839c4e58c6")},/*
                 { 11111, uint256S("0x0000000069e244f73d78e8fd29ba2fd2ed618bd6fa2ee92559f542fdb26e7c1d")},
                 { 33333, uint256S("0x000000002dd5588a74784eaa7ab0507a18ad16a236e7b1ce69f00d7ddfb5d0a6")},
                 { 74000, uint256S("0x0000000000573993a3c9e41ce34471c079dcf5f52a0e824a81e7f953b8661a20")},
