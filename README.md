@@ -1,6 +1,6 @@
 # 10-24-2023
 # binaries have been updated to linux-95000 and windows-95000
-* this is a mandatory update
+* this is a mandatory update for pools and solo miners
 ```
 this introduces protocol version 70018 of bitnet-qt and bitnetd which kicks in at block height 95000
  has adjustments for DGW to increase the average calculation from 24 blocks
