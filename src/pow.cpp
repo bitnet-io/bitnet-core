@@ -81,7 +81,12 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const Conse
 unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const Consensus::Params& params) {
     /* current difficulty formula, dash - DarkGravity v3, written by Evan Duffield - evan@dash.org */
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
-    int64_t nPastBlocks = 240; //was 24 blocks here for average
+
+ int64_t nPastBlocks = 24; // was 24 blocks for pastblocks average here adjusted
+    if (pindexLast->nHeight + 1 >= 95000)
+        nPastBlocks = 60; // about 3 hours timewindow with 60x3.5min
+
+
 
     // make sure we have at least (nPastBlocks + 1) blocks, otherwise just return powLimit
     if (!pindexLast || pindexLast->nHeight < nPastBlocks) {
