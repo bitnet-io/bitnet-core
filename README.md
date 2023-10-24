@@ -1,3 +1,30 @@
+# 10-24-2023
+# binaries have been updated to linux-95000 and windows-95000
+* this is a mandatory update
+```
+this introduces protocol version 70018 of bitnet-qt and bitnetd which kicks in at block height 95000
+ has adjustments for DGW to increase the average calculation from 24 blocks
+ to 60 blocks thus increasing the time window and causing smoother difficulty changes
+```
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
 # 04-18-2023
 # we are now listed on bimex.live which is a new exchange getting off the ground
 # https://bimex.live/trade/index/market/bit_usdt/
