@@ -23,7 +23,7 @@ this introduces protocol version 70018 of bitnet-qt and bitnetd which kicks in a
 <br>
 <br>
 <br>
-
+# https://bitnet-io.org
 
 # 04-18-2023
 # we are now listed on bimex.live which is a new exchange getting off the ground
