@@ -114,7 +114,6 @@ Bitnet-Core based off of radiocoin with improvements
   addnode=38.242.200.177:8333
   addnode=149.50.96.167:20029
 
-  addnode=in.mining4people.com:18333
 
 
   ```
