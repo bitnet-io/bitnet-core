@@ -111,13 +111,9 @@ Bitnet-Core based off of radiocoin with improvements
 ```
   addnode=bitexplorer.io:8333
   addnode=bitnet-io.org:8333
-  addnode=23.244.172.101:8333
-  addnode=bitnet.caldera.network  
-  addnode=us.mining4people.com:18333
-  addnode=fi.mining4people.com:18333
-  addnode=au.mining4people.com:18333
-  addnode=br.mining4people.com:18333
-  addnode=de.mining4people.com:18333
+  addnode=38.242.200.177:8333
+  addnode=149.50.96.167:20029
+
   addnode=in.mining4people.com:18333
 
 
