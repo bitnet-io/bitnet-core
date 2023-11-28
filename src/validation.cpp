@@ -1540,7 +1540,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     return nSubsidy;
     }
 	// testing for release Changing the block reward at block 150000 to 100 coins
-    else if (nHeight > 150000) {
+    else {
     CAmount nSubsidy = 100 * COIN;
     nSubsidy >>= halvings;
     return nSubsidy;
