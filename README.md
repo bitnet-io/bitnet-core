@@ -1,3 +1,20 @@
+# 11-27-2023
+# binaries have been updated to fork at block height 150,000 for coin rewards of 100 BIT per block to preserve the network for 30 years
+* this is a mandatory update for pools and solo miners
+  ```
+this introduces protocol version 70020 of bitnet-qt and bitnetd which kicks in at block height 150,000
+ at block height 150,000 the 10,000 coins will be over and the new rewards will be 100 BIT per block
+ this will ensure that the network can run for 30 years and still distribute 100 coins per block
+```
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 # 10-24-2023
 # binaries have been updated to linux-95000 and windows-95000
 * this is a mandatory update for pools and solo miners
@@ -7,14 +24,6 @@ this introduces protocol version 70018 of bitnet-qt and bitnetd which kicks in a
  to 60 blocks thus increasing the time window and causing smoother difficulty changes
 ```
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <br>
 <br>
 <br>
