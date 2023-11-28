@@ -1,5 +1,5 @@
 #!/bin/bash
- apt install libtool autoconf bison -y
+ apt install libtool autoconf bison procps -y
  apt install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev -y
     apt install libboost-all-dev libsqlite3-dev build-essential pkg-config -y
     apt install libdb5.3-dev libdb5.3++-dev -y
