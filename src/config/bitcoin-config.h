@@ -353,16 +353,16 @@
 #define PACKAGE_NAME "Bitnet Core"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Bitnet Core 24.99.0"
+#define PACKAGE_STRING "Bitnet Core 25.00.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bitnet"
 
 /* Define to the home page for this package. */
-#define PACKAGE_URL "https://bitnetcore.org/"
+#define PACKAGE_URL "https://bitnet-io.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "24.99.0"
+#define PACKAGE_VERSION "25.00.0"
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */
