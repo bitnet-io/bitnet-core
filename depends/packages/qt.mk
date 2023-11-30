@@ -33,7 +33,6 @@ $(package)_extra_sources  = $($(package)_qttranslations_file_name)
 $(package)_extra_sources += $($(package)_qttools_file_name)
 
 define $(package)_set_vars
-$(package)_config_env = QT_MAC_SDK_NO_VERSION_CHECK=1
 $(package)_config_opts_release = -release
 $(package)_config_opts_release += -silent
 $(package)_config_opts_debug = -debug
@@ -161,7 +160,7 @@ $(package)_config_opts_linux += -dbus-runtime
 ifneq ($(LTO),)
 $(package)_config_opts_linux += -ltcg
 endif
-$(package)_config_opts_linux += -platform linux-g++ -xplatform bitnet-linux-g++
+$(package)_config_opts_linux += -platform linux-g++ -xplatform bitcoin-linux-g++
 ifneq (,$(findstring -stdlib=libc++,$($(1)_cxx)))
 $(package)_config_opts_x86_64_linux = -xplatform linux-clang-libc++
 endif
@@ -224,7 +223,7 @@ endef
 # 2. Create a macOS-Clang-Linux mkspec using our mac-qmake.conf.
 #
 # 3. After making a copy of the mkspec for the linux-arm-gnueabi host, named
-#    bitnet-linux-g++, replace tool names with $($($(package)_type)_TOOL).
+#    bitcoin-linux-g++, replace tool names with $($($(package)_type)_TOOL).
 #
 # 4. Put our C, CXX and LD FLAGS into gcc-base.conf. Only used for non-host builds.
 #
@@ -247,13 +246,13 @@ define $(package)_preprocess_cmds
   mkdir -p qtbase/mkspecs/macx-clang-linux &&\
   cp -f qtbase/mkspecs/macx-clang/qplatformdefs.h qtbase/mkspecs/macx-clang-linux/ &&\
   cp -f $($(package)_patch_dir)/mac-qmake.conf qtbase/mkspecs/macx-clang-linux/qmake.conf && \
-  cp -r qtbase/mkspecs/linux-arm-gnueabi-g++ qtbase/mkspecs/bitnet-linux-g++ && \
-  sed -i.old "s|arm-linux-gnueabi-gcc|$($($(package)_type)_CC)|" qtbase/mkspecs/bitnet-linux-g++/qmake.conf && \
-  sed -i.old "s|arm-linux-gnueabi-g++|$($($(package)_type)_CXX)|" qtbase/mkspecs/bitnet-linux-g++/qmake.conf && \
-  sed -i.old "s|arm-linux-gnueabi-ar|$($($(package)_type)_AR)|" qtbase/mkspecs/bitnet-linux-g++/qmake.conf && \
-  sed -i.old "s|arm-linux-gnueabi-objcopy|$($($(package)_type)_OBJCOPY)|" qtbase/mkspecs/bitnet-linux-g++/qmake.conf && \
-  sed -i.old "s|arm-linux-gnueabi-nm|$($($(package)_type)_NM)|" qtbase/mkspecs/bitnet-linux-g++/qmake.conf && \
-  sed -i.old "s|arm-linux-gnueabi-strip|$($($(package)_type)_STRIP)|" qtbase/mkspecs/bitnet-linux-g++/qmake.conf && \
+  cp -r qtbase/mkspecs/linux-arm-gnueabi-g++ qtbase/mkspecs/bitcoin-linux-g++ && \
+  sed -i.old "s|arm-linux-gnueabi-gcc|$($($(package)_type)_CC)|" qtbase/mkspecs/bitcoin-linux-g++/qmake.conf && \
+  sed -i.old "s|arm-linux-gnueabi-g++|$($($(package)_type)_CXX)|" qtbase/mkspecs/bitcoin-linux-g++/qmake.conf && \
+  sed -i.old "s|arm-linux-gnueabi-ar|$($($(package)_type)_AR)|" qtbase/mkspecs/bitcoin-linux-g++/qmake.conf && \
+  sed -i.old "s|arm-linux-gnueabi-objcopy|$($($(package)_type)_OBJCOPY)|" qtbase/mkspecs/bitcoin-linux-g++/qmake.conf && \
+  sed -i.old "s|arm-linux-gnueabi-nm|$($($(package)_type)_NM)|" qtbase/mkspecs/bitcoin-linux-g++/qmake.conf && \
+  sed -i.old "s|arm-linux-gnueabi-strip|$($($(package)_type)_STRIP)|" qtbase/mkspecs/bitcoin-linux-g++/qmake.conf && \
   echo "!host_build: QMAKE_CFLAGS     += $($(package)_cflags) $($(package)_cppflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
   echo "!host_build: QMAKE_CXXFLAGS   += $($(package)_cxxflags) $($(package)_cppflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
   echo "!host_build: QMAKE_LFLAGS     += $($(package)_ldflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
@@ -262,6 +261,9 @@ define $(package)_preprocess_cmds
 endef
 
 define $(package)_config_cmds
+  export PKG_CONFIG_SYSROOT_DIR=/ && \
+  export PKG_CONFIG_LIBDIR=$(host_prefix)/lib/pkgconfig && \
+  export QT_MAC_SDK_NO_VERSION_CHECK=1 && \
   cd qtbase && \
   ./configure -top-level $($(package)_config_opts)
 endef
