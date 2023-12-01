@@ -1,3 +1,12 @@
+# 12-01-2023
+# we now have an offical QR code for the bitnet-io.org website
+![s1](https://github.com/bitnet-io/bitnet-core/releases/download/QR/bitnet-io-QR.png)
+
+<br>
+<br>
+<br>
+<br>
+<br>
 
 # 12-01-2023
 # We are now listed on nonkyc.io 
