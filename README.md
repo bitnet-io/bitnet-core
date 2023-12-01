@@ -1,3 +1,15 @@
+
+# 12-01-2023
+# We are now listed on nonkyc.io 
+# nonkyc.io doesnt require any ID any they have unlimited depost and withdrawals
+![s1](https://github.com/bitnet-io/bitnet-core/releases/download/exchanges/GASVKhTXsAAcWyd.jpg)
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
 # 11-27-2023
 # binaries have been updated to fork at block height 150,000 for coin rewards of 100 BIT per block to preserve the network for 30 years
 * this is a mandatory update for pools and solo miners
