@@ -1,8 +1,4 @@
-packages:=
-
-boost_packages = boost
-
-libevent_packages = libevent
+packages:=boost libevent
 
 qrencode_linux_packages = qrencode
 qrencode_android_packages = qrencode

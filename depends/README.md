@@ -12,7 +12,7 @@ For example:
 
     make HOST=x86_64-w64-mingw32 -j4
 
-**Bitnet Core's `configure` script by default will ignore the depends output.** In
+**Bitcoin Core's `configure` script by default will ignore the depends output.** In
 order for it to pick up libraries, tools, and settings from the depends build,
 you must set the `CONFIG_SITE` environment variable to point to a `config.site` settings file.
 In the above example, a file named `depends/x86_64-w64-mingw32/share/config.site` will be
@@ -62,7 +62,7 @@ For more information, see [SDK Extraction](../contrib/macdeploy/README.md#sdk-ex
 
 Common linux dependencies:
 
-    sudo apt-get install make automake cmake curl g++-multilib libtool binutils bsdmainutils pkg-config python3 patch bison
+    sudo apt-get install make automake cmake curl g++-multilib libtool binutils-gold bsdmainutils pkg-config python3 patch bison
 
 For linux ARM cross compilation:
 
@@ -98,8 +98,6 @@ The following can be set when running make: `make FOO=bar`
 - `FALLBACK_DOWNLOAD_PATH`: If a source file can't be fetched, try here before giving up
 - `C_STANDARD`: Set the C standard version used. Defaults to `c11`.
 - `CXX_STANDARD`: Set the C++ standard version used. Defaults to `c++17`.
-- `NO_BOOST`: Don't download/build/cache Boost
-- `NO_LIBEVENT`: Don't download/build/cache Libevent
 - `NO_QT`: Don't download/build/cache Qt and its dependencies
 - `NO_QR`: Don't download/build/cache packages needed for enabling qrencode
 - `NO_ZMQ`: Don't download/build/cache packages needed for enabling ZeroMQ
@@ -124,7 +122,7 @@ The following can be set when running make: `make FOO=bar`
 - `LTO`: Use LTO when building packages.
 
 If some packages are not built, for example `make NO_WALLET=1`, the appropriate
-options will be passed to bitnet's configure. In this case, `--disable-wallet`.
+options will be passed to bitcoin's configure. In this case, `--disable-wallet`.
 
 ### Additional targets
 
