@@ -1,3 +1,17 @@
+# how to build bitnet-qt with 12 cores (change -j12 to your number of cpu cores -j4 for 4 cores -j8 for 8 cores for a faster build)
+
+```
+git clone https://github.com/bitnet-io/bitnet-core
+cd bitnet-core/depends
+make -j12 HOST=x86_64-pc-linux-gnu
+cd ..
+./autogen.sh
+CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure
+make -j12
+make -j12 install
+```
+
+
 # 12-01-2023
 # we now have an offical QR code for the bitnet-io.org website
 ![s1](https://github.com/bitnet-io/bitnet-core/releases/download/QR/bitnet-io-QR.png)
