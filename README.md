@@ -8,14 +8,31 @@ How do I build the software?
 
 The most troublefree and reproducable method of building the repository is via the depends method:
 
+    LINUX
+
     git clone https://github.com/bitnet-io/bitnet-core
-    cd bitnet-core/depends
-    make HOST=x86_64-pc-linux-gnu
+    cd bitnet-core
+    cd depends
+    make -j12 HOST=x86_64-pc-linux-gnu  # -j12 for 12 cores adjust here
     cd ..
     ./autogen.sh
-    CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure
-    make
+    CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=$PWD/bitnet-shared-linux --disable-tests --disable-bench --disable-fuzz-binary
+    make -j12 				# -j12 for 12 cores adjust here
+    make -j12 install 		        # -j12 for 12 cores adjust here
+    files will be placed into bitnet-shared-linux folder
 
+    WINDOWS 64-bit
+
+    git clone https://github.com/bitnet-io/bitnet-core
+    cd bitnet-core
+    cd depends
+    make -j12 HOST=x86_64-w64-mingw32	# -j12 for 12 cores adjust here
+    cd ..
+    ./autogen.sh # not required when building from tarball
+    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=$PWD/bitnet-shared-windows
+    make -j12 				# -j12 for 12 cores adjust here
+    make -j12 install   		# -j12 for 12 cores adjust here
+    make -j12 deploy			# for setup.exe adjust 12 cores to your core count requires nsis see doc/build-windows.md for deps
 
 
 License
