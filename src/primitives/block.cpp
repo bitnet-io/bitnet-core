@@ -15,7 +15,7 @@ uint256 CBlockHeader::GetHash() const
 
 uint256 CBlockHeader::GetPoWHash() const
 {
-    return GetHash();
+    return aurum(*this);
 }
 
 std::string CBlock::ToString() const

@@ -7,6 +7,7 @@
 #define BITCOIN_HASH_H
 
 #include <attributes.h>
+#include <crypto/aurum.h>
 #include <crypto/common.h>
 #include <crypto/ripemd160.h>
 #include <crypto/sha256.h>
@@ -288,6 +289,15 @@ inline uint160 RIPEMD160(Span<const unsigned char> data)
     uint160 result;
     CRIPEMD160().Write(data.data(), data.size()).Finalize(result.begin());
     return result;
+}
+
+/** Compute the 256-bit powhash of an object's serialization. */
+template<typename T>
+uint256 aurum(const T& obj, int nType=SER_GETHASH, int nVersion=PROTOCOL_VERSION)
+{
+    uint256 out;
+    aurum_hash((const char*)&obj, reinterpret_cast<char*>(&out));
+    return out;
 }
 
 #endif // BITCOIN_HASH_H
