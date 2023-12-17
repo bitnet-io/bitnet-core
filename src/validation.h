@@ -87,6 +87,11 @@ enum class SynchronizationState {
     POST_INIT
 };
 
+typedef enum Algorithm {
+    SHA256D,
+    AURUM
+} Algorithm;
+
 extern GlobalMutex g_best_block_mutex;
 extern std::condition_variable g_best_block_cv;
 /** Used to notify getblocktemplate RPC of new tips. */
@@ -342,8 +347,11 @@ public:
 
 /** Functions for validating blocks and updating the block tree */
 
+/** Given pindex, return the algorithm type for a given block */
+Algorithm GetAlgorithmType(CBlockIndex* pindexPrev, const Consensus::Params& consensusParams);
+
 /** Context-independent validity checks */
-bool CheckBlock(const CBlock& block, BlockValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true, bool fCheckMerkleRoot = true);
+bool CheckBlock(const CBlock& block, BlockValidationState& state, Algorithm& algoType, const Consensus::Params& consensusParams, bool fCheckPOW = true, bool fCheckMerkleRoot = true);
 
 /** Check a block is completely valid from start to finish (only works on top of our current best block) */
 bool TestBlockValidity(BlockValidationState& state,

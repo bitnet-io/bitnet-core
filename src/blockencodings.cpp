@@ -201,9 +201,13 @@ ReadStatus PartiallyDownloadedBlock::FillBlock(CBlock& block, const std::vector<
     if (vtx_missing.size() != tx_missing_offset)
         return READ_STATUS_INVALID;
 
+    // KLUDGE: pindex is not available in this function so we cannot determine
+    // the algorithm type. however the code below purports to be calling CheckBlock
+    // only to test the merkletree - so we can simply disable the pow test.
     BlockValidationState state;
+    Algorithm algoType = SHA256D;
     CheckBlockFn check_block = m_check_block_mock ? m_check_block_mock : CheckBlock;
-    if (!check_block(block, state, Params().GetConsensus(), /*fCheckPoW=*/true, /*fCheckMerkleRoot=*/true)) {
+    if (!check_block(block, state, algoType, Params().GetConsensus(), /*fCheckPoW=*/false, /*fCheckMerkleRoot=*/true)) {
         // TODO: We really want to just check merkle tree manually here,
         // but that is expensive, and CheckBlock caches a block's
         // "checked-status" (in the CBlock?). CBlock should be able to

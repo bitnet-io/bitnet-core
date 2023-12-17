@@ -757,11 +757,6 @@ bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::P
         return error("%s: Deserialize or I/O error - %s at %s", __func__, e.what(), pos.ToString());
     }
 
-    // Check the header
-    if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams)) {
-        return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
-    }
-
     // Signet only: check block solution
     if (consensusParams.signet_blocks && !CheckSignetBlockSolution(block, consensusParams)) {
         return error("ReadBlockFromDisk: Errors in block solution at %s", pos.ToString());
@@ -777,6 +772,14 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
     if (!ReadBlockFromDisk(block, block_pos, consensusParams)) {
         return false;
     }
+
+    // Check the header
+    Algorithm algoType = GetAlgorithmType(pindex->pprev, consensusParams);
+    uint256 powHash = algoType == SHA256D ? block.GetHash() : block.GetPoWHash();
+    if (!CheckProofOfWork(powHash, block.nBits, consensusParams)) {
+        return error("ReadBlockFromDisk: Errors in block header at %s", block_pos.ToString());
+    }
+
     if (block.GetHash() != pindex->GetBlockHash()) {
         return error("ReadBlockFromDisk(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
                      pindex->ToString(), block_pos.ToString());

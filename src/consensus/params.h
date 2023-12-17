@@ -114,6 +114,7 @@ struct Params {
     bool fPowNoRetargeting;
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
+    int switchAlgoHeight;
 
     int nPowKGWHeight;
     int nPowDGWHeight;

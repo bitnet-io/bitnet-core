@@ -58,6 +58,8 @@ public:
         return NodeSeconds{std::chrono::seconds{nTime}};
     }
 
+    uint256 GetPoWHash() const;
+
     int64_t GetBlockTime() const
     {
         return (int64_t)nTime;
