@@ -115,14 +115,27 @@ static RPCHelpMan getnetworkhashps()
     };
 }
 
-static bool GenerateBlock(ChainstateManager& chainman, CBlock& block, uint64_t& max_tries, uint256& block_hash)
+static bool GenerateBlock(ChainstateManager& chainman, CBlock& block, uint64_t& max_tries, uint256& block_hash, Algorithm& algoType)
 {
     block_hash.SetNull();
     block.hashMerkleRoot = BlockMerkleRoot(block);
 
-    while (max_tries > 0 && block.nNonce < std::numeric_limits<uint32_t>::max() && !CheckProofOfWork(block.GetHash(), block.nBits, chainman.GetConsensus()) && !ShutdownRequested()) {
+    bool halt_mining = false;
+    uint256 bestHash = uint256S("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+    const uint32_t print_divider = algoType == SHA256D ? 0x10000 : 0x100;
+    while (!halt_mining) {
+        uint256 powHash = algoType == SHA256D ? block.GetHash() : block.GetPoWHash();
+        halt_mining = !(max_tries > 0 && block.nNonce < std::numeric_limits<uint32_t>::max() && !ShutdownRequested() && !CheckProofOfWorkForAlgorithm(powHash, block.nBits, algoType));
+        if (UintToArith256(powHash) < UintToArith256(bestHash)) {
+            bestHash = powHash;
+            LogPrintf("Best hash seen using algorithm %s (powhash %s)\n", algoType == SHA256D ? "SHA256D" : "AURUM", bestHash.ToString());
+        }
+        if (halt_mining) break;
         ++block.nNonce;
         --max_tries;
+        if (block.nNonce % print_divider == 0) {
+            LogPrintf("Mining using algorithm %s (nonce %08x)\n", algoType == SHA256D ? "SHA256D" : "AURUM", block.nNonce);
+        }
     }
     if (max_tries == 0 || ShutdownRequested()) {
         return false;
@@ -142,6 +155,8 @@ static bool GenerateBlock(ChainstateManager& chainman, CBlock& block, uint64_t& 
 
 static UniValue generateBlocks(ChainstateManager& chainman, const CTxMemPool& mempool, const CScript& coinbase_script, int nGenerate, uint64_t nMaxTries)
 {
+    Algorithm algoType = GetAlgorithmType(chainman.ActiveChainstate().m_chain.Tip(), Params().GetConsensus());
+
     UniValue blockHashes(UniValue::VARR);
     while (nGenerate > 0 && !ShutdownRequested()) {
         std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler{chainman.ActiveChainstate(), &mempool}.CreateNewBlock(coinbase_script));
@@ -150,7 +165,7 @@ static UniValue generateBlocks(ChainstateManager& chainman, const CTxMemPool& me
         CBlock *pblock = &pblocktemplate->block;
 
         uint256 block_hash;
-        if (!GenerateBlock(chainman, *pblock, nMaxTries, block_hash)) {
+        if (!GenerateBlock(chainman, *pblock, nMaxTries, block_hash, algoType)) {
             break;
         }
 
@@ -379,7 +394,8 @@ static RPCHelpMan generateblock()
     uint256 block_hash;
     uint64_t max_tries{DEFAULT_MAX_TRIES};
 
-    if (!GenerateBlock(chainman, block, max_tries, block_hash) || block_hash.IsNull()) {
+    Algorithm algoType = GetAlgorithmType(chainman.ActiveChainstate().m_chain.Tip(), Params().GetConsensus());
+    if (!GenerateBlock(chainman, block, max_tries, block_hash, algoType) || block_hash.IsNull()) {
         throw JSONRPCError(RPC_MISC_ERROR, "Failed to make block.");
     }
 

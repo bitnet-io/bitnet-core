@@ -524,6 +524,7 @@ crypto_libbitnet_crypto_base_la_LDFLAGS = $(AM_LDFLAGS) -static
 crypto_libbitnet_crypto_base_la_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
+  crypto/aurum.c \
   crypto/chacha_poly_aead.h \
   crypto/chacha_poly_aead.cpp \
   crypto/chacha20.h \

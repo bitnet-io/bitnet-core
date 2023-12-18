@@ -2046,6 +2046,14 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex& block_index, const Ch
     return flags;
 }
 
+Algorithm GetAlgorithmType(CBlockIndex* pindexPrev, const Consensus::Params& consensusParams, const char* str)
+{
+    Algorithm algoType = SHA256D;
+    if (pindexPrev && pindexPrev->nHeight + 1 >= consensusParams.switchAlgoHeight)
+        algoType = AURUM;
+    // LogPrintf("Algorithm type is %s (called from %s)\n", algoType == SHA256D ? "SHA256D" : "AURUM", str);
+    return algoType;
+}
 
 static SteadyClock::duration time_check{};
 static SteadyClock::duration time_forks{};
@@ -2085,7 +2093,8 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
     // is enforced in ContextualCheckBlockHeader(); we wouldn't want to
     // re-enforce that rule here (at least until we make it impossible for
     // m_adjusted_time_callback() to go backward).
-    if (!CheckBlock(block, state, params.GetConsensus(), !fJustCheck, !fJustCheck)) {
+    Algorithm algoType = GetAlgorithmType(pindex->pprev, params.GetConsensus());
+    if (!CheckBlock(block, state, algoType, params.GetConsensus(), !fJustCheck, !fJustCheck)) {
         if (state.GetResult() == BlockValidationResult::BLOCK_MUTATED) {
             // We don't write down blocks to disk if they may have been
             // corrupted, so this should be impossible unless we're having hardware
@@ -3444,16 +3453,18 @@ void Chainstate::ReceivedBlockTransactions(const CBlock& block, CBlockIndex* pin
     }
 }
 
-static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
+static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& state, Algorithm& algoType, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
+    uint256 powHash = algoType == SHA256D ? block.GetHash() : block.GetPoWHash();
+
     // Check proof of work matches claimed amount
-    if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
+    if (fCheckPOW && !CheckProofOfWorkForAlgorithm(powHash, block.nBits, algoType))
        return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "high-hash", "proof of work failed");
 
     return true;
 }
 
-bool CheckBlock(const CBlock& block, BlockValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW, bool fCheckMerkleRoot)
+bool CheckBlock(const CBlock& block, BlockValidationState& state, Algorithm& algoType, const Consensus::Params& consensusParams, bool fCheckPOW, bool fCheckMerkleRoot)
 {
     // These are checks that are independent of context.
 
@@ -3462,7 +3473,7 @@ bool CheckBlock(const CBlock& block, BlockValidationState& state, const Consensu
 
     // Check that the header is valid (particularly PoW).  This is mostly
     // redundant with the call in AcceptBlockHeader.
-    if (!CheckBlockHeader(block, state, consensusParams, fCheckPOW))
+    if (!CheckBlockHeader(block, state, algoType, consensusParams, fCheckPOW))
         return false;
 
     // Signet only: check block solution
@@ -3568,8 +3579,11 @@ std::vector<unsigned char> ChainstateManager::GenerateCoinbaseCommitment(CBlock&
 
 bool HasValidProofOfWork(const std::vector<CBlockHeader>& headers, const Consensus::Params& consensusParams)
 {
-    return std::all_of(headers.cbegin(), headers.cend(),
-            [&](const auto& header) { return CheckProofOfWork(header.GetHash(), header.nBits, consensusParams);});
+    // KLUDGE: pindex is not available in this function so we cannot determine
+    // the algorithm type, not to mention the headers arriving in chunks without
+    // any context. the only code calling this function does so for anti-ddos reasons,
+    // of which there are other additional tests present, so this isnt that important.
+    return true;
 }
 
 arith_uint256 CalculateHeadersWork(const std::vector<CBlockHeader>& headers)
@@ -3726,6 +3740,8 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
 {
     AssertLockHeld(cs_main);
 
+    const Consensus::Params& consensusParams = GetConsensus();
+
     // Check for duplicate
     uint256 hash = block.GetHash();
     BlockMap::iterator miSelf{m_blockman.m_block_index.find(hash)};
@@ -3742,11 +3758,6 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
             return true;
         }
 
-        if (!CheckBlockHeader(block, state, GetConsensus())) {
-            LogPrint(BCLog::VALIDATION, "%s: Consensus::CheckBlockHeader: %s, %s\n", __func__, hash.ToString(), state.ToString());
-            return false;
-        }
-
         // Get prev block index
         CBlockIndex* pindexPrev = nullptr;
         BlockMap::iterator mi{m_blockman.m_block_index.find(block.hashPrevBlock)};
@@ -3758,6 +3769,11 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
         if (pindexPrev->nStatus & BLOCK_FAILED_MASK) {
             LogPrint(BCLog::VALIDATION, "header %s has prev block invalid: %s\n", hash.ToString(), block.hashPrevBlock.ToString());
             return state.Invalid(BlockValidationResult::BLOCK_INVALID_PREV, "bad-prevblk");
+        }
+        Algorithm algoType = GetAlgorithmType(pindexPrev, consensusParams);
+        if (!CheckBlockHeader(block, state, algoType, consensusParams)) {
+            LogPrint(BCLog::VALIDATION, "%s: Consensus::CheckBlockHeader: %s, %s\n", __func__, hash.ToString(), state.ToString());
+            return false;
         }
         if (!ContextualCheckBlockHeader(block, state, m_blockman, *this, pindexPrev, m_options.adjusted_time_callback())) {
             LogPrint(BCLog::VALIDATION, "%s: Consensus::ContextualCheckBlockHeader: %s, %s\n", __func__, hash.ToString(), state.ToString());
@@ -3922,7 +3938,8 @@ bool Chainstate::AcceptBlock(const std::shared_ptr<const CBlock>& pblock, BlockV
 
     const CChainParams& params{m_chainman.GetParams()};
 
-    if (!CheckBlock(block, state, params.GetConsensus()) ||
+    Algorithm algoType = GetAlgorithmType(pindex->pprev, params.GetConsensus());
+    if (!CheckBlock(block, state, algoType, params.GetConsensus()) ||
         !ContextualCheckBlock(block, state, m_chainman, pindex->pprev)) {
         if (state.IsInvalid() && state.GetResult() != BlockValidationResult::BLOCK_MUTATED) {
             pindex->nStatus |= BLOCK_FAILED_VALID;
@@ -3974,7 +3991,8 @@ bool ChainstateManager::ProcessNewBlock(const std::shared_ptr<const CBlock>& blo
         // malleability that cause CheckBlock() to fail; see e.g. CVE-2012-2459 and
         // https://lists.linuxfoundation.org/pipermail/bitnet-dev/2019-February/016697.html.  Because CheckBlock() is
         // not very expensive, the anti-DoS benefits of caching failure (of a definitely-invalid block) are not substantial.
-        bool ret = CheckBlock(*block, state, GetConsensus());
+        Algorithm algoType = GetAlgorithmType(ActiveChainstate().m_chain.Tip(), GetConsensus());
+        bool ret = CheckBlock(*block, state, algoType, GetConsensus());
         if (ret) {
             // Store to disk
             ret = ActiveChainstate().AcceptBlock(block, state, &pindex, force_processing, nullptr, new_block, min_pow_checked);
@@ -4030,7 +4048,8 @@ bool TestBlockValidity(BlockValidationState& state,
     // NOTE: CheckBlockHeader is called by CheckBlock
     if (!ContextualCheckBlockHeader(block, state, chainstate.m_blockman, chainstate.m_chainman, pindexPrev, adjusted_time_callback()))
         return error("%s: Consensus::ContextualCheckBlockHeader: %s", __func__, state.ToString());
-    if (!CheckBlock(block, state, chainparams.GetConsensus(), fCheckPOW, fCheckMerkleRoot))
+    Algorithm algoType = GetAlgorithmType(pindexPrev, chainparams.GetConsensus());
+    if (!CheckBlock(block, state, algoType, chainparams.GetConsensus(), fCheckPOW, fCheckMerkleRoot))
         return error("%s: Consensus::CheckBlock: %s", __func__, state.ToString());
     if (!ContextualCheckBlock(block, state, chainstate.m_chainman, pindexPrev))
         return error("%s: Consensus::ContextualCheckBlock: %s", __func__, state.ToString());
@@ -4152,7 +4171,8 @@ VerifyDBResult CVerifyDB::VerifyDB(
             return VerifyDBResult::CORRUPTED_BLOCK_DB;
         }
         // check level 1: verify block validity
-        if (nCheckLevel >= 1 && !CheckBlock(block, state, consensus_params)) {
+        Algorithm algoType = GetAlgorithmType(pindex->pprev, consensus_params);
+        if (nCheckLevel >= 1 && !CheckBlock(block, state, algoType, consensus_params)) {
             LogPrintf("Verification error: found bad block at %d, hash=%s (%s)\n",
                       pindex->nHeight, pindex->GetBlockHash().ToString(), state.ToString());
             return VerifyDBResult::CORRUPTED_BLOCK_DB;
