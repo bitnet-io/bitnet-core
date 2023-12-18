@@ -348,7 +348,7 @@ public:
 /** Functions for validating blocks and updating the block tree */
 
 /** Given pindex, return the algorithm type for a given block */
-Algorithm GetAlgorithmType(CBlockIndex* pindexPrev, const Consensus::Params& consensusParams);
+Algorithm GetAlgorithmType(CBlockIndex* pindexPrev, const Consensus::Params& consensusParams, const char* str = __builtin_FUNCTION());
 
 /** Context-independent validity checks */
 bool CheckBlock(const CBlock& block, BlockValidationState& state, Algorithm& algoType, const Consensus::Params& consensusParams, bool fCheckPOW = true, bool fCheckMerkleRoot = true);

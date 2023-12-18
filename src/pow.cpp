@@ -258,3 +258,24 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
 
     return true;
 }
+
+bool CheckProofOfWorkForAlgorithm(uint256 hash, unsigned int nBits, Algorithm algoType)
+{
+    bool fNegative;
+    bool fOverflow;
+    arith_uint256 bnTarget;
+
+    bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
+
+    // Check range
+    const Consensus::Params& consensusParams = Params().GetConsensus();
+    uint256 powLimit = algoType == SHA256D ? consensusParams.powLimit : consensusParams.powLimit2;
+    if (fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(powLimit))
+        return false;
+
+    // Check proof of work matches claimed amount
+    if (UintToArith256(hash) > bnTarget)
+        return false;
+
+    return true;
+}

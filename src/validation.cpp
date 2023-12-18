@@ -2046,11 +2046,12 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex& block_index, const Ch
     return flags;
 }
 
-Algorithm GetAlgorithmType(CBlockIndex* pindexPrev, const Consensus::Params& consensusParams)
+Algorithm GetAlgorithmType(CBlockIndex* pindexPrev, const Consensus::Params& consensusParams, const char* str)
 {
     Algorithm algoType = SHA256D;
     if (pindexPrev && pindexPrev->nHeight + 1 >= consensusParams.switchAlgoHeight)
         algoType = AURUM;
+    // LogPrintf("Algorithm type is %s (called from %s)\n", algoType == SHA256D ? "SHA256D" : "AURUM", str);
     return algoType;
 }
 
@@ -3457,7 +3458,7 @@ static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& st
     uint256 powHash = algoType == SHA256D ? block.GetHash() : block.GetPoWHash();
 
     // Check proof of work matches claimed amount
-    if (fCheckPOW && !CheckProofOfWork(powHash, block.nBits, consensusParams))
+    if (fCheckPOW && !CheckProofOfWorkForAlgorithm(powHash, block.nBits, algoType))
        return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "high-hash", "proof of work failed");
 
     return true;
@@ -3990,7 +3991,7 @@ bool ChainstateManager::ProcessNewBlock(const std::shared_ptr<const CBlock>& blo
         // malleability that cause CheckBlock() to fail; see e.g. CVE-2012-2459 and
         // https://lists.linuxfoundation.org/pipermail/bitnet-dev/2019-February/016697.html.  Because CheckBlock() is
         // not very expensive, the anti-DoS benefits of caching failure (of a definitely-invalid block) are not substantial.
-        Algorithm algoType = GetAlgorithmType(ActiveChainstate().m_chain.Tip()->pprev, GetConsensus());
+        Algorithm algoType = GetAlgorithmType(ActiveChainstate().m_chain.Tip(), GetConsensus());
         bool ret = CheckBlock(*block, state, algoType, GetConsensus());
         if (ret) {
             // Store to disk

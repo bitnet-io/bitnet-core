@@ -776,7 +776,7 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
     // Check the header
     Algorithm algoType = GetAlgorithmType(pindex->pprev, consensusParams);
     uint256 powHash = algoType == SHA256D ? block.GetHash() : block.GetPoWHash();
-    if (!CheckProofOfWork(powHash, block.nBits, consensusParams)) {
+    if (!CheckProofOfWorkForAlgorithm(powHash, block.nBits, algoType)) {
         return error("ReadBlockFromDisk: Errors in block header at %s", block_pos.ToString());
     }
 

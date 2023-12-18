@@ -7,6 +7,7 @@
 #define BITCOIN_POW_H
 
 #include <consensus/params.h>
+#include <validation.h>
 
 #include <stdint.h>
 
@@ -19,6 +20,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&);
+bool CheckProofOfWorkForAlgorithm(uint256 hash, unsigned int nBits, Algorithm algoType);
 
 /**
  * Return false if the proof-of-work requirement specified by new_nbits at a
