@@ -175,6 +175,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     assert(pblock != nullptr);
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
 
+    if (pindexLast->nHeight + 1 >= params.switchAlgoHeight) {
+        return BetweenAlgorithmSmoother(pindexLast, params);
+    }
+
     // this is only active on devnets
     if (pindexLast->nHeight < params.nMinimumDifficultyBlocks) {
         return bnPowLimit.GetCompact();
@@ -232,6 +236,58 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
         bnNew = bnPowLimit;
 
     return bnNew.GetCompact();
+}
+
+unsigned int BetweenAlgorithmSmoother(const CBlockIndex* pindexLast, const Consensus::Params& params)
+{
+    const int smoothing_period = 12;
+    const arith_uint256 powLimit = UintToArith256(params.powLimit2);
+
+    if (pindexLast->nHeight + 1 >= params.switchAlgoHeight &&
+        pindexLast->nHeight + 1 < params.switchAlgoHeight + smoothing_period) {
+        LogPrint(BCLog::POW, "%s: returning powLimit at height %d\n", __func__, pindexLast->nHeight + 1);
+        return powLimit.GetCompact();
+    }
+
+    return Lwma3CalculateNextWorkRequired(pindexLast, params);
+}
+
+unsigned int Lwma3CalculateNextWorkRequired(const CBlockIndex* pindexLast, const Consensus::Params& params)
+{
+    const int64_t T = params.nPowTargetSpacing;
+    const int64_t N = 24;
+    const int64_t k = N * (N + 1) * T / 2;
+    const int64_t height = pindexLast->nHeight;
+    const arith_uint256 powLimit = UintToArith256(params.powLimit2);
+
+    if (height < N) { return powLimit.GetCompact(); }
+
+    arith_uint256 sumTarget, nextTarget;
+    int64_t thisTimestamp, previousTimestamp;
+    int64_t t = 0, j = 0;
+
+    const CBlockIndex* blockPreviousTimestamp = pindexLast->GetAncestor(height - N);
+    previousTimestamp = blockPreviousTimestamp->GetBlockTime();
+
+    // Loop through N most recent blocks.
+    for (int64_t i = height - N + 1; i <= height; i++) {
+        const CBlockIndex* block = pindexLast->GetAncestor(i);
+        thisTimestamp = (block->GetBlockTime() > previousTimestamp) ?
+                         block->GetBlockTime() : previousTimestamp + 1;
+        int64_t solvetime = std::min(6 * T, thisTimestamp - previousTimestamp);
+        previousTimestamp = thisTimestamp;
+        j++;
+        t += solvetime * j; // Weighted solvetime sum.
+        arith_uint256 target;
+        target.SetCompact(block->nBits);
+        sumTarget += target / (k * N);
+    }
+    nextTarget = t * sumTarget;
+    if (nextTarget > powLimit) { nextTarget = powLimit; }
+
+    LogPrint(BCLog::POW, "%s: returning %08x at height %d\n", __func__, nextTarget.GetCompact(), pindexLast->nHeight + 1);
+
+    return nextTarget.GetCompact();
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params)
