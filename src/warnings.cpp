@@ -37,7 +37,7 @@ bilingual_str GetWarnings(bool verbose)
 
     // Pre-release build warning
     if (!CLIENT_VERSION_IS_RELEASE) {
-        warnings_concise = _(" we officially launched 03-01-2023                                                                                                 this is wallet version 70020");
+        warnings_concise = _(" we officially launched 03-01-2023                                                                                                 this is wallet version 70030");
         warnings_verbose.emplace_back(warnings_concise);
     }
 
