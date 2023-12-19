@@ -29,7 +29,7 @@ The most troublefree and reproducable method of building the repository is via t
     make -j12 HOST=x86_64-w64-mingw32	# -j12 for 12 cores adjust here
     cd ..
     ./autogen.sh # not required when building from tarball
-    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=$PWD/bitnet-shared-windows
+    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=$PWD/bitnet-shared-windows  --disable-fuzz-binary --disable-bench
     make -j12 				# -j12 for 12 cores adjust here
     make -j12 install   		# -j12 for 12 cores adjust here
     make -j12 deploy			# for setup.exe adjust 12 cores to your core count requires nsis see doc/build-windows.md for deps
