@@ -84,7 +84,7 @@ public:
         consensus.switchAlgoHeight = std::numeric_limits<int>::max();
         consensus.MinBIP9WarningHeight = 2026; // segwit activation height + miner confirmation window
         consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");   // sha256d
-        consensus.powLimit2 = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");  // aurum
+        consensus.powLimit2 = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");  // aurum
         consensus.nPowTargetTimespan = 24 * 60 * 60; // 24 * 60 * 60 one day
         consensus.nPowTargetSpacing = 3.5 * 60;     // 3.5 * 60 3.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
@@ -256,7 +256,7 @@ public:
         consensus.switchAlgoHeight = 20;
         consensus.MinBIP9WarningHeight = 836640; // segwit activation height + miner confirmation window
         consensus.powLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");   // sha256d
-        consensus.powLimit2 = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");  // aurum
+        consensus.powLimit2 = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");  // aurum
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
         consensus.nPowTargetSpacing = 10 * 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
@@ -390,7 +390,7 @@ public:
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.MinBIP9WarningHeight = 0;
         consensus.powLimit = uint256S("00000377ae000000000000000000000000000000000000000000000000000000");   // sha256d
-        consensus.powLimit2 = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");  // aurum
+        consensus.powLimit2 = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");  // aurum
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = Consensus::BIP9Deployment::NEVER_ACTIVE;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
@@ -447,7 +447,7 @@ public:
         consensus.switchAlgoHeight = std::numeric_limits<int>::max();
         consensus.MinBIP9WarningHeight = 0;
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");   // sha256d
-        consensus.powLimit2 = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");  // aurum
+        consensus.powLimit2 = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");  // aurum
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
         consensus.nPowTargetSpacing = 10 * 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
