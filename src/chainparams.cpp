@@ -253,7 +253,7 @@ public:
         consensus.BIP65Height = 581885; // 00000000007f6655f22f98e72ed80d8b06dc761d5da09df0fa1dc4be4f861eb6
         consensus.BIP66Height = 330776; // 000000002104c8c45e99a8853285a3b592602a3ccde2b832481da85e9e4ba182
         consensus.CSVHeight = 770112; // 00000000025e930139bac5c6c31a403776da130831ab85be56578f3fa75369bb
-        consensus.SegwitHeight = 834624; // 00000000002b980fcd729daaa248fd9316a5200e9b367f4ff2c42453e84201ca
+        consensus.SegwitHeight = 20;
         consensus.switchAlgoHeight = 20;
         consensus.MinBIP9WarningHeight = 836640; // segwit activation height + miner confirmation window
         consensus.powLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");   // sha256d
@@ -281,9 +281,9 @@ public:
         m_assumed_blockchain_size = 42;
         m_assumed_chain_state_size = 2;
 
-        genesis = CreateGenesisBlock(1702855265, 11559, 0x1f00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1703637179, 141719, 0x1f00ffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0000d372ea9c9354a9728df874cf1c0d54193f7e4cd6ff2540544849d72faa47"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00001049a8f7bf91ae5f771c4a32fce66edc61fbdfb6ecd07a191a502604a874"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
