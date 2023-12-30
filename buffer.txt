@@ -1,0 +1,44 @@
+< static constexpr auto RELAY_TX_CACHE_TIME = 2min;
+< /** Timeout for (unprotected) outbound peers to sync to our chainwork, in seconds */
+< static constexpr int64_t CHAIN_SYNC_TIMEOUT = 60; // 20 minutes
+< /** How frequently to check for stale tips, in seconds */
+< static constexpr int64_t STALE_CHECK_INTERVAL = 60; // 10 minutes
+< /** How frequently to check for extra outbound peers and disconnect, in seconds */
+< static constexpr int64_t EXTRA_PEER_CHECK_INTERVAL = 30;
+< /** Minimum time an outbound-peer-eviction candidate must be connected for, in order to evict, in seconds */
+< static constexpr int64_t MINIMUM_CONNECT_TIME = 60;
+< static constexpr int STALE_RELAY_AGE_LIMIT = 24 * 60 * 60;
+< static constexpr int HISTORICAL_BLOCK_AGE = 3* 7 * 24 * 60 * 60; //3week
+< static constexpr std::chrono::minutes PING_INTERVAL{8};
+< static const unsigned int MAX_INV_SZ = 5000;
+< static constexpr int32_t MAX_PEER_TX_REQUEST_IN_FLIGHT = 1000;
+< static constexpr int32_t MAX_PEER_TX_ANNOUNCEMENTS = 50000;
+< static constexpr auto TXID_RELAY_DELAY = std::chrono::seconds{5};
+< static constexpr auto NONPREF_PEER_TX_DELAY = std::chrono::seconds{5};
+< static constexpr auto OVERLOADED_PEER_TX_DELAY = std::chrono::seconds{5};
+< /** How long to wait (in microseconds) before downloading a transaction from an additional peer */
+< static constexpr std::chrono::microseconds GETDATA_TX_INTERVAL{std::chrono::seconds{5000}};
+< static const unsigned int MAX_GETDATA_SZ = 20000;
+< /** Time during which a peer must stall block download progress before being disconnected. */
+< static constexpr auto BLOCK_STALLING_TIMEOUT = 10s;
+< static const int MAX_CMPCTBLOCK_DEPTH = 100;
+< static const int MAX_BLOCKTXN_DEPTH = 100;
+< static const unsigned int BLOCK_DOWNLOAD_WINDOW = 16384;
+< static constexpr double BLOCK_DOWNLOAD_TIMEOUT_PER_PEER = 0.2;
+< static const unsigned int MAX_BLOCKS_TO_ANNOUNCE = 16;
+< static const int MAX_UNCONNECTING_HEADERS = 100;
+< static constexpr auto AVG_LOCAL_ADDRESS_BROADCAST_INTERVAL = 24h;
+< static constexpr auto AVG_ADDRESS_BROADCAST_INTERVAL = 90s;
+< static constexpr auto INBOUND_INVENTORY_BROADCAST_INTERVAL = 30s;
+< static constexpr auto OUTBOUND_INVENTORY_BROADCAST_INTERVAL = 20s;
+< static constexpr unsigned int INVENTORY_BROADCAST_PER_SECOND = 6;
+< static constexpr unsigned int INVENTORY_MAX_RECENT_RELAY = 6000;
+< static constexpr auto AVG_FEEFILTER_BROADCAST_INTERVAL = 2min;
+< static constexpr auto MAX_FEEFILTER_CHANGE_DELAY = 1min;
+< static constexpr uint32_t MAX_GETCFILTERS_SIZE = 10000;
+< static constexpr uint32_t MAX_GETCFHEADERS_SIZE = 20000;
+< static constexpr size_t MAX_PCT_ADDR_TO_SEND = 10;
+< static constexpr size_t MAX_ADDR_TO_SEND{10000};
+< static constexpr double MAX_ADDR_RATE_PER_SECOND{0.2};
+<
+
