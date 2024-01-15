@@ -21,9 +21,13 @@ The most troublefree and reproducable method of building the repository is via t
     make -j12 HOST=x86_64-pc-linux-gnu  # -j12 for 12 cores adjust here
     cd ..
     ./autogen.sh
-    CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=$PWD/bitnet-shared-linux --disable-tests --disable-bench --disable-fuzz-binary
+
+    CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=$PWD/bitnet-shared-linux \
+    --disable-tests --disable-bench --disable-fuzz-binary
+
     make -j12 				# -j12 for 12 cores adjust here
     make -j12 install 		        # -j12 for 12 cores adjust here
+
     files will be placed into bitnet-shared-linux folder
 ```
 # WINDOWS 64-bit (only build the system using Ubuntu 22.04 Debian and Fedora the win64 exe will break and not work properly)
@@ -32,16 +36,21 @@ The most troublefree and reproducable method of building the repository is via t
     cd bitnet-core
 
     apt-get update -y
-    apt install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl git nsis nano sudo g++-mingw-w64-x86-64-posix -y
+
+    apt install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl git \
+    nsis nano sudo g++-mingw-w64-x86-64-posix -y
 
     cd depends
     make -j12 HOST=x86_64-w64-mingw32	# -j12 for 12 cores adjust here
     cd ..
     ./autogen.sh # not required when building from tarball
-    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=$PWD/bitnet-shared-windows  --disable-fuzz-binary --disable-bench
+    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=$PWD/bitnet-shared-windows \
+     --disable-fuzz-binary --disable-bench
+
     make -j12 				# -j12 for 12 cores adjust here
     make -j12 install   		# -j12 for 12 cores adjust here
     make -j12 deploy			# for setup.exe adjust 12 cores to your core count requires nsis see doc/build-windows.md for deps
+
 ```
 
 # macOS
@@ -65,8 +74,8 @@ cd bitnet-core
 
 ./configure --prefix=$PWD/bitnet-macos-shared --disable-tests --disable-bench --disable-fuzz-binary
 
-make -j12 				        # -j12 for 12 cores adjust here
-make -j12 install 		        # -j12 for 12 cores adjust here
+make -j8 				        # -j8 for 8 cores adjust here
+make -j8 install 		        # -j8 for 8 cores adjust here
 
 file will be in bitnet-core/bitnet-macos-shared
 ```
