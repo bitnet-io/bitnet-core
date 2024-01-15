@@ -1,5 +1,3 @@
-# windows + linux + macos are now using BIG buffers and BIG sockets 100% with TCP networking
-* check net.h, net.cpp, net_processing.cpp, net_processing.h in src folder
 
 bitnet-io staging tree 24.x
 ===========================
