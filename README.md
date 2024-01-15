@@ -2,6 +2,9 @@
 bitnet-io staging tree 24.x
 ===========================
 
+* for releases for macos + windows + linux
+
+* https://github.com/bitnet-io/bitnet-core/releases/tag/linux-windows-wallet
 
 
 How do I build the software?
