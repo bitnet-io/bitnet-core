@@ -65,8 +65,7 @@ xcode-select --install
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew install automake libtool boost pkg-config libevent berkeley-db@4 qt@5 qrencode miniupnpc \
-libnatpmp zeromq 
+brew install automake libtool boost pkg-config libevent berkeley-db@4 qt@5 qrencode miniupnpc libnatpmp zeromq 
 
 git clone https://github.com/bitnet-io/bitnet-core
 
