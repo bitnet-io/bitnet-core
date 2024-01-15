@@ -23,8 +23,8 @@ The most troublefree and reproducable method of building the repository is via t
     cd ..
     ./autogen.sh
 
-    CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=$PWD/bitnet-shared-linux \
-    --disable-tests --disable-bench --disable-fuzz-binary
+    CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure \
+    --prefix=$PWD/bitnet-shared-linux --disable-tests --disable-bench --disable-fuzz-binary
 
     make -j12 				# -j12 for 12 cores adjust here
     make -j12 install 		        # -j12 for 12 cores adjust here
@@ -38,15 +38,15 @@ The most troublefree and reproducable method of building the repository is via t
 
     apt-get update -y
 
-    apt install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl git \
-    nsis nano sudo g++-mingw-w64-x86-64-posix -y
+    apt install build-essential libtool autotools-dev automake pkg-config \
+    bsdmainutils curl git nsis nano sudo g++-mingw-w64-x86-64-posix -y
 
     cd depends
     make -j12 HOST=x86_64-w64-mingw32	# -j12 for 12 cores adjust here
     cd ..
     ./autogen.sh # not required when building from tarball
-    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=$PWD/bitnet-shared-windows \
-     --disable-fuzz-binary --disable-bench
+    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure \
+     --prefix=$PWD/bitnet-shared-windows --disable-fuzz-binary --disable-bench
 
     make -j12 				# -j12 for 12 cores adjust here
     make -j12 install   		# -j12 for 12 cores adjust here
@@ -65,7 +65,8 @@ xcode-select --install
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew install automake libtool boost pkg-config libevent berkeley-db@4 qt@5 qrencode miniupnpc libnatpmp zeromq 
+brew install automake libtool boost pkg-config libevent berkeley-db@4 qt@5 qrencode miniupnpc \
+libnatpmp zeromq 
 
 git clone https://github.com/bitnet-io/bitnet-core
 
