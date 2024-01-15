@@ -11,7 +11,8 @@ How do I build the software?
 
 The most troublefree and reproducable method of building the repository is via the depends method:
 
-    LINUX
+    # LINUX
+    ```
 
     git clone https://github.com/bitnet-io/bitnet-core
     cd bitnet-core
@@ -23,9 +24,9 @@ The most troublefree and reproducable method of building the repository is via t
     make -j12 				# -j12 for 12 cores adjust here
     make -j12 install 		        # -j12 for 12 cores adjust here
     files will be placed into bitnet-shared-linux folder
-
-    WINDOWS 64-bit (only build the system using Ubuntu 22.04 Debian and Fedora the win64 exe will break and not work properly)
-
+```
+   # WINDOWS 64-bit (only build the system using Ubuntu 22.04 Debian and Fedora the win64 exe will break and not work properly)
+```
     git clone https://github.com/bitnet-io/bitnet-core
     cd bitnet-core
 
@@ -40,7 +41,33 @@ The most troublefree and reproducable method of building the repository is via t
     make -j12 				# -j12 for 12 cores adjust here
     make -j12 install   		# -j12 for 12 cores adjust here
     make -j12 deploy			# for setup.exe adjust 12 cores to your core count requires nsis see doc/build-windows.md for deps
+```
+# macOS
+```
+From Terminal.app
 
+/Applications/Utilities/Terminal.app
+
+xcode-select --install
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+brew install automake libtool boost pkg-config libevent berkeley-db@4 qt@5 qrencode miniupnpc libnatpmp zeromq 
+
+
+git clone https://github.com/bitnet-io/bitnet-core
+
+cd bitnet-core
+
+./autogen.sh
+
+./configure --prefix=$PWD/bitnet-macos-shared --disable-tests --disable-bench --disable-fuzz-binary
+
+make -j12 				        # -j12 for 12 cores adjust here
+make -j12 install 		        # -j12 for 12 cores adjust here
+
+file will be in bitnet-core/bitnet-macos-shared
+```
 
 
 License
