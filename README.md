@@ -73,7 +73,8 @@ cd bitnet-core
 
 ./autogen.sh
 
-./configure --prefix=$PWD/bitnet-macos-shared --disable-tests --disable-bench --disable-fuzz-binary
+./configure --prefix=$PWD/bitnet-macos-shared --disable-tests --disable-bench \
+ --disable-fuzz-binary
 
 make -j8 				        # -j8 for 8 cores adjust here
 make -j8 install 		        # -j8 for 8 cores adjust here
