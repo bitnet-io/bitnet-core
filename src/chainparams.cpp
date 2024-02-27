@@ -81,10 +81,11 @@ public:
         consensus.BIP66Height = 0; // 00000000000000000379eaa19dce8c9b722d46ae6a57c2f1a988119488b50931
         consensus.CSVHeight = 10; // 000000000000000004a1b34462cb8aeebd5799177f7a29cf28f2d1961716b5b5
         consensus.SegwitHeight = 10; // 0000000000000000001c8018d9cb3b742ef25114f27563e3fc4a1902167f9893
-      //  consensus.switchAlgoHeight = std::numeric_limits<int>::max();
+        //  consensus.switchAlgoHeight = std::numeric_limits<int>::max();
         consensus.switchAlgoHeight = 125000;    // activate aurum @ 125,000 height
         consensus.MinBIP9WarningHeight = 2026; // segwit activation height + miner confirmation window
         consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");   // sha256d
+//      consensus.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");   // bitcoin original powlimit 
         consensus.powLimit2 = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");  // aurum
         consensus.nPowTargetTimespan = 24 * 60 * 60; // 24 * 60 * 60 one day
         consensus.nPowTargetSpacing = 3.5 * 60;     // 3.5 * 60 3.5 minutes
