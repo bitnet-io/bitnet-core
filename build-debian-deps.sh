@@ -5,5 +5,5 @@ apt install libtool autoconf bison procps -y
     apt install libminiupnpc-dev -y
     apt install libzmq3-dev -y
     apt install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler -y
-    apt install libqt4-dev libprotobuf-dev protobuf-compiler -y
+    apt install libqt4-dev libprotobuf-dev protobuf-compiler libevent-dev -y
     apt install libqrencode-dev -y
