@@ -19,15 +19,15 @@ The most troublefree and reproducable method of building the repository is via t
     git clone https://github.com/bitnet-io/bitnet-core
     cd bitnet-core
     cd depends
-    make -j12 HOST=x86_64-pc-linux-gnu  # -j12 for 12 cores adjust here
+    make -j8 HOST=x86_64-pc-linux-gnu  # -j8 for 8 cores adjust here
     cd ..
     ./autogen.sh
 
     CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure \
     --prefix=$PWD/bitnet-shared-linux --disable-tests --disable-bench --disable-fuzz-binary
 
-    make -j12 				# -j12 for 12 cores adjust here
-    make -j12 install 		        # -j12 for 12 cores adjust here
+    make -j8 				# -j8 for 8 cores adjust here
+    make -j8 install 		        # -j8 for 8 cores adjust here
 
     files will be placed into bitnet-shared-linux folder
 ```
@@ -42,15 +42,15 @@ The most troublefree and reproducable method of building the repository is via t
     bsdmainutils curl git nsis nano sudo g++-mingw-w64-x86-64-posix -y
 
     cd depends
-    make -j12 HOST=x86_64-w64-mingw32	# -j12 for 12 cores adjust here
+    make -j8 HOST=x86_64-w64-mingw32	# -j8 for 8 cores adjust here
     cd ..
     ./autogen.sh # not required when building from tarball
     CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure \
      --prefix=$PWD/bitnet-shared-windows --disable-fuzz-binary --disable-bench
 
-    make -j12 				# -j12 for 12 cores adjust here
-    make -j12 install   		# -j12 for 12 cores adjust here
-    make -j12 deploy			# for setup.exe adjust 12 cores to your core count requires nsis see doc/build-windows.md for deps
+    make -j8 				# -j8 for 8 cores adjust here
+    make -j8 install   		# -j8 for 8 cores adjust here
+    make -j8 deploy			# for setup.exe adjust 8 cores to your core count requires nsis see doc/build-windows.md for deps
 
 ```
 
@@ -83,6 +83,18 @@ make -j8 install 		        # -j8 for 8 cores adjust here
 file will be in bitnet-core/bitnet-macos-shared
 ```
 
+# linux arm64 aarch64
+```
+apt-get install g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+ cd depends
+ make -j8 HOST=aarch64-linux-gnu 	# -j8 for 8 cores adjust here
+ cd ..
+ ./autogen.sh # not required when building from tarball
+ CONFIG_SITE=$PWD/depends/aarch64-linux-gnu/share/config.site ./configure \
+ --prefix=$PWD/bitnet-shared-aarch64-linux-arm64 --disable-fuzz-binary --disable-bench --disable-tests
+ make -j8 				# -j8 for 8 cores adjust here
+ make -j8 install   		# -j8 for 8 cores adjust here
+```
 
 License
 -------
