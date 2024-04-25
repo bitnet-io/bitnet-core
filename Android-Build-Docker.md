@@ -1,5 +1,8 @@
 # building QT for Android
 
+* orig source readme
+* https://rusnak.io/how-to-build-bitcoin-for-android/
+
 git clone https://github.com/bitnet-io/bitnet-core
 cd bitnet-core
 
