@@ -12,9 +12,9 @@
 
     <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="Bitnet Core">
         <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density"
-                  android:name="org.bitnetcore.qt.BitnetQtActivity"
+                  android:name="org.bitnetcore.qt.BitcoinQtActivity"
                   android:label="Bitnet Core"
-                  android:icon="@drawable/bitnet"
+                  android:icon="@drawable/bitcoin"
                   android:screenOrientation="unspecified"
                   android:launchMode="singleTop">
             <intent-filter>

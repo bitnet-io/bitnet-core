@@ -8,7 +8,7 @@ import org.qtproject.qt5.android.bindings.QtActivity;
 
 import java.io.File;
 
-public class BitnetQtActivity extends QtActivity
+public class BitcoinQtActivity extends QtActivity
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
