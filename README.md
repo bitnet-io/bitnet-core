@@ -19,11 +19,11 @@ The most troublefree and reproducable method of building the repository is via t
     git clone https://github.com/bitnet-io/bitnet-core
     cd bitnet-core
     cd depends
-    make -j8 HOST=x86_64-pc-linux-gnu  # -j8 for 8 cores adjust here
+    make -j8 HOST=x86_64-unknown-linux-gnu  # -j8 for 8 cores adjust here
     cd ..
     ./autogen.sh
 
-    CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure \
+    CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure \
     --prefix=$PWD/bitnet-shared-linux --disable-tests --disable-bench --disable-fuzz-binary
 
     make -j8 				# -j8 for 8 cores adjust here
