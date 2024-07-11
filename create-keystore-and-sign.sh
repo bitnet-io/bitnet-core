@@ -8,5 +8,5 @@ keytool -genkey -v -keystore my-release-key.jks -alias alias_name -keyalg RSA -k
 
 # to copy unsigned apk here to this directory rename wallet-prod-release-unsigned.apk to "apk-to-sign.apk" with  --out Android-signed.apk as signed apk name
 #cp -rf wallet/build/outputs/apk/prod/release/wallet-prod-release-unsigned.apk .
-/home/c4pt000/Android/Sdk/build-tools/34.0.0/apksigner sign --ks my-release-key.jks --out Bitnet-QT-70032-arm64-v8a-signed.apk android-debug.apk
-rm -rf my-release-key.jks 
+/home/c4pt/Android/Sdk/build-tools/34.0.0/apksigner sign --ks my-release-key.jks --out Bitnet-QT-android-release-signed.apk android-release-unsigned.apk
+ rm -rf my-release-key.jks

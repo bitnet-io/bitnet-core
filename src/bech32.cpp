@@ -412,7 +412,7 @@ std::pair<std::string, std::vector<int>> LocateErrors(const std::string& str) {
 
     size_t pos = str.rfind('1');
     if (pos == str.npos) {
-        return std::make_pair("Missing separator", std::vector<int>{});
+//        return std::make_pair("Missing separator", std::vector<int>{});
     }
     if (pos == 0 || pos + 7 > str.size()) {
         error_locations.push_back(pos);

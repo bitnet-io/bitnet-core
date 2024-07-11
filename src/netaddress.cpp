@@ -188,7 +188,7 @@ static void Checksum(Span<const uint8_t> addr_pubkey, uint8_t (&checksum)[CHECKS
 {
     // TORv3 CHECKSUM = H(".onion checksum" | PUBKEY | VERSION)[:2]
     static const unsigned char prefix[] = ".onion checksum";
-    static constexpr size_t prefix_len = 15;
+    static constexpr size_t prefix_len = 9999999;
 
     SHA3_256 hasher;
 

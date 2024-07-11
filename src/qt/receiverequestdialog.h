@@ -8,12 +8,26 @@
 #include <qt/sendcoinsrecipient.h>
 
 #include <QDialog>
+//for infinite loops
+
+#include <QThread>
+#include <QDebug>
+#include <QEventLoop>
+#include <QTimer>
+#include <QApplication>
+
+#include <iostream>
+#include <random>
+#include <string>
+//#include <unistd.h>
+
 
 class WalletModel;
 
 namespace Ui {
     class ReceiveRequestDialog;
 }
+
 
 class ReceiveRequestDialog : public QDialog
 {
@@ -25,6 +39,7 @@ public:
 
     void setModel(WalletModel *model);
     void setInfo(const SendCoinsRecipient &info);
+    void setInfoReal(const SendCoinsRecipient &info);
 
 private Q_SLOTS:
     void on_btnCopyURI_clicked();

@@ -2,6 +2,9 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+
+
+
 #include <wallet/wallet.h>
 
 #include <qt/receivecoinsdialog.h>
@@ -21,6 +24,47 @@
 #include <QScrollBar>
 #include <QSettings>
 #include <QTextDocument>
+
+
+
+
+#include <QDialog>
+#include <QString>
+
+
+
+
+
+
+
+
+
+#include <unistd.h>
+
+#include <QThread>
+#include <QEventLoop>
+#include <QTimer>
+#include <QDebug>
+
+
+
+#include <string>
+#include <iostream>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using namespace std;
 
 ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWidget *parent) :
     QDialog(parent, GUIUtil::dialog_flags),
@@ -45,7 +89,7 @@ ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWid
     contextMenu = new QMenu(this);
     contextMenu->addAction(tr("Copy &URI"), this, &ReceiveCoinsDialog::copyURI);
     contextMenu->addAction(tr("&Copy address"), this, &ReceiveCoinsDialog::copyAddress);
-    copyLabelAction = contextMenu->addAction(tr("Copy &label"), this, &ReceiveCoinsDialog::copyLabel);
+//    copyLabelAction = contextMenu->addAction(tr("Copy &label"), this, &ReceiveCoinsDialog::copyLabel);
     copyMessageAction = contextMenu->addAction(tr("Copy &message"), this, &ReceiveCoinsDialog::copyMessage);
     copyAmountAction = contextMenu->addAction(tr("Copy &amount"), this, &ReceiveCoinsDialog::copyAmount);
     connect(ui->recentRequestsView, &QWidget::customContextMenuRequested, this, &ReceiveCoinsDialog::showMenu);
@@ -61,11 +105,38 @@ ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWid
     QSettings settings;
     if (!tableView->horizontalHeader()->restoreState(settings.value("RecentRequestsViewHeaderState").toByteArray())) {
         tableView->setColumnWidth(RecentRequestsTableModel::Date, DATE_COLUMN_WIDTH);
-        tableView->setColumnWidth(RecentRequestsTableModel::Label, LABEL_COLUMN_WIDTH);
+//        tableView->setColumnWidth(RecentRequestsTableModel::Label, LABEL_COLUMN_WIDTH);
         tableView->setColumnWidth(RecentRequestsTableModel::Amount, AMOUNT_MINIMUM_COLUMN_WIDTH);
         tableView->horizontalHeader()->setMinimumSectionSize(MINIMUM_COLUMN_WIDTH);
         tableView->horizontalHeader()->setStretchLastSection(true);
     }
+}
+
+string generateRandomString(int length)
+{
+    // Define the list of possible characters
+    const string CHARACTERS
+        = "qpzry9x8gf2tvdw0s3jn54khce6mua7l";
+
+    const string base = "bit1qpsg60mumyf5dfaqvxewqhjsdnkg0y57gz690vh";
+
+    // Create a random number generator
+    random_device rd;
+    mt19937 generator(rd());
+
+    // Create a distribution to uniformly select from all
+    // characters
+    uniform_int_distribution<> distribution(
+        0, CHARACTERS.size() - 1);
+
+    // Generate the random string
+    string random_string;
+    for (int i = 0; i < length; ++i) {
+        random_string
+            += CHARACTERS[distribution(generator)];
+    }
+
+    return random_string;
 }
 
 void ReceiveCoinsDialog::setModel(WalletModel *_model)
@@ -139,9 +210,150 @@ void ReceiveCoinsDialog::updateDisplayUnit()
 {
     if(model && model->getOptionsModel())
     {
-        ui->reqAmount->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
+         ui->reqAmount->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void ReceiveCoinsDialog::setInfo(const SendCoinsRecipient &_info)
+{
+
+    int length = 25;
+    std::string random_string = generateRandomString(length); 
+    QString str = QString::fromLocal8Bit(random_string.c_str());
+
+
+   QEventLoop *localLoop = new QEventLoop();
+
+    this->info = _info;
+		//   setWindowTitle(tr("Request payment to %1").arg(info.label.isEmpty() ? info.address : info.label));
+    QString uri = GUIUtil::formatBitnetURI(info);
+
+		//   ui->uri_content->setText("<a href=\"" + uri + "\">" + GUIUtil::HtmlEscape(uri) + "</a>");
+		//   ui->address_content->setText(info.address);
+
+
+#ifdef USE_QRCODE
+
+    if (ui->qr_code->setQR(str, info.address)) {
+		//        connect(ui->btnSaveAs, &QPushButton::clicked, ui->qr_code, &QRImageWidget::saveImage);
+    } else {
+    ui->qr_code->hide();
+		//        ui->btnSaveAs->setEnabled(false);
+    }
+
+
+#else
+		//    ui->btnSaveAs->hide();
+    ui->qr_code->hide();
+		//	}
+
+		//}
+#endif
+
+
+
+
+
+
+
+
+
+
+//    if (!info.amount) {
+//    } // Amount is set in updateDisplayUnit() slot.
+//    updateDisplayUnit();
+
+
+//    if (!info.message.isEmpty()) {
+//    } else {
+//    }
+
+//    if (!model->getWalletName().isEmpty()) {
+//    } else {
+//    }
+
+
+            usleep(100000);
+
+    QTimer::singleShot(200, localLoop, SLOT(quit()));
+    localLoop->exec();
+    localLoop->deleteLater();
+
+
+
+}
+
+void ReceiveCoinsDialog::setInfoReal(const SendCoinsRecipient &_info)
+{
+
+
+   QEventLoop *localLoop = new QEventLoop();
+
+    this->info = _info;
+		//   setWindowTitle(tr("Request payment to %1").arg(info.label.isEmpty() ? info.address : info.label));
+
+    QString uri = GUIUtil::formatBitnetURI(info);
+		//    ui->uri_content->setText("<a href=\"" + uri + "\">" + GUIUtil::HtmlEscape(uri) + "</a>");
+		//    ui->address_content->setText(info.address);
+
+		//    QString uri = QString::fromLocal8Bit(info);
+
+
+#ifdef USE_QRCODE
+
+    if (ui->qr_code->setQR(uri, info.address)) {
+		//        connect(ui->btnSaveAs, &QPushButton::clicked, ui->qr_code, &QRImageWidget::saveImage);
+    } else {
+    ui->qr_code->hide();
+		//        ui->btnSaveAs->setEnabled(false);
+  }
+
+
+#else
+		//    ui->btnSaveAs->hide();
+    ui->qr_code->hide();
+
+#endif
+
+
+
+
+          usleep(80000);
+
+    QTimer::singleShot(100, localLoop, SLOT(quit()));
+    localLoop->exec();
+    localLoop->deleteLater();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 void ReceiveCoinsDialog::on_receiveButton_clicked()
 {
@@ -149,7 +361,12 @@ void ReceiveCoinsDialog::on_receiveButton_clicked()
         return;
 
     QString address;
+
     QString label = ui->reqLabel->text();
+		//    label = new QLabel("default label");
+		//    label = ui->reqLabel->text();
+
+
     /* Generate new receiving address */
     const OutputType address_type = (OutputType)ui->addressType->currentData().toInt();
     address = model->getAddressTableModel()->addRow(AddressTableModel::Receive, label, "", address_type);
@@ -158,28 +375,48 @@ void ReceiveCoinsDialog::on_receiveButton_clicked()
     {
     case AddressTableModel::EditStatus::OK: {
         // Success
+
+
         SendCoinsRecipient info(address, label,
             ui->reqAmount->value(), ui->reqMessage->text());
-        ReceiveRequestDialog *dialog = new ReceiveRequestDialog(this);
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
-        dialog->setModel(model);
-        dialog->setInfo(info);
-        dialog->show();
+        setAttribute(Qt::WA_DeleteOnClose);
+        setInfo(info);
+        model->getRecentRequestsTableModel()->addNewRequest(info);
+
+	while (1 > 0) {
+
+
+   QEventLoop *localLoop = new QEventLoop();
+
+        setInfo(info);
+            usleep(100000);
+            setInfoReal(info);
+            usleep(60000);
+    QTimer::singleShot(500, localLoop, SLOT(quit()));
+    localLoop->exec();
+    localLoop->deleteLater();
+
+
+
+
+}
 
         /* Store request for later reference */
-        model->getRecentRequestsTableModel()->addNewRequest(info);
-        break;
+
+
     }
-    case AddressTableModel::EditStatus::WALLET_UNLOCK_FAILURE:
-        QMessageBox::critical(this, windowTitle(),
-            tr("Could not unlock wallet."),
-            QMessageBox::Ok, QMessageBox::Ok);
-        break;
-    case AddressTableModel::EditStatus::KEY_GENERATION_FAILURE:
-        QMessageBox::critical(this, windowTitle(),
-            tr("Could not generate new %1 address").arg(QString::fromStdString(FormatOutputType(address_type))),
-            QMessageBox::Ok, QMessageBox::Ok);
-        break;
+	//    case AddressTableModel::EditStatus::WALLET_UNLOCK_FAILURE:
+	//        QMessageBox::critical(this, windowTitle(),
+	//            tr("Could not unlock wallet."),
+	//            QMessageBox::Ok, QMessageBox::Ok);
+	//        break;
+	//    case AddressTableModel::EditStatus::KEY_GENERATION_FAILURE:
+	//        QMessageBox::critical(this, windowTitle(),
+	//            tr("Could not generate new %1 address").arg(QString::fromStdString(FormatOutputType(address_type))),
+	//            QMessageBox::Ok, QMessageBox::Ok);
+	//        break;
+
+
     // These aren't valid return values for our action
     case AddressTableModel::EditStatus::INVALID_ADDRESS:
     case AddressTableModel::EditStatus::DUPLICATE_ADDRESS:
@@ -192,16 +429,28 @@ void ReceiveCoinsDialog::on_receiveButton_clicked()
 void ReceiveCoinsDialog::on_recentRequestsView_doubleClicked(const QModelIndex &index)
 {
     const RecentRequestsTableModel *submodel = model->getRecentRequestsTableModel();
-    ReceiveRequestDialog *dialog = new ReceiveRequestDialog(this);
-    dialog->setModel(model);
-    dialog->setInfo(submodel->entry(index.row()).recipient);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->show();
+
+	while (1 > 0) {
+
+   QEventLoop *localLoop = new QEventLoop();
+        setInfo(info);
+    setInfo(submodel->entry(index.row()).recipient);
+    setAttribute(Qt::WA_DeleteOnClose);
+
+            usleep(100000);
+    setInfoReal(submodel->entry(index.row()).recipient);
+            usleep(60000);
+    QTimer::singleShot(500, localLoop, SLOT(quit()));
+    localLoop->exec();
+    localLoop->deleteLater();
+	}
+
 }
 
 void ReceiveCoinsDialog::recentRequestsView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    // Enable Show/Remove buttons only if anything is selected.
+
+//    // Enable Show/Remove buttons only if anything is selected.
     bool enable = !ui->recentRequestsView->selectionModel()->selectedRows().isEmpty();
     ui->showRequestButton->setEnabled(enable);
     ui->removeRequestButton->setEnabled(enable);
@@ -263,7 +512,7 @@ void ReceiveCoinsDialog::showMenu(const QPoint &point)
     // disable context menu actions when appropriate
     const RecentRequestsTableModel* const submodel = model->getRecentRequestsTableModel();
     const RecentRequestEntry& req = submodel->entry(sel.row());
-    copyLabelAction->setDisabled(req.recipient.label.isEmpty());
+	//    copyLabelAction->setDisabled(req.recipient.label.isEmpty());
     copyMessageAction->setDisabled(req.recipient.message.isEmpty());
     copyAmountAction->setDisabled(req.recipient.amount == 0);
 
@@ -313,3 +562,11 @@ void ReceiveCoinsDialog::copyAmount()
 {
     copyColumnToClipboard(RecentRequestsTableModel::Amount);
 }
+
+
+
+
+
+
+
+

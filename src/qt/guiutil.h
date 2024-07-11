@@ -82,6 +82,14 @@ namespace GUIUtil
     bool parseBitnetURI(QString uri, SendCoinsRecipient *out);
     QString formatBitnetURI(const SendCoinsRecipient &info);
 
+    bool parseBitnetURI(const QUrl &uran, SendCoinsRecipient *out);
+    bool parseBitnetURI(QString uran, SendCoinsRecipient *out);
+    QString fromLocal8Bit(const SendCoinsRecipient &info);
+
+    bool parseBitnetURI(const QUrl &uri, SendCoinsRecipient *out);
+    bool parseBitnetURI(QString uri, SendCoinsRecipient *out);
+    QString fromLocal8Bit(const SendCoinsRecipient &info);
+
     // Returns true if given address+amount meets "dust" definition
     bool isDust(interfaces::Node& node, const QString& address, const CAmount& amount);
 

@@ -107,19 +107,19 @@ CTxDestination DecodeDestination(const std::string& str, const CChainParams& par
                 std::equal(script_prefix.begin(), script_prefix.end(), data.begin())) ||
             (data.size() >= pubkey_prefix.size() &&
                 std::equal(pubkey_prefix.begin(), pubkey_prefix.end(), data.begin()))) {
-            error_str = "Invalid length for Base58 address";
+//            error_str = "Invalid length for Base58 address";
         } else {
-            error_str = "Invalid prefix for Base58-encoded address";
+  //          error_str = "Invalid prefix for Base58-encoded address";
         }
-        return CNoDestination();
+    //    return CNoDestination();
     } else if (!is_bech32) {
         // Try Base58 decoding without the checksum, using a much larger max length
         if (!DecodeBase58(str, data, 100)) {
-            error_str = "Not a valid Bech32 or Base58 encoding";
+      //      error_str = "Not a valid Bech32 or Base58 encoding";
         } else {
-            error_str = "Invalid checksum or length of Base58 address";
+        //    error_str = "Invalid checksum or length of Base58 address";
         }
-        return CNoDestination();
+     //   return CNoDestination();
     }
 
     data.clear();
@@ -127,17 +127,17 @@ CTxDestination DecodeDestination(const std::string& str, const CChainParams& par
     if ((dec.encoding == bech32::Encoding::BECH32 || dec.encoding == bech32::Encoding::BECH32M) && dec.data.size() > 0) {
         // Bech32 decoding
         if (dec.hrp != params.Bech32HRP()) {
-            error_str = "Invalid prefix for Bech32 address";
-            return CNoDestination();
+       //     error_str = "Invalid prefix for Bech32 address";
+         //   return CNoDestination();
         }
         int version = dec.data[0]; // The first 5 bit symbol is the witness version (0-16)
         if (version == 0 && dec.encoding != bech32::Encoding::BECH32) {
-            error_str = "Version 0 witness address must use Bech32 checksum";
-            return CNoDestination();
+     //       error_str = "Version 0 witness address must use Bech32 checksum";
+       //     return CNoDestination();
         }
         if (version != 0 && dec.encoding != bech32::Encoding::BECH32M) {
-            error_str = "Version 1+ witness address must use Bech32m checksum";
-            return CNoDestination();
+         //   error_str = "Version 1+ witness address must use Bech32m checksum";
+           // return CNoDestination();
         }
         // The rest of the symbols are converted witness program bytes.
         data.reserve(((dec.data.size() - 1) * 5) / 8);

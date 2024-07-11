@@ -16,6 +16,10 @@
 #include <QString>
 #include <QThread>
 
+#include <QEventLoop>
+#include <QTimer>
+
+
 InitExecutor::InitExecutor(interfaces::Node& node)
     : QObject(), m_node(node)
 {

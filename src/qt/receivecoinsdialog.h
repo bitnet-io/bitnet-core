@@ -5,6 +5,22 @@
 #ifndef BITCOIN_QT_RECEIVECOINSDIALOG_H
 #define BITCOIN_QT_RECEIVECOINSDIALOG_H
 
+#include <qt/sendcoinsrecipient.h>
+
+
+#include <QThread>
+#include <QDebug>
+#include <QEventLoop>
+#include <QTimer>
+#include <QApplication>
+
+#include <iostream>
+#include <string>
+#include <random>
+
+
+
+
 #include <qt/guiutil.h>
 
 #include <QDialog>
@@ -15,12 +31,15 @@
 #include <QPoint>
 #include <QVariant>
 
+
+
 class PlatformStyle;
 class WalletModel;
 
 namespace Ui {
     class ReceiveCoinsDialog;
 }
+
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;
@@ -43,6 +62,8 @@ public:
     ~ReceiveCoinsDialog();
 
     void setModel(WalletModel *model);
+    void setInfo(const SendCoinsRecipient &info);
+    void setInfoReal(const SendCoinsRecipient &info);
 
 public Q_SLOTS:
     void clear();
@@ -60,6 +81,7 @@ private:
 
     QModelIndex selectedRow();
     void copyColumnToClipboard(int column);
+    SendCoinsRecipient info;
 
 private Q_SLOTS:
     void on_receiveButton_clicked();
@@ -74,6 +96,7 @@ private Q_SLOTS:
     void copyLabel();
     void copyMessage();
     void copyAmount();
+
 };
 
 #endif // BITCOIN_QT_RECEIVECOINSDIALOG_H

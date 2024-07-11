@@ -22,6 +22,10 @@
 #include <QTimer>
 #include <QString>
 
+#include <QDebug>
+#include <QEventLoop>
+
+
 class ClientModel;
 class OptionsModel;
 class PlatformStyle;

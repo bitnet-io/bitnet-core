@@ -21,9 +21,9 @@ dependencies {
 }
 
 android {
-    compileSdkVersion androidCompileSdkVersion.toInteger()
+    compileSdkVersion 33
 
-    buildToolsVersion androidBuildToolsVersion
+//    buildToolsVersion androidBuildToolsVersion
 
     sourceSets {
         main {
@@ -47,6 +47,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 24
+        minSdkVersion 21
+        targetSdkVersion 33
+
     }
 }

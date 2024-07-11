@@ -145,12 +145,12 @@ ShutdownWindow::ShutdownWindow(QWidget *parent, Qt::WindowFlags f):
         tr("%1 is shutting down…").arg(PACKAGE_NAME) + "<br /><br />" +
         tr("Do not shut down the computer until this window disappears.")));
     setLayout(layout);
-
     GUIUtil::handleCloseWindowShortcut(this);
 }
 
+
 QWidget* ShutdownWindow::showShutdownWindow(QMainWindow* window)
-{
+ {
     assert(window != nullptr);
 
     // Show a simple window indicating shutdown status
