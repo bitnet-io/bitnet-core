@@ -15,7 +15,7 @@
     <rect>
      <x>8</x>
      <y>8</y>
-     <width>384</width>
+     <width>481</width>
      <height>150</height>
     </rect>
    </property>
@@ -93,7 +93,7 @@
      <rect>
       <x>82</x>
       <y>14</y>
-      <width>288</width>
+      <width>361</width>
       <height>16</height>
      </rect>
     </property>
@@ -122,75 +122,6 @@
     <property name="buddy">
      <cstring>reqAmount</cstring>
     </property>
-   </widget>
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>82</x>
-      <y>57</y>
-      <width>288</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <item>
-      <widget class="BitnetAmountField" name="reqAmount">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>1000</width>
-         <height>100</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>An optional amount to request. Leave this empty or zero to not request a specific amount.</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="addressType">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>1000</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
    </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
@@ -250,9 +181,9 @@
    <widget class="QPushButton" name="receiveButton">
     <property name="geometry">
      <rect>
-      <x>83</x>
+      <x>75</x>
       <y>120</y>
-      <width>183</width>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
@@ -276,13 +207,69 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="BitnetAmountField" name="reqAmount">
+    <property name="geometry">
+     <rect>
+      <x>83</x>
+      <y>59</y>
+      <width>125</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>80</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>1000</width>
+      <height>100</height>
+     </size>
+    </property>
+    <property name="toolTip">
+     <string>An optional amount to request. Leave this empty or zero to not request a specific amount.</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="addressType">
+    <property name="geometry">
+     <rect>
+      <x>215</x>
+      <y>57</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>1000</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>230</y>
-     <width>571</width>
+     <width>731</width>
      <height>161</height>
     </rect>
    </property>
@@ -386,7 +373,7 @@
   <widget class="QRImageWidget" name="qr_code" native="true">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>510</x>
      <y>10</y>
      <width>241</width>
      <height>211</height>
