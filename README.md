@@ -85,11 +85,18 @@ file will be in bitnet-core/bitnet-macos-shared
 
 # linux arm64 aarch64
 ```
-apt-get install g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+apt-get install g++-8-aarch64-linux-gnu binutils-aarch64-linux-gnu
+
+
  cd depends
  make -j8 HOST=aarch64-linux-gnu 	# -j8 for 8 cores adjust here
  cd ..
+
  ./autogen.sh # not required when building from tarball
+
+export CXX=aarch64-linux-gnu-g++-8
+export CC=aarch64-linux-gnu-gcc-8
+
  CONFIG_SITE=$PWD/depends/aarch64-linux-gnu/share/config.site ./configure \
  --prefix=$PWD/bitnet-shared-aarch64-linux-arm64 --disable-fuzz-binary --disable-bench --disable-tests
  make -j8 				# -j8 for 8 cores adjust here
@@ -110,11 +117,16 @@ docker run --rm -v $(pwd):/work --user "$(id -u):$(id -g)" -it android-bitcoin /
 
 
 cd /work
+apt-get install g++-8-aarch64-linux-gnu binutils-aarch64-linux-gnu -y
+export CXX=aarch64-linux-gnu-g++-8
+export CC=aarch64-linux-gnu-gcc-8
+
 make -j24 -C depends
 ./autogen.sh
-./configure --host=${HOST} --prefix=/work/depends/${HOST}   --disable-bench   --disable-gui-tests   --disable-tests --disable-fuzz-binary
+CONFIG_SITE=$PWD/depends/aarch64-linux-gnu/share/config.site ./configure --disable-bench   --disable-gui-tests   --disable-tests --disable-fuzz-binary
 
-make -j24
+make -j24 clean
+make -j24 
 make -j24 -C src/qt apk
 
 mv src/qt/android/build/outputs/apk/release/android-release-unsigned.apk .
