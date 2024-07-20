@@ -20,6 +20,14 @@
 #include <cinttypes>
 #include <arith_uint256.h>
 
+#include <qtum/qtumledger.h>
+#include <qtum/qtumdelegation.h>
+#include <qtum/qtumstate.h>
+
+#include <libdevcore/SHA3.h>
+#include <libdevcore/RLP.h>
+
+#include <cinttypes>
 
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -39,7 +47,10 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
+    genesis.hashStateRoot = uint256(h256Touint(dev::h256("00000caff19214512f927af2b7cead4b33a54c096e432a275628cb4cf8d4b73c"))); // qtum
+    genesis.hashUTXORoot = uint256(h256Touint(dev::sha3(dev::rlp("")))); // qtum
     return genesis;
+
 }
 
 /**
@@ -123,7 +134,7 @@ public:
 
 	    genesis = CreateGenesisBlock(1677414786, 1196422, 0x1e0ffff0, 1, 88 * COIN);
 
-/*
+
 consensus.hashGenesisBlock = uint256S("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) {
             std::cout << std::string("Begin calculating Mainnet Genesis Block:\n");
@@ -146,13 +157,16 @@ consensus.hashGenesisBlock = uint256S("0xfffffffffffffffffffffffffffffffffffffff
             std::cout << std::string(" main_time: ") << ("%" PRIu32, genesis.nTime) << std::endl;
             std::cout << std::string(" main_hash: ") << ("%" PRIu32, genesis.GetHash().ToString().c_str()) << std::endl;
             std::cout << std::string(" main_merklehash: ") << ("%" PRIu32, genesis.hashMerkleRoot.ToString().c_str()) << std::endl;
-            printf("min Main nBit:  %08x\n", consensus.powLimit);
+	    std::cout << std::string(" Main Genesis hashStateRoot: ") << ("%" PRIu32,  genesis.hashStateRoot.ToString().c_str()) << std::endl;
+            std::cout << std::string(" Main Genesis hashUTXOroot: ") << ("%" PRIu32,  genesis.hashUTXORoot.ToString().c_str()) << std::endl;
+            std::cout << std::string(" using standard 100,000,000 SATS/RADIOWAVES: ") << ("%" PRIu32,  COIN) << std::endl;
+            printf("min Main pow-limit:  %08x\n", consensus.powLimit);
             std::cout << std::string("Finished calculating Mainnet Genesis Block for SED replacement of current assertion and values:") << std::endl;
 
 
 
         }
-*/
+
 /*
 Mainnet ---
  main_nonce: 1196422
