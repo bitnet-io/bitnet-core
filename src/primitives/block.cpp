@@ -27,8 +27,8 @@ std::string CBlock::ToString() const
         hashPrevBlock.ToString(),
         hashMerkleRoot.ToString(),
         nTime, nBits, nNonce,
-       hashStateRoot.ToString(), // qtum
-        hashUTXORoot.ToString(), // qtum
+//       hashStateRoot.ToString(), // qtum
+//        hashUTXORoot.ToString(), // qtum
         vtx.size());
     for (const auto& tx : vtx) {
         s << "  " << tx->ToString() << "\n";

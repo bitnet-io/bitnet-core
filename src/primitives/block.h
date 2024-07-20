@@ -25,8 +25,8 @@ public:
     int32_t nVersion;
     uint256 hashPrevBlock;
     uint256 hashMerkleRoot;
-    uint256 hashStateRoot; // qtum
-    uint256 hashUTXORoot; // qtum
+//    uint256 hashStateRoot; // qtum
+//    uint256 hashUTXORoot; // qtum
     uint32_t nTime;
     uint32_t nBits;
     uint32_t nNonce;
@@ -36,16 +36,16 @@ public:
         SetNull();
     }
 
-    SERIALIZE_METHODS(CBlockHeader, obj) { READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nNonce,  obj.hashStateRoot, obj.hashUTXORoot); }
-//    SERIALIZE_METHODS(CBlockHeader, obj) { READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nNonce); }
+  //  SERIALIZE_METHODS(CBlockHeader, obj) { READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nNonce,  obj.hashStateRoot, obj.hashUTXORoot); }
+    SERIALIZE_METHODS(CBlockHeader, obj) { READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nNonce); }
 
     void SetNull()
     {
         nVersion = 0;
         hashPrevBlock.SetNull();
         hashMerkleRoot.SetNull();
-       hashStateRoot.SetNull(); // qtum
-        hashUTXORoot.SetNull(); // qtum
+       //hashStateRoot.SetNull(); // qtum
+       // hashUTXORoot.SetNull(); // qtum
         nTime = 0;
         nBits = 0;
         nNonce = 0;
@@ -111,8 +111,8 @@ public:
         block.nVersion       = nVersion;
         block.hashPrevBlock  = hashPrevBlock;
         block.hashMerkleRoot = hashMerkleRoot;
-        block.hashStateRoot  = hashStateRoot; // qtum
-        block.hashUTXORoot   = hashUTXORoot; // qtum
+//        block.hashStateRoot  = hashStateRoot; // qtum
+ //       block.hashUTXORoot   = hashUTXORoot; // qtum
 
         block.nTime          = nTime;
         block.nBits          = nBits;

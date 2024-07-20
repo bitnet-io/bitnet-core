@@ -24,8 +24,8 @@
 #include <qtum/qtumdelegation.h>
 #include <qtum/qtumstate.h>
 
-#include <libdevcore/SHA3.h>
-#include <libdevcore/RLP.h>
+//#include <libdevcore/SHA3.h>
+//#include <libdevcore/RLP.h>
 
 #include <cinttypes>
 
@@ -47,8 +47,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
-    genesis.hashStateRoot = uint256(h256Touint(dev::h256("00000caff19214512f927af2b7cead4b33a54c096e432a275628cb4cf8d4b73c"))); // qtum
-    genesis.hashUTXORoot = uint256(h256Touint(dev::sha3(dev::rlp("")))); // qtum
+//    genesis.hashStateRoot = uint256(h256Touint(dev::h256("00000caff19214512f927af2b7cead4b33a54c096e432a275628cb4cf8d4b73c"))); // qtum
+//    genesis.hashUTXORoot = uint256(h256Touint(dev::sha3(dev::rlp("")))); // qtum
     return genesis;
 
 }
@@ -157,8 +157,8 @@ consensus.hashGenesisBlock = uint256S("0xfffffffffffffffffffffffffffffffffffffff
             std::cout << std::string(" main_time: ") << ("%" PRIu32, genesis.nTime) << std::endl;
             std::cout << std::string(" main_hash: ") << ("%" PRIu32, genesis.GetHash().ToString().c_str()) << std::endl;
             std::cout << std::string(" main_merklehash: ") << ("%" PRIu32, genesis.hashMerkleRoot.ToString().c_str()) << std::endl;
-	    std::cout << std::string(" Main Genesis hashStateRoot: ") << ("%" PRIu32,  genesis.hashStateRoot.ToString().c_str()) << std::endl;
-            std::cout << std::string(" Main Genesis hashUTXOroot: ") << ("%" PRIu32,  genesis.hashUTXORoot.ToString().c_str()) << std::endl;
+//	    std::cout << std::string(" Main Genesis hashStateRoot: ") << ("%" PRIu32,  genesis.hashStateRoot.ToString().c_str()) << std::endl;
+//            std::cout << std::string(" Main Genesis hashUTXOroot: ") << ("%" PRIu32,  genesis.hashUTXORoot.ToString().c_str()) << std::endl;
             std::cout << std::string(" using standard 100,000,000 SATS/RADIOWAVES: ") << ("%" PRIu32,  COIN) << std::endl;
             printf("min Main pow-limit:  %08x\n", consensus.powLimit);
             std::cout << std::string("Finished calculating Mainnet Genesis Block for SED replacement of current assertion and values:") << std::endl;
