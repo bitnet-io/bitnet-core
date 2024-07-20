@@ -1,4 +1,11 @@
 
+rebugging for hashStateRoot
+
+```
+  src/primitives/block.cpp
+   src/primitives/block.h
+```
+
 bitnet-io staging tree 24.x
 ===========================
 
