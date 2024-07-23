@@ -19,7 +19,8 @@ How do I build the software?
 
 The most troublefree and reproducable method of building the repository is via the depends method:
 
-# this directory will be created by the make command you do not have to do a mkdir here "call it whatever you want --prefix=$PWD/my-binaries (for other developers)
+# this directory will be created by the make command you do not have to do a mkdir here "call it whatever you want 
+# --prefix=$PWD/my-binaries (for other developers)
 ```
 --prefix=$PWD/bitnet-shared-linux 
 ```
