@@ -19,6 +19,10 @@ How do I build the software?
 
 The most troublefree and reproducable method of building the repository is via the depends method:
 
+# this directory will be created by the make command you do not have to do a mkdir here (for other developers)
+```
+--prefix=$PWD/bitnet-shared-linux 
+```
 # LINUX
 
 ```
