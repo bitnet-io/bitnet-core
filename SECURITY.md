@@ -1,6 +1,6 @@
 # Security Policy
 
-## Supported Versions
+## Supported Versions (more cowbell)
 
 See our website for versions of Bitnet Core that are currently supported with
 security updates: https://bitnetcore.org/en/lifecycle/#schedule
