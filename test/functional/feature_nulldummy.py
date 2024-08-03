@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2016-2022 The Bitnet Core developers
+# Copyright (c) 2016-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test NULLDUMMY softfork.
@@ -28,7 +28,7 @@ from test_framework.script import (
     OP_0,
     OP_TRUE,
 )
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
@@ -48,7 +48,7 @@ def invalidate_nulldummy_tx(tx):
     tx.rehash()
 
 
-class NULLDUMMYTest(BitnetTestFramework):
+class NULLDUMMYTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -74,6 +74,7 @@ class NULLDUMMYTest(BitnetTestFramework):
         eckey.generate()
         self.privkey = bytes_to_wif(eckey.get_bytes())
         self.pubkey = eckey.get_pubkey().get_bytes().hex()
+        self.nodes[0].createwallet(wallet_name="multisig")
         cms = self.nodes[0].createmultisig(1, [self.pubkey])
         wms = self.nodes[0].createmultisig(1, [self.pubkey], 'p2sh-segwit')
         self.ms_address = cms["address"]

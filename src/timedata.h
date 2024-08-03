@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 The Bitnet Core developers
+// Copyright (c) 2014-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,7 +13,7 @@
 #include <cstdint>
 #include <vector>
 
-static const int64_t DEFAULT_MAX_TIME_ADJUSTMENT = 70 * 60;
+static const int64_t DEFAULT_MAX_TIME_ADJUSTMENT = 0;
 
 class CNetAddr;
 
@@ -82,5 +82,7 @@ void AddTimeData(const CNetAddr& ip, int64_t nTime);
  * Reset the internal state of GetTimeOffset(), GetAdjustedTime() and AddTimeData().
  */
 void TestOnlyResetTimeData();
+
+int64_t GetAdjustedTimeSeconds();
 
 #endif // BITCOIN_TIMEDATA_H

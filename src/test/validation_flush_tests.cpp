@@ -1,10 +1,8 @@
-// Copyright (c) 2019-2022 The Bitnet Core developers
+// Copyright (c) 2019-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 //
 #include <sync.h>
-#include <test/util/coins.h>
-#include <test/util/random.h>
 #include <test/util/setup_common.h>
 #include <validation.h>
 
@@ -20,11 +18,27 @@ BOOST_FIXTURE_TEST_SUITE(validation_flush_tests, TestingSetup)
 BOOST_AUTO_TEST_CASE(getcoinscachesizestate)
 {
     Chainstate& chainstate{m_node.chainman->ActiveChainstate()};
+    constexpr int CACHE_SIZE_BYTES = 1664;
+    chainstate.InitCoinsDB(/*cache_size_bytes*/ CACHE_SIZE_BYTES, /*in_memory*/ true, /*should_wipe*/ false);
+    WITH_LOCK(::cs_main, chainstate.InitCoinsCache(CACHE_SIZE_BYTES));
 
     constexpr bool is_64_bit = sizeof(void*) == 8;
 
     LOCK(::cs_main);
     auto& view = chainstate.CoinsTip();
+
+    //! Create and add a Coin with DynamicMemoryUsage of 80 bytes to the given view.
+    auto add_coin = [](CCoinsViewCache& coins_view) -> COutPoint {
+        Coin newcoin;
+        uint256 txid = InsecureRand256();
+        COutPoint outp{txid, 0};
+        newcoin.nHeight = 1;
+        newcoin.out.nValue = InsecureRand32();
+        newcoin.out.scriptPubKey.assign((uint32_t)56, 1);
+        coins_view.AddCoin(outp, std::move(newcoin), false);
+
+        return outp;
+    };
 
     // The number of bytes consumed by coin's heap data, i.e. CScript
     // (prevector<28, unsigned char>) when assigned 56 bytes of data per above.
@@ -36,7 +50,7 @@ BOOST_AUTO_TEST_CASE(getcoinscachesizestate)
         BOOST_TEST_MESSAGE("CCoinsViewCache memory usage: " << view.DynamicMemoryUsage());
     };
 
-    constexpr size_t MAX_COINS_CACHE_BYTES = 1024;
+    constexpr size_t MAX_COINS_CACHE_BYTES = 1672;
 
     // Without any coins in the cache, we shouldn't need to flush.
     BOOST_CHECK_EQUAL(
@@ -50,7 +64,7 @@ BOOST_AUTO_TEST_CASE(getcoinscachesizestate)
         // Add a bunch of coins to see that we at least flip over to CRITICAL.
 
         for (int i{0}; i < 1000; ++i) {
-            const COutPoint res = AddTestCoin(view);
+            COutPoint res = add_coin(view);
             BOOST_CHECK_EQUAL(view.AccessCoin(res).DynamicMemoryUsage(), COIN_SIZE);
         }
 
@@ -72,7 +86,7 @@ BOOST_AUTO_TEST_CASE(getcoinscachesizestate)
     constexpr int COINS_UNTIL_CRITICAL{3};
 
     for (int i{0}; i < COINS_UNTIL_CRITICAL; ++i) {
-        const COutPoint res = AddTestCoin(view);
+        COutPoint res = add_coin(view);
         print_view_mem_usage(view);
         BOOST_CHECK_EQUAL(view.AccessCoin(res).DynamicMemoryUsage(), COIN_SIZE);
         BOOST_CHECK_EQUAL(
@@ -82,7 +96,7 @@ BOOST_AUTO_TEST_CASE(getcoinscachesizestate)
 
     // Adding some additional coins will push us over the edge to CRITICAL.
     for (int i{0}; i < 4; ++i) {
-        AddTestCoin(view);
+        add_coin(view);
         print_view_mem_usage(view);
         if (chainstate.GetCoinsCacheSizeState(MAX_COINS_CACHE_BYTES, /*max_mempool_size_bytes=*/0) ==
             CoinsCacheSizeState::CRITICAL) {
@@ -96,36 +110,36 @@ BOOST_AUTO_TEST_CASE(getcoinscachesizestate)
 
     // Passing non-zero max mempool usage should allow us more headroom.
     BOOST_CHECK_EQUAL(
-        chainstate.GetCoinsCacheSizeState(MAX_COINS_CACHE_BYTES, /*max_mempool_size_bytes=*/1 << 10),
+        chainstate.GetCoinsCacheSizeState(MAX_COINS_CACHE_BYTES, /*max_mempool_size_bytes*/ CACHE_SIZE_BYTES),
         CoinsCacheSizeState::OK);
 
-    for (int i{0}; i < 3; ++i) {
-        AddTestCoin(view);
+    for (int i{0}; i < 2; ++i) {
+        add_coin(view);
         print_view_mem_usage(view);
         BOOST_CHECK_EQUAL(
-            chainstate.GetCoinsCacheSizeState(MAX_COINS_CACHE_BYTES, /*max_mempool_size_bytes=*/1 << 10),
+            chainstate.GetCoinsCacheSizeState(MAX_COINS_CACHE_BYTES, /*max_mempool_size_bytes*/ CACHE_SIZE_BYTES),
             CoinsCacheSizeState::OK);
     }
 
     // Adding another coin with the additional mempool room will put us >90%
     // but not yet critical.
-    AddTestCoin(view);
+    add_coin(view);
     print_view_mem_usage(view);
 
     // Only perform these checks on 64 bit hosts; I haven't done the math for 32.
     if (is_64_bit) {
-        float usage_percentage = (float)view.DynamicMemoryUsage() / (MAX_COINS_CACHE_BYTES + (1 << 10));
+        float usage_percentage = (float)view.DynamicMemoryUsage() / (MAX_COINS_CACHE_BYTES + (CACHE_SIZE_BYTES));
         BOOST_TEST_MESSAGE("CoinsTip usage percentage: " << usage_percentage);
-        BOOST_CHECK(usage_percentage >= 0.9);
+        BOOST_CHECK(usage_percentage >= 0.45);
         BOOST_CHECK(usage_percentage < 1);
         BOOST_CHECK_EQUAL(
-            chainstate.GetCoinsCacheSizeState(MAX_COINS_CACHE_BYTES, 1 << 10),
+            chainstate.GetCoinsCacheSizeState(MAX_COINS_CACHE_BYTES, CACHE_SIZE_BYTES),
             CoinsCacheSizeState::LARGE);
     }
 
     // Using the default max_* values permits way more coins to be added.
     for (int i{0}; i < 1000; ++i) {
-        AddTestCoin(view);
+        add_coin(view);
         BOOST_CHECK_EQUAL(
             chainstate.GetCoinsCacheSizeState(),
             CoinsCacheSizeState::OK);

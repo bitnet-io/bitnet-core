@@ -1,5 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -43,8 +43,14 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "sendtoaddress", 8, "avoid_reuse" },
     { "sendtoaddress", 9, "fee_rate"},
     { "sendtoaddress", 10, "verbose"},
+    { "sendtoaddress", 12, "changetosender" },
+    { "splitutxosforaddress", 1, "minvalue" },
+    { "splitutxosforaddress", 2, "maxvalue" },
+    { "splitutxosforaddress", 3, "maxoutputs" },
+    { "splitutxosforaddress", 4, "psbt" },
     { "settxfee", 0, "amount" },
     { "sethdseed", 0, "newkeypool" },
+    { "getsubsidy", 0, "height" },
     { "getreceivedbyaddress", 1, "minconf" },
     { "getreceivedbyaddress", 2, "include_immature_coinbase" },
     { "getreceivedbylabel", 1, "minconf" },
@@ -70,6 +76,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "listtransactions", 2, "skip" },
     { "listtransactions", 3, "include_watchonly" },
     { "walletpassphrase", 1, "timeout" },
+    { "walletpassphrase", 2, "stakingonly" },
     { "getblocktemplate", 0, "template_request" },
     { "listsinceblock", 1, "target_confirmations" },
     { "listsinceblock", 2, "include_watchonly" },
@@ -83,13 +90,36 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "sendmany", 8, "fee_rate"},
     { "sendmany", 9, "verbose" },
     { "deriveaddresses", 1, "range" },
-    { "scanblocks", 1, "scanobjects" },
-    { "scanblocks", 2, "start_height" },
-    { "scanblocks", 3, "stop_height" },
-    { "scanblocks", 5, "options" },
     { "scantxoutset", 1, "scanobjects" },
+    { "sendmanywithdupes", 1, "amounts" },
+    { "sendmanywithdupes", 2, "minconf" },
+    { "sendmanywithdupes", 4, "subtractfeefrom" },
+    { "sendmanywithdupes", 5, "replaceable" },
+    { "sendmanywithdupes", 6, "conf_target" },
     { "addmultisigaddress", 0, "nrequired" },
     { "addmultisigaddress", 1, "keys" },
+    ////////////////////////////////////////////////// // qtum
+    { "getaddresstxids", 0, "argument"},
+    { "getaddressmempool", 0, "argument"},
+    { "getaddressdeltas", 0, "argument"},
+    { "getaddressbalance", 0, "argument"},
+    { "getaddressutxos", 0, "argument"},
+    { "getblockhashes", 0, "high"},
+    { "getblockhashes", 1, "low"},
+    { "getblockhashes", 2, "options"},
+    { "getspentinfo", 0, "argument"},
+    { "searchlogs", 0, "fromblock"},
+    { "searchlogs", 1, "toblock"},
+    { "searchlogs", 2, "addressfilter"},
+    { "searchlogs", 3, "topicfilter"},
+    { "searchlogs", 4, "minconf"},
+    { "waitforlogs", 0, "fromblock"},
+    { "waitforlogs", 1, "toblock"},
+    { "waitforlogs", 2, "filter"},
+    { "waitforlogs", 3, "minconf"},
+    { "qrc20listtransactions", 2, "fromblock"},
+    { "qrc20listtransactions", 3, "minconf"},
+    //////////////////////////////////////////////////
     { "createmultisig", 0, "nrequired" },
     { "createmultisig", 1, "keys" },
     { "listunspent", 0, "minconf" },
@@ -103,7 +133,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "getchaintxstats", 0, "nblocks" },
     { "gettransaction", 1, "include_watchonly" },
     { "gettransaction", 2, "verbose" },
-    { "getrawtransaction", 1, "verbosity" },
+    { "gettransaction", 3, "waitconf" },
     { "getrawtransaction", 1, "verbose" },
     { "createrawtransaction", 0, "inputs" },
     { "createrawtransaction", 1, "outputs" },
@@ -112,9 +142,10 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "decoderawtransaction", 1, "iswitness" },
     { "signrawtransactionwithkey", 1, "privkeys" },
     { "signrawtransactionwithkey", 2, "prevtxs" },
+    { "signrawsendertransactionwithkey", 1, "privkeys" },
     { "signrawtransactionwithwallet", 1, "prevtxs" },
     { "sendrawtransaction", 1, "maxfeerate" },
-    { "sendrawtransaction", 2, "maxburnamount" },
+    { "sendrawtransaction", 2, "showcontractdata" },
     { "testmempoolaccept", 0, "rawtxs" },
     { "testmempoolaccept", 1, "maxfeerate" },
     { "submitpackage", 0, "package" },
@@ -190,6 +221,46 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "logging", 1, "exclude" },
     { "disconnectnode", 1, "nodeid" },
     { "upgradewallet", 0, "version" },
+    { "createcontract", 1, "gaslimit" },
+    { "createcontract", 2, "gasprice" },
+    { "createcontract", 4, "broadcast" },
+    { "createcontract", 5, "changetosender" },
+    { "createcontract", 6, "psbt" },
+    { "sendtocontract", 2, "amount" },
+    { "sendtocontract", 3, "gaslimit" },
+    { "sendtocontract", 4, "gasprice" },
+    { "sendtocontract", 6, "broadcast" },
+    { "sendtocontract", 7, "changetosender" },
+    { "sendtocontract", 8, "psbt" },
+    { "removedelegationforaddress", 1, "gaslimit" },
+    { "removedelegationforaddress", 2, "gasprice" },
+    { "setdelegateforaddress", 1, "fee" },
+    { "setdelegateforaddress", 3, "gaslimit" },
+    { "setdelegateforaddress", 4, "gasprice" },
+    { "setsuperstakervaluesforaddress", 0, "params" },
+    { "qrc20approve", 4, "gaslimit" },
+    { "qrc20approve", 5, "gasprice" },
+    { "qrc20approve", 6, "checkoutputs" },
+    { "qrc20transfer", 4, "gaslimit" },
+    { "qrc20transfer", 5, "gasprice" },
+    { "qrc20transfer", 6, "checkoutputs" },
+    { "qrc20transferfrom", 5, "gaslimit" },
+    { "qrc20transferfrom", 6, "gasprice" },
+    { "qrc20transferfrom", 7, "checkoutputs" },
+    { "qrc20burn", 3, "gaslimit" },
+    { "qrc20burn", 4, "gasprice" },
+    { "qrc20burn", 5, "checkoutputs" },
+    { "qrc20burnfrom", 4, "gaslimit" },
+    { "qrc20burnfrom", 5, "gasprice" },
+    { "qrc20burnfrom", 6, "checkoutputs" },
+    { "callcontract", 3, "gaslimit" },
+    { "callcontract", 4, "amount" },
+    { "reservebalance", 0, "reserve"},
+    { "reservebalance", 1, "amount"},
+    { "listcontracts", 0, "start" },
+    { "listcontracts", 1, "maxdisplay" },
+    { "getstorage", 2, "index" },
+    { "getstorage", 1, "blocknum" },
     // Echo with conversion (For testing only)
     { "echojson", 0, "arg0" },
     { "echojson", 1, "arg1" },
@@ -228,16 +299,11 @@ private:
 public:
     CRPCConvertTable();
 
-    /** Return arg_value as UniValue, and first parse it if it is a non-string parameter */
-    UniValue ArgToUniValue(const std::string& arg_value, const std::string& method, int param_idx)
-    {
-        return members.count(std::make_pair(method, param_idx)) > 0 ? ParseNonRFCJSONValue(arg_value) : arg_value;
+    bool convert(const std::string& method, int idx) {
+        return (members.count(std::make_pair(method, idx)) > 0);
     }
-
-    /** Return arg_value as UniValue, and first parse it if it is a non-string parameter */
-    UniValue ArgToUniValue(const std::string& arg_value, const std::string& method, const std::string& param_name)
-    {
-        return membersByName.count(std::make_pair(method, param_name)) > 0 ? ParseNonRFCJSONValue(arg_value) : arg_value;
+    bool convert(const std::string& method, const std::string& name) {
+        return (membersByName.count(std::make_pair(method, name)) > 0);
     }
 };
 
@@ -269,7 +335,14 @@ UniValue RPCConvertValues(const std::string &strMethod, const std::vector<std::s
 
     for (unsigned int idx = 0; idx < strParams.size(); idx++) {
         const std::string& strVal = strParams[idx];
-        params.push_back(rpcCvtTable.ArgToUniValue(strVal, strMethod, idx));
+
+        if (!rpcCvtTable.convert(strMethod, idx)) {
+            // insert string value directly
+            params.push_back(strVal);
+        } else {
+            // parse string as JSON, insert bool/number/object/etc. value
+            params.push_back(ParseNonRFCJSONValue(strVal));
+        }
     }
 
     return params;
@@ -278,29 +351,23 @@ UniValue RPCConvertValues(const std::string &strMethod, const std::vector<std::s
 UniValue RPCConvertNamedValues(const std::string &strMethod, const std::vector<std::string> &strParams)
 {
     UniValue params(UniValue::VOBJ);
-    UniValue positional_args{UniValue::VARR};
 
     for (const std::string &s: strParams) {
         size_t pos = s.find('=');
         if (pos == std::string::npos) {
-            positional_args.push_back(rpcCvtTable.ArgToUniValue(s, strMethod, positional_args.size()));
-            continue;
+            throw(std::runtime_error("No '=' in named argument '"+s+"', this needs to be present for every argument (even if it is empty)"));
         }
 
         std::string name = s.substr(0, pos);
         std::string value = s.substr(pos+1);
 
-        // Intentionally overwrite earlier named values with later ones as a
-        // convenience for scripts and command line users that want to merge
-        // options.
-        params.pushKV(name, rpcCvtTable.ArgToUniValue(value, strMethod, name));
-    }
-
-    if (!positional_args.empty()) {
-        // Use __pushKV instead of pushKV to avoid overwriting an explicit
-        // "args" value with an implicit one. Let the RPC server handle the
-        // request as given.
-        params.__pushKV("args", positional_args);
+        if (!rpcCvtTable.convert(strMethod, name)) {
+            // insert string value directly
+            params.pushKV(name, value);
+        } else {
+            // parse string as JSON, insert bool/number/object/etc. value
+            params.pushKV(name, ParseNonRFCJSONValue(value));
+        }
     }
 
     return params;

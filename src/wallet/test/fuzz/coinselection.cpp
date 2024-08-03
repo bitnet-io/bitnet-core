@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Bitnet Core developers
+// Copyright (c) 2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -30,7 +30,7 @@ static void GroupCoins(FuzzedDataProvider& fuzzed_data_provider, const std::vect
     bool valid_outputgroup{false};
     for (auto& coin : coins) {
         output_group.Insert(coin, /*ancestors=*/0, /*descendants=*/0, positive_only);
-        // If positive_only was specified, nothing may have been inserted, leading to an empty output group
+        // If positive_only was specified, nothing may have been inserted, leading to an empty outpout group
         // that would be invalid for the BnB algorithm
         valid_outputgroup = !positive_only || output_group.GetSelectionAmount() > 0;
         if (valid_outputgroup && fuzzed_data_provider.ConsumeBool()) {

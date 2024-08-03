@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2021 The Bitnet Core developers
+// Copyright (c) 2014-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <string.h>
+#include <variant>
 
 /// Maximum witness length for Bech32 addresses.
 static constexpr std::size_t BECH32_WITNESS_PROG_MAX_LEN = 40;
@@ -81,12 +82,20 @@ CTxDestination DecodeDestination(const std::string& str, const CChainParams& par
     std::vector<unsigned char> data;
     uint160 hash;
     error_str = "";
+    bech32::DecodeResult dec;
 
     // Note this will be false if it is a valid Bech32 address for a different network
     bool is_bech32 = (ToLower(str.substr(0, params.Bech32HRP().size())) == params.Bech32HRP());
 
+    // Decode bech32 address
+    if(is_bech32)
+    {
+        dec = bech32::Decode(str);
+        is_bech32 = dec.encoding != bech32::Encoding::INVALID;
+    }
+
     if (!is_bech32 && DecodeBase58Check(str, data, 21)) {
-        // base58-encoded Bitnet addresses.
+        // base58-encoded Bitcoin addresses.
         // Public-key-hash-addresses have version 0 (or 111 testnet).
         // The data vector contains RIPEMD160(SHA256(pubkey)), where pubkey is the serialized public key.
         const std::vector<unsigned char>& pubkey_prefix = params.Base58Prefix(CChainParams::PUBKEY_ADDRESS);
@@ -107,37 +116,36 @@ CTxDestination DecodeDestination(const std::string& str, const CChainParams& par
                 std::equal(script_prefix.begin(), script_prefix.end(), data.begin())) ||
             (data.size() >= pubkey_prefix.size() &&
                 std::equal(pubkey_prefix.begin(), pubkey_prefix.end(), data.begin()))) {
-//            error_str = "Invalid length for Base58 address";
+            error_str = "Invalid length for Base58 address";
         } else {
-  //          error_str = "Invalid prefix for Base58-encoded address";
+            error_str = "Invalid prefix for Base58-encoded address";
         }
-    //    return CNoDestination();
+        return CNoDestination();
     } else if (!is_bech32) {
         // Try Base58 decoding without the checksum, using a much larger max length
         if (!DecodeBase58(str, data, 100)) {
-      //      error_str = "Not a valid Bech32 or Base58 encoding";
+            error_str = "Not a valid Bech32 or Base58 encoding";
         } else {
-        //    error_str = "Invalid checksum or length of Base58 address";
+            error_str = "Invalid checksum or length of Base58 address";
         }
-     //   return CNoDestination();
+        return CNoDestination();
     }
 
     data.clear();
-    const auto dec = bech32::Decode(str);
     if ((dec.encoding == bech32::Encoding::BECH32 || dec.encoding == bech32::Encoding::BECH32M) && dec.data.size() > 0) {
         // Bech32 decoding
         if (dec.hrp != params.Bech32HRP()) {
-       //     error_str = "Invalid prefix for Bech32 address";
-         //   return CNoDestination();
+            error_str = "Invalid prefix for Bech32 address";
+            return CNoDestination();
         }
         int version = dec.data[0]; // The first 5 bit symbol is the witness version (0-16)
         if (version == 0 && dec.encoding != bech32::Encoding::BECH32) {
-     //       error_str = "Version 0 witness address must use Bech32 checksum";
-       //     return CNoDestination();
+            error_str = "Version 0 witness address must use Bech32 checksum";
+            return CNoDestination();
         }
         if (version != 0 && dec.encoding != bech32::Encoding::BECH32M) {
-         //   error_str = "Version 1+ witness address must use Bech32m checksum";
-           // return CNoDestination();
+            error_str = "Version 1+ witness address must use Bech32m checksum";
+            return CNoDestination();
         }
         // The rest of the symbols are converted witness program bytes.
         data.reserve(((dec.data.size() - 1) * 5) / 8);
@@ -298,4 +306,48 @@ bool IsValidDestinationString(const std::string& str, const CChainParams& params
 bool IsValidDestinationString(const std::string& str)
 {
     return IsValidDestinationString(str, Params());
+}
+
+bool IsValidContractSenderAddressString(const std::string& str)
+{
+    return IsValidContractSenderAddress(DecodeDestination(str));
+}
+
+bool DecodeIndexKey(const std::string &str, uint256 &hashBytes, int &type)
+{
+    CTxDestination dest = DecodeDestination(str);
+    if (IsValidDestination(dest))
+    {
+        if(std::holds_alternative<PKHash>(dest))
+        {
+            PKHash keyID = std::get<PKHash>(dest);
+            memcpy(hashBytes.data(), &keyID, 20);
+            type = 1;
+            return true;
+        }
+
+        if(std::holds_alternative<ScriptHash>(dest))
+        {
+            ScriptHash scriptID = std::get<ScriptHash>(dest);
+            memcpy(hashBytes.data(), &scriptID, 20);
+            type = 2;
+            return true;
+        }
+
+        if (std::holds_alternative<WitnessV0ScriptHash>(dest)) {
+            WitnessV0ScriptHash witnessV0ScriptID = std::get<WitnessV0ScriptHash>(dest);
+            memcpy(hashBytes.data(), &witnessV0ScriptID, 32);
+            type = 3;
+            return true;
+        }
+
+        if (std::holds_alternative<WitnessV0KeyHash>(dest)) {
+            const WitnessV0KeyHash witnessV0KeyID = std::get<WitnessV0KeyHash>(dest);
+            memcpy(hashBytes.data(), &witnessV0KeyID, 20);
+            type = 4;
+            return true;
+        }
+    }
+
+    return false;
 }

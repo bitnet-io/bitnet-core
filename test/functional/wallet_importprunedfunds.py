@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the importprunedfunds and removeprunedfunds RPCs."""
@@ -12,7 +12,7 @@ from test_framework.messages import (
     CMerkleBlock,
     from_hex,
 )
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
@@ -20,10 +20,7 @@ from test_framework.util import (
 from test_framework.wallet_util import bytes_to_wif
 
 
-class ImportPrunedFundsTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class ImportPrunedFundsTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2
@@ -33,7 +30,7 @@ class ImportPrunedFundsTest(BitnetTestFramework):
 
     def run_test(self):
         self.log.info("Mining blocks...")
-        self.generate(self.nodes[0], COINBASE_MATURITY + 1)
+        self.nodes[0].generate(COINBASE_MATURITY + 1)
 
         # address
         address1 = self.nodes[0].getnewaddress()

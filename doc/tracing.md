@@ -1,6 +1,6 @@
-# User-space, Statically Defined Tracing (USDT) for Bitnet Core
+# User-space, Statically Defined Tracing (USDT) for Bitcoin Core
 
-Bitnet Core includes statically defined tracepoints to allow for more
+Bitcoin Core includes statically defined tracepoints to allow for more
 observability during development, debugging, code review, and production usage.
 These tracepoints make it possible to keep track of custom statistics and
 enable detailed monitoring of otherwise hidden internals. They have
@@ -11,7 +11,7 @@ eBPF and USDT Overview
 ======================
 
                 ┌──────────────────┐            ┌──────────────┐
-                │ tracing script   │            │ bitnetd     │
+                │ tracing script   │            │ bitcoind     │
                 │==================│      2.    │==============│
                 │  eBPF  │ tracing │      hooks │              │
                 │  code  │ logic   │      into┌─┤►tracepoint 1─┼───┐ 3.
@@ -76,7 +76,7 @@ the passed message.
 
 #### Tracepoint `net:outbound_message`
 
-Is called when a message is sent to a peer over the P2P network. Passes
+Is called when a message is send to a peer over the P2P network. Passes
 information about our peer, the connection and the message as arguments.
 
 Arguments passed:
@@ -112,11 +112,11 @@ Arguments passed:
 
 The following tracepoints cover the in-memory UTXO cache. UTXOs are, for example,
 added to and removed (spent) from the cache when we connect a new block.
-**Note**: Bitnet Core uses temporary clones of the _main_ UTXO cache
+**Note**: Bitcoin Core uses temporary clones of the _main_ UTXO cache
 (`chainstate.CoinsTip()`). For example, the RPCs `generateblock` and
 `getblocktemplate` call `TestBlockValidity()`, which applies the UTXO set
 changes to a temporary cache. Similarly, mempool consistency checks, which are
-frequent on regtest, also apply the UTXO set changes to a temporary cache.
+frequent on regtest, also apply the the UTXO set changes to a temporary cache.
 Changes to the _main_ UTXO cache and to temporary caches trigger the tracepoints.
 We can't tell if a temporary cache or the _main_ cache was changed.
 
@@ -211,7 +211,7 @@ Arguments passed:
 4. The expected transaction fee as an `int64`
 5. The position of the change output as an `int32`
 
-## Adding tracepoints to Bitnet Core
+## Adding tracepoints to Bitcoin Core
 
 To add a new tracepoint, `#include <util/trace.h>` in the compilation unit where
 the tracepoint is inserted. Use one of the `TRACEx` macros listed below
@@ -253,8 +253,8 @@ TRACE6(net, inbound_message,
 
 ### Guidelines and best practices
 
-#### Clear motivation and use case
-Tracepoints need a clear motivation and use case. The motivation should
+#### Clear motivation and use-case
+Tracepoints need a clear motivation and use-case. The motivation should
 outweigh the impact on, for example, code readability. There is no point in
 adding tracepoints that don't end up being used.
 
@@ -306,31 +306,31 @@ maximum expected string size if known.
 
 ## Listing available tracepoints
 
-Multiple tools can list the available tracepoints in a `bitnetd` binary with
+Multiple tools can list the available tracepoints in a `bitcoind` binary with
 USDT support.
 
 ### GDB - GNU Project Debugger
 
-To list probes in Bitnet Core, use `info probes` in `gdb`:
+To list probes in Bitcoin Core, use `info probes` in `gdb`:
 
 ```
-$ gdb ./src/bitnetd
+$ gdb ./src/bitcoind
 …
 (gdb) info probes
 Type Provider   Name             Where              Semaphore Object
-stap net        inbound_message  0x000000000014419e /src/bitnetd
-stap net        outbound_message 0x0000000000107c05 /src/bitnetd
-stap validation block_connected  0x00000000002fb10c /src/bitnetd
+stap net        inbound_message  0x000000000014419e /src/bitcoind
+stap net        outbound_message 0x0000000000107c05 /src/bitcoind
+stap validation block_connected  0x00000000002fb10c /src/bitcoind
 …
 ```
 
 ### With `readelf`
 
-The `readelf` tool can be used to display the USDT tracepoints in Bitnet Core.
+The `readelf` tool can be used to display the USDT tracepoints in Bitcoin Core.
 Look for the notes with the description `NT_STAPSDT`.
 
 ```
-$ readelf -n ./src/bitnetd | grep NT_STAPSDT -A 4 -B 2
+$ readelf -n ./src/bitcoind | grep NT_STAPSDT -A 4 -B 2
 Displaying notes found in: .note.stapsdt
   Owner                 Data size	Description
   stapsdt              0x0000005d	NT_STAPSDT (SystemTap probe descriptors)
@@ -354,7 +354,7 @@ between distributions. For example, on
 [ubuntu binary]: https://github.com/iovisor/bcc/blob/master/INSTALL.md#ubuntu---binary
 
 ```
-$ tplist -l ./src/bitnetd -v
+$ tplist -l ./src/bitcoind -v
 b'net':b'outbound_message' [sema 0x0]
   1 location(s)
   6 argument(s)

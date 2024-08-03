@@ -1,11 +1,11 @@
-// Copyright (c) 2011-2021 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/qvaluecombobox.h>
 
-QValueComboBox::QValueComboBox(QWidget* parent)
-    : QComboBox(parent)
+QValueComboBox::QValueComboBox(QWidget *parent) :
+        QComboBox(parent), role(Qt::UserRole)
 {
     connect(this, qOverload<int>(&QComboBox::currentIndexChanged), this, &QValueComboBox::handleSelectionChanged);
 }

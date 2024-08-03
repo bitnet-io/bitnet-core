@@ -1,14 +1,14 @@
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitnet-config.h>
+#include <config/bitcoin-config.h>
 #endif
 
 #include <interfaces/init.h>
 #include <interfaces/node.h>
-#include <qt/bitnet.h>
+#include <qt/bitcoin.h>
 #include <qt/test/apptests.h>
 #include <qt/test/optiontests.h>
 #include <qt/test/rpcnestedtests.h>
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
     //
     // All tests must use their own testing setup (if needed).
     fs::create_directories([] {
-        BasicTestingSetup dummy{CBaseChainParams::REGTEST};
+        BasicTestingSetup dummy{CBaseChainParams::UNITTEST};
         return gArgs.GetDataDirNet() / "blocks";
     }());
 
@@ -79,8 +79,10 @@ int main(int argc, char* argv[])
         setenv("QT_QPA_PLATFORM", "minimal", 0 /* overwrite */);
     #endif
 
-    BitnetApplication app;
-    app.setApplicationName("Bitnet-Qt-test");
+    // Don't remove this, it's needed to access
+    // QApplication:: and QCoreApplication:: in the tests
+    BitcoinApplication app;
+    app.setApplicationName("Qtum-Qt-test");
     app.createNode(*init);
 
     int num_test_failures{0};

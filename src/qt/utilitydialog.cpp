@@ -1,9 +1,9 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitnet-config.h>
+#include <config/bitcoin-config.h>
 #endif
 
 #include <qt/utilitydialog.h>
@@ -17,7 +17,7 @@
 #include <util/system.h>
 #include <util/strencodings.h>
 
-#include <cstdio>
+#include <stdio.h>
 
 #include <QCloseEvent>
 #include <QLabel>
@@ -58,7 +58,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
         ui->helpMessage->setVisible(false);
     } else {
         setWindowTitle(tr("Command-line options"));
-        QString header = "Usage:  bitnet-qt [command-line options]                     \n";
+        QString header = "Usage:  bitnet-qt [command-line options]                     \n"; 
         QTextCursor cursor(ui->helpMessage->document());
         cursor.insertText(version);
         cursor.insertBlock();
@@ -145,16 +145,17 @@ ShutdownWindow::ShutdownWindow(QWidget *parent, Qt::WindowFlags f):
         tr("%1 is shutting down…").arg(PACKAGE_NAME) + "<br /><br />" +
         tr("Do not shut down the computer until this window disappears.")));
     setLayout(layout);
+
     GUIUtil::handleCloseWindowShortcut(this);
 }
 
-
 QWidget* ShutdownWindow::showShutdownWindow(QMainWindow* window)
- {
+{
     assert(window != nullptr);
 
     // Show a simple window indicating shutdown status
     QWidget *shutdownWindow = new ShutdownWindow();
+    shutdownWindow->setObjectName("shutdownWindow");
     shutdownWindow->setWindowTitle(window->windowTitle());
 
     // Center shutdown window at where main window was

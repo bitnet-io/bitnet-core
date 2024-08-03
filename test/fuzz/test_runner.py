@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2021 The Bitnet Core developers
+# Copyright (c) 2019-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Run fuzz test targets.
@@ -131,7 +131,7 @@ def main():
                     " ".join(test_list_missing_corpus)
                 )
             )
-            logging.info("Please consider adding a fuzz corpus at https://github.com/bitnet-core/qa-assets")
+            logging.info("Please consider adding a fuzz corpus at https://github.com/bitcoin-core/qa-assets")
 
     try:
         help_output = subprocess.run(
@@ -143,7 +143,7 @@ def main():
             timeout=20,
             check=True,
             stderr=subprocess.PIPE,
-            text=True,
+            universal_newlines=True,
         ).stderr
         if "libFuzzer" not in help_output:
             logging.error("Must be built with libFuzzer")
@@ -200,7 +200,7 @@ def generate_corpus(*, fuzz_pool, src_dir, build_dir, corpus_dir, targets):
                 env=get_fuzz_env(target=t, source_dir=src_dir),
                 check=True,
                 stderr=subprocess.PIPE,
-                text=True,
+                universal_newlines=True,
             ).stderr))
 
     futures = []
@@ -241,7 +241,7 @@ def merge_inputs(*, fuzz_pool, corpus, test_list, src_dir, build_dir, merge_dir)
                 env=get_fuzz_env(target=t, source_dir=src_dir),
                 check=True,
                 stderr=subprocess.PIPE,
-                text=True,
+                universal_newlines=True,
             ).stderr
             logging.debug(output)
 
@@ -270,7 +270,7 @@ def run_once(*, fuzz_pool, corpus, test_list, src_dir, build_dir, use_valgrind):
                 args,
                 env=get_fuzz_env(target=t, source_dir=src_dir),
                 stderr=subprocess.PIPE,
-                text=True,
+                universal_newlines=True,
             )
             output += result.stderr
             return output, result
@@ -299,7 +299,7 @@ def parse_test_list(*, fuzz_bin):
         },
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
-        text=True,
+        universal_newlines=True,
     ).stdout.splitlines()
     return test_list_all
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,6 +13,7 @@
 class ClientModel;
 class TransactionFilterProxy;
 class TxViewDelegate;
+class TknViewDelegate;
 class PlatformStyle;
 class WalletModel;
 
@@ -40,18 +41,22 @@ public:
 public Q_SLOTS:
     void setBalance(const interfaces::WalletBalances& balances);
     void setPrivacy(bool privacy);
+    void checkForInvalidTokens();
 
 Q_SIGNALS:
+    void showMoreClicked();
     void transactionClicked(const QModelIndex &index);
     void outOfSyncWarningClicked();
+    void sendCoinsClicked(QString addr = "");
+    void receiveCoinsClicked();
 
 protected:
     void changeEvent(QEvent* e) override;
 
 private:
     Ui::OverviewPage *ui;
-    ClientModel* clientModel{nullptr};
-    WalletModel* walletModel{nullptr};
+    ClientModel *clientModel;
+    WalletModel *walletModel;
     bool m_privacy{false};
 
     const PlatformStyle* m_platform_style;
@@ -62,10 +67,13 @@ private:
 private Q_SLOTS:
     void LimitTransactionRows();
     void updateDisplayUnit();
-    void handleTransactionClicked(const QModelIndex &index);
     void updateAlerts(const QString &warnings);
     void updateWatchOnlyLabels(bool showWatchOnly);
     void setMonospacedFont(bool use_embedded_font);
+    void on_showMoreButton_clicked();
+    void on_buttonSend_clicked();
+    void on_buttonReceive_clicked();
+    void showDetails();
 };
 
 #endif // BITCOIN_QT_OVERVIEWPAGE_H

@@ -21,6 +21,7 @@
              (gnu packages llvm)
              (gnu packages mingw)
              (gnu packages moreutils)
+             (gnu packages perl)
              (gnu packages pkg-config)
              (gnu packages python)
              (gnu packages python-crypto)
@@ -143,14 +144,14 @@ chain for " target " development."))
     "--enable-default-ssp" "yes")
     "--enable-default-pie" "yes"))
 
-(define* (make-bitnet-cross-toolchain target
+(define* (make-bitcoin-cross-toolchain target
                                        #:key
                                        (base-gcc-for-libc base-gcc)
                                        (base-kernel-headers base-linux-kernel-headers)
-                                       (base-libc (hardened-glibc (make-glibc-without-werror glibc-2.27)))
+                                       (base-libc (make-glibc-with-bind-now (make-glibc-without-werror glibc-2.24)))
                                        (base-gcc (make-gcc-rpath-link (hardened-gcc base-gcc))))
   "Convenience wrapper around MAKE-CROSS-TOOLCHAIN with default values
-desirable for building Bitnet Core release binaries."
+desirable for building Bitcoin Core release binaries."
   (make-cross-toolchain target
                         base-gcc-for-libc
                         base-kernel-headers
@@ -537,14 +538,33 @@ inspecting signatures in Mach-O binaries.")
 (define (make-glibc-without-werror glibc)
   (package-with-extra-configure-variable glibc "enable_werror" "no"))
 
-;; https://www.gnu.org/software/libc/manual/html_node/Configuring-and-compiling.html
-(define (hardened-glibc glibc)
-  (package-with-extra-configure-variable (
-    package-with-extra-configure-variable glibc
-    "--enable-stack-protector" "all")
-    "--enable-bind-now" "yes"))
+(define (make-glibc-with-stack-protector glibc)
+  (package-with-extra-configure-variable glibc "--enable-stack-protector" "all"))
 
-(define-public glibc-2.27
+(define (make-glibc-with-bind-now glibc)
+  (package-with-extra-configure-variable glibc "--enable-bind-now" "yes"))
+
+(define-public glibc-2.24
+  (package
+    (inherit glibc-2.31)
+    (version "2.24")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://sourceware.org/git/glibc.git")
+                    (commit "0d7f1ed30969886c8dde62fbf7d2c79967d4bace")))
+              (file-name (git-file-name "glibc" "0d7f1ed30969886c8dde62fbf7d2c79967d4bace"))
+              (sha256
+               (base32
+                "0g5hryia5v1k0qx97qffgwzrz4lr4jw3s5kj04yllhswsxyjbic3"))
+              (patches (search-our-patches "glibc-ldd-x86_64.patch"
+                                           "glibc-versioned-locpath.patch"
+                                           "glibc-2.24-elfm-loadaddr-dynamic-rewrite.patch"
+                                           "glibc-2.24-no-build-time-cxx-header-run.patch"
+                                           "glibc-2.24-fcommon.patch"
+                                           "glibc-2.24-guix-prefix.patch"))))))
+
+(define-public glibc-2.27/bitcoin-patched
   (package
     (inherit glibc-2.31)
     (version "2.27")
@@ -552,23 +572,22 @@ inspecting signatures in Mach-O binaries.")
               (method git-fetch)
               (uri (git-reference
                     (url "https://sourceware.org/git/glibc.git")
-                    (commit "73886db6218e613bd6d4edf529f11e008a6c2fa6")))
-              (file-name (git-file-name "glibc" "73886db6218e613bd6d4edf529f11e008a6c2fa6"))
+                    (commit "23158b08a0908f381459f273a984c6fd328363cb")))
+              (file-name (git-file-name "glibc" "23158b08a0908f381459f273a984c6fd328363cb"))
               (sha256
                (base32
-                "0azpb9cvnbv25zg8019rqz48h8i2257ngyjg566dlnp74ivrs9vq"))
+                "1b2n1gxv9f4fd5yy68qjbnarhf8mf4vmlxk10i3328c1w5pmp0ca"))
               (patches (search-our-patches "glibc-ldd-x86_64.patch"
-                                           "glibc-versioned-locpath.patch"
                                            "glibc-2.27-riscv64-Use-__has_include-to-include-asm-syscalls.h.patch"
-                                           "glibc-2.27-fcommon.patch"
+                                           "glibc-2.27-dont-redefine-nss-database.patch"
                                            "glibc-2.27-guix-prefix.patch"))))))
 
 (packages->manifest
  (append
   (list ;; The Basics
-        bash-minimal
+        bash
         which
-        coreutils-minimal
+        coreutils
         util-linux
         ;; File(system) inspection
         file
@@ -596,6 +615,7 @@ inspecting signatures in Mach-O binaries.")
         gcc-toolchain-10
         (list gcc-toolchain-10 "static")
         ;; Scripting
+        perl
         python-3
         ;; Git
         git-minimal
@@ -609,7 +629,12 @@ inspecting signatures in Mach-O binaries.")
                  (make-nsis-for-gcc-10 nsis-x86_64)
                  osslsigncode))
           ((string-contains target "-linux-")
-           (list (make-bitnet-cross-toolchain target)))
+           (list (cond ((string-contains target "riscv64-")
+                        (make-bitcoin-cross-toolchain target
+                                                      #:base-libc (make-glibc-with-stack-protector
+                                                        (make-glibc-with-bind-now (make-glibc-without-werror glibc-2.27/bitcoin-patched)))))
+                       (else
+                        (make-bitcoin-cross-toolchain target)))))
           ((string-contains target "darwin")
-           (list clang-toolchain-10 binutils cmake-minimal xorriso python-signapple))
+           (list clang-toolchain-10 binutils cmake xorriso python-signapple))
           (else '())))))

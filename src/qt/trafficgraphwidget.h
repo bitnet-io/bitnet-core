@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -37,14 +37,14 @@ public Q_SLOTS:
 private:
     void paintPath(QPainterPath &path, QQueue<float> &samples);
 
-    QTimer* timer{nullptr};
-    float fMax{0.0f};
+    QTimer *timer;
+    float fMax;
     std::chrono::minutes m_range{0};
     QQueue<float> vSamplesIn;
     QQueue<float> vSamplesOut;
-    quint64 nLastBytesIn{0};
-    quint64 nLastBytesOut{0};
-    ClientModel* clientModel{nullptr};
+    quint64 nLastBytesIn;
+    quint64 nLastBytesOut;
+    ClientModel *clientModel;
 };
 
 #endif // BITCOIN_QT_TRAFFICGRAPHWIDGET_H

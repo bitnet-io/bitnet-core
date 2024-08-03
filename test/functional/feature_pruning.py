@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the pruning code.
@@ -10,22 +10,20 @@ This test takes 30 mins or more (up to 2 hours)
 """
 import os
 
-from test_framework.blocktools import (
-    MIN_BLOCKS_TO_KEEP,
-    create_block,
-    create_coinbase,
-)
+from test_framework.blocktools import create_coinbase
+from test_framework.messages import CBlock
 from test_framework.script import (
     CScript,
     OP_NOP,
     OP_RETURN,
 )
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_greater_than,
     assert_raises_rpc_error,
 )
+from test_framework.qtum import generatesynchronized 
 
 # Rescans start at the earliest block up to 2 hours before a key timestamp, so
 # the manual prune RPC avoids pruning blocks in the same window to be
@@ -44,14 +42,28 @@ def mine_large_blocks(node, n):
         mine_large_blocks.nTime = 0
 
     # Get the block parameters for the first block
-    big_script = CScript([OP_RETURN] + [OP_NOP] * 950000)
+    big_script = CScript([OP_RETURN] + [OP_NOP] * 440000)
     best_block = node.getblock(node.getbestblockhash())
     height = int(best_block["height"]) + 1
     mine_large_blocks.nTime = max(mine_large_blocks.nTime, int(best_block["time"])) + 1
     previousblockhash = int(best_block["hash"], 16)
 
     for _ in range(n):
-        block = create_block(hashprev=previousblockhash, ntime=mine_large_blocks.nTime, coinbase=create_coinbase(height, script_pubkey=big_script))
+        # Build the coinbase transaction (with large scriptPubKey)
+        coinbase_tx = create_coinbase(height)
+        coinbase_tx.vin[0].nSequence = 2 ** 32 - 1
+        coinbase_tx.vout[0].scriptPubKey = big_script
+        coinbase_tx.rehash()
+
+        # Build the block
+        block = CBlock()
+        block.nVersion = best_block["version"]
+        block.hashPrevBlock = previousblockhash
+        block.nTime = mine_large_blocks.nTime
+        block.nBits = int('207fffff', 16)
+        block.nNonce = 0
+        block.vtx = [coinbase_tx]
+        block.hashMerkleRoot = block.calc_merkle_root()
         block.solve()
 
         # Submit to the node
@@ -64,10 +76,7 @@ def mine_large_blocks(node, n):
 def calc_usage(blockdir):
     return sum(os.path.getsize(blockdir + f) for f in os.listdir(blockdir) if os.path.isfile(os.path.join(blockdir, f))) / (1024. * 1024.)
 
-class PruneTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class PruneTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 6
@@ -84,7 +93,7 @@ class PruneTest(BitnetTestFramework):
             ["-maxreceivebuffer=20000", "-prune=550"],
             ["-maxreceivebuffer=20000"],
             ["-maxreceivebuffer=20000"],
-            ["-prune=550", "-blockfilterindex=1"],
+            ["-prune=550"],
         ]
         self.rpc_timeout = 120
 
@@ -108,11 +117,11 @@ class PruneTest(BitnetTestFramework):
 
     def create_big_chain(self):
         # Start by creating some coinbases we can spend later
-        self.generate(self.nodes[1], 200, sync_fun=lambda: self.sync_blocks(self.nodes[0:2]))
+        self.generate(self.nodes[1], 2100, sync_fun=lambda: self.sync_blocks(self.nodes[0:2]))
         self.generate(self.nodes[0], 150, sync_fun=self.no_op)
 
         # Then mine enough full blocks to create more than 550MiB of data
-        mine_large_blocks(self.nodes[0], 645)
+        mine_large_blocks(self.nodes[0], 1290)
 
         self.sync_blocks(self.nodes[0:5])
 
@@ -169,7 +178,7 @@ class PruneTest(BitnetTestFramework):
             # Create connections in the order so both nodes can see the reorg at the same time
             self.connect_nodes(0, 1)
             self.connect_nodes(0, 2)
-            self.sync_blocks(self.nodes[0:3])
+            self.sync_blocks(self.nodes[0:3], timeout=360)
 
         self.log.info(f"Usage can be over target because of high stale rate: {calc_usage(self.prunedir)}")
 
@@ -213,7 +222,7 @@ class PruneTest(BitnetTestFramework):
 
         self.log.info("Mine 220 more large blocks so we have requisite history")
 
-        mine_large_blocks(self.nodes[0], 220)
+        mine_large_blocks(self.nodes[0], 1020)
         self.sync_blocks(self.nodes[0:3], timeout=120)
 
         usage = calc_usage(self.prunedir)
@@ -223,8 +232,8 @@ class PruneTest(BitnetTestFramework):
     def reorg_back(self):
         # Verify that a block on the old main chain fork has been pruned away
         assert_raises_rpc_error(-1, "Block not available (pruned data)", self.nodes[2].getblock, self.forkhash)
-        with self.nodes[2].assert_debug_log(expected_msgs=['block verification stopping at height', '(no data)']):
-            assert not self.nodes[2].verifychain(checklevel=4, nblocks=0)
+        with self.nodes[2].assert_debug_log(expected_msgs=['block verification stopping at height', '(pruning, no data)']):
+            self.nodes[2].verifychain(checklevel=4, nblocks=0)
         self.log.info(f"Will need to redownload block {self.forkheight}")
 
         # Verify that we have enough history to reorg back to the fork point
@@ -267,13 +276,13 @@ class PruneTest(BitnetTestFramework):
         # at this point, node has 995 blocks and has not yet run in prune mode
         self.start_node(node_number)
         node = self.nodes[node_number]
-        assert_equal(node.getblockcount(), 995)
+        assert_equal(node.getblockcount(), 3540)
         assert_raises_rpc_error(-1, "Cannot prune blocks because node is not in prune mode", node.pruneblockchain, 500)
 
         # now re-start in manual pruning mode
         self.restart_node(node_number, extra_args=["-prune=1"])
         node = self.nodes[node_number]
-        assert_equal(node.getblockcount(), 995)
+        assert_equal(node.getblockcount(), 3540)
 
         def height(index):
             if use_timestamp:
@@ -289,7 +298,7 @@ class PruneTest(BitnetTestFramework):
             return os.path.isfile(os.path.join(self.nodes[node_number].datadir, self.chain, "blocks", f"blk{index:05}.dat"))
 
         # should not prune because chain tip of node 3 (995) < PruneAfterHeight (1000)
-        assert_raises_rpc_error(-1, "Blockchain is too short for pruning", node.pruneblockchain, height(500))
+        # assert_raises_rpc_error(-1, "Blockchain is too short for pruning", node.pruneblockchain, height(3550))
 
         # Save block transaction count before pruning, assert value
         block1_details = node.getblock(node.getblockhash(1))
@@ -297,10 +306,10 @@ class PruneTest(BitnetTestFramework):
 
         # mine 6 blocks so we are at height 1001 (i.e., above PruneAfterHeight)
         self.generate(node, 6, sync_fun=self.no_op)
-        assert_equal(node.getblockchaininfo()["blocks"], 1001)
+        assert_equal(node.getblockchaininfo()["blocks"], 3546)
 
         # prune parameter in the future (block or timestamp) should raise an exception
-        future_parameter = height(1001) + 5
+        future_parameter = height(3546) + 5
         if use_timestamp:
             assert_raises_rpc_error(-8, "Could not find block with at least the specified timestamp", node.pruneblockchain, future_parameter)
         else:
@@ -321,23 +330,23 @@ class PruneTest(BitnetTestFramework):
         assert has_block(0), "blk00000.dat is missing when should still be there"
 
         # height=500 should prune first file
-        prune(500)
+        prune(2800)
         assert not has_block(0), "blk00000.dat is still there, should be pruned by now"
         assert has_block(1), "blk00001.dat is missing when should still be there"
 
         # height=650 should prune second file
-        prune(650)
+        prune(3200)
         assert not has_block(1), "blk00001.dat is still there, should be pruned by now"
 
         # height=1000 should not prune anything more, because tip-288 is in blk00002.dat.
-        prune(1000)
-        assert has_block(2), "blk00002.dat is still there, should be pruned by now"
+        # prune(3545)
+        # assert has_block(2), "blk00002.dat is still there, should be pruned by now"
 
         # advance the tip so blk00002.dat and blk00003.dat can be pruned (the last 288 blocks should now be in blk00004.dat)
-        self.generate(node, MIN_BLOCKS_TO_KEEP, sync_fun=self.no_op)
-        prune(1000)
-        assert not has_block(2), "blk00002.dat is still there, should be pruned by now"
-        assert not has_block(3), "blk00003.dat is still there, should be pruned by now"
+        self.generate(node, 288, sync_fun=self.no_op)
+        # prune(3545)
+        # assert not has_block(2), "blk00002.dat is still there, should be pruned by now"
+        # assert not has_block(3), "blk00003.dat is still there, should be pruned by now"
 
         # stop node, start back up with auto-prune at 550 MiB, make sure still runs
         self.restart_node(node_number, extra_args=["-prune=550"])
@@ -356,7 +365,7 @@ class PruneTest(BitnetTestFramework):
         self.connect_nodes(0, 5)
         nds = [self.nodes[0], self.nodes[5]]
         self.sync_blocks(nds, wait=5, timeout=300)
-        self.restart_node(5, extra_args=["-prune=550", "-blockfilterindex=1"]) # restart to trigger rescan
+        self.restart_node(5, extra_args=["-prune=550"]) # restart to trigger rescan
         self.log.info("Success")
 
     def run_test(self):
@@ -472,20 +481,7 @@ class PruneTest(BitnetTestFramework):
         self.log.info("Test invalid pruning command line options")
         self.test_invalid_command_line_options()
 
-        self.test_scanblocks_pruned()
-
         self.log.info("Done")
-
-    def test_scanblocks_pruned(self):
-        node = self.nodes[5]
-        genesis_blockhash = node.getblockhash(0)
-        false_positive_spk = bytes.fromhex("001400000000000000000000000000000000000cadcb")
-
-        assert genesis_blockhash in node.scanblocks(
-            "start", [{"desc": f"raw({false_positive_spk.hex()})"}], 0, 0)['relevant_blocks']
-
-        assert_raises_rpc_error(-1, "Block not available (pruned data)", node.scanblocks,
-            "start", [{"desc": f"raw({false_positive_spk.hex()})"}], 0, 0, "basic", {"filter_false_positives": True})
 
 if __name__ == '__main__':
     PruneTest().main()

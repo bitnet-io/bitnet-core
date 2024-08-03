@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2022 The Bitnet Core developers
+// Copyright (c) 2015-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -41,16 +41,6 @@ using ankerl::nanobench::Bench;
 
 typedef std::function<void(Bench&)> BenchFunction;
 
-enum PriorityLevel : uint8_t
-{
-    LOW = 1 << 0,
-    HIGH = 1 << 2,
-};
-
-// List priority labels, comma-separated and sorted by increasing priority
-std::string ListPriorities();
-uint8_t StringToPriority(const std::string& str);
-
 struct Args {
     bool is_list_only;
     bool sanity_check;
@@ -59,24 +49,22 @@ struct Args {
     fs::path output_csv;
     fs::path output_json;
     std::string regex_filter;
-    uint8_t priority;
 };
 
 class BenchRunner
 {
-    // maps from "name" -> (function, priority_level)
-    typedef std::map<std::string, std::pair<BenchFunction, PriorityLevel>> BenchmarkMap;
+    typedef std::map<std::string, BenchFunction> BenchmarkMap;
     static BenchmarkMap& benchmarks();
 
 public:
-    BenchRunner(std::string name, BenchFunction func, PriorityLevel level);
+    BenchRunner(std::string name, BenchFunction func);
 
     static void RunAll(const Args& args);
 };
 } // namespace benchmark
 
-// BENCHMARK(foo) expands to:  benchmark::BenchRunner bench_11foo("foo", foo, priority_level);
-#define BENCHMARK(n, priority_level) \
-    benchmark::BenchRunner PASTE2(bench_, PASTE2(__LINE__, n))(STRINGIZE(n), n, priority_level);
+// BENCHMARK(foo) expands to:  benchmark::BenchRunner bench_11foo("foo", foo);
+#define BENCHMARK(n) \
+    benchmark::BenchRunner PASTE2(bench_, PASTE2(__LINE__, n))(STRINGIZE(n), n);
 
 #endif // BITCOIN_BENCH_BENCH_H

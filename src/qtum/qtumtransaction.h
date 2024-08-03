@@ -1,5 +1,5 @@
-#ifndef QTUMTRANSACTION_H
-#define QTUMTRANSACTION_H
+#ifndef BITTRANSACTION_H
+#define BITTRANSACTION_H
 
 #include <libethereum/Transaction.h>
 

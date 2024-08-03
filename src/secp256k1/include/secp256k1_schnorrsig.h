@@ -9,8 +9,8 @@ extern "C" {
 #endif
 
 /** This module implements a variant of Schnorr signatures compliant with
- *  Bitnet Improvement Proposal 340 "Schnorr Signatures for secp256k1"
- *  (https://github.com/bitnet/bips/blob/master/bip-0340.mediawiki).
+ *  Bitcoin Improvement Proposal 340 "Schnorr Signatures for secp256k1"
+ *  (https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki).
  */
 
 /** A pointer to a function to deterministically generate a nonce.
@@ -49,9 +49,9 @@ typedef int (*secp256k1_nonce_function_hardened)(
     void *data
 );
 
-/** An implementation of the nonce generation function as defined in Bitnet
+/** An implementation of the nonce generation function as defined in Bitcoin
  *  Improvement Proposal 340 "Schnorr Signatures for secp256k1"
- *  (https://github.com/bitnet/bips/blob/master/bip-0340.mediawiki).
+ *  (https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki).
  *
  *  If a data pointer is passed, it is assumed to be a pointer to 32 bytes of
  *  auxiliary random data as defined in BIP-340. If the data pointer is NULL,
@@ -106,7 +106,7 @@ typedef struct {
  *  signatures from being valid in multiple contexts by accident.
  *
  *  Returns 1 on success, 0 on failure.
- *  Args:    ctx: pointer to a context object (not secp256k1_context_static).
+ *  Args:    ctx: pointer to a context object, initialized for signing.
  *  Out:   sig64: pointer to a 64-byte array to store the serialized signature.
  *  In:    msg32: the 32-byte message being signed.
  *       keypair: pointer to an initialized keypair.
@@ -161,7 +161,7 @@ SECP256K1_API int secp256k1_schnorrsig_sign_custom(
  *
  *  Returns: 1: correct signature
  *           0: incorrect signature
- *  Args:    ctx: a secp256k1 context object.
+ *  Args:    ctx: a secp256k1 context object, initialized for verification.
  *  In:    sig64: pointer to the 64-byte signature to verify.
  *           msg: the message being verified. Can only be NULL if msglen is 0.
  *        msglen: length of the message

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-# Copyright (c) 2022 The Bitnet Core developers
+# Copyright (c) 2022 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the sendall RPC command."""
 
 from decimal import Decimal, getcontext
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_greater_than,
@@ -24,11 +24,8 @@ def cleanup(func):
             assert_equal(0, self.wallet.getbalances()["mine"]["trusted"]) # wallet is empty
     return wrapper
 
-class SendallTest(BitnetTestFramework):
+class SendallTest(BitcoinTestFramework):
     # Setup and helpers
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()
 
@@ -173,29 +170,29 @@ class SendallTest(BitnetTestFramework):
         self.nodes[0].createwallet("dustwallet")
         dust_wallet = self.nodes[0].get_wallet_rpc("dustwallet")
 
-        self.def_wallet.sendtoaddress(dust_wallet.getnewaddress(), 0.00000400)
-        self.def_wallet.sendtoaddress(dust_wallet.getnewaddress(), 0.00000300)
+        self.def_wallet.sendtoaddress(dust_wallet.getnewaddress(), 0.001200)
+        self.def_wallet.sendtoaddress(dust_wallet.getnewaddress(), 0.000800)
         self.generate(self.nodes[0], 1)
         assert_greater_than(dust_wallet.getbalances()["mine"]["trusted"], 0)
 
         assert_raises_rpc_error(-6, "Total value of UTXO pool too low to pay for transaction."
                 + " Try using lower feerate or excluding uneconomic UTXOs with 'send_max' option.",
-                dust_wallet.sendall, recipients=[self.remainder_target], fee_rate=300)
+                dust_wallet.sendall, recipients=[self.remainder_target], fee_rate=1000)
 
         dust_wallet.unloadwallet()
 
     @cleanup
     def sendall_with_send_max(self):
         self.log.info("Check that `send_max` option causes negative value UTXOs to be left behind")
-        self.add_utxos([0.00000400, 0.00000300, 1])
+        self.add_utxos([0.001200, 0.000800, 1])
 
         # sendall with send_max
-        sendall_tx_receipt = self.wallet.sendall(recipients=[self.remainder_target], fee_rate=300, options={"send_max": True})
+        sendall_tx_receipt = self.wallet.sendall(recipients=[self.remainder_target], fee_rate=1000, options={"send_max": True})
         tx_from_wallet = self.wallet.gettransaction(txid = sendall_tx_receipt["txid"], verbose = True)
 
         assert_equal(len(tx_from_wallet["decoded"]["vin"]), 1)
         self.assert_tx_has_outputs(tx_from_wallet, [{"address": self.remainder_target, "value": 1 + tx_from_wallet["fee"]}])
-        assert_equal(self.wallet.getbalances()["mine"]["trusted"], Decimal("0.00000700"))
+        assert_equal(self.wallet.getbalances()["mine"]["trusted"], Decimal("0.00200000"))
 
         self.def_wallet.sendtoaddress(self.wallet.getnewaddress(), 1)
         self.generate(self.nodes[0], 1)
@@ -282,13 +279,7 @@ class SendallTest(BitnetTestFramework):
                 "Fee exceeds maximum configured by user",
                 self.wallet.sendall,
                 recipients=[self.remainder_target],
-                fee_rate=100000)
-
-    @cleanup
-    def sendall_fails_on_low_fee(self):
-        self.log.info("Test sendall fails if the transaction fee is lower than the minimum fee rate setting")
-        assert_raises_rpc_error(-8, "Fee rate (0.999 sat/vB) is lower than the minimum fee rate setting (1.000 sat/vB)",
-        self.wallet.sendall, recipients=[self.recipient], fee_rate=0.999)
+                fee_rate=1000000)
 
     @cleanup
     def sendall_watchonly_specific_inputs(self):
@@ -317,77 +308,11 @@ class SendallTest(BitnetTestFramework):
         assert_equal(decoded["tx"]["vin"][0]["vout"], utxo["vout"])
         assert_equal(decoded["tx"]["vout"][0]["scriptPubKey"]["address"], self.remainder_target)
 
-    @cleanup
-    def sendall_with_minconf(self):
-        # utxo of 17 bicoin has 6 confirmations, utxo of 4 has 3
-        self.add_utxos([17])
-        self.generate(self.nodes[0], 2)
-        self.add_utxos([4])
-        self.generate(self.nodes[0], 2)
-
-        self.log.info("Test sendall fails because minconf is negative")
-
-        assert_raises_rpc_error(-8,
-            "Invalid minconf (minconf cannot be negative): -2",
-            self.wallet.sendall,
-            recipients=[self.remainder_target],
-            options={"minconf": -2})
-        self.log.info("Test sendall fails because minconf is used while specific inputs are provided")
-
-        utxo = self.wallet.listunspent()[0]
-        assert_raises_rpc_error(-8,
-            "Cannot combine minconf or maxconf with specific inputs.",
-            self.wallet.sendall,
-            recipients=[self.remainder_target],
-            options={"inputs": [utxo], "minconf": 2})
-
-        self.log.info("Test sendall fails because there are no utxos with enough confirmations specified by minconf")
-
-        assert_raises_rpc_error(-6,
-            "Total value of UTXO pool too low to pay for transaction. Try using lower feerate or excluding uneconomic UTXOs with 'send_max' option.",
-            self.wallet.sendall,
-            recipients=[self.remainder_target],
-            options={"minconf": 7})
-
-        self.log.info("Test sendall only spends utxos with a specified number of confirmations when minconf is used")
-        self.wallet.sendall(recipients=[self.remainder_target], fee_rate=300, options={"minconf": 6})
-
-        assert_equal(len(self.wallet.listunspent()), 1)
-        assert_equal(self.wallet.listunspent()[0]['confirmations'], 3)
-
-        # decrease minconf and show the remaining utxo is picked up
-        self.wallet.sendall(recipients=[self.remainder_target], fee_rate=300, options={"minconf": 3})
-        assert_equal(self.wallet.getbalance(), 0)
-
-    @cleanup
-    def sendall_with_maxconf(self):
-        # utxo of 17 bicoin has 6 confirmations, utxo of 4 has 3
-        self.add_utxos([17])
-        self.generate(self.nodes[0], 2)
-        self.add_utxos([4])
-        self.generate(self.nodes[0], 2)
-
-        self.log.info("Test sendall fails because there are no utxos with enough confirmations specified by maxconf")
-        assert_raises_rpc_error(-6,
-            "Total value of UTXO pool too low to pay for transaction. Try using lower feerate or excluding uneconomic UTXOs with 'send_max' option.",
-            self.wallet.sendall,
-            recipients=[self.remainder_target],
-            options={"maxconf": 1})
-
-        self.log.info("Test sendall only spends utxos with a specified number of confirmations when maxconf is used")
-        self.wallet.sendall(recipients=[self.remainder_target], fee_rate=300, options={"maxconf":4})
-        assert_equal(len(self.wallet.listunspent()), 1)
-        assert_equal(self.wallet.listunspent()[0]['confirmations'], 6)
-
     # This tests needs to be the last one otherwise @cleanup will fail with "Transaction too large" error
     def sendall_fails_with_transaction_too_large(self):
         self.log.info("Test that sendall fails if resulting transaction is too large")
-
-        # Force the wallet to bulk-generate the addresses we'll need
-        self.wallet.keypoolrefill(1600)
-
         # create many inputs
-        outputs = {self.wallet.getnewaddress(): 0.000025 for _ in range(1600)}
+        outputs = {self.wallet.getnewaddress(): 0.025 for _ in range(800)}
         self.def_wallet.sendmany(amounts=outputs)
         self.generate(self.nodes[0], 1)
 
@@ -401,7 +326,7 @@ class SendallTest(BitnetTestFramework):
         self.nodes[0].createwallet("activewallet")
         self.wallet = self.nodes[0].get_wallet_rpc("activewallet")
         self.def_wallet = self.nodes[0].get_wallet_rpc(self.default_wallet_name)
-        self.generate(self.nodes[0], 101)
+        self.generate(self.nodes[0], 2001)
         self.recipient = self.def_wallet.getnewaddress() # payee for a specific amount
         self.remainder_target = self.def_wallet.getnewaddress() # address that receives everything left after payments and fees
         self.split_target = self.def_wallet.getnewaddress() # 2nd target when splitting rest
@@ -448,17 +373,8 @@ class SendallTest(BitnetTestFramework):
         # Sendall fails when providing a fee that is too high
         self.sendall_fails_on_high_fee()
 
-        # Sendall fails when fee rate is lower than minimum
-        self.sendall_fails_on_low_fee()
-
         # Sendall succeeds with watchonly wallets spending specific UTXOs
         self.sendall_watchonly_specific_inputs()
-
-        # Sendall only uses outputs with at least a give number of confirmations when using minconf
-        self.sendall_with_minconf()
-
-        # Sendall only uses outputs with less than a given number of confirmation when using minconf
-        self.sendall_with_maxconf()
 
         # Sendall fails when many inputs result to too large transaction
         self.sendall_fails_with_transaction_too_large()

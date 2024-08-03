@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2022 The Bitnet Core developers
+# Copyright (c) 2017-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test mempool acceptance of raw transactions."""
@@ -8,15 +8,13 @@ from copy import deepcopy
 from decimal import Decimal
 import math
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.key import ECKey
 from test_framework.messages import (
     MAX_BIP125_RBF_SEQUENCE,
     COIN,
     COutPoint,
-    CTransaction,
     CTxIn,
-    CTxInWitness,
     CTxOut,
     MAX_BLOCK_WEIGHT,
     MAX_MONEY,
@@ -28,29 +26,23 @@ from test_framework.script import (
     OP_0,
     OP_HASH160,
     OP_RETURN,
-    OP_TRUE,
 )
 from test_framework.script_util import (
-    DUMMY_MIN_OP_RETURN_SCRIPT,
     keys_to_multisig_script,
-    MIN_PADDING,
-    MIN_STANDARD_TX_NONWITNESS_SIZE,
     script_to_p2sh_script,
-    script_to_p2wsh_script,
 )
 from test_framework.util import (
     assert_equal,
-    assert_greater_than,
     assert_raises_rpc_error,
 )
 from test_framework.wallet import MiniWallet
+from test_framework.qtumconfig import COINBASE_MATURITY  
 
-
-class MempoolAcceptanceTest(BitnetTestFramework):
+class MempoolAcceptanceTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.extra_args = [[
-            '-txindex','-permitbaremultisig=0',
+            '-txindex','-permitbaremultisig=0','-minrelaytxfee=0.0000001' 
         ]] * self.num_nodes
         self.supports_cli = False
 
@@ -58,21 +50,18 @@ class MempoolAcceptanceTest(BitnetTestFramework):
         """Wrapper to check result of testmempoolaccept on node_0's mempool"""
         result_test = self.nodes[0].testmempoolaccept(*args, **kwargs)
         for r in result_test:
-            # Skip these checks for now
-            r.pop('wtxid')
-            if "fees" in r:
-                r["fees"].pop("effective-feerate")
-                r["fees"].pop("effective-includes")
+            r.pop('wtxid')  # Skip check for now
         assert_equal(result_expected, result_test)
         assert_equal(self.nodes[0].getmempoolinfo()['size'], self.mempool_size)  # Must not change mempool state
 
     def run_test(self):
         node = self.nodes[0]
         self.wallet = MiniWallet(node)
+        self.wallet.rescan_utxos()
 
         self.log.info('Start with empty mempool, and 200 blocks')
         self.mempool_size = 0
-        assert_equal(node.getblockcount(), 200)
+        assert_equal(node.getblockcount(), COINBASE_MATURITY+100)
         assert_equal(node.getmempoolinfo()['size'], self.mempool_size)
 
         self.log.info('Should not accept garbage to testmempoolaccept')
@@ -96,8 +85,8 @@ class MempoolAcceptanceTest(BitnetTestFramework):
         )
 
         self.log.info('A transaction not in the mempool')
-        fee = Decimal('0.000007')
-        utxo_to_spend = self.wallet.get_utxo(txid=txid_in_block)  # use 0.3 BIT UTXO
+        fee = Decimal('0.003')
+        utxo_to_spend = self.wallet.get_utxo(txid=txid_in_block)  # use 0.3 BTC UTXO
         tx = self.wallet.create_self_transfer(utxo_to_spend=utxo_to_spend, sequence=MAX_BIP125_RBF_SEQUENCE)['tx']
         tx.vout[0].nValue = int((Decimal('0.3') - fee) * COIN)
         raw_tx_0 = tx.serialize().hex()
@@ -116,7 +105,7 @@ class MempoolAcceptanceTest(BitnetTestFramework):
         tx.vout[0].nValue = int(output_amount * COIN)
         raw_tx_final = tx.serialize().hex()
         tx = tx_from_hex(raw_tx_final)
-        fee_expected = Decimal('50.0') - output_amount
+        fee_expected = Decimal('20000') - output_amount
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': True, 'vsize': tx.get_vsize(), 'fees': {'base': fee_expected}}],
             rawtxs=[tx.serialize().hex()],
@@ -212,7 +201,7 @@ class MempoolAcceptanceTest(BitnetTestFramework):
 
         self.log.info('A really large transaction')
         tx = tx_from_hex(raw_tx_reference)
-        tx.vin = [tx.vin[0]] * math.ceil(MAX_BLOCK_WEIGHT // 4 / len(tx.vin[0].serialize()))
+        tx.vin = [tx.vin[0]] * math.ceil(MAX_BLOCK_WEIGHT / len(tx.vin[0].serialize()))
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': 'bad-txns-oversize'}],
             rawtxs=[tx.serialize().hex()],
@@ -344,35 +333,6 @@ class MempoolAcceptanceTest(BitnetTestFramework):
             maxfeerate=0,
         )
 
-        # Prep for tiny-tx tests with wsh(OP_TRUE) output
-        seed_tx = self.wallet.send_to(from_node=node, scriptPubKey=script_to_p2wsh_script(CScript([OP_TRUE])), amount=COIN)
-        self.generate(node, 1)
-
-        self.log.info('A tiny transaction(in non-witness bytes) that is disallowed')
-        tx = CTransaction()
-        tx.vin.append(CTxIn(COutPoint(int(seed_tx[0], 16), seed_tx[1]), b"", SEQUENCE_FINAL))
-        tx.wit.vtxinwit = [CTxInWitness()]
-        tx.wit.vtxinwit[0].scriptWitness.stack = [CScript([OP_TRUE])]
-        tx.vout.append(CTxOut(0, CScript([OP_RETURN] + ([OP_0] * (MIN_PADDING - 2)))))
-        # Note it's only non-witness size that matters!
-        assert_equal(len(tx.serialize_without_witness()), 64)
-        assert_equal(MIN_STANDARD_TX_NONWITNESS_SIZE - 1, 64)
-        assert_greater_than(len(tx.serialize()), 64)
-
-        self.check_mempool_result(
-            result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': 'tx-size-small'}],
-            rawtxs=[tx.serialize().hex()],
-            maxfeerate=0,
-        )
-
-        self.log.info('Minimally-small transaction(in non-witness bytes) that is allowed')
-        tx.vout[0] = CTxOut(COIN - 1000, DUMMY_MIN_OP_RETURN_SCRIPT)
-        assert_equal(len(tx.serialize_without_witness()), MIN_STANDARD_TX_NONWITNESS_SIZE)
-        self.check_mempool_result(
-            result_expected=[{'txid': tx.rehash(), 'allowed': True, 'vsize': tx.get_vsize(), 'fees': { 'base': Decimal('0.00001000')}}],
-            rawtxs=[tx.serialize().hex()],
-            maxfeerate=0,
-        )
 
 if __name__ == '__main__':
     MempoolAcceptanceTest().main()

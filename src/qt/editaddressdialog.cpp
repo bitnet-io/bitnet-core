@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2021 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,18 +7,23 @@
 
 #include <qt/addresstablemodel.h>
 #include <qt/guiutil.h>
+#include <qt/styleSheet.h>
 
 #include <QDataWidgetMapper>
 #include <QMessageBox>
+#include <QPushButton>
 
 
-EditAddressDialog::EditAddressDialog(Mode _mode, QWidget* parent)
-    : QDialog(parent, GUIUtil::dialog_flags),
-      ui(new Ui::EditAddressDialog),
-      mode(_mode)
+EditAddressDialog::EditAddressDialog(Mode _mode, QWidget *parent) :
+    QDialog(parent, GUIUtil::dialog_flags),
+    ui(new Ui::EditAddressDialog),
+    mapper(nullptr),
+    mode(_mode),
+    model(nullptr)
 {
     ui->setupUi(this);
-
+    SetObjectStyleSheet(ui->buttonBox->button(QDialogButtonBox::Cancel), StyleSheetNames::ButtonLight);
+    SetObjectStyleSheet(ui->buttonBox->button(QDialogButtonBox::Ok), StyleSheetNames::ButtonGray);
     GUIUtil::setupAddressWidget(ui->addressEdit, this);
 
     switch(mode)
@@ -108,7 +113,7 @@ void EditAddressDialog::accept()
             break;
         case AddressTableModel::INVALID_ADDRESS:
             QMessageBox::warning(this, windowTitle(),
-                tr("The entered address \"%1\" is not a valid Bitnet address.").arg(ui->addressEdit->text()),
+                tr("The entered address \"%1\" is not a valid Qtum address.").arg(ui->addressEdit->text()),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
         case AddressTableModel::DUPLICATE_ADDRESS:

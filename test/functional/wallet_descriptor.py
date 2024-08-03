@@ -1,27 +1,18 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2022 The Bitnet Core developers
+# Copyright (c) 2019-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test descriptor wallet function."""
-import os
 
-try:
-    import sqlite3
-except ImportError:
-    pass
-
-from test_framework.blocktools import COINBASE_MATURITY
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.qtumconfig import COINBASE_MATURITY 
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error
 )
 
 
-class WalletDescriptorTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser, legacy=False)
-
+class WalletDescriptorTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
@@ -31,7 +22,6 @@ class WalletDescriptorTest(BitnetTestFramework):
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()
         self.skip_if_no_sqlite()
-        self.skip_if_no_py_sqlite3()
 
     def run_test(self):
         if self.is_bdb_compiled():
@@ -51,8 +41,8 @@ class WalletDescriptorTest(BitnetTestFramework):
         self.log.info("Checking wallet info")
         wallet_info = self.nodes[0].getwalletinfo()
         assert_equal(wallet_info['format'], 'sqlite')
-        assert_equal(wallet_info['keypoolsize'], 400)
-        assert_equal(wallet_info['keypoolsize_hd_internal'], 400)
+        assert_equal(wallet_info['keypoolsize'], 500)
+        assert_equal(wallet_info['keypoolsize_hd_internal'], 500)
         assert 'keypoololdest' not in wallet_info
 
         # Check that getnewaddress works
@@ -60,43 +50,33 @@ class WalletDescriptorTest(BitnetTestFramework):
         addr = self.nodes[0].getnewaddress("", "legacy")
         addr_info = self.nodes[0].getaddressinfo(addr)
         assert addr_info['desc'].startswith('pkh(')
-        assert_equal(addr_info['hdkeypath'], 'm/44\'/1\'/0\'/0/0')
+        assert_equal(addr_info['hdkeypath'], 'm/44\'/88\'/0\'/0/0')
 
         addr = self.nodes[0].getnewaddress("", "p2sh-segwit")
         addr_info = self.nodes[0].getaddressinfo(addr)
         assert addr_info['desc'].startswith('sh(wpkh(')
-        assert_equal(addr_info['hdkeypath'], 'm/49\'/1\'/0\'/0/0')
+        assert_equal(addr_info['hdkeypath'], 'm/49\'/88\'/0\'/0/0')
 
         addr = self.nodes[0].getnewaddress("", "bech32")
         addr_info = self.nodes[0].getaddressinfo(addr)
         assert addr_info['desc'].startswith('wpkh(')
-        assert_equal(addr_info['hdkeypath'], 'm/84\'/1\'/0\'/0/0')
-
-        addr = self.nodes[0].getnewaddress("", "bech32m")
-        addr_info = self.nodes[0].getaddressinfo(addr)
-        assert addr_info['desc'].startswith('tr(')
-        assert_equal(addr_info['hdkeypath'], 'm/86\'/1\'/0\'/0/0')
+        assert_equal(addr_info['hdkeypath'], 'm/84\'/88\'/0\'/0/0')
 
         # Check that getrawchangeaddress works
         addr = self.nodes[0].getrawchangeaddress("legacy")
         addr_info = self.nodes[0].getaddressinfo(addr)
         assert addr_info['desc'].startswith('pkh(')
-        assert_equal(addr_info['hdkeypath'], 'm/44\'/1\'/0\'/1/0')
+        assert_equal(addr_info['hdkeypath'], 'm/44\'/88\'/0\'/1/0')
 
         addr = self.nodes[0].getrawchangeaddress("p2sh-segwit")
         addr_info = self.nodes[0].getaddressinfo(addr)
         assert addr_info['desc'].startswith('sh(wpkh(')
-        assert_equal(addr_info['hdkeypath'], 'm/49\'/1\'/0\'/1/0')
+        assert_equal(addr_info['hdkeypath'], 'm/49\'/88\'/0\'/1/0')
 
         addr = self.nodes[0].getrawchangeaddress("bech32")
         addr_info = self.nodes[0].getaddressinfo(addr)
         assert addr_info['desc'].startswith('wpkh(')
-        assert_equal(addr_info['hdkeypath'], 'm/84\'/1\'/0\'/1/0')
-
-        addr = self.nodes[0].getrawchangeaddress("bech32m")
-        addr_info = self.nodes[0].getaddressinfo(addr)
-        assert addr_info['desc'].startswith('tr(')
-        assert_equal(addr_info['hdkeypath'], 'm/86\'/1\'/0\'/1/0')
+        assert_equal(addr_info['hdkeypath'], 'm/84\'/88\'/0\'/1/0')
 
         # Make a wallet to receive coins at
         self.nodes[0].createwallet(wallet_name="desc2", descriptors=True)
@@ -114,7 +94,7 @@ class WalletDescriptorTest(BitnetTestFramework):
         # Make sure things are disabled
         self.log.info("Test disabled RPCs")
         assert_raises_rpc_error(-4, "Only legacy wallets are supported by this command", recv_wrpc.rpc.importprivkey, "cVpF924EspNh8KjYsfhgY96mmxvT6DgdWiTYMtMjuM74hJaU5psW")
-        assert_raises_rpc_error(-4, "Only legacy wallets are supported by this command", recv_wrpc.rpc.importpubkey, send_wrpc.getaddressinfo(send_wrpc.getnewaddress())["pubkey"])
+        assert_raises_rpc_error(-4, "Only legacy wallets are supported by this command", recv_wrpc.rpc.importpubkey, send_wrpc.getaddressinfo(send_wrpc.getnewaddress()))
         assert_raises_rpc_error(-4, "Only legacy wallets are supported by this command", recv_wrpc.rpc.importaddress, recv_wrpc.getnewaddress())
         assert_raises_rpc_error(-4, "Only legacy wallets are supported by this command", recv_wrpc.rpc.importmulti, [])
         assert_raises_rpc_error(-4, "Only legacy wallets are supported by this command", recv_wrpc.rpc.addmultisigaddress, 1, [recv_wrpc.getnewaddress()])
@@ -178,14 +158,12 @@ class WalletDescriptorTest(BitnetTestFramework):
         self.nodes[0].createwallet(wallet_name='desc_import', disable_private_keys=True, descriptors=True)
         imp_rpc = self.nodes[0].get_wallet_rpc('desc_import')
 
-        addr_types = [('legacy', False, 'pkh(', '44\'/1\'/0\'', -13),
-                      ('p2sh-segwit', False, 'sh(wpkh(', '49\'/1\'/0\'', -14),
-                      ('bech32', False, 'wpkh(', '84\'/1\'/0\'', -13),
-                      ('bech32m', False, 'tr(', '86\'/1\'/0\'', -13),
-                      ('legacy', True, 'pkh(', '44\'/1\'/0\'', -13),
-                      ('p2sh-segwit', True, 'sh(wpkh(', '49\'/1\'/0\'', -14),
-                      ('bech32', True, 'wpkh(', '84\'/1\'/0\'', -13),
-                      ('bech32m', True, 'tr(', '86\'/1\'/0\'', -13)]
+        addr_types = [('legacy', False, 'pkh(', '44\'/88\'/0\'', -13),
+                      ('p2sh-segwit', False, 'sh(wpkh(', '49\'/88\'/0\'', -14),
+                      ('bech32', False, 'wpkh(', '84\'/88\'/0\'', -13),
+                      ('legacy', True, 'pkh(', '44\'/88\'/0\'', -13),
+                      ('p2sh-segwit', True, 'sh(wpkh(', '49\'/88\'/0\'', -14),
+                      ('bech32', True, 'wpkh(', '84\'/88\'/0\'', -13)]
 
         for addr_type, internal, desc_prefix, deriv_path, int_idx in addr_types:
             int_str = 'internal' if internal else 'external'
@@ -198,7 +176,7 @@ class WalletDescriptorTest(BitnetTestFramework):
             desc = exp_rpc.getaddressinfo(addr)['parent_desc']
             assert_equal(desc_prefix, desc[0:len(desc_prefix)])
             idx = desc.index('/') + 1
-            assert_equal(deriv_path, desc[idx:idx + 9])
+            assert_equal(deriv_path, desc[idx:idx + 10])
             if internal:
                 assert_equal('1', desc[int_idx])
             else:
@@ -230,16 +208,6 @@ class WalletDescriptorTest(BitnetTestFramework):
                     exp_addr = exp_rpc.getnewaddress(address_type=addr_type)
                     imp_addr = imp_rpc.getnewaddress(address_type=addr_type)
                 assert_equal(exp_addr, imp_addr)
-
-        self.log.info("Test that loading descriptor wallet containing legacy key types throws error")
-        self.nodes[0].createwallet(wallet_name="crashme", descriptors=True)
-        self.nodes[0].unloadwallet("crashme")
-        wallet_db = os.path.join(self.nodes[0].datadir, self.chain, "wallets", "crashme", self.wallet_data_filename)
-        with sqlite3.connect(wallet_db) as conn:
-            # add "cscript" entry: key type is uint160 (20 bytes), value type is CScript (zero-length here)
-            conn.execute('INSERT INTO main VALUES(?, ?)', (b'\x07cscript' + b'\x00'*20, b'\x00'))
-        assert_raises_rpc_error(-4, "Unexpected legacy entry in descriptor wallet found.", self.nodes[0].loadwallet, "crashme")
-
 
 if __name__ == '__main__':
     WalletDescriptorTest().main ()

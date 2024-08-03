@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2022 The Bitnet Core developers
+// Copyright (c) 2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,7 +10,7 @@
 static void Logging(benchmark::Bench& bench, const std::vector<const char*>& extra_args, const std::function<void()>& log)
 {
     TestingSetup test_setup{
-        CBaseChainParams::REGTEST,
+        CBaseChainParams::UNITTEST,
         extra_args,
     };
 
@@ -41,8 +41,8 @@ static void LoggingNoFile(benchmark::Bench& bench)
     });
 }
 
-BENCHMARK(LoggingYoThreadNames, benchmark::PriorityLevel::HIGH);
-BENCHMARK(LoggingNoThreadNames, benchmark::PriorityLevel::HIGH);
-BENCHMARK(LoggingYoCategory, benchmark::PriorityLevel::HIGH);
-BENCHMARK(LoggingNoCategory, benchmark::PriorityLevel::HIGH);
-BENCHMARK(LoggingNoFile, benchmark::PriorityLevel::HIGH);
+BENCHMARK(LoggingYoThreadNames);
+BENCHMARK(LoggingNoThreadNames);
+BENCHMARK(LoggingYoCategory);
+BENCHMARK(LoggingNoCategory);
+BENCHMARK(LoggingNoFile);

@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2021 The Bitnet Core developers
+// Copyright (c) 2018-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,10 +21,10 @@ private:
     //! The command which handles interaction with the external signer.
     std::string m_command;
 
-    //! Bitnet mainnet, testnet, etc
+    //! Bitcoin mainnet, testnet, etc
     std::string m_chain;
 
-    std::string NetworkArg() const;
+    const std::string NetworkArg() const;
 
 public:
     //! @param[in] command      the command which handles interaction with the external signer
@@ -61,6 +61,11 @@ public:
     //! Calls `<command> signtransaction` and passes the PSBT via stdin.
     //! @param[in,out] psbt  PartiallySignedTransaction to be signed
     bool SignTransaction(PartiallySignedTransaction& psbt, std::string& error);
+
+    //! Get the network argument
+    //! @param chain            "main", "test", "regtest" or "signet"
+    //! @returns network argument
+    static std::string NetworkArg(const std::string chain);
 };
 
 #endif // BITCOIN_EXTERNAL_SIGNER_H

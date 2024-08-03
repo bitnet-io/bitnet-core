@@ -15,19 +15,19 @@ from typing import List, Dict
 
 import lief #type:ignore
 
-# Debian 10 (Buster) EOL: 2024. https://wiki.debian.org/LTS
+# Debian 9 (Stretch) EOL: 2022. https://wiki.debian.org/DebianReleases#Production_Releases
 #
-# - libgcc version 8.3.0 (https://packages.debian.org/search?suite=buster&arch=any&searchon=names&keywords=libgcc1)
-# - libc version 2.28 (https://packages.debian.org/search?suite=buster&arch=any&searchon=names&keywords=libc6)
+# - g++ version 6.3.0 (https://packages.debian.org/search?suite=stretch&arch=any&searchon=names&keywords=g%2B%2B)
+# - libc version 2.24 (https://packages.debian.org/search?suite=stretch&arch=any&searchon=names&keywords=libc6)
 #
-# Ubuntu 18.04 (Bionic) EOL: 2028. https://wiki.ubuntu.com/ReleaseTeam
+# Ubuntu 16.04 (Xenial) EOL: 2026. https://wiki.ubuntu.com/Releases
 #
-# - libgcc version 8.4.0 (https://packages.ubuntu.com/bionic/libgcc1)
-# - libc version 2.27 (https://packages.ubuntu.com/bionic/libc6)
+# - g++ version 5.3.1
+# - libc version 2.23
 #
 # CentOS Stream 8 EOL: 2024. https://wiki.centos.org/About/Product
 #
-# - libgcc version 8.5.0 (http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/)
+# - g++ version 8.5.0 (http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/)
 # - libc version 2.28 (http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/)
 #
 # See https://gcc.gnu.org/onlinedocs/libstdc++/manual/abi.html for more info.
@@ -35,20 +35,20 @@ import lief #type:ignore
 MAX_VERSIONS = {
 'GCC':       (4,8,0),
 'GLIBC': {
-    lief.ELF.ARCH.x86_64: (2,27),
-    lief.ELF.ARCH.ARM:    (2,27),
-    lief.ELF.ARCH.AARCH64:(2,27),
-    lief.ELF.ARCH.PPC64:  (2,27),
+    lief.ELF.ARCH.x86_64: (2,18),
+    lief.ELF.ARCH.ARM:    (2,18),
+    lief.ELF.ARCH.AARCH64:(2,18),
+    lief.ELF.ARCH.PPC64:  (2,18),
     lief.ELF.ARCH.RISCV:  (2,27),
 },
 'LIBATOMIC': (1,0),
-'V':         (0,5,0),  # xkb (bitnet-qt only)
+'V':         (0,5,0),  # xkb (bitcoin-qt only)
 }
 
 # Ignore symbols that are exported as part of every executable
 IGNORE_EXPORTS = {
 'environ', '_environ', '__environ', '_fini', '_init', 'stdin',
-'stdout', 'stderr',
+'stdout', 'stderr', 'in6addr_any',
 }
 
 # Expected linker-loader names can be found here:
@@ -74,7 +74,7 @@ ELF_INTERPRETER_NAMES: Dict[lief.ELF.ARCH, Dict[lief.ENDIANNESS, str]] = {
 
 # Allowed NEEDED libraries
 ELF_ALLOWED_LIBRARIES = {
-# bitnetd and bitnet-qt
+# bitcoind and bitcoin-qt
 'libgcc_s.so.1', # GCC base support
 'libc.so.6', # C library
 'libpthread.so.0', # threading
@@ -88,7 +88,7 @@ ELF_ALLOWED_LIBRARIES = {
 'ld64.so.1', # POWER64 ABIv1 dynamic linker
 'ld64.so.2', # POWER64 ABIv2 dynamic linker
 'ld-linux-riscv64-lp64d.so.1', # 64-bit RISC-V dynamic linker
-# bitnet-qt only
+# bitcoin-qt only
 'libxcb.so.1', # part of X11
 'libxkbcommon.so.0', # keyboard keymapping
 'libxkbcommon-x11.so.0', # keyboard keymapping
@@ -110,10 +110,10 @@ ELF_ALLOWED_LIBRARIES = {
 }
 
 MACHO_ALLOWED_LIBRARIES = {
-# bitnetd and bitnet-qt
+# bitcoind and bitcoin-qt
 'libc++.1.dylib', # C++ Standard Library
 'libSystem.B.dylib', # libc, libm, libpthread, libinfo
-# bitnet-qt only
+# bitcoin-qt only
 'AppKit', # user interface
 'ApplicationServices', # common application tasks.
 'Carbon', # deprecated c back-compat API
@@ -127,10 +127,13 @@ MACHO_ALLOWED_LIBRARIES = {
 'ImageIO', # read and write image file formats.
 'IOKit', # user-space access to hardware devices and drivers.
 'IOSurface', # cross process image/drawing buffers
+'Security', # secure the data your app manages, and control access to your app.
 'libobjc.A.dylib', # Objective-C runtime library
 'Metal', # 3D graphics
 'Security', # access control and authentication
 'QuartzCore', # animation
+'SystemConfiguration', # allow applications to access a device’s network configuration settings.
+'GSS', # conduct secure, authenticated network transactions.
 }
 
 PE_ALLOWED_LIBRARIES = {
@@ -141,7 +144,7 @@ PE_ALLOWED_LIBRARIES = {
 'SHELL32.dll', # shell API
 'USER32.dll', # user interface
 'WS2_32.dll', # sockets
-# bitnet-qt only
+# bitcoin-qt only
 'dwmapi.dll', # desktop window manager
 'GDI32.dll', # graphics device interface
 'IMM32.dll', # input method editor

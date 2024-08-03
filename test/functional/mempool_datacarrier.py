@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2020-2022 The Bitnet Core developers
+# Copyright (c) 2020-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test datacarrier functionality"""
@@ -11,7 +11,7 @@ from test_framework.script import (
     CScript,
     OP_RETURN,
 )
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.test_node import TestNode
 from test_framework.util import (
     assert_raises_rpc_error,
@@ -20,7 +20,7 @@ from test_framework.util import (
 from test_framework.wallet import MiniWallet
 
 
-class DataCarrierTest(BitnetTestFramework):
+class DataCarrierTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 3
         self.extra_args = [
@@ -30,7 +30,7 @@ class DataCarrierTest(BitnetTestFramework):
         ]
 
     def test_null_data_transaction(self, node: TestNode, data: bytes, success: bool) -> None:
-        tx = self.wallet.create_self_transfer(fee_rate=0)["tx"]
+        tx = self.wallet.create_self_transfer(fee_rate=78400)["tx"]
         tx.vout.append(CTxOut(nValue=0, scriptPubKey=CScript([OP_RETURN, data])))
         tx.vout[0].nValue -= tx.get_vsize()  # simply pay 1sat/vbyte fee
 
@@ -44,6 +44,7 @@ class DataCarrierTest(BitnetTestFramework):
 
     def run_test(self):
         self.wallet = MiniWallet(self.nodes[0])
+        self.wallet.rescan_utxos()
 
         # By default, only 80 bytes are used for data (+1 for OP_RETURN, +2 for the pushdata opcodes).
         default_size_data = random_bytes(MAX_OP_RETURN_RELAY - 3)

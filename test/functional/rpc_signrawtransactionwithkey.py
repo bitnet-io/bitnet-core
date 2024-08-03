@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2015-2022 The Bitnet Core developers
+# Copyright (c) 2015-2022 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test transaction signing using the signrawtransactionwithkey RPC."""
@@ -11,7 +11,7 @@ from test_framework.address import (
     script_to_p2sh,
 )
 from test_framework.key import ECKey
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     find_vout_for_address,
@@ -33,8 +33,9 @@ from test_framework.wallet import (
     getnewdestination,
 )
 
+from test_framework.qtum import convert_btc_address_to_qtum
 
-class SignRawTransactionWithKeyTest(BitnetTestFramework):
+class SignRawTransactionWithKeyTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2
@@ -65,7 +66,7 @@ class SignRawTransactionWithKeyTest(BitnetTestFramework):
              'scriptPubKey': '76a914669b857c03a5ed269d5d85a1ffac9ed5d663072788ac'},
         ]
 
-        outputs = {'mpLQjfK79b7CCV4VMJWEWAj5Mpx8Up5zxB': 0.1}
+        outputs = {convert_btc_address_to_qtum('mpLQjfK79b7CCV4VMJWEWAj5Mpx8Up5zxB'): 0.1}
 
         rawTx = self.nodes[0].createrawtransaction(inputs, outputs)
         rawTxSigned = self.nodes[0].signrawtransactionwithkey(rawTx, privKeys, inputs)
@@ -83,6 +84,7 @@ class SignRawTransactionWithKeyTest(BitnetTestFramework):
         eckey.generate()
         embedded_privkey = bytes_to_wif(eckey.get_bytes())
         embedded_pubkey = eckey.get_pubkey().get_bytes().hex()
+        self.nodes[1].createwallet(wallet_name="multisig")
         p2sh_p2wsh_address = self.nodes[1].createmultisig(1, [embedded_pubkey], "p2sh-segwit")
         # send transaction to P2SH-P2WSH 1-of-1 multisig address
         self.block_hash = self.generate(self.nodes[0], COINBASE_MATURITY + 1)

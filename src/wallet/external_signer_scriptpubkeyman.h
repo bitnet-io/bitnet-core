@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2021 The Bitnet Core developers
+// Copyright (c) 2019-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,11 +13,11 @@ namespace wallet {
 class ExternalSignerScriptPubKeyMan : public DescriptorScriptPubKeyMan
 {
   public:
-  ExternalSignerScriptPubKeyMan(WalletStorage& storage, WalletDescriptor& descriptor, int64_t keypool_size)
-      :   DescriptorScriptPubKeyMan(storage, descriptor, keypool_size)
+  ExternalSignerScriptPubKeyMan(WalletStorage& storage, WalletDescriptor& descriptor)
+      :   DescriptorScriptPubKeyMan(storage, descriptor)
       {}
-  ExternalSignerScriptPubKeyMan(WalletStorage& storage, int64_t keypool_size)
-      :   DescriptorScriptPubKeyMan(storage, keypool_size)
+  ExternalSignerScriptPubKeyMan(WalletStorage& storage)
+      :   DescriptorScriptPubKeyMan(storage)
       {}
 
   /** Provide a descriptor at setup time

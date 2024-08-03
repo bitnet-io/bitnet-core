@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2022 The Bitnet Core developers
+// Copyright (c) 2012-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,48 +17,11 @@
 
 #include <boost/test/unit_test.hpp>
 
-static UniValue JSON(std::string_view json)
-{
-    UniValue value;
-    BOOST_CHECK(value.read(json.data(), json.size()));
-    return value;
-}
-
-class HasJSON
-{
-public:
-    explicit HasJSON(std::string json) : m_json(std::move(json)) {}
-    bool operator()(const UniValue& value) const
-    {
-        std::string json{value.write()};
-        BOOST_CHECK_EQUAL(json, m_json);
-        return json == m_json;
-    };
-
-private:
-    const std::string m_json;
-};
-
 class RPCTestingSetup : public TestingSetup
 {
 public:
-    UniValue TransformParams(const UniValue& params, std::vector<std::string> arg_names) const;
     UniValue CallRPC(std::string args);
 };
-
-UniValue RPCTestingSetup::TransformParams(const UniValue& params, std::vector<std::string> arg_names) const
-{
-    UniValue transformed_params;
-    CRPCTable table;
-    CRPCCommand command{"category", "method", [&](const JSONRPCRequest& request, UniValue&, bool) -> bool { transformed_params = request.params; return true; }, arg_names, /*unique_id=*/0};
-    table.appendCommand("method", &command);
-    JSONRPCRequest request;
-    request.strMethod = "method";
-    request.params = params;
-    if (RPCIsInWarmup(nullptr)) SetRPCWarmupFinished();
-    table.execute(request);
-    return transformed_params;
-}
 
 UniValue RPCTestingSetup::CallRPC(std::string args)
 {
@@ -81,33 +44,6 @@ UniValue RPCTestingSetup::CallRPC(std::string args)
 
 
 BOOST_FIXTURE_TEST_SUITE(rpc_tests, RPCTestingSetup)
-
-BOOST_AUTO_TEST_CASE(rpc_namedparams)
-{
-    const std::vector<std::string> arg_names{"arg1", "arg2", "arg3", "arg4", "arg5"};
-
-    // Make sure named arguments are transformed into positional arguments in correct places separated by nulls
-    BOOST_CHECK_EQUAL(TransformParams(JSON(R"({"arg2": 2, "arg4": 4})"), arg_names).write(), "[null,2,null,4]");
-
-    // Make sure named argument specified multiple times raises an exception
-    BOOST_CHECK_EXCEPTION(TransformParams(JSON(R"({"arg2": 2, "arg2": 4})"), arg_names), UniValue,
-                          HasJSON(R"({"code":-8,"message":"Parameter arg2 specified multiple times"})"));
-
-    // Make sure named and positional arguments can be combined.
-    BOOST_CHECK_EQUAL(TransformParams(JSON(R"({"arg5": 5, "args": [1, 2], "arg4": 4})"), arg_names).write(), "[1,2,null,4,5]");
-
-    // Make sure a unknown named argument raises an exception
-    BOOST_CHECK_EXCEPTION(TransformParams(JSON(R"({"arg2": 2, "unknown": 6})"), arg_names), UniValue,
-                          HasJSON(R"({"code":-8,"message":"Unknown named parameter unknown"})"));
-
-    // Make sure an overlap between a named argument and positional argument raises an exception
-    BOOST_CHECK_EXCEPTION(TransformParams(JSON(R"({"args": [1,2,3], "arg4": 4, "arg2": 2})"), arg_names), UniValue,
-                          HasJSON(R"({"code":-8,"message":"Parameter arg2 specified twice both as positional and named argument"})"));
-
-    // Make sure extra positional arguments can be passed through to the method implementation, as long as they don't overlap with named arguments.
-    BOOST_CHECK_EQUAL(TransformParams(JSON(R"({"args": [1,2,3,4,5,6,7,8,9,10]})"), arg_names).write(), "[1,2,3,4,5,6,7,8,9,10]");
-    BOOST_CHECK_EQUAL(TransformParams(JSON(R"([1,2,3,4,5,6,7,8,9,10])"), arg_names).write(), "[1,2,3,4,5,6,7,8,9,10]");
-}
 
 BOOST_AUTO_TEST_CASE(rpc_rawparams)
 {
@@ -175,7 +111,7 @@ BOOST_AUTO_TEST_CASE(rpc_rawsign)
       "\"vout\":1,\"scriptPubKey\":\"a914b10c9df5f7edf436c697f02f1efdba4cf399615187\","
       "\"redeemScript\":\"512103debedc17b3df2badbcdd86d5feb4562b86fe182e5998abd8bcd4f122c6155b1b21027e940bb73ab8732bfdf7f9216ecefca5b94d6df834e77e108f68e66f126044c052ae\"}]";
     r = CallRPC(std::string("createrawtransaction ")+prevout+" "+
-      "{\"3HqAe9LtNBjnsfM4CyYaWTnvCaUYT7v4oZ\":11}");
+      "{\"MQ3Jx2krKJbDgAcxJrXvL73KXH4zVf8mWg\":11}");
     std::string notsigned = r.get_str();
     std::string privkey1 = "\"KzsXybp9jX64P5ekX1KUxRQ79Jht9uzW7LorgwE65i5rWACL6LQe\"";
     std::string privkey2 = "\"Kyhdf5LuKTRx4ge69ybABsiUAWjVRK4XGxAKk2FQLp2HjGMy87Z4\"";
@@ -208,8 +144,9 @@ BOOST_AUTO_TEST_CASE(rpc_format_monetary_values)
     BOOST_CHECK(ValueFromAmount(50000000LL).write() == "0.50000000");
     BOOST_CHECK(ValueFromAmount(89898989LL).write() == "0.89898989");
     BOOST_CHECK(ValueFromAmount(100000000LL).write() == "1.00000000");
-    BOOST_CHECK(ValueFromAmount(2099999999999990LL).write() == "20999999.99999990");
-    BOOST_CHECK(ValueFromAmount(2099999999999999LL).write() == "20999999.99999999");
+    BOOST_CHECK(ValueFromAmount(10782240624999990LL).write() == "107822406.24999990");
+    BOOST_CHECK(ValueFromAmount(10782240624999999LL).write() == "107822406.24999999");
+    BOOST_CHECK(ValueFromAmount(10782240625000000LL).write() == "107822406.25000000");
 
     BOOST_CHECK_EQUAL(ValueFromAmount(0).write(), "0.00000000");
     BOOST_CHECK_EQUAL(ValueFromAmount((COIN/10000)*123456789).write(), "12345.67890000");
@@ -263,8 +200,9 @@ BOOST_AUTO_TEST_CASE(rpc_parse_monetary_values)
     BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("0.50000000")), 50000000LL);
     BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("0.89898989")), 89898989LL);
     BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("1.00000000")), 100000000LL);
-    BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("20999999.9999999")), 2099999999999990LL);
-    BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("20999999.99999999")), 2099999999999999LL);
+    BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("107822406.2499999")), 10782240624999990LL);
+    BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("107822406.24999999")), 10782240624999999LL);
+    BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("107822406.25")), 10782240625000000LL);
 
     BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("1e-8")), COIN/100000000);
     BOOST_CHECK_EQUAL(AmountFromValue(ValueFromString("0.1e-7")), COIN/100000000);
@@ -301,7 +239,7 @@ BOOST_AUTO_TEST_CASE(json_parse_errors)
     // Invalid, trailing garbage
     BOOST_CHECK_THROW(ParseNonRFCJSONValue("1.0sds"), std::runtime_error);
     BOOST_CHECK_THROW(ParseNonRFCJSONValue("1.0]"), std::runtime_error);
-    // BIT addresses should fail parsing
+    // BTC addresses should fail parsing
     BOOST_CHECK_THROW(ParseNonRFCJSONValue("175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W"), std::runtime_error);
     BOOST_CHECK_THROW(ParseNonRFCJSONValue("3J98t1WpEZ73CNmQviecrnyiWrnqRhWNL"), std::runtime_error);
 }

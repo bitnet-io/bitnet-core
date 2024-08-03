@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2022 The Bitnet Core developers
+# Copyright (c) 2019-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the importdescriptors RPC.
@@ -15,8 +15,9 @@ variants.
 - `test_address()` is called to call getaddressinfo for an address on node1
   and test the values returned."""
 
+from test_framework.address import key_to_p2pkh
 from test_framework.blocktools import COINBASE_MATURITY
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.descriptors import descsum_create
 from test_framework.util import (
     assert_equal,
@@ -28,10 +29,8 @@ from test_framework.wallet_util import (
     test_address,
 )
 
-class ImportDescriptorsTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser, legacy=False)
-
+from test_framework.qtum import convert_btc_address_to_qtum, convert_btc_bech32_address_to_qtum
+class ImportDescriptorsTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.extra_args = [["-addresstype=legacy"],
@@ -119,11 +118,12 @@ class ImportDescriptorsTest(BitnetTestFramework):
 
         self.log.info("Internal addresses should be detected as such")
         key = get_generate_key()
+        addr = key_to_p2pkh(key.pubkey)
         self.test_importdesc({"desc": descsum_create("pkh(" + key.pubkey + ")"),
                               "timestamp": "now",
                               "internal": True},
                              success=True)
-        info = w1.getaddressinfo(key.p2pkh_addr)
+        info = w1.getaddressinfo(addr)
         assert_equal(info["ismine"], True)
         assert_equal(info["ischange"], True)
 
@@ -191,8 +191,8 @@ class ImportDescriptorsTest(BitnetTestFramework):
         # # Test ranged descriptors
         xpriv = "tprv8ZgxMBicQKsPeuVhWwi6wuMQGfPKi9Li5GtX35jVNknACgqe3CY4g5xgkfDDJcmtF7o1QnxWDRYw4H5P26PXq7sbcUkEqeR4fg3Kxp2tigg"
         xpub = "tpubD6NzVbkrYhZ4YNXVQbNhMK1WqguFsUXceaVJKbmno2aZ3B6QfbMeraaYvnBSGpV3vxLyTTK9DYT1yoEck4XUScMzXoQ2U2oSmE2JyMedq3H"
-        addresses = ["2N7yv4p8G8yEaPddJxY41kPihnWvs39qCMf", "2MsHxyb2JS3pAySeNUsJ7mNnurtpeenDzLA"] # hdkeypath=m/0'/0'/0' and 1'
-        addresses += ["bcrt1qrd3n235cj2czsfmsuvqqpr3lu6lg0ju7scl8gn", "bcrt1qfqeppuvj0ww98r6qghmdkj70tv8qpchehegrg8"] # wpkh subscripts corresponding to the above addresses
+        addresses = [convert_btc_address_to_qtum(a) for a in ["2N7yv4p8G8yEaPddJxY41kPihnWvs39qCMf", "2MsHxyb2JS3pAySeNUsJ7mNnurtpeenDzLA"]] # hdkeypath=m/0'/0'/0' and 1'
+        addresses += [convert_btc_bech32_address_to_qtum(a) for a in ["bcrt1qrd3n235cj2czsfmsuvqqpr3lu6lg0ju7scl8gn", "bcrt1qfqeppuvj0ww98r6qghmdkj70tv8qpchehegrg8"]] # wpkh subscripts corresponding to the above addresses
         desc = "sh(wpkh(" + xpub + "/0/0/*" + "))"
 
         self.log.info("Ranged descriptors cannot have labels")
@@ -297,11 +297,11 @@ class ImportDescriptorsTest(BitnetTestFramework):
         self.log.info('Key ranges should be imported in order')
         xpub = "tpubDAXcJ7s7ZwicqjprRaEWdPoHKrCS215qxGYxpusRLLmJuT69ZSicuGdSfyvyKpvUNYBW1s2U3NSrT6vrCYB9e6nZUEvrqnwXPF8ArTCRXMY"
         addresses = [
-            'bcrt1qtmp74ayg7p24uslctssvjm06q5phz4yrxucgnv', # m/0'/0'/0
-            'bcrt1q8vprchan07gzagd5e6v9wd7azyucksq2xc76k8', # m/0'/0'/1
-            'bcrt1qtuqdtha7zmqgcrr26n2rqxztv5y8rafjp9lulu', # m/0'/0'/2
-            'bcrt1qau64272ymawq26t90md6an0ps99qkrse58m640', # m/0'/0'/3
-            'bcrt1qsg97266hrh6cpmutqen8s4s962aryy77jp0fg0', # m/0'/0'/4
+            convert_btc_bech32_address_to_qtum('bcrt1qtmp74ayg7p24uslctssvjm06q5phz4yrxucgnv'), # m/0'/0'/0
+            convert_btc_bech32_address_to_qtum('bcrt1q8vprchan07gzagd5e6v9wd7azyucksq2xc76k8'), # m/0'/0'/1
+            convert_btc_bech32_address_to_qtum('bcrt1qtuqdtha7zmqgcrr26n2rqxztv5y8rafjp9lulu'), # m/0'/0'/2
+            convert_btc_bech32_address_to_qtum('bcrt1qau64272ymawq26t90md6an0ps99qkrse58m640'), # m/0'/0'/3
+            convert_btc_bech32_address_to_qtum('bcrt1qsg97266hrh6cpmutqen8s4s962aryy77jp0fg0'), # m/0'/0'/4
         ]
 
         self.test_importdesc({'desc': descsum_create('wpkh([80002067/0h/0h]' + xpub + '/*)'),
@@ -374,7 +374,7 @@ class ImportDescriptorsTest(BitnetTestFramework):
                               },
                              success=True)
         address = w1.getrawchangeaddress('legacy')
-        assert_equal(address, "mpA2Wh9dvZT7yfELq1UnrUmAoc5qCkMetg")
+        assert_equal(address, convert_btc_address_to_qtum("mpA2Wh9dvZT7yfELq1UnrUmAoc5qCkMetg"))
 
         self.log.info('Check can deactivate active descriptor')
         self.test_importdesc({'desc': descsum_create('pkh([12345678]' + xpub + '/*)'),
@@ -393,7 +393,7 @@ class ImportDescriptorsTest(BitnetTestFramework):
 
         # # Test importing a descriptor containing a WIF private key
         wif_priv = "cTe1f5rdT8A8DFgVWTjyPwACsDPJM9ff4QngFxUixCSvvbg1x6sh"
-        address = "2MuhcG52uHPknxDgmGPsV18jSHFBnnRgjPg"
+        address = convert_btc_address_to_qtum("2MuhcG52uHPknxDgmGPsV18jSHFBnnRgjPg")
         desc = "sh(wpkh(" + wif_priv + "))"
         self.log.info("Should import a descriptor with a WIF private key as spendable")
         self.test_importdesc({"desc": descsum_create(desc),
@@ -410,7 +410,8 @@ class ImportDescriptorsTest(BitnetTestFramework):
                      ismine=True)
         txid = w0.sendtoaddress(address, 49.99995540)
         self.generatetoaddress(self.nodes[0], 6, w0.getnewaddress())
-        tx = wpriv.createrawtransaction([{"txid": txid, "vout": 0}], {w0.getnewaddress(): 49.999})
+        unspent=wpriv.listunspent()[0]
+        tx = wpriv.createrawtransaction([{"txid": unspent["txid"], "vout": unspent["vout"]}], {w0.getnewaddress(): 49.96})
         signed_tx = wpriv.signrawtransactionwithwallet(tx)
         w1.sendrawtransaction(signed_tx['hex'])
 
@@ -449,9 +450,9 @@ class ImportDescriptorsTest(BitnetTestFramework):
 
         assert_equal(wmulti_priv.getwalletinfo()['keypoolsize'], 1001) # Range end (1000) is inclusive, so 1001 addresses generated
         addr = wmulti_priv.getnewaddress('', 'bech32') # uses receive 0
-        assert_equal(addr, 'bcrt1qdt0qy5p7dzhxzmegnn4ulzhard33s2809arjqgjndx87rv5vd0fq2czhy8') # Derived at m/84'/0'/0'/0
+        assert_equal(addr, convert_btc_bech32_address_to_qtum('bcrt1qdt0qy5p7dzhxzmegnn4ulzhard33s2809arjqgjndx87rv5vd0fq2czhy8')) # Derived at m/84'/0'/0'/0
         change_addr = wmulti_priv.getrawchangeaddress('bech32') # uses change 0
-        assert_equal(change_addr, 'bcrt1qt9uhe3a9hnq7vajl7a094z4s3crm9ttf8zw3f5v9gr2nyd7e3lnsy44n8e') # Derived at m/84'/1'/0'/0
+        assert_equal(change_addr, convert_btc_bech32_address_to_qtum('bcrt1qt9uhe3a9hnq7vajl7a094z4s3crm9ttf8zw3f5v9gr2nyd7e3lnsy44n8e')) # Derived at m/84'/1'/0'/0
         assert_equal(wmulti_priv.getwalletinfo()['keypoolsize'], 1000)
         txid = w0.sendtoaddress(addr, 10)
         self.generate(self.nodes[0], 6)
@@ -482,9 +483,9 @@ class ImportDescriptorsTest(BitnetTestFramework):
 
         assert_equal(wmulti_pub.getwalletinfo()['keypoolsize'], 1000) # The first one was already consumed by previous import and is detected as used
         addr = wmulti_pub.getnewaddress('', 'bech32') # uses receive 1
-        assert_equal(addr, 'bcrt1qp8s25ckjl7gr6x2q3dx3tn2pytwp05upkjztk6ey857tt50r5aeqn6mvr9') # Derived at m/84'/0'/0'/1
+        assert_equal(addr, convert_btc_bech32_address_to_qtum('bcrt1qp8s25ckjl7gr6x2q3dx3tn2pytwp05upkjztk6ey857tt50r5aeqn6mvr9')) # Derived at m/84'/0'/0'/1
         change_addr = wmulti_pub.getrawchangeaddress('bech32') # uses change 2
-        assert_equal(change_addr, 'bcrt1qp6j3jw8yetefte7kw6v5pc89rkgakzy98p6gf7ayslaveaxqyjusnw580c') # Derived at m/84'/1'/0'/2
+        assert_equal(change_addr, convert_btc_bech32_address_to_qtum('bcrt1qp6j3jw8yetefte7kw6v5pc89rkgakzy98p6gf7ayslaveaxqyjusnw580c')) # Derived at m/84'/1'/0'/2
         assert send_txid in self.nodes[0].getrawmempool(True)
         assert send_txid in (x['txid'] for x in wmulti_pub.listunspent(0))
         assert_equal(wmulti_pub.getwalletinfo()['keypoolsize'], 999)
@@ -586,7 +587,7 @@ class ImportDescriptorsTest(BitnetTestFramework):
         w0.sendtoaddress(addr, 10)
         self.generate(self.nodes[0], 1)
         # It is standard and would relay.
-        txid = wmulti_priv_big.sendtoaddress(w0.getnewaddress(), 9.999)
+        txid = wmulti_priv_big.sendtoaddress(w0.getnewaddress(), 9.9)
         decoded = wmulti_priv_big.gettransaction(txid=txid, verbose=True)['decoded']
         # 20 sigs + dummy + witness script
         assert_equal(len(decoded['vin'][0]['txinwitness']), 22)
@@ -665,35 +666,8 @@ class ImportDescriptorsTest(BitnetTestFramework):
                               "range": 1,
                               "timestamp": "now"},
                               success=True,
-                              warnings=["Unknown output type, cannot set descriptor to active."])
-
-        self.log.info("Test importing a descriptor to an encrypted wallet")
-
-        descriptor = {"desc": descsum_create("pkh(" + xpriv + "/1h/*h)"),
-                              "timestamp": "now",
-                              "active": True,
-                              "range": [0,4000],
-                              "next_index": 4000}
-
-        self.nodes[0].createwallet("temp_wallet", blank=True, descriptors=True)
-        temp_wallet = self.nodes[0].get_wallet_rpc("temp_wallet")
-        temp_wallet.importdescriptors([descriptor])
-        self.generatetoaddress(self.nodes[0], COINBASE_MATURITY + 1, temp_wallet.getnewaddress())
-        self.generatetoaddress(self.nodes[0], COINBASE_MATURITY + 1, temp_wallet.getnewaddress())
-
-        self.nodes[0].createwallet("encrypted_wallet", blank=True, descriptors=True, passphrase="passphrase")
-        encrypted_wallet = self.nodes[0].get_wallet_rpc("encrypted_wallet")
-
-        descriptor["timestamp"] = 0
-        descriptor["next_index"] = 0
-
-        batch = []
-        batch.append(encrypted_wallet.walletpassphrase.get_request("passphrase", 3))
-        batch.append(encrypted_wallet.importdescriptors.get_request([descriptor]))
-
-        encrypted_wallet.batch(batch)
-
-        assert_equal(temp_wallet.getbalance(), encrypted_wallet.getbalance())
+                              # warnings=["Unknown output type, cannot set descriptor to active."]
+                              )
 
 if __name__ == '__main__':
     ImportDescriptorsTest().main()

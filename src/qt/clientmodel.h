@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -32,8 +32,9 @@ QT_END_NAMESPACE
 
 enum class BlockSource {
     NONE,
+    REINDEX,
     DISK,
-    NETWORK,
+    NETWORK
 };
 
 enum class SyncType {
@@ -49,7 +50,7 @@ enum NumConnections {
     CONNECTIONS_ALL  = (CONNECTIONS_IN | CONNECTIONS_OUT),
 };
 
-/** Model for Bitnet network client. */
+/** Model for Bitcoin network client. */
 class ClientModel : public QObject
 {
     Q_OBJECT
@@ -71,8 +72,8 @@ public:
     int getHeaderTipHeight() const;
     int64_t getHeaderTipTime() const;
 
-    //! Returns the block source of the current importing/syncing state
-    BlockSource getBlockSource() const;
+    //! Returns enum BlockSource of the current importing/syncing state
+    enum BlockSource getBlockSource() const;
     //! Return warnings to be displayed in status bar
     QString getStatusBarWarnings() const;
 
@@ -92,6 +93,7 @@ public:
 
     Mutex m_cached_tip_mutex;
     uint256 m_cached_tip_blocks GUARDED_BY(m_cached_tip_mutex){};
+    bool fBatchProcessingMode;
 
 private:
     interfaces::Node& m_node;
@@ -103,9 +105,9 @@ private:
     std::unique_ptr<interfaces::Handler> m_handler_notify_block_tip;
     std::unique_ptr<interfaces::Handler> m_handler_notify_header_tip;
     OptionsModel *optionsModel;
-    PeerTableModel* peerTableModel{nullptr};
+    PeerTableModel *peerTableModel;
     PeerTableSortProxy* m_peer_table_sort_proxy{nullptr};
-    BanTableModel* banTableModel{nullptr};
+    BanTableModel *banTableModel;
 
     //! A thread to interact with m_node asynchronously
     QThread* const m_thread;
@@ -121,12 +123,17 @@ Q_SIGNALS:
     void networkActiveChanged(bool networkActive);
     void alertsChanged(const QString &warnings);
     void bytesChanged(quint64 totalBytesIn, quint64 totalBytesOut);
+    void tipChanged();
+    void gasInfoChanged(quint64 blockGasLimit, quint64 minGasPrice, quint64 nGasPrice);
 
     //! Fired when a message should be reported to the user
     void message(const QString &title, const QString &message, unsigned int style);
 
     // Show progress dialog e.g. for verifychain
     void showProgress(const QString &title, int nProgress);
+
+public Q_SLOTS:
+    void updateTip();
 };
 
 #endif // BITCOIN_QT_CLIENTMODEL_H

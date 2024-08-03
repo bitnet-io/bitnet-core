@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Bitnet Core developers
+// Copyright (c) 2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #ifndef BITCOIN_KERNEL_MEMPOOL_LIMITS_H
@@ -24,15 +24,6 @@ struct MemPoolLimits {
     int64_t descendant_count{DEFAULT_DESCENDANT_LIMIT};
     //! The maximum allowed size in virtual bytes of an entry and its descendants within a package.
     int64_t descendant_size_vbytes{DEFAULT_DESCENDANT_SIZE_LIMIT_KVB * 1'000};
-
-    /**
-     * @return MemPoolLimits with all the limits set to the maximum
-     */
-    static constexpr MemPoolLimits NoLimits()
-    {
-        int64_t no_limit{std::numeric_limits<int64_t>::max()};
-        return {no_limit, no_limit, no_limit, no_limit};
-    }
 };
 } // namespace kernel
 

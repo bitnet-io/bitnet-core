@@ -1,16 +1,14 @@
-// Copyright (c) 2018-2022 The Bitnet Core developers
+// Copyright (c) 2018-2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <script/descriptor.h>
 
-#include <hash.h>
 #include <key_io.h>
 #include <pubkey.h>
 #include <script/miniscript.h>
 #include <script/script.h>
 #include <script/standard.h>
-#include <uint256.h>
 
 #include <span.h>
 #include <util/bip32.h>
@@ -741,6 +739,7 @@ protected:
     }
 public:
     PKDescriptor(std::unique_ptr<PubkeyProvider> prov, bool xonly = false) : DescriptorImpl(Vector(std::move(prov)), "pk"), m_xonly(xonly) {}
+    std::optional<OutputType> GetOutputType() const override { return OutputType::LEGACY; }
     bool IsSingleType() const final { return true; }
 };
 
@@ -1014,7 +1013,7 @@ public:
         return false;
     }
 
-    bool IsSolvable() const override { return true; }
+    bool IsSolvable() const override { return false; } // For now, mark these descriptors as non-solvable (as we don't have signing logic for them).
     bool IsSingleType() const final { return true; }
 };
 
@@ -1620,7 +1619,8 @@ std::unique_ptr<DescriptorImpl> InferScript(const CScript& script, ParseScriptCo
         }
     }
     if (txntype == TxoutType::WITNESS_V0_SCRIPTHASH && (ctx == ParseScriptContext::TOP || ctx == ParseScriptContext::P2SH)) {
-        CScriptID scriptid{RIPEMD160(data[0])};
+        CScriptID scriptid;
+        CRIPEMD160().Write(data[0].data(), data[0].size()).Finalize(scriptid.begin());
         CScript subscript;
         if (provider.GetCScript(scriptid, subscript)) {
             auto sub = InferScript(subscript, ParseScriptContext::P2WSH, provider);
@@ -1644,7 +1644,7 @@ std::unique_ptr<DescriptorImpl> InferScript(const CScript& script, ParseScriptCo
                 for (const auto& [depth, script, leaf_ver] : *tree) {
                     std::unique_ptr<DescriptorImpl> subdesc;
                     if (leaf_ver == TAPROOT_LEAF_TAPSCRIPT) {
-                        subdesc = InferScript(CScript(script.begin(), script.end()), ParseScriptContext::P2TR, provider);
+                        subdesc = InferScript(script, ParseScriptContext::P2TR, provider);
                     }
                     if (!subdesc) {
                         ok = false;
@@ -1833,17 +1833,17 @@ DescriptorCache DescriptorCache::MergeAndDiff(const DescriptorCache& other)
     return diff;
 }
 
-ExtPubKeyMap DescriptorCache::GetCachedParentExtPubKeys() const
+const ExtPubKeyMap DescriptorCache::GetCachedParentExtPubKeys() const
 {
     return m_parent_xpubs;
 }
 
-std::unordered_map<uint32_t, ExtPubKeyMap> DescriptorCache::GetCachedDerivedExtPubKeys() const
+const std::unordered_map<uint32_t, ExtPubKeyMap> DescriptorCache::GetCachedDerivedExtPubKeys() const
 {
     return m_derived_xpubs;
 }
 
-ExtPubKeyMap DescriptorCache::GetCachedLastHardenedExtPubKeys() const
+const ExtPubKeyMap DescriptorCache::GetCachedLastHardenedExtPubKeys() const
 {
     return m_last_hardened_xpubs;
 }

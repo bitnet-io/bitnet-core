@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Bitnet Core developers
+// Copyright (c) 2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -48,9 +48,8 @@ uint64_t GetBogoSize(const CScript& script_pub_key)
            script_pub_key.size() /* scriptPubKey */;
 }
 
-DataStream TxOutSer(const COutPoint& outpoint, const Coin& coin)
-{
-    DataStream ss{};
+CDataStream TxOutSer(const COutPoint& outpoint, const Coin& coin) {
+    CDataStream ss(SER_DISK, PROTOCOL_VERSION);
     ss << outpoint;
     ss << static_cast<uint32_t>(coin.nHeight * 2 + coin.fCoinBase);
     ss << coin.out;
@@ -74,11 +73,11 @@ static void ApplyHash(HashWriter& ss, const uint256& hash, const std::map<uint32
     for (auto it = outputs.begin(); it != outputs.end(); ++it) {
         if (it == outputs.begin()) {
             ss << hash;
-            ss << VARINT(it->second.nHeight * 2 + it->second.fCoinBase ? 1u : 0u);
+            ss << VARINT((it->second.nHeight << 2) + (it->second.fCoinBase ? 1u : 0u) + (it->second.fCoinStake ? 2u : 0u));
         }
 
         ss << VARINT(it->first + 1);
-        ss << it->second.out.scriptPubKey;
+        ss << *(const CScriptBase*)(&(it->second.out.scriptPubKey));
         ss << VARINT_MODE(it->second.out.nValue, VarIntMode::NONNEGATIVE_SIGNED);
 
         if (it == std::prev(outputs.end())) {

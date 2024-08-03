@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2021 The Bitnet Core developers
+// Copyright (c) 2015-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -93,7 +93,7 @@ private:
     /** Libevent event base */
     struct event_base *base;
     /** Connection to control socket */
-    struct bufferevent* b_conn{nullptr};
+    struct bufferevent *b_conn;
     /** Message being received */
     TorControlReply message;
     /** Response handlers */
@@ -104,7 +104,7 @@ private:
     static void eventcb(struct bufferevent *bev, short what, void *ctx);
 };
 
-/****** Bitnet specific TorController implementation ********/
+/****** Bitcoin specific TorController implementation ********/
 
 /** Controller that connects to Tor control socket, authenticate, then create
  * and maintain an ephemeral onion service.

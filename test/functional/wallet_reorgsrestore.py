@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2022 The Bitnet Core developers
+# Copyright (c) 2019-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,15 +17,12 @@ from decimal import Decimal
 import os
 import shutil
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
         assert_equal,
 )
 
-class ReorgsRestoreTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class ReorgsRestoreTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 3
 
@@ -58,8 +55,8 @@ class ReorgsRestoreTest(BitnetTestFramework):
         outputs_2 = {}
 
         # Create a conflicted tx broadcast on node0 chain and conflicting tx broadcast on node1 chain. Both spend from txid_conflict_from
-        outputs_1[self.nodes[0].getnewaddress()] = Decimal("9.99998")
-        outputs_2[self.nodes[0].getnewaddress()] = Decimal("9.99998")
+        outputs_1[self.nodes[0].getnewaddress()] = Decimal("9.998")
+        outputs_2[self.nodes[0].getnewaddress()] = Decimal("9.998")
         conflicted = self.nodes[0].signrawtransactionwithwallet(self.nodes[0].createrawtransaction(inputs, outputs_1))
         conflicting = self.nodes[0].signrawtransactionwithwallet(self.nodes[0].createrawtransaction(inputs, outputs_2))
 
@@ -94,11 +91,11 @@ class ReorgsRestoreTest(BitnetTestFramework):
         tx_after_reorg = self.nodes[1].gettransaction(txid)
         # Check that normal confirmed tx is confirmed again but with different blockhash
         assert_equal(tx_after_reorg["confirmations"], 2)
-        assert tx_before_reorg["blockhash"] != tx_after_reorg["blockhash"]
+        assert(tx_before_reorg["blockhash"] != tx_after_reorg["blockhash"])
         conflicted_after_reorg = self.nodes[1].gettransaction(conflicted_txid)
         # Check that conflicted tx is confirmed again with blockhash different than previously conflicting tx
         assert_equal(conflicted_after_reorg["confirmations"], 1)
-        assert conflicting["blockhash"] != conflicted_after_reorg["blockhash"]
+        assert(conflicting["blockhash"] != conflicted_after_reorg["blockhash"])
 
 if __name__ == '__main__':
     ReorgsRestoreTest().main()

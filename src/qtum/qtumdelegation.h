@@ -1,5 +1,5 @@
-#ifndef QTUMDELEGATION_H
-#define QTUMDELEGATION_H
+#ifndef BITDELEGATION_H
+#define BITDELEGATION_H
 #include <string>
 #include <vector>
 #include <map>

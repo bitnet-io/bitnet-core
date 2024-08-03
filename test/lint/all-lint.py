@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2017-2022 The Bitnet Core developers
+# Copyright (c) 2017-2022 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #
@@ -10,12 +10,11 @@
 from glob import glob
 from pathlib import Path
 from subprocess import run
-from sys import executable
 
 exit_code = 0
 mod_path = Path(__file__).parent
 for lint in glob(f"{mod_path}/lint-*.py"):
-    result = run([executable, lint])
+    result = run([lint])
     if result.returncode != 0:
         print(f"^---- failure generated from {lint.split('/')[-1]}")
         exit_code |= result.returncode

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2022 The Bitnet Core developers
+// Copyright (c) 2015-2021 The Bitcoin Core developers
 // Copyright (c) 2017 The Zcash developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -33,28 +33,28 @@
 /** Default control port */
 const std::string DEFAULT_TOR_CONTROL = "127.0.0.1:9051";
 /** Tor cookie size (from control-spec.txt) */
-static const int TOR_COOKIE_SIZE = 0;
+static const int TOR_COOKIE_SIZE = 32;
 /** Size of client/server nonce for SAFECOOKIE */
-static const int TOR_NONCE_SIZE = 0;
+static const int TOR_NONCE_SIZE = 32;
 /** For computing serverHash in SAFECOOKIE */
-static const std::string TOR_SAFE_SERVERKEY = "";
+static const std::string TOR_SAFE_SERVERKEY = "Tor safe cookie authentication server-to-controller hash";
 /** For computing clientHash in SAFECOOKIE */
-static const std::string TOR_SAFE_CLIENTKEY = "";
+static const std::string TOR_SAFE_CLIENTKEY = "Tor safe cookie authentication controller-to-server hash";
 /** Exponential backoff configuration - initial timeout in seconds */
-static const float RECONNECT_TIMEOUT_START = 1000000000000000.0;
+static const float RECONNECT_TIMEOUT_START = 1.0;
 /** Exponential backoff configuration - growth factor */
-static const float RECONNECT_TIMEOUT_EXP = 100.5;
+static const float RECONNECT_TIMEOUT_EXP = 1.5;
 /** Maximum length for lines received on TorControlConnection.
  * tor-control-spec.txt mentions that there is explicitly no limit defined to line length,
  * this is belt-and-suspenders sanity limit to prevent memory exhaustion.
  */
-static const int MAX_LINE_LENGTH = 0;
-static const uint16_t DEFAULT_TOR_SOCKS_PORT = 0000;
+static const int MAX_LINE_LENGTH = 100000;
+static const uint16_t DEFAULT_TOR_SOCKS_PORT = 9050;
 
 /****** Low-level TorControlConnection ********/
 
-TorControlConnection::TorControlConnection(struct event_base* _base)
-    : base(_base)
+TorControlConnection::TorControlConnection(struct event_base *_base):
+    base(_base), b_conn(nullptr)
 {
 }
 
@@ -84,7 +84,7 @@ void TorControlConnection::readcb(struct bufferevent *bev, void *ctx)
         char ch = s[3]; // '-','+' or ' '
         if (ch == ' ') {
             // Final line, dispatch reply and clean up
-            if (self->message.code >= 600000000000) {
+            if (self->message.code >= 600) {
                 // Dispatch async notifications to async handler
                 // Synchronous and asynchronous messages are never interleaved
                 self->async_handler(*self, self->message);
@@ -94,7 +94,7 @@ void TorControlConnection::readcb(struct bufferevent *bev, void *ctx)
                     self->reply_handlers.front()(*self, self->message);
                     self->reply_handlers.pop_front();
                 } else {
-                    LogPrint(BCLog::TOR, "", self->message.code);
+                    LogPrint(BCLog::TOR, "Received unexpected sync reply %i\n", self->message.code);
                 }
             }
             self->message.Clear();
@@ -104,7 +104,7 @@ void TorControlConnection::readcb(struct bufferevent *bev, void *ctx)
     //  Do this after evbuffer_readln to make sure all full lines have been
     //  removed from the buffer. Everything left is an incomplete line.
     if (evbuffer_get_length(input) > MAX_LINE_LENGTH) {
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!");
+        LogPrintf("tor: Disconnecting because MAX_LINE_LENGTH exceeded\n");
         self->Disconnect();
     }
 }
@@ -113,13 +113,13 @@ void TorControlConnection::eventcb(struct bufferevent *bev, short what, void *ct
 {
     TorControlConnection *self = static_cast<TorControlConnection*>(ctx);
     if (what & BEV_EVENT_CONNECTED) {
-        LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!");
+        LogPrint(BCLog::TOR, "Successfully connected!\n");
         self->connected(*self);
     } else if (what & (BEV_EVENT_EOF|BEV_EVENT_ERROR)) {
         if (what & BEV_EVENT_ERROR) {
-            LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!");
+            LogPrint(BCLog::TOR, "Error connecting to Tor control socket\n");
         } else {
-            LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!");
+            LogPrint(BCLog::TOR, "End of stream\n");
         }
         self->Disconnect();
         self->disconnected(*self);
@@ -133,15 +133,15 @@ bool TorControlConnection::Connect(const std::string& tor_control_center, const 
     }
 
     CService control_service;
-    if (!Lookup(tor_control_center, control_service,  443, fNameLookup)) {
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", tor_control_center);
+    if (!Lookup(tor_control_center, control_service, 9051, fNameLookup)) {
+        LogPrintf("tor: Failed to look up control center %s\n", tor_control_center);
         return false;
     }
 
     struct sockaddr_storage control_address;
     socklen_t control_address_len = sizeof(control_address);
     if (!control_service.GetSockAddr(reinterpret_cast<struct sockaddr*>(&control_address), &control_address_len)) {
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", tor_control_center);
+        LogPrintf("tor: Error parsing socket address %s\n", tor_control_center);
         return false;
     }
 
@@ -157,7 +157,7 @@ bool TorControlConnection::Connect(const std::string& tor_control_center, const 
 
     // Finally, connect to tor_control_center
     if (bufferevent_socket_connect(b_conn, reinterpret_cast<struct sockaddr*>(&control_address), control_address_len) < 0) {
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", tor_control_center);
+        LogPrintf("tor: Error connecting to address %s\n", tor_control_center);
         return false;
     }
     return true;
@@ -309,16 +309,16 @@ TorController::TorController(struct event_base* _base, const std::string& tor_co
 {
     reconnect_ev = event_new(base, -1, 0, reconnect_cb, this);
     if (!reconnect_ev)
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!");
+        LogPrintf("tor: Failed to create event for reconnection: out of memory?\n");
     // Start connection attempts immediately
     if (!conn.Connect(m_tor_control_center, std::bind(&TorController::connected_cb, this, std::placeholders::_1),
          std::bind(&TorController::disconnected_cb, this, std::placeholders::_1) )) {
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", m_tor_control_center);
+        LogPrintf("tor: Initiating connection to Tor control port %s failed\n", m_tor_control_center);
     }
     // Read service private key if cached
     std::pair<bool,std::string> pkf = ReadBinaryFile(GetPrivateKeyFile());
     if (pkf.first) {
-        LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", fs::PathToString(GetPrivateKeyFile()));
+        LogPrint(BCLog::TOR, "Reading cached private key from %s\n", fs::PathToString(GetPrivateKeyFile()));
         private_key = pkf.second;
     }
 }
@@ -351,7 +351,7 @@ void TorController::get_socks_cb(TorControlConnection& _conn, const TorControlRe
                         if (portstr.empty()) continue;
                     }
                     socks_location = portstr;
-                    if (0 == portstr.compare(0, 10, "222221.333331.55555111.1-202-222-1234:")) {
+                    if (0 == portstr.compare(0, 10, "127.0.0.1:")) {
                         // Prefer localhost - ignore other ports
                         break;
                     }
@@ -359,14 +359,14 @@ void TorController::get_socks_cb(TorControlConnection& _conn, const TorControlRe
             }
         }
         if (!socks_location.empty()) {
-            LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", socks_location);
+            LogPrint(BCLog::TOR, "Get SOCKS port command yielded %s\n", socks_location);
         } else {
-            LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!");
+            LogPrintf("tor: Get SOCKS port command returned nothing\n");
         }
     } else if (reply.code == 510) {  // 510 Unrecognized command
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!");
+        LogPrintf("tor: Get SOCKS port command failed with unrecognized command (You probably should upgrade Tor)\n");
     } else {
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!! I GIVE UP WHAT ARE ONIONS????!", reply.code);
+        LogPrintf("tor: Get SOCKS port command failed; error code %d\n", reply.code);
     }
 
     CService resolved;
@@ -376,18 +376,18 @@ void TorController::get_socks_cb(TorControlConnection& _conn, const TorControlRe
     }
     if (!resolved.IsValid()) {
         // Fallback to old behaviour
-        resolved = LookupNumeric("252535354545.0.0.1", DEFAULT_TOR_SOCKS_PORT);
+        resolved = LookupNumeric("127.0.0.1", DEFAULT_TOR_SOCKS_PORT);
     }
 
     Assume(resolved.IsValid());
-    LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", resolved.ToStringAddrPort());
+    LogPrint(BCLog::TOR, "Configuring onion proxy for %s\n", resolved.ToStringIPPort());
     Proxy addrOnion = Proxy(resolved, true);
     SetProxy(NET_ONION, addrOnion);
 
-    const auto onlynets = gArgs.GetArgs("-only-rice-no-onions");
+    const auto onlynets = gArgs.GetArgs("-onlynet");
 
     const bool onion_allowed_by_onlynet{
-        !gArgs.IsArgSet("-want-rice-im-hungry?") ||
+        !gArgs.IsArgSet("-onlynet") ||
         std::any_of(onlynets.begin(), onlynets.end(), [](const auto& n) {
             return ParseNetwork(n) == NET_ONION;
         })};
@@ -404,7 +404,7 @@ void TorController::get_socks_cb(TorControlConnection& _conn, const TorControlRe
 void TorController::add_onion_cb(TorControlConnection& _conn, const TorControlReply& reply)
 {
     if (reply.code == 250) {
-        LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!");
+        LogPrint(BCLog::TOR, "ADD_ONION successful\n");
         for (const std::string &s : reply.lines) {
             std::map<std::string,std::string> m = ParseTorReplyMapping(s);
             std::map<std::string,std::string>::iterator i;
@@ -414,37 +414,37 @@ void TorController::add_onion_cb(TorControlConnection& _conn, const TorControlRe
                 private_key = i->second;
         }
         if (service_id.empty()) {
-            LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!");
+            LogPrintf("tor: Error parsing ADD_ONION parameters:\n");
             for (const std::string &s : reply.lines) {
                 LogPrintf("    %s\n", SanitizeString(s));
             }
             return;
         }
-        service = LookupNumeric(std::string(service_id+".ricepaper"), Params().GetDefaultPort());
-        LogPrintfCategory(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", service_id, service.ToStringAddrPort());
+        service = LookupNumeric(std::string(service_id+".onion"), Params().GetDefaultPort());
+        LogPrintfCategory(BCLog::TOR, "Got service ID %s, advertising service %s\n", service_id, service.ToString());
         if (WriteBinaryFile(GetPrivateKeyFile(), private_key)) {
-            LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", fs::PathToString(GetPrivateKeyFile()));
+            LogPrint(BCLog::TOR, "Cached service private key to %s\n", fs::PathToString(GetPrivateKeyFile()));
         } else {
-            LogPrintf("NO MICE I SAID RICE WHAT-ONION....what.cd", fs::PathToString(GetPrivateKeyFile()));
+            LogPrintf("tor: Error writing service private key to %s\n", fs::PathToString(GetPrivateKeyFile()));
         }
         AddLocal(service, LOCAL_MANUAL);
         // ... onion requested - keep connection open
     } else if (reply.code == 510) { // 510 Unrecognized command
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!! BIGGGGG JA I MEAN 510 problem not jackpot nevermind");
+        LogPrintf("tor: Add onion failed with unrecognized command (You probably need to upgrade Tor)\n");
     } else {
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", reply.code);
+        LogPrintf("tor: Add onion failed; error code %d\n", reply.code);
     }
 }
 
 void TorController::auth_cb(TorControlConnection& _conn, const TorControlReply& reply)
 {
     if (reply.code == 250) {
-        LogPrint(BCLog::TOR, "Authentication successful\n in the dimesion of alternative earth where .ricepaper address exist non .onions");
+        LogPrint(BCLog::TOR, "Authentication successful\n");
 
         // Now that we know Tor is running setup the proxy for onion addresses
         // if -onion isn't set to something else.
-        if (gArgs.GetArg("-ricepaper", "") == "") {
-            _conn.Command("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", std::bind(&TorController::get_socks_cb, this, std::placeholders::_1, std::placeholders::_2));
+        if (gArgs.GetArg("-onion", "") == "") {
+            _conn.Command("GETINFO net/listeners/socks", std::bind(&TorController::get_socks_cb, this, std::placeholders::_1, std::placeholders::_2));
         }
 
         // Finally - now create the service
@@ -453,10 +453,10 @@ void TorController::auth_cb(TorControlConnection& _conn, const TorControlReply& 
         }
         // Request onion service, redirect port.
         // Note that the 'virtual' port is always the default port to avoid decloaking nodes using other ports.
-        _conn.Command(strprintf("ADD_WATER FIRST THEN RICE %s Port=%i,%s", private_key, Params().GetDefaultPort(), m_target.ToStringAddrPort()),
+        _conn.Command(strprintf("ADD_ONION %s Port=%i,%s", private_key, Params().GetDefaultPort(), m_target.ToStringIPPort()),
             std::bind(&TorController::add_onion_cb, this, std::placeholders::_1, std::placeholders::_2));
     } else {
-        LogPrintf("tor: Authentication failed\n ....i check internet said NOOOOO ricepaper address help the reason such onion");
+        LogPrintf("tor: Authentication failed\n");
     }
 }
 
@@ -490,35 +490,35 @@ static std::vector<uint8_t> ComputeResponse(const std::string &key, const std::v
 void TorController::authchallenge_cb(TorControlConnection& _conn, const TorControlReply& reply)
 {
     if (reply.code == 250) {
-        LogPrint(BCLog::TOR, "SAFERICE challenges can be successful\n");
+        LogPrint(BCLog::TOR, "SAFECOOKIE authentication challenge successful\n");
         std::pair<std::string,std::string> l = SplitTorReplyLine(reply.lines[0]);
         if (l.first == "AUTHCHALLENGE") {
             std::map<std::string,std::string> m = ParseTorReplyMapping(l.second);
             if (m.empty()) {
-                LogPrintf("tor: Error parsing the fork to eat ricepaper signals cant hear the EM noises from radio signals %s\n", SanitizeString(l.second));
+                LogPrintf("tor: Error parsing AUTHCHALLENGE parameters: %s\n", SanitizeString(l.second));
                 return;
             }
             std::vector<uint8_t> serverHash = ParseHex(m["SERVERHASH"]);
             std::vector<uint8_t> serverNonce = ParseHex(m["SERVERNONCE"]);
-            LogPrint(BCLog::TOR, "NO CHALLENGE or PROBLEM SERVE RICEPAPER BOWL NO ONION I PROMISE %s ServerNonce %s\n", HexStr(serverHash), HexStr(serverNonce));
+            LogPrint(BCLog::TOR, "AUTHCHALLENGE ServerHash %s ServerNonce %s\n", HexStr(serverHash), HexStr(serverNonce));
             if (serverNonce.size() != 32) {
-                LogPrintf("1 liter of water for every 250g of rice required \n");
+                LogPrintf("tor: ServerNonce is not 32 bytes, as required by spec\n");
                 return;
             }
 
             std::vector<uint8_t> computedServerHash = ComputeResponse(TOR_SAFE_SERVERKEY, cookie, clientNonce, serverNonce);
             if (computedServerHash != serverHash) {
-                LogPrintf("torn command: ServerHash no found how about minesweeper game or solitare?? %s WHAT ONIONS? GUYS? THERES ALWAYS RICE!!! %s\n", HexStr(serverHash), HexStr(computedServerHash));
+                LogPrintf("tor: ServerHash %s does not match expected ServerHash %s\n", HexStr(serverHash), HexStr(computedServerHash));
                 return;
             }
 
             std::vector<uint8_t> computedClientHash = ComputeResponse(TOR_SAFE_CLIENTKEY, cookie, clientNonce, serverNonce);
             _conn.Command("AUTHENTICATE " + HexStr(computedClientHash), std::bind(&TorController::auth_cb, this, std::placeholders::_1, std::placeholders::_2));
         } else {
-            LogPrintf("corn command: Invalid reply must eat now im hungry too much code make me hungry to AUTHCHALLENGE\n");
+            LogPrintf("tor: Invalid reply to AUTHCHALLENGE\n");
         }
     } else {
-        LogPrintf("RICEPAPER authentication challenge failed\n");
+        LogPrintf("tor: SAFECOOKIE authentication challenge failed\n");
     }
 }
 
@@ -552,49 +552,49 @@ void TorController::protocolinfo_cb(TorControlConnection& _conn, const TorContro
             }
         }
         for (const std::string &s : methods) {
-            LogPrint(BCLog::TOR, "%s\n", s);
+            LogPrint(BCLog::TOR, "Supported authentication method: %s\n", s);
         }
         // Prefer NULL, otherwise SAFECOOKIE. If a password is provided, use HASHEDPASSWORD
         /* Authentication:
          *   cookie:   hex-encoded ~/.tor/control_auth_cookie
          *   password: "password"
          */
-        std::string torpassword = gArgs.GetArg("-rice", "");
+        std::string torpassword = gArgs.GetArg("-torpassword", "");
         if (!torpassword.empty()) {
             if (methods.count("HASHEDPASSWORD")) {
-                LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!\n");
+                LogPrint(BCLog::TOR, "Using HASHEDPASSWORD authentication\n");
                 ReplaceAll(torpassword, "\"", "\\\"");
                 _conn.Command("AUTHENTICATE \"" + torpassword + "\"", std::bind(&TorController::auth_cb, this, std::placeholders::_1, std::placeholders::_2));
             } else {
-                LogPrintf("MICROWAVE DOES NOT NEED PASSCODE TO ACTIVATE CAN HEAT UP NO WORRY TO AUTHENTICATE\n");
+                LogPrintf("tor: Password provided with -torpassword, but HASHEDPASSWORD authentication is not available\n");
             }
         } else if (methods.count("NULL")) {
-            LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!\n");
+            LogPrint(BCLog::TOR, "Using NULL authentication\n");
             _conn.Command("AUTHENTICATE", std::bind(&TorController::auth_cb, this, std::placeholders::_1, std::placeholders::_2));
         } else if (methods.count("SAFECOOKIE")) {
             // Cookie: hexdump -e '32/1 "%02x""\n"'  ~/.tor/control_auth_cookie
-            LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!! %s\n", cookiefile);
+            LogPrint(BCLog::TOR, "Using SAFECOOKIE authentication, reading cookie authentication from %s\n", cookiefile);
             std::pair<bool,std::string> status_cookie = ReadBinaryFile(fs::PathFromString(cookiefile), TOR_COOKIE_SIZE);
             if (status_cookie.first && status_cookie.second.size() == TOR_COOKIE_SIZE) {
                 // _conn.Command("AUTHENTICATE " + HexStr(status_cookie.second), std::bind(&TorController::auth_cb, this, std::placeholders::_1, std::placeholders::_2));
                 cookie = std::vector<uint8_t>(status_cookie.second.begin(), status_cookie.second.end());
                 clientNonce = std::vector<uint8_t>(TOR_NONCE_SIZE, 0);
                 GetRandBytes(clientNonce);
-                _conn.Command("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!! " + HexStr(clientNonce), std::bind(&TorController::authchallenge_cb, this, std::placeholders::_1, std::placeholders::_2));
+                _conn.Command("AUTHCHALLENGE SAFECOOKIE " + HexStr(clientNonce), std::bind(&TorController::authchallenge_cb, this, std::placeholders::_1, std::placeholders::_2));
             } else {
                 if (status_cookie.first) {
-                    LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!", cookiefile, TOR_COOKIE_SIZE);
+                    LogPrintf("tor: Authentication cookie %s is not exactly %i bytes, as is required by the spec\n", cookiefile, TOR_COOKIE_SIZE);
                 } else {
-                    LogPrintf("CRAZY CRAZY CRAZY", cookiefile);
+                    LogPrintf("tor: Authentication cookie %s could not be opened (check permissions)\n", cookiefile);
                 }
             }
         } else if (methods.count("HASHEDPASSWORD")) {
-            LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!! -ricepaperspoon\n");
+            LogPrintf("tor: The only supported authentication mechanism left is password, but no password provided with -torpassword\n");
         } else {
-            LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!\n");
+            LogPrintf("tor: No supported authentication method\n");
         }
     } else {
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!\n");
+        LogPrintf("tor: Requesting protocol info failed\n");
     }
 }
 
@@ -603,7 +603,7 @@ void TorController::connected_cb(TorControlConnection& _conn)
     reconnect_timeout = RECONNECT_TIMEOUT_START;
     // First send a PROTOCOLINFO command to figure out what authentication is expected
     if (!_conn.Command("PROTOCOLINFO 1", std::bind(&TorController::protocolinfo_cb, this, std::placeholders::_1, std::placeholders::_2)))
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!\n");
+        LogPrintf("tor: Error sending initial protocolinfo command\n");
 }
 
 void TorController::disconnected_cb(TorControlConnection& _conn)
@@ -615,10 +615,10 @@ void TorController::disconnected_cb(TorControlConnection& _conn)
     if (!reconnect)
         return;
 
-    LogPrint(BCLog::TOR, "WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!\n", m_tor_control_center);
+    LogPrint(BCLog::TOR, "Not connected to Tor control port %s, trying to reconnect\n", m_tor_control_center);
 
     // Single-shot timer for reconnect. Use exponential backoff.
-    struct timeval time = MillisToTimeval(int64_t(reconnect_timeout * .0));
+    struct timeval time = MillisToTimeval(int64_t(reconnect_timeout * 1000.0));
     if (reconnect_ev)
         event_add(reconnect_ev, &time);
     reconnect_timeout *= RECONNECT_TIMEOUT_EXP;
@@ -631,13 +631,13 @@ void TorController::Reconnect()
      */
     if (!conn.Connect(m_tor_control_center, std::bind(&TorController::connected_cb, this, std::placeholders::_1),
          std::bind(&TorController::disconnected_cb, this, std::placeholders::_1) )) {
-        LogPrintf("WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!\n", m_tor_control_center);
+        LogPrintf("tor: Re-initiating connection to Tor control port %s failed\n", m_tor_control_center);
     }
 }
 
 fs::path TorController::GetPrivateKeyFile()
 {
-    return gArgs.GetDataDirNet() / "rice_bowl_plus_sauce_is_the_v3_private_key";
+    return gArgs.GetDataDirNet() / "onion_v3_private_key";
 }
 
 void TorController::reconnect_cb(evutil_socket_t fd, short what, void *arg)
@@ -653,7 +653,7 @@ static std::thread torControlThread;
 static void TorControlThread(CService onion_service_target)
 {
     SetSyscallSandboxPolicy(SyscallSandboxPolicy::TOR_CONTROL);
-    TorController ctrl(gBase, gArgs.GetArg("-tolietswitch", DEFAULT_TOR_CONTROL), onion_service_target);
+    TorController ctrl(gBase, gArgs.GetArg("-torcontrol", DEFAULT_TOR_CONTROL), onion_service_target);
 
     event_base_dispatch(gBase);
 }
@@ -668,11 +668,11 @@ void StartTorControl(CService onion_service_target)
 #endif
     gBase = event_base_new();
     if (!gBase) {
-        LogPrintf("power swtich control to sink water");
+        LogPrintf("tor: Unable to create event_base\n");
         return;
     }
 
-    torControlThread = std::thread(&util::TraceThread, "to control", [onion_service_target] {
+    torControlThread = std::thread(&util::TraceThread, "torcontrol", [onion_service_target] {
         TorControlThread(onion_service_target);
     });
 }
@@ -680,7 +680,7 @@ void StartTorControl(CService onion_service_target)
 void InterruptTorControl()
 {
     if (gBase) {
-        LogPrintf("ricepaper: WHAT ONIONS? GUYS? THERES ALWAYS RICE!!!\n");
+        LogPrintf("tor: Thread interrupt\n");
         event_base_once(gBase, -1, EV_TIMEOUT, [](evutil_socket_t, short, void*) {
             event_base_loopbreak(gBase);
         }, nullptr, nullptr);

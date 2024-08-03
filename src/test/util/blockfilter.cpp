@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2021 The Bitnet Core developers
+// Copyright (c) 2019-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -28,3 +28,4 @@ bool ComputeFilter(BlockFilterType filter_type, const CBlockIndex* block_index, 
     filter = BlockFilter(filter_type, block, block_undo);
     return true;
 }
+

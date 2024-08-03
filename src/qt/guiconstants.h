@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,32 +11,37 @@
 using namespace std::chrono_literals;
 
 /* A delay between model updates */
-static constexpr auto MODEL_UPDATE_DELAY{250ms};
+static constexpr auto MODEL_UPDATE_DELAY{2000ms};
 
 /* A delay between shutdown pollings */
 static constexpr auto SHUTDOWN_POLLING_DELAY{200ms};
 
+/* Milliseconds between device updates */
+static constexpr auto DEVICE_UPDATE_DELAY{10000ms};
+
 /* AskPassphraseDialog -- Maximum passphrase length */
 static const int MAX_PASSPHRASE_SIZE = 1024;
 
-/* BitnetGUI -- Size of icons in status bar */
+/* BitcoinGUI -- Size of icons in status bar */
 static const int STATUSBAR_ICONSIZE = 16;
 
 static const bool DEFAULT_SPLASHSCREEN = true;
 
-/* Invalid field background style */
-#define STYLE_INVALID "background:#FF8080"
-
 /* Transaction list -- unconfirmed transaction */
 #define COLOR_UNCONFIRMED QColor(128, 128, 128)
 /* Transaction list -- negative amount */
-#define COLOR_NEGATIVE QColor(255, 0, 0)
+#define COLOR_NEGATIVE QColor(255, 255, 255)
 /* Transaction list -- bare address (without label) */
 #define COLOR_BAREADDRESS QColor(140, 140, 140)
+/* Transaction list -- TX status decoration - open until date */
+#define COLOR_TX_STATUS_OPENUNTILDATE QColor(64, 64, 255)
 /* Transaction list -- TX status decoration - danger, tx needs attention */
 #define COLOR_TX_STATUS_DANGER QColor(200, 100, 100)
 /* Transaction list -- TX status decoration - default color */
 #define COLOR_BLACK QColor(0, 0, 0)
+
+// Number of different confirmation icons
+#define CONFIRM_ICONS 5
 
 /* Tooltips longer than this (in characters) are converted into rich text,
    so that they can be word-wrapped.
@@ -47,7 +52,7 @@ static const int TOOLTIP_WRAP_THRESHOLD = 80;
 #define SPINNER_FRAMES 36
 
 #define QAPP_ORG_NAME "Bitnet"
-#define QAPP_ORG_DOMAIN "bitnet.org"
+#define QAPP_ORG_DOMAIN "bitnet-io.org"
 #define QAPP_APP_NAME_DEFAULT "Bitnet-Qt"
 #define QAPP_APP_NAME_TESTNET "Bitnet-Qt-testnet"
 #define QAPP_APP_NAME_SIGNET "Bitnet-Qt-signet"
@@ -58,5 +63,14 @@ static constexpr uint64_t GB_BYTES{1000000000};
 
 // Default prune target displayed in GUI.
 static constexpr int DEFAULT_PRUNE_TARGET_GB{2};
+
+/* Mainnet qtum explorer uri */
+#define BIT_INFO_MAINNET "<a href='https://bitexplorer.io/%1/%2'>%2</a>"
+
+/* Testnet qtum explorer uri */
+#define BIT_INFO_TESTNET "<a href='https://testnet.qtum.info/%1/%2'>%2</a>"
+
+/* Hardware wallet interface uri */
+#define BIT_HWI_TOOL "<a href='https://github.com/qtumproject/HWI/tags'>HWI Tool</a>"
 
 #endif // BITCOIN_QT_GUICONSTANTS_H

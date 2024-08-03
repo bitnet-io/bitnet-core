@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-# Copyright (c) 2015-2022 The Bitnet Core developers
+# Copyright (c) 2015-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-"""Test bitnetd with different proxy configuration.
+"""Test bitcoind with different proxy configuration.
 
 Test plan:
-- Start bitnetd's with different proxy configurations
+- Start bitcoind's with different proxy configurations
 - Use addnode to initiate connections
 - Verify that proxies are connected to, and the right connection command is given
-- Proxy configurations to test on bitnetd side:
+- Proxy configurations to test on bitcoind side:
     - `-proxy` (proxy everything)
     - `-onion` (proxy just onions)
     - `-proxyrandomize` Circuit randomization
@@ -42,7 +42,7 @@ addnode connect to a CJDNS address
 import socket
 
 from test_framework.socks5 import Socks5Configuration, Socks5Command, Socks5Server, AddressType
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     p2p_port,
@@ -61,7 +61,7 @@ NET_CJDNS = "cjdns"
 NETWORKS = frozenset({NET_IPV4, NET_IPV6, NET_ONION, NET_I2P, NET_CJDNS})
 
 
-class ProxyTest(BitnetTestFramework):
+class ProxyTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 5
         self.setup_clean_chain = True
@@ -128,7 +128,7 @@ class ProxyTest(BitnetTestFramework):
         node.addnode(addr, "onetry")
         cmd = proxies[0].queue.get()
         assert isinstance(cmd, Socks5Command)
-        # Note: bitnetd's SOCKS5 implementation only sends atyp DOMAINNAME, even if connecting directly to IPv4/IPv6
+        # Note: bitcoind's SOCKS5 implementation only sends atyp DOMAINNAME, even if connecting directly to IPv4/IPv6
         assert_equal(cmd.atyp, AddressType.DOMAINNAME)
         assert_equal(cmd.addr, b"15.61.23.23")
         assert_equal(cmd.port, 1234)
@@ -144,7 +144,7 @@ class ProxyTest(BitnetTestFramework):
             node.addnode(addr, "onetry")
             cmd = proxies[1].queue.get()
             assert isinstance(cmd, Socks5Command)
-            # Note: bitnetd's SOCKS5 implementation only sends atyp DOMAINNAME, even if connecting directly to IPv4/IPv6
+            # Note: bitcoind's SOCKS5 implementation only sends atyp DOMAINNAME, even if connecting directly to IPv4/IPv6
             assert_equal(cmd.atyp, AddressType.DOMAINNAME)
             assert_equal(cmd.addr, b"1233:3432:2434:2343:3234:2345:6546:4534")
             assert_equal(cmd.port, 5443)
@@ -317,34 +317,19 @@ class ProxyTest(BitnetTestFramework):
 
         self.stop_node(1)
 
-        self.log.info("Test passing invalid -proxy hostname raises expected init error")
-        self.nodes[1].extra_args = ["-proxy=abc..abc:23456"]
-        msg = "Error: Invalid -proxy address or hostname: 'abc..abc:23456'"
+        self.log.info("Test passing invalid -proxy raises expected init error")
+        self.nodes[1].extra_args = ["-proxy=abc:def"]
+        msg = "Error: Invalid -proxy address or hostname: 'abc:def'"
         self.nodes[1].assert_start_raises_init_error(expected_msg=msg)
 
-        self.log.info("Test passing invalid -proxy port raises expected init error")
-        self.nodes[1].extra_args = ["-proxy=192.0.0.1:def"]
-        msg = "Error: Invalid port specified in -proxy: '192.0.0.1:def'"
+        self.log.info("Test passing invalid -onion raises expected init error")
+        self.nodes[1].extra_args = ["-onion=xyz:abc"]
+        msg = "Error: Invalid -onion address or hostname: 'xyz:abc'"
         self.nodes[1].assert_start_raises_init_error(expected_msg=msg)
 
-        self.log.info("Test passing invalid -onion hostname raises expected init error")
-        self.nodes[1].extra_args = ["-onion=xyz..xyz:23456"]
-        msg = "Error: Invalid -onion address or hostname: 'xyz..xyz:23456'"
-        self.nodes[1].assert_start_raises_init_error(expected_msg=msg)
-
-        self.log.info("Test passing invalid -onion port raises expected init error")
-        self.nodes[1].extra_args = ["-onion=192.0.0.1:def"]
-        msg = "Error: Invalid port specified in -onion: '192.0.0.1:def'"
-        self.nodes[1].assert_start_raises_init_error(expected_msg=msg)
-
-        self.log.info("Test passing invalid -i2psam hostname raises expected init error")
-        self.nodes[1].extra_args = ["-i2psam=def..def:23456"]
-        msg = "Error: Invalid -i2psam address or hostname: 'def..def:23456'"
-        self.nodes[1].assert_start_raises_init_error(expected_msg=msg)
-
-        self.log.info("Test passing invalid -i2psam port raises expected init error")
-        self.nodes[1].extra_args = ["-i2psam=192.0.0.1:def"]
-        msg = "Error: Invalid port specified in -i2psam: '192.0.0.1:def'"
+        self.log.info("Test passing invalid -i2psam raises expected init error")
+        self.nodes[1].extra_args = ["-i2psam=def:xyz"]
+        msg = "Error: Invalid -i2psam address or hostname: 'def:xyz'"
         self.nodes[1].assert_start_raises_init_error(expected_msg=msg)
 
         self.log.info("Test passing invalid -onlynet=i2p without -i2psam raises expected init error")

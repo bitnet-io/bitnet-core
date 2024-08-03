@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 The Bitnet Core developers
+// Copyright (c) 2016-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,7 +22,12 @@ class ModalOverlay : public QWidget
     Q_OBJECT
 
 public:
-    explicit ModalOverlay(bool enable_wallet, QWidget *parent);
+    enum OverlayType
+    {
+        Sync = 0,
+        Backup = 1
+    };
+    explicit ModalOverlay(bool enable_wallet, QWidget *parent, OverlayType _type = OverlayType::Sync);
     ~ModalOverlay();
 
     void tipUpdate(int count, const QDateTime& blockDate, double nVerificationProgress);
@@ -35,9 +40,11 @@ public:
 public Q_SLOTS:
     void toggleVisibility();
     void closeClicked();
+    void backupWalletClicked();
 
 Q_SIGNALS:
     void triggered(bool hidden);
+    void backupWallet();
 
 protected:
     bool eventFilter(QObject * obj, QEvent * ev) override;
@@ -45,14 +52,15 @@ protected:
 
 private:
     Ui::ModalOverlay *ui;
-    int bestHeaderHeight{0}; // best known height (based on the headers)
+    int bestHeaderHeight; //best known height (based on the headers)
     QDateTime bestHeaderDate;
     QVector<QPair<qint64, double> > blockProcessTime;
-    bool layerIsVisible{false};
-    bool userClosed{false};
+    bool layerIsVisible;
+    bool userClosed;
     QPropertyAnimation m_animation;
     void UpdateHeaderSyncLabel();
     void UpdateHeaderPresyncLabel(int height, const QDateTime& blockDate);
+    OverlayType type;
 };
 
 #endif // BITCOIN_QT_MODALOVERLAY_H

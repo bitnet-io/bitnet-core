@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2020 The Bitnet Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -30,7 +30,7 @@ public:
 
     enum ColumnIndex {
         Label = 0,   /**< User specified label */
-        Address = 1  /**< Bitnet address */
+        Address = 1  /**< Bitcoin address */
     };
 
     enum RoleIndex {
@@ -68,7 +68,7 @@ public:
     QString addRow(const QString &type, const QString &label, const QString &address, const OutputType address_type);
 
     /** Look up label for address in address book, if not found return empty string. */
-    QString labelForAddress(const QString &address) const;
+    QString labelForAddress(const QString &address, bool cached = true) const;
 
     /** Look up purpose for address in address book, if not found return empty string. */
     QString purposeForAddress(const QString &address) const;

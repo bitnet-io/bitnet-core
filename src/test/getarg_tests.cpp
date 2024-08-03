@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2022 The Bitnet Core developers
+// Copyright (c) 2012-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,7 +25,7 @@ void ResetArgs(ArgsManager& local_args, const std::string& strArg)
     }
 
     // Insert dummy executable name:
-    vecArg.insert(vecArg.begin(), "testbitnet");
+    vecArg.insert(vecArg.begin(), "testbitcoin");
 
     // Convert to char*:
     std::vector<const char*> vecChar;
@@ -308,60 +308,60 @@ BOOST_AUTO_TEST_CASE(patharg)
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), win_root_path);
 #endif
 
-    const fs::path absolute_path{"/home/user/.bitnet"};
-    ResetArgs(local_args, "-dir=/home/user/.bitnet");
+    const fs::path absolute_path{"/home/user/.bitcoin"};
+    ResetArgs(local_args, "-dir=/home/user/.bitcoin");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), absolute_path);
 
-    ResetArgs(local_args, "-dir=/root/../home/user/.bitnet");
+    ResetArgs(local_args, "-dir=/root/../home/user/.bitcoin");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), absolute_path);
 
-    ResetArgs(local_args, "-dir=/home/./user/.bitnet");
+    ResetArgs(local_args, "-dir=/home/./user/.bitcoin");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), absolute_path);
 
-    ResetArgs(local_args, "-dir=/home/user/.bitnet/");
+    ResetArgs(local_args, "-dir=/home/user/.bitcoin/");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), absolute_path);
 
-    ResetArgs(local_args, "-dir=/home/user/.bitnet//");
+    ResetArgs(local_args, "-dir=/home/user/.bitcoin//");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), absolute_path);
 
-    ResetArgs(local_args, "-dir=/home/user/.bitnet/.");
+    ResetArgs(local_args, "-dir=/home/user/.bitcoin/.");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), absolute_path);
 
-    ResetArgs(local_args, "-dir=/home/user/.bitnet/./");
+    ResetArgs(local_args, "-dir=/home/user/.bitcoin/./");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), absolute_path);
 
-    ResetArgs(local_args, "-dir=/home/user/.bitnet/.//");
+    ResetArgs(local_args, "-dir=/home/user/.bitcoin/.//");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), absolute_path);
 
-    const fs::path relative_path{"user/.bitnet"};
-    ResetArgs(local_args, "-dir=user/.bitnet");
+    const fs::path relative_path{"user/.bitcoin"};
+    ResetArgs(local_args, "-dir=user/.bitcoin");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), relative_path);
 
-    ResetArgs(local_args, "-dir=somewhere/../user/.bitnet");
+    ResetArgs(local_args, "-dir=somewhere/../user/.bitcoin");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), relative_path);
 
-    ResetArgs(local_args, "-dir=user/./.bitnet");
+    ResetArgs(local_args, "-dir=user/./.bitcoin");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), relative_path);
 
-    ResetArgs(local_args, "-dir=user/.bitnet/");
+    ResetArgs(local_args, "-dir=user/.bitcoin/");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), relative_path);
 
-    ResetArgs(local_args, "-dir=user/.bitnet//");
+    ResetArgs(local_args, "-dir=user/.bitcoin//");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), relative_path);
 
-    ResetArgs(local_args, "-dir=user/.bitnet/.");
+    ResetArgs(local_args, "-dir=user/.bitcoin/.");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), relative_path);
 
-    ResetArgs(local_args, "-dir=user/.bitnet/./");
+    ResetArgs(local_args, "-dir=user/.bitcoin/./");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), relative_path);
 
-    ResetArgs(local_args, "-dir=user/.bitnet/.//");
+    ResetArgs(local_args, "-dir=user/.bitcoin/.//");
     BOOST_CHECK_EQUAL(local_args.GetPathArg("-dir"), relative_path);
 
     // Check negated and default argument handling. Specifying an empty argument
     // is the same as not specifying the argument. This is convenient for
     // scripting so later command line arguments can override earlier command
-    // line arguments or bitnet.conf values. Currently the -dir= case cannot be
+    // line arguments or bitcoin.conf values. Currently the -dir= case cannot be
     // distinguished from -dir case with no assignment, but #16545 would add the
     // ability to distinguish these in the future (and treat the no-assign case
     // like an imperative command or an error).
@@ -429,7 +429,7 @@ BOOST_AUTO_TEST_CASE(logargs)
     const auto okaylog = std::make_pair("-okaylog", ArgsManager::ALLOW_ANY);
     const auto dontlog = std::make_pair("-dontlog", ArgsManager::ALLOW_ANY | ArgsManager::SENSITIVE);
     SetupArgs(local_args, {okaylog_bool, okaylog_negbool, okaylog, dontlog});
-    ResetArgs(local_args, "-okaylog-bool -nookaylog-negbool -okaylog=public -dontlog=private42");
+    ResetArgs(local_args, "-okaylog-bool -nookaylog-negbool -okaylog=public -dontlog=private");
 
     // Everything logged to debug.log will also append to str
     std::string str;
@@ -447,7 +447,7 @@ BOOST_AUTO_TEST_CASE(logargs)
     BOOST_CHECK(str.find("Command-line arg: okaylog-negbool=false") != std::string::npos);
     BOOST_CHECK(str.find("Command-line arg: okaylog=\"public\"") != std::string::npos);
     BOOST_CHECK(str.find("dontlog=****") != std::string::npos);
-    BOOST_CHECK(str.find("private42") == std::string::npos);
+    BOOST_CHECK(str.find("private") == std::string::npos);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

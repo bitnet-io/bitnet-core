@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 The Bitnet Core developers
+// Copyright (c) 2016-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,9 +15,10 @@
 // many times micro-benchmarks of the database showed completely different
 // characteristics than e.g. reindex timings. But that's not a requirement of
 // every benchmark."
-// (https://github.com/bitnet/bitnet/issues/7883#issuecomment-224807484)
+// (https://github.com/bitcoin/bitcoin/issues/7883#issuecomment-224807484)
 static void CCoinsCaching(benchmark::Bench& bench)
 {
+    const ECCVerifyHandle verify_handle;
     ECC_Start();
 
     FillableSigningProvider keystore;
@@ -50,4 +51,4 @@ static void CCoinsCaching(benchmark::Bench& bench)
     ECC_Stop();
 }
 
-BENCHMARK(CCoinsCaching, benchmark::PriorityLevel::HIGH);
+BENCHMARK(CCoinsCaching);

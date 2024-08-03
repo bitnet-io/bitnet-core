@@ -1,4 +1,4 @@
-# Copyright (c) 2013-2016 The Bitnet Core developers
+# Copyright (c) 2013-2016 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,7 +9,7 @@ print-%: FORCE
 DIST_SUBDIRS = secp256k1
 
 AM_LDFLAGS = $(LIBTOOL_LDFLAGS) $(HARDENED_LDFLAGS) $(GPROF_LDFLAGS) $(SANITIZER_LDFLAGS) $(LTO_LDFLAGS) $(CORE_LDFLAGS)
-AM_CXXFLAGS = $(DEBUG_CXXFLAGS) $(HARDENED_CXXFLAGS) $(WARN_CXXFLAGS) $(NOWARN_CXXFLAGS) $(ERROR_CXXFLAGS) $(GPROF_CXXFLAGS) $(SANITIZER_CXXFLAGS) $(LTO_CXXFLAGS) $(CORE_CXXFLAGS)
+AM_CXXFLAGS = $(DEBUG_CXXFLAGS) $(HARDENED_CXXFLAGS) $(WARN_CXXFLAGS) $(NOWARN_CXXFLAGS) $(ERROR_CXXFLAGS) $(GPROF_CXXFLAGS) $(SANITIZER_CXXFLAGS) $(LTO_CXXFLAGS) $(CORE_CXXFLAGS) -DETH_FATDB=1
 AM_CPPFLAGS = $(DEBUG_CPPFLAGS) $(HARDENED_CPPFLAGS) $(CORE_CPPFLAGS) -DQTUM_BUILD
 AM_LIBTOOLFLAGS = --preserve-dup-deps
 PTHREAD_FLAGS = $(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
@@ -20,11 +20,11 @@ noinst_LTLIBRARIES =
 
 bin_PROGRAMS =
 noinst_PROGRAMS =
-check_PROGRAMS =
 TESTS =
 BENCHMARKS =
 
-BITCOIN_INCLUDES=-I$(builddir) -I$(srcdir)/$(MINISKETCH_INCLUDE_DIR_INT) -I$(srcdir)/secp256k1/include -I$(srcdir)/$(UNIVALUE_INCLUDE_DIR_INT) $(LEVELDB_CPPFLAGS)
+BITCOIN_INCLUDES=-I$(builddir) -I$(srcdir)/$(MINISKETCH_INCLUDE_DIR_INT) -I$(srcdir)/secp256k1/include -I$(srcdir)/$(UNIVALUE_INCLUDE_DIR_INT) $(LEVELDB_CPPFLAGS) $(SSL_CFLAGS) $(BOOST_CPPFLAGS)
+
 BITCOIN_INCLUDES += -I$(srcdir)/libff/libff
 BITCOIN_INCLUDES += -I$(srcdir)/libff
 BITCOIN_INCLUDES += -I$(srcdir)/evmone/evmc/include
@@ -34,46 +34,46 @@ BITCOIN_INCLUDES += -I$(srcdir)/eth_client/utils
 BITCOIN_INCLUDES += -I$(srcdir)/eth_client/utils/ethash/include
 BITCOIN_INCLUDES += -I$(srcdir)/eth_client/utils/libscrypt
 
-LIBBITCOIN_NODE=libbitnet_node.a
-LIBBITCOIN_COMMON=libbitnet_common.a
-LIBBITCOIN_CONSENSUS=libbitnet_consensus.a
-LIBBITCOIN_CLI=libbitnet_cli.a
-LIBBITCOIN_UTIL=libbitnet_util.a
-LIBBITCOIN_CRYPTO_BASE=crypto/libbitnet_crypto_base.la
-LIBBITCOINQT=qt/libbitnetqt.a
+LIBBITCOIN_NODE=libbitcoin_node.a
+LIBBITCOIN_COMMON=libbitcoin_common.a
+LIBBITCOIN_CONSENSUS=libbitcoin_consensus.a
+LIBBITCOIN_CLI=libbitcoin_cli.a
+LIBBITCOIN_UTIL=libqtum_util.a
+LIBBITCOIN_CRYPTO_BASE=crypto/libbitcoin_crypto_base.la
+LIBBITCOINQT=qt/libbitcoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 LIBCRYPTOPP=cryptopp/libcryptopp.a
 LIBFF=libff/libff.a
 
 if ENABLE_ZMQ
-LIBBITCOIN_ZMQ=libbitnet_zmq.a
+LIBBITCOIN_ZMQ=libbitcoin_zmq.a
 endif
 if BUILD_BITCOIN_LIBS
-LIBBITCOINCONSENSUS=libbitnetconsensus.la
+LIBBITCOINCONSENSUS=libbitcoinconsensus.la
 endif
 if BUILD_BITCOIN_KERNEL_LIB
-LIBBITCOINKERNEL=libbitnetkernel.la
+LIBBITCOINKERNEL=libbitcoinkernel.la
 endif
 if ENABLE_WALLET
-LIBBITCOIN_WALLET=libbitnet_wallet.a
-LIBBITCOIN_WALLET_TOOL=libbitnet_wallet_tool.a
+LIBBITCOIN_WALLET=libbitcoin_wallet.a
+LIBBITCOIN_WALLET_TOOL=libbitcoin_wallet_tool.a
 endif
 
 LIBBITCOIN_CRYPTO = $(LIBBITCOIN_CRYPTO_BASE)
 if ENABLE_SSE41
-LIBBITCOIN_CRYPTO_SSE41 = crypto/libbitnet_crypto_sse41.la
+LIBBITCOIN_CRYPTO_SSE41 = crypto/libbitcoin_crypto_sse41.la
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_SSE41)
 endif
 if ENABLE_AVX2
-LIBBITCOIN_CRYPTO_AVX2 = crypto/libbitnet_crypto_avx2.la
+LIBBITCOIN_CRYPTO_AVX2 = crypto/libbitcoin_crypto_avx2.la
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_AVX2)
 endif
 if ENABLE_X86_SHANI
-LIBBITCOIN_CRYPTO_X86_SHANI = crypto/libbitnet_crypto_x86_shani.la
+LIBBITCOIN_CRYPTO_X86_SHANI = crypto/libbitcoin_crypto_x86_shani.la
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_X86_SHANI)
 endif
 if ENABLE_ARM_SHANI
-LIBBITCOIN_CRYPTO_ARM_SHANI = crypto/libbitnet_crypto_arm_shani.la
+LIBBITCOIN_CRYPTO_ARM_SHANI = crypto/libbitcoin_crypto_arm_shani.la
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_ARM_SHANI)
 endif
 noinst_LTLIBRARIES += $(LIBBITCOIN_CRYPTO)
@@ -125,7 +125,7 @@ if BUILD_BITCOIN_CHAINSTATE
 endif
 
 .PHONY: FORCE check-symbols check-security
-# bitnet core #
+# bitcoin core #
 BITCOIN_CORE_H = \
   addrdb.h \
   addrman.h \
@@ -144,8 +144,6 @@ BITCOIN_CORE_H = \
   clientversion.h \
   coins.h \
   common/bloom.h \
-  common/run_command.h \
-  common/url.h \
   compat/assumptions.h \
   compat/byteswap.h \
   compat/compat.h \
@@ -188,8 +186,6 @@ BITCOIN_CORE_H = \
   kernel/checks.h \
   kernel/coinstats.h \
   kernel/context.h \
-  kernel/cs_main.h \
-  kernel/mempool_entry.h \
   kernel/mempool_limits.h \
   kernel/mempool_options.h \
   kernel/mempool_persist.h \
@@ -212,12 +208,9 @@ BITCOIN_CORE_H = \
   node/blockstorage.h \
   node/caches.h \
   node/chainstate.h \
-  node/chainstatemanager_args.h \
   node/coin.h \
-  node/coins_view_args.h \
   node/connection_types.h \
   node/context.h \
-  node/database_args.h \
   node/eviction.h \
   node/interface_ui.h \
   node/mempool_args.h \
@@ -226,7 +219,6 @@ BITCOIN_CORE_H = \
   node/minisketchwrapper.h \
   node/psbt.h \
   node/transaction.h \
-  node/txreconciliation.h \
   node/utxo_snapshot.h \
   node/validation_cache_args.h \
   noui.h \
@@ -239,6 +231,7 @@ BITCOIN_CORE_H = \
   policy/rbf.h \
   policy/settings.h \
   pow.h \
+  pos.h \
   protocol.h \
   psbt.h \
   random.h \
@@ -256,6 +249,7 @@ BITCOIN_CORE_H = \
   rpc/server.h \
   rpc/server_util.h \
   rpc/util.h \
+  rpc/contract_util.h \
   scheduler.h \
   script/descriptor.h \
   script/keyorigin.h \
@@ -273,6 +267,7 @@ BITCOIN_CORE_H = \
   support/events.h \
   support/lockedpool.h \
   sync.h \
+  threadinterrupt.h \
   threadsafety.h \
   timedata.h \
   torcontrol.h \
@@ -311,7 +306,6 @@ BITCOIN_CORE_H = \
   util/syserror.h \
   util/system.h \
   util/thread.h \
-  util/threadinterrupt.h \
   util/threadnames.h \
   util/time.h \
   util/tokenpipe.h \
@@ -319,7 +313,12 @@ BITCOIN_CORE_H = \
   util/translation.h \
   util/types.h \
   util/ui_change_type.h \
+  util/url.h \
   util/vector.h \
+  util/convert.h \
+  util/signstr.h \
+  util/contractabi.h \
+  util/tokenstr.h \
   validation.h \
   validationinterface.h \
   versionbits.h \
@@ -338,6 +337,9 @@ BITCOIN_CORE_H = \
   wallet/receive.h \
   wallet/rpc/util.h \
   wallet/rpc/wallet.h \
+  wallet/rpc/addresses.h \
+  wallet/rpc/contract.h \
+  wallet/rpc/mining.h \
   wallet/salvage.h \
   wallet/scriptpubkeyman.h \
   wallet/spend.h \
@@ -347,25 +349,40 @@ BITCOIN_CORE_H = \
   wallet/walletdb.h \
   wallet/wallettool.h \
   wallet/walletutil.h \
+  wallet/stake.h \
   walletinitinterface.h \
   warnings.h \
   zmq/zmqabstractnotifier.h \
   zmq/zmqnotificationinterface.h \
   zmq/zmqpublishnotifier.h \
   zmq/zmqrpc.h \
-  zmq/zmqutil.h
+  zmq/zmqutil.h \
+  qtum/posutils.h \
+  qtum/qtumstate.h \
+  qtum/qtumtransaction.h \
+  qtum/qtumDGP.h \
+  qtum/storageresults.h \
+  qtum/qtumutils.h \
+  qtum/qtumdelegation.h \
+  qtum/qtumtoken.h \
+  qtum/qtumledger.h \
+  qtum/delegationutils.h
 
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh "$(abs_top_builddir)/src/obj/build.h" \
 	  "$(abs_top_srcdir)"
-libbitnet_util_a-clientversion.$(OBJEXT): obj/build.h
+libqtum_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# node #
-libbitnet_node_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS) $(MINIUPNPC_CPPFLAGS) $(NATPMP_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
-libbitnet_node_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitnet_node_a_SOURCES = \
+
+# server: shared between bitcoind and bitcoin-qt
+# Contains code accessing mempool and chain state that is meant to be separated
+# from wallet and gui code (see node/README.md). Shared code should go in
+# libbitcoin_common or libqtum_util libraries, instead.
+libbitcoin_node_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(NATPMP_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
+libbitcoin_node_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_node_a_SOURCES = \
   addrdb.cpp \
   addrman.cpp \
   banman.cpp \
@@ -389,7 +406,6 @@ libbitnet_node_a_SOURCES = \
   kernel/checks.cpp \
   kernel/coinstats.cpp \
   kernel/context.cpp \
-  kernel/cs_main.cpp \
   kernel/mempool_persist.cpp \
   mapport.cpp \
   net.cpp \
@@ -398,12 +414,9 @@ libbitnet_node_a_SOURCES = \
   node/blockstorage.cpp \
   node/caches.cpp \
   node/chainstate.cpp \
-  node/chainstatemanager_args.cpp \
   node/coin.cpp \
-  node/coins_view_args.cpp \
   node/connection_types.cpp \
   node/context.cpp \
-  node/database_args.cpp \
   node/eviction.cpp \
   node/interface_ui.cpp \
   node/interfaces.cpp \
@@ -413,8 +426,6 @@ libbitnet_node_a_SOURCES = \
   node/minisketchwrapper.cpp \
   node/psbt.cpp \
   node/transaction.cpp \
-  node/txreconciliation.cpp \
-  node/utxo_snapshot.cpp \
   node/validation_cache_args.cpp \
   noui.cpp \
   policy/fees.cpp \
@@ -448,34 +459,39 @@ libbitnet_node_a_SOURCES = \
   validation.cpp \
   validationinterface.cpp \
   versionbits.cpp \
+  qtum/qtumstate.cpp \
+  qtum/storageresults.cpp \
+  qtum/qtumledger.cpp \
   $(BITCOIN_CORE_H)
 
 if ENABLE_WALLET
-libbitnet_node_a_SOURCES += wallet/init.cpp
-libbitnet_node_a_CPPFLAGS += $(BDB_CPPFLAGS)
+libbitcoin_node_a_SOURCES += wallet/init.cpp \
+  wallet/stake.cpp \
+  wallet/rpc/contract.cpp \
+  wallet/rpc/mining.cpp
+libbitcoin_node_a_CPPFLAGS += $(BDB_CPPFLAGS)
 endif
 if !ENABLE_WALLET
-libbitnet_node_a_SOURCES += dummywallet.cpp
+libbitcoin_node_a_SOURCES += dummywallet.cpp
 endif
-#
 
-# zmq #
 if ENABLE_ZMQ
-libbitnet_zmq_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
-libbitnet_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitnet_zmq_a_SOURCES = \
+libbitcoin_zmq_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
+libbitcoin_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_zmq_a_SOURCES = \
   zmq/zmqabstractnotifier.cpp \
   zmq/zmqnotificationinterface.cpp \
   zmq/zmqpublishnotifier.cpp \
   zmq/zmqrpc.cpp \
   zmq/zmqutil.cpp
 endif
-#
 
-# wallet #
-libbitnet_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS) $(BDB_CPPFLAGS) $(SQLITE_CFLAGS)
-libbitnet_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitnet_wallet_a_SOURCES = \
+
+# wallet: shared between bitcoind and bitcoin-qt, but only linked
+# when wallet enabled
+libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BDB_CPPFLAGS) $(SQLITE_CFLAGS)
+libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_wallet_a_SOURCES = \
   wallet/coincontrol.cpp \
   wallet/context.cpp \
   wallet/crypter.cpp \
@@ -506,34 +522,32 @@ libbitnet_wallet_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 if USE_SQLITE
-libbitnet_wallet_a_SOURCES += wallet/sqlite.cpp
+libbitcoin_wallet_a_SOURCES += wallet/sqlite.cpp
 endif
 if USE_BDB
-libbitnet_wallet_a_SOURCES += wallet/bdb.cpp wallet/salvage.cpp
+libbitcoin_wallet_a_SOURCES += wallet/bdb.cpp wallet/salvage.cpp
 endif
-#
 
-# wallet tool #
-libbitnet_wallet_tool_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS)
-libbitnet_wallet_tool_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitnet_wallet_tool_a_SOURCES = \
+libbitcoin_wallet_tool_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_wallet_tool_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_wallet_tool_a_SOURCES = \
   wallet/wallettool.cpp \
   $(BITCOIN_CORE_H)
-#
 
-# crypto #
-crypto_libbitnet_crypto_base_la_CPPFLAGS = $(AM_CPPFLAGS)
+# crypto primitives library
+crypto_libbitcoin_crypto_base_la_CPPFLAGS = $(AM_CPPFLAGS)
 
 # Specify -static in both CXXFLAGS and LDFLAGS so libtool will only build a
 # static version of this library. We don't need a dynamic version, and a dynamic
 # version can't be used on windows anyway because the library doesn't currently
 # export DLL symbols.
-crypto_libbitnet_crypto_base_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
-crypto_libbitnet_crypto_base_la_LDFLAGS = $(AM_LDFLAGS) -static
+crypto_libbitcoin_crypto_base_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_base_la_LDFLAGS = $(AM_LDFLAGS) -static
 
-crypto_libbitnet_crypto_base_la_SOURCES = \
+crypto_libbitcoin_crypto_base_la_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
+  crypto/aurum.h \
   crypto/aurum.c \
   crypto/chacha_poly_aead.h \
   crypto/chacha_poly_aead.cpp \
@@ -564,52 +578,52 @@ crypto_libbitnet_crypto_base_la_SOURCES = \
   crypto/siphash.h
 
 if USE_ASM
-crypto_libbitnet_crypto_base_la_SOURCES += crypto/sha256_sse4.cpp
+crypto_libbitcoin_crypto_base_la_SOURCES += crypto/sha256_sse4.cpp
 endif
 
-# See explanation for -static in crypto_libbitnet_crypto_base_la's LDFLAGS and
+# See explanation for -static in crypto_libbitcoin_crypto_base_la's LDFLAGS and
 # CXXFLAGS above
-crypto_libbitnet_crypto_sse41_la_LDFLAGS = $(AM_LDFLAGS) -static
-crypto_libbitnet_crypto_sse41_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
-crypto_libbitnet_crypto_sse41_la_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libbitnet_crypto_sse41_la_CXXFLAGS += $(SSE41_CXXFLAGS)
-crypto_libbitnet_crypto_sse41_la_CPPFLAGS += -DENABLE_SSE41
-crypto_libbitnet_crypto_sse41_la_SOURCES = crypto/sha256_sse41.cpp
+crypto_libbitcoin_crypto_sse41_la_LDFLAGS = $(AM_LDFLAGS) -static
+crypto_libbitcoin_crypto_sse41_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_sse41_la_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libbitcoin_crypto_sse41_la_CXXFLAGS += $(SSE41_CXXFLAGS)
+crypto_libbitcoin_crypto_sse41_la_CPPFLAGS += -DENABLE_SSE41
+crypto_libbitcoin_crypto_sse41_la_SOURCES = crypto/sha256_sse41.cpp
 
-# See explanation for -static in crypto_libbitnet_crypto_base_la's LDFLAGS and
+# See explanation for -static in crypto_libbitcoin_crypto_base_la's LDFLAGS and
 # CXXFLAGS above
-crypto_libbitnet_crypto_avx2_la_LDFLAGS = $(AM_LDFLAGS) -static
-crypto_libbitnet_crypto_avx2_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
-crypto_libbitnet_crypto_avx2_la_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libbitnet_crypto_avx2_la_CXXFLAGS += $(AVX2_CXXFLAGS)
-crypto_libbitnet_crypto_avx2_la_CPPFLAGS += -DENABLE_AVX2
-crypto_libbitnet_crypto_avx2_la_SOURCES = crypto/sha256_avx2.cpp
+crypto_libbitcoin_crypto_avx2_la_LDFLAGS = $(AM_LDFLAGS) -static
+crypto_libbitcoin_crypto_avx2_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_avx2_la_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libbitcoin_crypto_avx2_la_CXXFLAGS += $(AVX2_CXXFLAGS)
+crypto_libbitcoin_crypto_avx2_la_CPPFLAGS += -DENABLE_AVX2
+crypto_libbitcoin_crypto_avx2_la_SOURCES = crypto/sha256_avx2.cpp
 
-# See explanation for -static in crypto_libbitnet_crypto_base_la's LDFLAGS and
+# See explanation for -static in crypto_libbitcoin_crypto_base_la's LDFLAGS and
 # CXXFLAGS above
-crypto_libbitnet_crypto_x86_shani_la_LDFLAGS = $(AM_LDFLAGS) -static
-crypto_libbitnet_crypto_x86_shani_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
-crypto_libbitnet_crypto_x86_shani_la_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libbitnet_crypto_x86_shani_la_CXXFLAGS += $(X86_SHANI_CXXFLAGS)
-crypto_libbitnet_crypto_x86_shani_la_CPPFLAGS += -DENABLE_X86_SHANI
-crypto_libbitnet_crypto_x86_shani_la_SOURCES = crypto/sha256_x86_shani.cpp
+crypto_libbitcoin_crypto_x86_shani_la_LDFLAGS = $(AM_LDFLAGS) -static
+crypto_libbitcoin_crypto_x86_shani_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_x86_shani_la_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libbitcoin_crypto_x86_shani_la_CXXFLAGS += $(X86_SHANI_CXXFLAGS)
+crypto_libbitcoin_crypto_x86_shani_la_CPPFLAGS += -DENABLE_X86_SHANI
+crypto_libbitcoin_crypto_x86_shani_la_SOURCES = crypto/sha256_x86_shani.cpp
 
-# See explanation for -static in crypto_libbitnet_crypto_base_la's LDFLAGS and
+# See explanation for -static in crypto_libbitcoin_crypto_base_la's LDFLAGS and
 # CXXFLAGS above
-crypto_libbitnet_crypto_arm_shani_la_LDFLAGS = $(AM_LDFLAGS) -static
-crypto_libbitnet_crypto_arm_shani_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
-crypto_libbitnet_crypto_arm_shani_la_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libbitnet_crypto_arm_shani_la_CXXFLAGS += $(ARM_SHANI_CXXFLAGS)
-crypto_libbitnet_crypto_arm_shani_la_CPPFLAGS += -DENABLE_ARM_SHANI
-crypto_libbitnet_crypto_arm_shani_la_SOURCES = crypto/sha256_arm_shani.cpp
-#
+crypto_libbitcoin_crypto_arm_shani_la_LDFLAGS = $(AM_LDFLAGS) -static
+crypto_libbitcoin_crypto_arm_shani_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_arm_shani_la_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libbitcoin_crypto_arm_shani_la_CXXFLAGS += $(ARM_SHANI_CXXFLAGS)
+crypto_libbitcoin_crypto_arm_shani_la_CPPFLAGS += -DENABLE_ARM_SHANI
+crypto_libbitcoin_crypto_arm_shani_la_SOURCES = crypto/sha256_arm_shani.cpp
 
-# consensus #
-libbitnet_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libbitnet_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitnet_consensus_a_SOURCES = \
+# consensus: shared between all executables that validate any consensus rules.
+libbitcoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_consensus_a_SOURCES = \
   arith_uint256.cpp \
   arith_uint256.h \
+  consensus/consensus.cpp \
   consensus/amount.h \
   consensus/merkle.cpp \
   consensus/merkle.h \
@@ -625,7 +639,7 @@ libbitnet_consensus_a_SOURCES = \
   primitives/transaction.h \
   pubkey.cpp \
   pubkey.h \
-  script/bitnetconsensus.cpp \
+  script/bitcoinconsensus.cpp \
   script/interpreter.cpp \
   script/interpreter.h \
   script/script.cpp \
@@ -640,19 +654,17 @@ libbitnet_consensus_a_SOURCES = \
   util/strencodings.cpp \
   util/strencodings.h \
   version.h
-#
 
-# common #
-libbitnet_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS) -DQTUM_BUILD
-libbitnet_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitnet_common_a_SOURCES = \
+# common: shared between bitcoind, and bitcoin-qt and non-server tools
+libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -DQTUM_BUILD
+libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_common_a_CFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -std=c99
+libbitcoin_common_a_SOURCES = \
   base58.cpp \
   bech32.cpp \
   chainparams.cpp \
   coins.cpp \
   common/bloom.cpp \
-  common/interfaces.cpp \
-  common/run_command.cpp \
   compressor.cpp \
   core_read.cpp \
   core_write.cpp \
@@ -671,10 +683,11 @@ libbitnet_common_a_SOURCES = \
   policy/policy.cpp \
   protocol.cpp \
   psbt.cpp \
-  rpc/external_signer.cpp \
+  pos.cpp \
   rpc/rawtransaction_util.cpp \
-  rpc/request.cpp \
+  rpc/external_signer.cpp \
   rpc/util.cpp \
+  rpc/contract_util.cpp \
   scheduler.cpp \
   script/descriptor.cpp \
   script/miniscript.cpp \
@@ -682,6 +695,12 @@ libbitnet_common_a_SOURCES = \
   script/signingprovider.cpp \
   script/standard.cpp \
   warnings.cpp \
+  qtum/qtumutils.cpp \
+  qtum/qtumDGP.cpp \
+  qtum/qtumtoken.cpp \
+  qtum/qtumdelegation.cpp \
+  qtum/delegationutils.cpp \
+  util/contractabi.cpp \
   libff/libff/algebra/curves/public_params.hpp \
   libff/libff/algebra/curves/curve_utils.hpp \
   evmone/include/evmone/evmone.h \
@@ -720,7 +739,7 @@ libbitnet_common_a_SOURCES = \
   evmone/lib/evmone/tracing.hpp \
   evmone/lib/evmone/vm.cpp \
   evmone/lib/evmone/vm.hpp \
- eth_client/libdevcore/Address.cpp \
+  eth_client/libdevcore/Address.cpp \
   eth_client/libdevcore/Address.h \
   eth_client/libdevcore/Assertions.h \
   eth_client/libdevcore/Common.cpp \
@@ -873,25 +892,26 @@ libbitnet_common_a_SOURCES = \
   eth_client/utils/libscrypt/sysendian.h \
   $(BITCOIN_CORE_H)
 
-if USE_LIBEVENT
-libbitnet_common_a_CPPFLAGS += $(EVENT_CFLAGS)
-libbitnet_common_a_SOURCES += common/url.cpp
-endif
-#
+#only added json_spirit so that `make dist` works properly
 
-# util #
-libbitnet_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libbitnet_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitnet_util_a_SOURCES = \
+# util: shared between all executables.
+libqtum_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libqtum_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libqtum_util_a_SOURCES = \
   support/lockedpool.cpp \
   chainparamsbase.cpp \
   clientversion.cpp \
   fs.cpp \
+  interfaces/echo.cpp \
+  interfaces/handler.cpp \
+  interfaces/init.cpp \
   logging.cpp \
   random.cpp \
   randomenv.cpp \
+  rpc/request.cpp \
   support/cleanse.cpp \
   sync.cpp \
+  threadinterrupt.cpp \
   util/asmap.cpp \
   util/bip32.cpp \
   util/bytevectorhash.cpp \
@@ -909,7 +929,6 @@ libbitnet_util_a_SOURCES = \
   util/readwritefile.cpp \
   util/settings.cpp \
   util/thread.cpp \
-  util/threadinterrupt.cpp \
   util/threadnames.cpp \
   util/serfloat.cpp \
   util/spanparsing.cpp \
@@ -918,29 +937,33 @@ libbitnet_util_a_SOURCES = \
   util/syscall_sandbox.cpp \
   util/time.cpp \
   util/tokenpipe.cpp \
+  util/tokenstr.cpp \
   $(BITCOIN_CORE_H)
-#
 
-# cli #
-libbitnet_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libbitnet_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitnet_cli_a_SOURCES = \
+if USE_LIBEVENT
+libqtum_util_a_SOURCES += util/url.cpp
+endif
+
+# cli: shared between bitcoin-cli and bitcoin-qt
+libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_cli_a_SOURCES = \
   compat/stdin.h \
   compat/stdin.cpp \
   rpc/client.cpp \
   $(BITCOIN_CORE_H)
 
-nodist_libbitnet_util_a_SOURCES = $(srcdir)/obj/build.h
+nodist_libqtum_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
-# bitnetd & bitnet-node binaries #
-bitnet_daemon_sources = bitnetd.cpp
+# bitcoind & bitcoin-node binaries #
+bitnet_daemon_sources = bitcoind.cpp
 bitnet_bin_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 bitnet_bin_cxxflags = $(AM_CXXFLAGS) $(PIE_FLAGS)
 bitnet_bin_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-bitnet_daemon_sources += bitnetd-res.rc
+bitnet_daemon_sources += bitcoind-res.rc
 endif
 
 bitnet_bin_ldadd = \
@@ -957,50 +980,52 @@ bitnet_bin_ldadd = \
   $(LIBFF) \
   $(LIBSECP256K1)
 
-bitnet_bin_ldadd += $(BDB_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS)
+bitnet_bin_ldadd += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS) $(GMP_LIBS) $(GMPXX_LIBS)
 
-bitnetd_SOURCES = $(bitnet_daemon_sources) init/bitnetd.cpp
+bitnetd_SOURCES = $(bitnet_daemon_sources) init/bitcoind.cpp
 bitnetd_CPPFLAGS = $(bitnet_bin_cppflags)
 bitnetd_CXXFLAGS = $(bitnet_bin_cxxflags)
 bitnetd_LDFLAGS = $(bitnet_bin_ldflags)
 bitnetd_LDADD = $(LIBBITCOIN_NODE) $(bitnet_bin_ldadd)
 
-bitnet_node_SOURCES = $(bitnet_daemon_sources) init/bitnet-node.cpp
+bitnet_node_SOURCES = $(bitnet_daemon_sources) init/bitcoin-node.cpp
 bitnet_node_CPPFLAGS = $(bitnet_bin_cppflags)
 bitnet_node_CXXFLAGS = $(bitnet_bin_cxxflags)
 bitnet_node_LDFLAGS = $(bitnet_bin_ldflags)
 bitnet_node_LDADD = $(LIBBITCOIN_NODE) $(bitnet_bin_ldadd) $(LIBBITCOIN_IPC) $(LIBMULTIPROCESS_LIBS)
 
-# bitnet-cli binary #
-bitnet_cli_SOURCES = bitnet-cli.cpp
+# bitcoin-cli binary #
+bitnet_cli_SOURCES = bitcoin-cli.cpp
 bitnet_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
 bitnet_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 bitnet_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-bitnet_cli_SOURCES += bitnet-cli-res.rc
+bitnet_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
 bitnet_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
-  $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO) \
-  $(LIBSECP256K1) \
-  $(LIBCRYPTOPP) 
+  $(LIBLEVELDB) \
+  $(LIBLEVELDB_SSE42) \
+  $(LIBMEMENV) \
+  $(LIBCRYPTOPP) \
+  $(LIBSECP256K1)
 
-bitnet_cli_LDADD += $(EVENT_LIBS)
+bitnet_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
-# bitnet-tx binary #
-bitnet_tx_SOURCES = bitnet-tx.cpp
+# bitcoin-tx binary #
+bitnet_tx_SOURCES = bitcoin-tx.cpp
 bitnet_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 bitnet_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 bitnet_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-bitnet_tx_SOURCES += bitnet-tx-res.rc
+bitnet_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
 bitnet_tx_LDADD = \
@@ -1009,14 +1034,18 @@ bitnet_tx_LDADD = \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CONSENSUS) \
   $(LIBBITCOIN_CRYPTO) \
-  $(LIBSECP256K1) \
-  $(LIBCRYPTOPP) 
+  $(LIBLEVELDB) \
+  $(LIBLEVELDB_SSE42) \
+  $(LIBMEMENV) \
+  $(LIBCRYPTOPP) \
+  $(LIBSECP256K1)
 
+bitnet_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
-# bitnet-wallet binary #
-bitnet_wallet_SOURCES = bitnet-wallet.cpp
-bitnet_wallet_SOURCES += init/bitnet-wallet.cpp
+# bitcoin-wallet binary #
+bitnet_wallet_SOURCES = bitcoin-wallet.cpp
+bitnet_wallet_SOURCES += init/bitcoin-wallet.cpp
 bitnet_wallet_CPPFLAGS = $(bitnet_bin_cppflags)
 bitnet_wallet_CXXFLAGS = $(bitnet_bin_cxxflags)
 bitnet_wallet_LDFLAGS = $(bitnet_bin_ldflags)
@@ -1030,21 +1059,23 @@ bitnet_wallet_LDADD = \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1) \
   $(BDB_LIBS) \
-  $(SQLITE_LIBS)
+  $(SQLITE_LIBS) \
+  $(BOOST_LIBS) \
+  $(CRYPTO_LIBS)
 
 if TARGET_WINDOWS
-bitnet_wallet_SOURCES += bitnet-wallet-res.rc
+bitnet_wallet_SOURCES += bitcoin-wallet-res.rc
 endif
 #
 
-# bitnet-util binary #
-bitnet_util_SOURCES = bitnet-util.cpp
+# bitcoin-util binary #
+bitnet_util_SOURCES = bitcoin-util.cpp
 bitnet_util_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 bitnet_util_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 bitnet_util_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-bitnet_util_SOURCES += bitnet-util-res.rc
+bitnet_util_SOURCES += bitcoin-util-res.rc
 endif
 
 bitnet_util_LDADD = \
@@ -1054,42 +1085,52 @@ bitnet_util_LDADD = \
   $(LIBBITCOIN_CONSENSUS) \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
+
+bitnet_util_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
-# bitnet-chainstate binary #
-bitnet_chainstate_SOURCES = bitnet-chainstate.cpp
-bitnet_chainstate_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS)
+# qtum-chainstate binary #
+bitnet_chainstate_SOURCES = bitcoin-chainstate.cpp
+bitnet_chainstate_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 bitnet_chainstate_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
-bitnet_chainstate_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(PTHREAD_FLAGS) $(LIBTOOL_APP_LDFLAGS) -static
+# $(LIBTOOL_APP_LDFLAGS) deliberately omitted here so that we can test linking
+# qtum-chainstate against libbitcoinkernel as a shared or static library by
+# setting --{en,dis}able-shared.
+bitnet_chainstate_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(PTHREAD_FLAGS)
 bitnet_chainstate_LDADD = $(LIBBITCOINKERNEL)
-
-# libtool is unable to calculate this indirect dependency, presumably because it's a subproject.
-# libsecp256k1 only needs to be linked in when libbitnetkernel is static.
-bitnet_chainstate_LDADD += $(LIBSECP256K1)
 #
 
-# bitnetkernel library #
+# bitcoinkernel library #
 if BUILD_BITCOIN_KERNEL_LIB
 lib_LTLIBRARIES += $(LIBBITCOINKERNEL)
 
-libbitnetkernel_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS) $(PTHREAD_FLAGS)
-libbitnetkernel_la_LIBADD = $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) $(LIBSECP256K1)
-libbitnetkernel_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) -I$(srcdir)/$(UNIVALUE_INCLUDE_DIR_INT)
+libbitcoinkernel_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS) $(PTHREAD_FLAGS)
+libbitcoinkernel_la_LIBADD = $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) $(LIBSECP256K1)
+libbitcoinkernel_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) -I$(srcdir)/$(UNIVALUE_INCLUDE_DIR_INT)
 
-# libbitnetkernel requires default symbol visibility, explicitly specify that
+# libbitcoinkernel requires default symbol visibility, explicitly specify that
 # here so that things still work even when user configures with
 #   --enable-reduce-exports
 #
 # Note this is a quick hack that will be removed as we incrementally define what
 # to export from the library.
-libbitnetkernel_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -fvisibility=default
+libbitcoinkernel_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -fvisibility=default
 
-# TODO: libbitnetkernel is a work in progress consensus engine library, as more
+# TODO: For now, Specify -static in both CXXFLAGS and LDFLAGS when building for
+#       windows targets so libtool will only build a static version of this
+#       library. There are unresolved problems when building dll's for mingw-w64
+#       and attempting to statically embed libstdc++, libpthread, etc.
+if TARGET_WINDOWS
+libbitcoinkernel_la_LDFLAGS += -static
+libbitcoinkernel_la_CXXFLAGS += -static
+endif
+
+# TODO: libbitcoinkernel is a work in progress consensus engine library, as more
 #       and more modules are decoupled from the consensus engine, this list will
 #       shrink to only those which are absolutely necessary.
-libbitnetkernel_la_SOURCES = \
-  kernel/bitnetkernel.cpp \
+libbitcoinkernel_la_SOURCES = \
+  kernel/bitcoinkernel.cpp \
   arith_uint256.cpp \
   chain.cpp \
   chainparamsbase.cpp \
@@ -1111,14 +1152,12 @@ libbitnetkernel_la_SOURCES = \
   kernel/checks.cpp \
   kernel/coinstats.cpp \
   kernel/context.cpp \
-  kernel/cs_main.cpp \
   kernel/mempool_persist.cpp \
   key.cpp \
   logging.cpp \
   node/blockstorage.cpp \
   node/chainstate.cpp \
   node/interface_ui.cpp \
-  node/utxo_snapshot.cpp \
   policy/feerate.cpp \
   policy/fees.cpp \
   policy/packages.cpp \
@@ -1142,9 +1181,11 @@ libbitnetkernel_la_SOURCES = \
   support/cleanse.cpp \
   support/lockedpool.cpp \
   sync.cpp \
+  threadinterrupt.cpp \
   txdb.cpp \
   txmempool.cpp \
   uint256.cpp \
+  util/bytevectorhash.cpp \
   util/check.cpp \
   util/getuniquepath.cpp \
   util/hasher.cpp \
@@ -1168,21 +1209,21 @@ libbitnetkernel_la_SOURCES = \
 
 # Required for obj/build.h to be generated first.
 # More details: https://www.gnu.org/software/automake/manual/html_node/Built-Sources-Example.html
-libbitnetkernel_la-clientversion.l$(OBJEXT): obj/build.h
+libbitcoinkernel_la-clientversion.l$(OBJEXT): obj/build.h
 endif # BUILD_BITCOIN_KERNEL_LIB
 #
 
-# bitnetconsensus library #
+# bitcoinconsensus library #
 if BUILD_BITCOIN_LIBS
 lib_LTLIBRARIES += $(LIBBITCOINCONSENSUS)
 
-include_HEADERS = script/bitnetconsensus.h
-libbitnetconsensus_la_SOURCES = support/cleanse.cpp $(crypto_libbitnet_crypto_base_la_SOURCES) $(libbitnet_consensus_a_SOURCES)
+include_HEADERS = script/bitcoinconsensus.h
+libbitcoinconsensus_la_SOURCES = support/cleanse.cpp $(crypto_libbitcoin_crypto_base_la_SOURCES) $(libbitcoin_consensus_a_SOURCES)
 
-libbitnetconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
-libbitnetconsensus_la_LIBADD = $(LIBSECP256K1)
-libbitnetconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
-libbitnetconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoinconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
+libbitcoinconsensus_la_LIBADD = $(LIBSECP256K1)
+libbitcoinconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
+libbitcoinconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 endif
 #
@@ -1218,16 +1259,17 @@ CLEANFILES += obj/build.h
 EXTRA_DIST = $(CTAES_DIST)
 
 
-config/bitnet-config.h: config/stamp-h1
+config/bitcoin-config.h: config/stamp-h1
 	@$(MAKE) -C $(top_builddir) $(subdir)/$(@)
-config/stamp-h1: $(top_srcdir)/$(subdir)/config/bitnet-config.h.in $(top_builddir)/config.status
+config/stamp-h1: $(top_srcdir)/$(subdir)/config/bitcoin-config.h.in $(top_builddir)/config.status
 	$(AM_V_at)$(MAKE) -C $(top_builddir) $(subdir)/$(@)
-$(top_srcdir)/$(subdir)/config/bitnet-config.h.in:  $(am__configure_deps)
-	$(AM_V_at)$(MAKE) -C $(top_srcdir) $(subdir)/config/bitnet-config.h.in
+$(top_srcdir)/$(subdir)/config/bitcoin-config.h.in:  $(am__configure_deps)
+	$(AM_V_at)$(MAKE) -C $(top_srcdir) $(subdir)/config/bitcoin-config.h.in
 
 clean-local:
 	-$(MAKE) -C secp256k1 clean
 	-rm -f leveldb/*/*.gcda leveldb/*/*.gcno leveldb/helpers/memenv/*.gcda leveldb/helpers/memenv/*.gcno
+	-rm -f cryptopp/*.o libff/*.o
 	-rm -f config.h
 	-rm -rf test/__pycache__
 
@@ -1246,19 +1288,19 @@ if HARDEN
 	$(AM_V_at) $(PYTHON) $(top_srcdir)/contrib/devtools/security-check.py $(bin_PROGRAMS)
 endif
 
-libbitnet_ipc_mpgen_input = \
+libbitcoin_ipc_mpgen_input = \
   ipc/capnp/echo.capnp \
   ipc/capnp/init.capnp
-EXTRA_DIST += $(libbitnet_ipc_mpgen_input)
+EXTRA_DIST += $(libbitcoin_ipc_mpgen_input)
 %.capnp:
 
 # Explicitly list dependencies on generated headers as described in
 # https://www.gnu.org/software/automake/manual/html_node/Built-Sources-Example.html#Recording-Dependencies-manually
-ipc/capnp/libbitnet_ipc_a-protocol.$(OBJEXT): $(libbitnet_ipc_mpgen_input:=.h)
+ipc/capnp/libbitcoin_ipc_a-protocol.$(OBJEXT): $(libbitcoin_ipc_mpgen_input:=.h)
 
 if BUILD_MULTIPROCESS
-LIBBITCOIN_IPC=libbitnet_ipc.a
-libbitnet_ipc_a_SOURCES = \
+LIBBITCOIN_IPC=libbitcoin_ipc.a
+libbitcoin_ipc_a_SOURCES = \
   ipc/capnp/context.h \
   ipc/capnp/init-types.h \
   ipc/capnp/protocol.cpp \
@@ -1269,20 +1311,20 @@ libbitnet_ipc_a_SOURCES = \
   ipc/process.cpp \
   ipc/process.h \
   ipc/protocol.h
-libbitnet_ipc_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libbitnet_ipc_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) $(LIBMULTIPROCESS_CFLAGS)
+libbitcoin_ipc_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_ipc_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) $(LIBMULTIPROCESS_CFLAGS)
 
 include $(MPGEN_PREFIX)/include/mpgen.mk
-libbitnet_ipc_mpgen_output = \
-  $(libbitnet_ipc_mpgen_input:=.c++) \
-  $(libbitnet_ipc_mpgen_input:=.h) \
-  $(libbitnet_ipc_mpgen_input:=.proxy-client.c++) \
-  $(libbitnet_ipc_mpgen_input:=.proxy-server.c++) \
-  $(libbitnet_ipc_mpgen_input:=.proxy-types.c++) \
-  $(libbitnet_ipc_mpgen_input:=.proxy-types.h) \
-  $(libbitnet_ipc_mpgen_input:=.proxy.h)
-nodist_libbitnet_ipc_a_SOURCES = $(libbitnet_ipc_mpgen_output)
-CLEANFILES += $(libbitnet_ipc_mpgen_output)
+libbitcoin_ipc_mpgen_output = \
+  $(libbitcoin_ipc_mpgen_input:=.c++) \
+  $(libbitcoin_ipc_mpgen_input:=.h) \
+  $(libbitcoin_ipc_mpgen_input:=.proxy-client.c++) \
+  $(libbitcoin_ipc_mpgen_input:=.proxy-server.c++) \
+  $(libbitcoin_ipc_mpgen_input:=.proxy-types.c++) \
+  $(libbitcoin_ipc_mpgen_input:=.proxy-types.h) \
+  $(libbitcoin_ipc_mpgen_input:=.proxy.h)
+nodist_libbitcoin_ipc_a_SOURCES = $(libbitcoin_ipc_mpgen_output)
+CLEANFILES += $(libbitcoin_ipc_mpgen_output)
 endif
 
 %.raw.h: %.raw
@@ -1304,7 +1346,6 @@ include Makefile.libff.include
 include Makefile.test_util.include
 include Makefile.test_fuzz.include
 
-
 include Makefile.test.include
 
 if ENABLE_BENCH
@@ -1320,3 +1361,36 @@ include Makefile.qttest.include
 endif
 
 include Makefile.univalue.include
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

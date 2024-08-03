@@ -1,9 +1,9 @@
-// Copyright (c) 2019-2022 The Bitnet Core developers
+// Copyright (c) 2019-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 //
 #include <test/util/setup_common.h>
-#include <common/run_command.h>
+#include <util/system.h>
 #include <univalue.h>
 
 #ifdef ENABLE_EXTERNAL_SIGNER
@@ -24,7 +24,7 @@
 BOOST_FIXTURE_TEST_SUITE(system_tests, BasicTestingSetup)
 
 // At least one test is required (in case ENABLE_EXTERNAL_SIGNER is not defined).
-// Workaround for https://github.com/bitnet/bitnet/issues/19128
+// Workaround for https://github.com/bitcoin/bitcoin/issues/19128
 BOOST_AUTO_TEST_CASE(dummy)
 {
     BOOST_CHECK(true);
@@ -47,13 +47,19 @@ BOOST_AUTO_TEST_CASE(run_command)
         BOOST_CHECK(result.isObject());
         const UniValue& success = find_value(result, "success");
         BOOST_CHECK(!success.isNull());
-        BOOST_CHECK_EQUAL(success.get_bool(), true);
+        BOOST_CHECK_EQUAL(success.getBool(), true);
     }
     {
         // An invalid command is handled by Boost
+#ifdef WIN32
+        const std::string expected{"The system cannot find the file specified."};
+#else
+        const std::string expected{"No such file or directory"};
+#endif
         BOOST_CHECK_EXCEPTION(RunCommandParseJSON("invalid_command"), boost::process::process_error, [&](const boost::process::process_error& e) {
-            BOOST_CHECK(std::string(e.what()).find("RunCommandParseJSON error:") == std::string::npos);
-            BOOST_CHECK_EQUAL(e.code().value(), 2);
+            const std::string what(e.what());
+            BOOST_CHECK(what.find("RunCommandParseJSON error:") == std::string::npos);
+            BOOST_CHECK(what.find(expected) != std::string::npos);
             return true;
         });
     }
@@ -95,7 +101,7 @@ BOOST_AUTO_TEST_CASE(run_command)
         BOOST_CHECK(result.isObject());
         const UniValue& success = find_value(result, "success");
         BOOST_CHECK(!success.isNull());
-        BOOST_CHECK_EQUAL(success.get_bool(), true);
+        BOOST_CHECK_EQUAL(success.getBool(), true);
     }
 #endif
 }

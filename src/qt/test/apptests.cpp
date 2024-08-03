@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2022 The Bitnet Core developers
+// Copyright (c) 2018-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,8 +6,8 @@
 
 #include <chainparams.h>
 #include <key.h>
-#include <qt/bitnet.h>
-#include <qt/bitnetgui.h>
+#include <qt/bitcoin.h>
+#include <qt/bitcoingui.h>
 #include <qt/networkstyle.h>
 #include <qt/rpcconsole.h>
 #include <shutdown.h>
@@ -15,7 +15,7 @@
 #include <validation.h>
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitnet-config.h>
+#include <config/bitcoin-config.h>
 #endif
 
 #include <QAction>
@@ -55,7 +55,7 @@ void TestRpcCommand(RPCConsole* console)
 }
 } // namespace
 
-//! Entry point for BitnetApplication tests.
+//! Entry point for BitcoinApplication tests.
 void AppTests::appTests()
 {
 #ifdef Q_OS_MACOS
@@ -72,11 +72,11 @@ void AppTests::appTests()
 
     qRegisterMetaType<interfaces::BlockAndHeaderTipInfo>("interfaces::BlockAndHeaderTipInfo");
     m_app.parameterSetup();
-    QVERIFY(m_app.createOptionsModel(/*resetSettings=*/true));
+    QVERIFY(m_app.createOptionsModel(true /* reset settings */));
     QScopedPointer<const NetworkStyle> style(NetworkStyle::instantiate(Params().NetworkIDString()));
     m_app.setupPlatformStyle();
     m_app.createWindow(style.data());
-    connect(&m_app, &BitnetApplication::windowShown, this, &AppTests::guiTests);
+    connect(&m_app, &BitcoinApplication::windowShown, this, &AppTests::guiTests);
     expectCallback("guiTests");
     m_app.baseInitialize();
     m_app.requestInitialize();
@@ -89,11 +89,11 @@ void AppTests::appTests()
     AbortShutdown();
 }
 
-//! Entry point for BitnetGUI tests.
-void AppTests::guiTests(BitnetGUI* window)
+//! Entry point for BitcoinGUI tests.
+void AppTests::guiTests(BitcoinGUI* window)
 {
     HandleCallback callback{"guiTests", *this};
-    connect(window, &BitnetGUI::consoleShown, this, &AppTests::consoleTests);
+    connect(window, &BitcoinGUI::consoleShown, this, &AppTests::consoleTests);
     expectCallback("consoleTests");
     QAction* action = window->findChild<QAction*>("openRPCConsoleAction");
     action->activate(QAction::Trigger);

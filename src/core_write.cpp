@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -147,13 +147,13 @@ std::string EncodeHexTx(const CTransaction& tx, const int serializeFlags)
     return HexStr(ssTx);
 }
 
-void ScriptToUniv(const CScript& script, UniValue& out, bool include_hex, bool include_address, const SigningProvider* provider)
+void ScriptToUniv(const CScript& script, UniValue& out, bool include_hex, bool include_address)
 {
     CTxDestination address;
 
     out.pushKV("asm", ScriptToAsmStr(script));
     if (include_address) {
-        out.pushKV("desc", InferDescriptor(script, provider ? *provider : DUMMY_SIGNING_PROVIDER)->ToString());
+        out.pushKV("desc", InferDescriptor(script, DUMMY_SIGNING_PROVIDER)->ToString());
     }
     if (include_hex) {
         out.pushKV("hex", HexStr(script));
@@ -170,8 +170,6 @@ void ScriptToUniv(const CScript& script, UniValue& out, bool include_hex, bool i
 
 void TxToUniv(const CTransaction& tx, const uint256& block_hash, UniValue& entry, bool include_hex, int serialize_flags, const CTxUndo* txundo, TxVerbosity verbosity)
 {
-    CHECK_NONFATAL(verbosity >= TxVerbosity::SHOW_DETAILS);
-
     entry.pushKV("txid", tx.GetHash().GetHex());
     entry.pushKV("hash", tx.GetWitnessHash().GetHex());
     // Transaction version is actually unsigned in consensus checks, just signed in memory,
@@ -189,6 +187,7 @@ void TxToUniv(const CTransaction& tx, const uint256& block_hash, UniValue& entry
     const bool have_undo = txundo != nullptr;
     CAmount amt_total_in = 0;
     CAmount amt_total_out = 0;
+    bool isCoinStake = tx.IsCoinStake();
 
     for (unsigned int i = 0; i < tx.vin.size(); i++) {
         const CTxIn& txin = tx.vin[i];
@@ -214,14 +213,17 @@ void TxToUniv(const CTransaction& tx, const uint256& block_hash, UniValue& entry
             const Coin& prev_coin = txundo->vprevout[i];
             const CTxOut& prev_txout = prev_coin.out;
 
-            amt_total_in += prev_txout.nValue;
+            if(!isCoinStake)
+            {
+                amt_total_in += prev_txout.nValue;
+            }
 
             if (verbosity == TxVerbosity::SHOW_DETAILS_AND_PREVOUT) {
                 UniValue o_script_pub_key(UniValue::VOBJ);
                 ScriptToUniv(prev_txout.scriptPubKey, /*out=*/o_script_pub_key, /*include_hex=*/true, /*include_address=*/true);
 
                 UniValue p(UniValue::VOBJ);
-                p.pushKV("generated", bool(prev_coin.fCoinBase));
+                p.pushKV("generated", bool(prev_coin.fCoinBase || prev_coin.fCoinStake));
                 p.pushKV("height", uint64_t(prev_coin.nHeight));
                 p.pushKV("value", ValueFromAmount(prev_txout.nValue));
                 p.pushKV("scriptPubKey", o_script_pub_key);
@@ -247,13 +249,13 @@ void TxToUniv(const CTransaction& tx, const uint256& block_hash, UniValue& entry
         out.pushKV("scriptPubKey", o);
         vout.push_back(out);
 
-        if (have_undo) {
+        if (have_undo && !isCoinStake) {
             amt_total_out += txout.nValue;
         }
     }
     entry.pushKV("vout", vout);
 
-    if (have_undo) {
+    if (have_undo && !isCoinStake) {
         const CAmount fee = amt_total_in - amt_total_out;
         CHECK_NONFATAL(MoneyRange(fee));
         entry.pushKV("fee", ValueFromAmount(fee));

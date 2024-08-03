@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2015-2022 The Bitnet Core developers
+# Copyright (c) 2015-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test processing of unrequested blocks.
@@ -56,14 +56,14 @@ import time
 from test_framework.blocktools import create_block, create_coinbase, create_tx_with_script
 from test_framework.messages import CBlockHeader, CInv, MSG_BLOCK, msg_block, msg_headers, msg_inv
 from test_framework.p2p import p2p_lock, P2PInterface
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
 )
 
 
-class AcceptBlockTest(BitnetTestFramework):
+class AcceptBlockTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2
@@ -137,14 +137,18 @@ class AcceptBlockTest(BitnetTestFramework):
         assert tip_entry_found
 
         # But this block should be accepted by node since it has equal work.
-        self.nodes[0].getblock(block_h2f.hash)
+        # NOT true for qtum as we only store blocks with MORE work.
+        self.nodes[0].getblockheader(block_h2f.hash)
         self.log.info("Second height 2 block accepted, but not reorg'ed to")
 
         # 4b. Now send another block that builds on the forking chain.
         block_h3 = create_block(block_h2f.sha256, create_coinbase(3), block_h2f.nTime+1)
         block_h3.solve()
         test_node.send_and_ping(msg_block(block_h3))
+        # Then send the prev block as well
+        self.nodes[0].submitblock(block_h2f.serialize().hex())
 
+        test_node.sync_with_ping()
         # Since the earlier block was not processed by node, the new block
         # can't be fully validated.
         tip_entry_found = False

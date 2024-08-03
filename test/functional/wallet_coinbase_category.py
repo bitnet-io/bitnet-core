@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test coinbase transactions return the correct categories.
@@ -7,15 +7,13 @@
 Tests listtransactions, listsinceblock, and gettransaction.
 """
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_array_result
 )
+from test_framework.qtumconfig import COINBASE_MATURITY
 
-class CoinbaseCategoryTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class CoinbaseCategoryTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -45,19 +43,19 @@ class CoinbaseCategoryTest(BitnetTestFramework):
         self.assert_category("immature", address, txid, 0)
 
         # Mine another 99 blocks on top
-        self.generate(self.nodes[0], 99)
+        self.nodes[0].generate(COINBASE_MATURITY-1)
         # Coinbase transaction is still immature after 100 confirmations
-        self.assert_category("immature", address, txid, 99)
+        self.assert_category("immature", address, txid, COINBASE_MATURITY-1)
 
         # Mine one more block
         self.generate(self.nodes[0], 1)
         # Coinbase transaction is now matured, so category is "generate"
-        self.assert_category("generate", address, txid, 100)
+        self.assert_category("generate", address, txid, COINBASE_MATURITY)
 
         # Orphan block that paid to address
         self.nodes[0].invalidateblock(hash)
         # Coinbase transaction is now orphaned
-        self.assert_category("orphan", address, txid, 100)
+        self.assert_category("orphan", address, txid, COINBASE_MATURITY)
 
 if __name__ == '__main__':
     CoinbaseCategoryTest().main()

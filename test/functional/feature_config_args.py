@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2022 The Bitnet Core developers
+# Copyright (c) 2017-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test various command line arguments and configuration file parameters."""
@@ -7,14 +7,11 @@
 import os
 import time
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework import util
 
 
-class ConfArgsTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class ConfArgsTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
@@ -23,25 +20,11 @@ class ConfArgsTest(BitnetTestFramework):
         self.disable_autoconnect = False
 
     def test_config_file_parser(self):
-        self.log.info('Test config file parser')
         self.stop_node(0)
 
-        # Check that startup fails if conf= is set in bitnet.conf or in an included conf file
-        bad_conf_file_path = os.path.join(self.options.tmpdir, 'node0', 'bitnet_bad.conf')
-        util.write_config(bad_conf_file_path, n=0, chain='', extra_config=f'conf=some.conf\n')
-        conf_in_config_file_err = 'Error: Error reading configuration file: conf cannot be set in the configuration file; use includeconf= if you want to include additional config files'
-        self.nodes[0].assert_start_raises_init_error(
-            extra_args=[f'-conf={bad_conf_file_path}'],
-            expected_msg=conf_in_config_file_err,
-        )
         inc_conf_file_path = os.path.join(self.nodes[0].datadir, 'include.conf')
-        with open(os.path.join(self.nodes[0].datadir, 'bitnet.conf'), 'a', encoding='utf-8') as conf:
+        with open(os.path.join(self.nodes[0].datadir, 'qtum.conf'), 'a', encoding='utf-8') as conf:
             conf.write(f'includeconf={inc_conf_file_path}\n')
-        with open(inc_conf_file_path, 'w', encoding='utf-8') as conf:
-            conf.write('conf=some.conf\n')
-        self.nodes[0].assert_start_raises_init_error(
-            expected_msg=conf_in_config_file_err,
-        )
 
         self.nodes[0].assert_start_raises_init_error(
             expected_msg='Error: Error parsing command line arguments: Invalid parameter -dash_cli=1',
@@ -49,15 +32,7 @@ class ConfArgsTest(BitnetTestFramework):
         )
         with open(inc_conf_file_path, 'w', encoding='utf-8') as conf:
             conf.write('dash_conf=1\n')
-
         with self.nodes[0].assert_debug_log(expected_msgs=['Ignoring unknown configuration value dash_conf']):
-            self.start_node(0)
-        self.stop_node(0)
-
-        with open(inc_conf_file_path, 'w', encoding='utf-8') as conf:
-            conf.write('reindex=1\n')
-
-        with self.nodes[0].assert_debug_log(expected_msgs=['Warning: reindex=1 is set in the configuration file, which will significantly slow down startup. Consider removing or commenting out this option for better performance, unless there is currently a condition which makes rebuilding the indexes necessary']):
             self.start_node(0)
         self.stop_node(0)
 
@@ -70,7 +45,7 @@ class ConfArgsTest(BitnetTestFramework):
                 conf.write("wallet=foo\n")
             self.nodes[0].assert_start_raises_init_error(expected_msg=f'Error: Config setting for -wallet only applied on {self.chain} network when in [{self.chain}] section.')
 
-        main_conf_file_path = os.path.join(self.options.tmpdir, 'node0', 'bitnet_main.conf')
+        main_conf_file_path = os.path.join(self.options.tmpdir, 'node0', 'bitcoin_main.conf')
         util.write_config(main_conf_file_path, n=0, chain='', extra_config=f'includeconf={inc_conf_file_path}\n')
         with open(inc_conf_file_path, 'w', encoding='utf-8') as conf:
             conf.write('acceptnonstdtxn=1\n')
@@ -93,7 +68,7 @@ class ConfArgsTest(BitnetTestFramework):
         self.nodes[0].assert_start_raises_init_error(expected_msg='Error: Error reading configuration file: parse error on line 4, using # in rpcpassword can be ambiguous and should be avoided')
 
         inc_conf_file2_path = os.path.join(self.nodes[0].datadir, 'include2.conf')
-        with open(os.path.join(self.nodes[0].datadir, 'bitnet.conf'), 'a', encoding='utf-8') as conf:
+        with open(os.path.join(self.nodes[0].datadir, 'qtum.conf'), 'a', encoding='utf-8') as conf:
             conf.write(f'includeconf={inc_conf_file2_path}\n')
 
         with open(inc_conf_file_path, 'w', encoding='utf-8') as conf:
@@ -126,6 +101,7 @@ class ConfArgsTest(BitnetTestFramework):
                 expected_msgs=[
                     'Command-line arg: addnode="some.node"',
                     'Command-line arg: rpcauth=****',
+                    'Command-line arg: rpcbind=****',
                     'Command-line arg: rpcpassword=****',
                     'Command-line arg: rpcuser=****',
                     'Command-line arg: torpassword=****',
@@ -134,17 +110,14 @@ class ConfArgsTest(BitnetTestFramework):
                 ],
                 unexpected_msgs=[
                     'alice:f7efda5c189b999524f151318c0c86$d5b51b3beffbc0',
+                    '127.1.1.1',
                     'secret-rpcuser',
                     'secret-torpassword',
-                    'Command-line arg: rpcbind=****',
-                    'Command-line arg: rpcallowip=****',
                 ]):
             self.start_node(0, extra_args=[
                 '-addnode=some.node',
                 '-rpcauth=alice:f7efda5c189b999524f151318c0c86$d5b51b3beffbc0',
                 '-rpcbind=127.1.1.1',
-                '-rpcbind=127.0.0.1',
-                "-rpcallowip=127.0.0.1",
                 '-rpcpassword=',
                 '-rpcuser=secret-rpcuser',
                 '-torpassword=secret-torpassword',
@@ -251,43 +224,11 @@ class ConfArgsTest(BitnetTestFramework):
         ]):
             self.nodes[0].setmocktime(start + 65)
 
-    def test_connect_with_seednode(self):
-        self.log.info('Test -connect with -seednode')
-        seednode_ignored = ['-seednode is ignored when -connect is used\n']
-        dnsseed_ignored = ['-dnsseed is ignored when -connect is used and -proxy is specified\n']
-        addcon_thread_started = ['addcon thread start\n']
-        self.stop_node(0)
-
-        # When -connect is supplied, expanding addrman via getaddr calls to ADDR_FETCH(-seednode)
-        # nodes is irrelevant and -seednode is ignored.
-        with self.nodes[0].assert_debug_log(expected_msgs=seednode_ignored):
-            self.start_node(0, extra_args=['-connect=fakeaddress1', '-seednode=fakeaddress2'])
-
-        # With -proxy, an ADDR_FETCH connection is made to a peer that the dns seed resolves to.
-        # ADDR_FETCH connections are not used when -connect is used.
-        with self.nodes[0].assert_debug_log(expected_msgs=dnsseed_ignored):
-            self.restart_node(0, extra_args=['-connect=fakeaddress1', '-dnsseed=1', '-proxy=1.2.3.4'])
-
-        # If the user did not disable -dnsseed, but it was soft-disabled because they provided -connect,
-        # they shouldn't see a warning about -dnsseed being ignored.
-        with self.nodes[0].assert_debug_log(expected_msgs=addcon_thread_started,
-                unexpected_msgs=dnsseed_ignored):
-            self.restart_node(0, extra_args=['-connect=fakeaddress1', '-proxy=1.2.3.4'])
-
-        # We have to supply expected_msgs as it's a required argument
-        # The expected_msg must be something we are confident will be logged after the unexpected_msg
-        # These cases test for -connect being supplied but only to disable it
-        for connect_arg in ['-connect=0', '-noconnect']:
-            with self.nodes[0].assert_debug_log(expected_msgs=addcon_thread_started,
-                    unexpected_msgs=seednode_ignored):
-                self.restart_node(0, extra_args=[connect_arg, '-seednode=fakeaddress2'])
-
     def run_test(self):
         self.test_log_buffer()
         self.test_args_log()
         self.test_seed_peers()
         self.test_networkactive()
-        self.test_connect_with_seednode()
 
         self.test_config_file_parser()
         self.test_invalid_command_line_options()
@@ -304,7 +245,7 @@ class ConfArgsTest(BitnetTestFramework):
         self.nodes[0].assert_start_raises_init_error([f'-datadir={new_data_dir}'], f'Error: Specified data directory "{new_data_dir}" does not exist.')
 
         # Check that using non-existent datadir in conf file fails
-        conf_file = os.path.join(default_data_dir, "bitnet.conf")
+        conf_file = os.path.join(default_data_dir, "qtum.conf")
 
         # datadir needs to be set before [chain] section
         with open(conf_file, encoding='utf8') as f:
@@ -316,7 +257,7 @@ class ConfArgsTest(BitnetTestFramework):
         self.nodes[0].assert_start_raises_init_error([f'-conf={conf_file}'], f'Error: Error reading configuration file: specified data directory "{new_data_dir}" does not exist.')
 
         # Check that an explicitly specified config file that cannot be opened fails
-        none_existent_conf_file = os.path.join(default_data_dir, "none_existent_bitnet.conf")
+        none_existent_conf_file = os.path.join(default_data_dir, "none_existent_bitcoin.conf")
         self.nodes[0].assert_start_raises_init_error(['-conf=' + none_existent_conf_file], 'Error: Error reading configuration file: specified config file "' + none_existent_conf_file + '" could not be opened.')
 
         # Create the directory and ensure the config file now works

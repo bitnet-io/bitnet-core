@@ -1,21 +1,21 @@
 Shared Libraries
 ================
 
-## bitnetconsensus
+## bitcoinconsensus
 
-The purpose of this library is to make the verification functionality that is critical to Bitnet's consensus available to other applications, e.g. to language bindings.
+The purpose of this library is to make the verification functionality that is critical to Bitcoin's consensus available to other applications, e.g. to language bindings.
 
 ### API
 
-The interface is defined in the C header `bitnetconsensus.h` located in `src/script/bitnetconsensus.h`.
+The interface is defined in the C header `bitcoinconsensus.h` located in `src/script/bitcoinconsensus.h`.
 
 #### Version
 
-`bitnetconsensus_version` returns an `unsigned int` with the API version *(currently `1`)*.
+`bitcoinconsensus_version` returns an `unsigned int` with the API version *(currently `1`)*.
 
 #### Script Validation
 
-`bitnetconsensus_verify_script` returns an `int` with the status of the verification. It will be `1` if the input script correctly spends the previous output `scriptPubKey`.
+`bitcoinconsensus_verify_script` returns an `int` with the status of the verification. It will be `1` if the input script correctly spends the previous output `scriptPubKey`.
 
 ##### Parameters
 - `const unsigned char *scriptPubKey` - The previous output script that encumbers spending.
@@ -24,27 +24,27 @@ The interface is defined in the C header `bitnetconsensus.h` located in `src/scr
 - `unsigned int txToLen` - The number of bytes for the `txTo`.
 - `unsigned int nIn` - The index of the input in `txTo` that spends the `scriptPubKey`.
 - `unsigned int flags` - The script validation flags *(see below)*.
-- `bitnetconsensus_error* err` - Will have the error/success code for the operation *(see below)*.
+- `bitcoinconsensus_error* err` - Will have the error/success code for the operation *(see below)*.
 
 ##### Script Flags
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_NONE`
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_P2SH` - Evaluate P2SH ([BIP16](https://github.com/bitnet/bips/blob/master/bip-0016.mediawiki)) subscripts
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_DERSIG` - Enforce strict DER ([BIP66](https://github.com/bitnet/bips/blob/master/bip-0066.mediawiki)) compliance
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_NULLDUMMY` - Enforce NULLDUMMY ([BIP147](https://github.com/bitnet/bips/blob/master/bip-0147.mediawiki))
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_CHECKLOCKTIMEVERIFY` - Enable CHECKLOCKTIMEVERIFY ([BIP65](https://github.com/bitnet/bips/blob/master/bip-0065.mediawiki))
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_CHECKSEQUENCEVERIFY` - Enable CHECKSEQUENCEVERIFY ([BIP112](https://github.com/bitnet/bips/blob/master/bip-0112.mediawiki))
-- `bitnetconsensus_SCRIPT_FLAGS_VERIFY_WITNESS` - Enable WITNESS ([BIP141](https://github.com/bitnet/bips/blob/master/bip-0141.mediawiki))
+- `bitcoinconsensus_SCRIPT_FLAGS_VERIFY_NONE`
+- `bitcoinconsensus_SCRIPT_FLAGS_VERIFY_P2SH` - Evaluate P2SH ([BIP16](https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki)) subscripts
+- `bitcoinconsensus_SCRIPT_FLAGS_VERIFY_DERSIG` - Enforce strict DER ([BIP66](https://github.com/bitcoin/bips/blob/master/bip-0066.mediawiki)) compliance
+- `bitcoinconsensus_SCRIPT_FLAGS_VERIFY_NULLDUMMY` - Enforce NULLDUMMY ([BIP147](https://github.com/bitcoin/bips/blob/master/bip-0147.mediawiki))
+- `bitcoinconsensus_SCRIPT_FLAGS_VERIFY_CHECKLOCKTIMEVERIFY` - Enable CHECKLOCKTIMEVERIFY ([BIP65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki))
+- `bitcoinconsensus_SCRIPT_FLAGS_VERIFY_CHECKSEQUENCEVERIFY` - Enable CHECKSEQUENCEVERIFY ([BIP112](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki))
+- `bitcoinconsensus_SCRIPT_FLAGS_VERIFY_WITNESS` - Enable WITNESS ([BIP141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki))
 
 ##### Errors
-- `bitnetconsensus_ERR_OK` - No errors with input parameters *(see the return value of `bitnetconsensus_verify_script` for the verification status)*
-- `bitnetconsensus_ERR_TX_INDEX` - An invalid index for `txTo`
-- `bitnetconsensus_ERR_TX_SIZE_MISMATCH` - `txToLen` did not match with the size of `txTo`
-- `bitnetconsensus_ERR_DESERIALIZE` - An error deserializing `txTo`
-- `bitnetconsensus_ERR_AMOUNT_REQUIRED` - Input amount is required if WITNESS is used
-- `bitnetconsensus_ERR_INVALID_FLAGS` - Script verification `flags` are invalid (i.e. not part of the libconsensus interface)
+- `bitcoinconsensus_ERR_OK` - No errors with input parameters *(see the return value of `bitcoinconsensus_verify_script` for the verification status)*
+- `bitcoinconsensus_ERR_TX_INDEX` - An invalid index for `txTo`
+- `bitcoinconsensus_ERR_TX_SIZE_MISMATCH` - `txToLen` did not match with the size of `txTo`
+- `bitcoinconsensus_ERR_DESERIALIZE` - An error deserializing `txTo`
+- `bitcoinconsensus_ERR_AMOUNT_REQUIRED` - Input amount is required if WITNESS is used
+- `bitcoinconsensus_ERR_INVALID_FLAGS` - Script verification `flags` are invalid (i.e. not part of the libconsensus interface)
 
 ### Example Implementations
-- [NBitnet](https://github.com/MetacoSA/NBitnet/blob/5e1055cd7c4186dee4227c344af8892aea54faec/NBitnet/Script.cs#L979-#L1031) (.NET Bindings)
-- [node-libbitnetconsensus](https://github.com/bitpay/node-libbitnetconsensus) (Node.js Bindings)
-- [java-libbitnetconsensus](https://github.com/dexX7/java-libbitnetconsensus) (Java Bindings)
-- [bitnetconsensus-php](https://github.com/Bit-Wasp/bitnetconsensus-php) (PHP Bindings)
+- [NBitcoin](https://github.com/MetacoSA/NBitcoin/blob/5e1055cd7c4186dee4227c344af8892aea54faec/NBitcoin/Script.cs#L979-#L1031) (.NET Bindings)
+- [node-libbitcoinconsensus](https://github.com/bitpay/node-libbitcoinconsensus) (Node.js Bindings)
+- [java-libbitcoinconsensus](https://github.com/dexX7/java-libbitcoinconsensus) (Java Bindings)
+- [bitcoinconsensus-php](https://github.com/Bit-Wasp/bitcoinconsensus-php) (PHP Bindings)

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,7 +8,6 @@
 #include <wallet/bdb.h>
 #include <wallet/db.h>
 
-#include <util/check.h>
 #include <util/strencodings.h>
 #include <util/translation.h>
 
@@ -28,7 +27,7 @@ namespace {
 //!
 //! BerkeleyDB generates unique fileids by default
 //! (https://docs.oracle.com/cd/E17275_01/html/programmer_reference/program_copy.html),
-//! so bitnet should never create different databases with the same fileid, but
+//! so bitcoin should never create different databases with the same fileid, but
 //! this error can be triggered if users manually copy database files.
 void CheckUniqueFileid(const BerkeleyEnvironment& env, const std::string& filename, Db& db, WalletDatabaseFileId& fileid)
 {
@@ -101,7 +100,7 @@ void BerkeleyEnvironment::Close()
     if (ret != 0)
         LogPrintf("BerkeleyEnvironment::Close: Error %d closing database environment: %s\n", ret, DbEnv::strerror(ret));
     if (!fMockDb)
-        DbEnv(uint32_t{0}).remove(strPath.c_str(), 0);
+        DbEnv((uint32_t)0).remove(strPath.c_str(), 0);
 
     if (error_file) fclose(error_file);
 
@@ -136,7 +135,7 @@ bool BerkeleyEnvironment::Open(bilingual_str& err)
     fs::path pathIn = fs::PathFromString(strPath);
     TryCreateDirectories(pathIn);
     if (!LockDirectory(pathIn, ".walletlock")) {
-        LogPrintf("Cannot obtain a lock on wallet directory %s. Another instance may be using it.\n", strPath);
+        LogPrintf("Cannot obtain a lock on wallet directory %s. Another instance of qtum may be using it.\n", strPath);
         err = strprintf(_("Error initializing wallet database environment %s!"), fs::quoted(fs::PathToString(Directory())));
         return false;
     }
@@ -221,17 +220,17 @@ BerkeleyEnvironment::BerkeleyEnvironment() : m_use_shared_memory(false)
     fMockDb = true;
 }
 
-SafeDbt::SafeDbt()
+BerkeleyBatch::SafeDbt::SafeDbt()
 {
     m_dbt.set_flags(DB_DBT_MALLOC);
 }
 
-SafeDbt::SafeDbt(void* data, size_t size)
+BerkeleyBatch::SafeDbt::SafeDbt(void* data, size_t size)
     : m_dbt(data, size)
 {
 }
 
-SafeDbt::~SafeDbt()
+BerkeleyBatch::SafeDbt::~SafeDbt()
 {
     if (m_dbt.get_data() != nullptr) {
         // Clear memory, e.g. in case it was a private key
@@ -245,17 +244,17 @@ SafeDbt::~SafeDbt()
     }
 }
 
-const void* SafeDbt::get_data() const
+const void* BerkeleyBatch::SafeDbt::get_data() const
 {
     return m_dbt.get_data();
 }
 
-uint32_t SafeDbt::get_size() const
+uint32_t BerkeleyBatch::SafeDbt::get_size() const
 {
     return m_dbt.get_size();
 }
 
-SafeDbt::operator Dbt*()
+BerkeleyBatch::SafeDbt::operator Dbt*()
 {
     return &m_dbt;
 }
@@ -308,7 +307,7 @@ BerkeleyDatabase::~BerkeleyDatabase()
     }
 }
 
-BerkeleyBatch::BerkeleyBatch(BerkeleyDatabase& database, const bool read_only, bool fFlushOnCloseIn) : m_database(database)
+BerkeleyBatch::BerkeleyBatch(BerkeleyDatabase& database, const bool read_only, bool fFlushOnCloseIn) : pdb(nullptr), activeTxn(nullptr), m_cursor(nullptr), m_database(database)
 {
     database.AddRef();
     database.Open();
@@ -399,6 +398,7 @@ void BerkeleyBatch::Close()
         activeTxn->abort();
     activeTxn = nullptr;
     pdb = nullptr;
+    CloseCursor();
 
     if (fFlushOnClose)
         Flush();
@@ -476,15 +476,15 @@ bool BerkeleyDatabase::Rewrite(const char* pszSkip)
                         fSuccess = false;
                     }
 
-                    std::unique_ptr<DatabaseCursor> cursor = db.GetNewCursor();
-                    if (cursor) {
+                    if (db.StartCursor()) {
                         while (fSuccess) {
-                            DataStream ssKey{};
-                            DataStream ssValue{};
-                            DatabaseCursor::Status ret1 = cursor->Next(ssKey, ssValue);
-                            if (ret1 == DatabaseCursor::Status::DONE) {
+                            CDataStream ssKey(SER_DISK, CLIENT_VERSION);
+                            CDataStream ssValue(SER_DISK, CLIENT_VERSION);
+                            bool complete;
+                            bool ret1 = db.ReadAtCursor(ssKey, ssValue, complete);
+                            if (complete) {
                                 break;
-                            } else if (ret1 == DatabaseCursor::Status::FAIL) {
+                            } else if (!ret1) {
                                 fSuccess = false;
                                 break;
                             }
@@ -502,7 +502,7 @@ bool BerkeleyDatabase::Rewrite(const char* pszSkip)
                             if (ret2 > 0)
                                 fSuccess = false;
                         }
-                        cursor.reset();
+                        db.CloseCursor();
                     }
                     if (fSuccess) {
                         db.Close();
@@ -656,50 +656,46 @@ void BerkeleyDatabase::ReloadDbEnv()
     env->ReloadDbEnv();
 }
 
-BerkeleyCursor::BerkeleyCursor(BerkeleyDatabase& database)
+bool BerkeleyBatch::StartCursor()
 {
-    if (!database.m_db.get()) {
-        throw std::runtime_error(STR_INTERNAL_BUG("BerkeleyDatabase does not exist"));
-    }
-    int ret = database.m_db->cursor(nullptr, &m_cursor, 0);
-    if (ret != 0) {
-        throw std::runtime_error(STR_INTERNAL_BUG(strprintf("BDB Cursor could not be created. Returned %d", ret)));
-    }
+    assert(!m_cursor);
+    if (!pdb)
+        return false;
+    int ret = pdb->cursor(nullptr, &m_cursor, 0);
+    return ret == 0;
 }
 
-DatabaseCursor::Status BerkeleyCursor::Next(DataStream& ssKey, DataStream& ssValue)
+bool BerkeleyBatch::ReadAtCursor(CDataStream& ssKey, CDataStream& ssValue, bool& complete)
 {
-    if (m_cursor == nullptr) return Status::FAIL;
+    complete = false;
+    if (m_cursor == nullptr) return false;
     // Read at cursor
     SafeDbt datKey;
     SafeDbt datValue;
     int ret = m_cursor->get(datKey, datValue, DB_NEXT);
     if (ret == DB_NOTFOUND) {
-        return Status::DONE;
+        complete = true;
     }
-    if (ret != 0 || datKey.get_data() == nullptr || datValue.get_data() == nullptr) {
-        return Status::FAIL;
-    }
+    if (ret != 0)
+        return false;
+    else if (datKey.get_data() == nullptr || datValue.get_data() == nullptr)
+        return false;
 
     // Convert to streams
+    ssKey.SetType(SER_DISK);
     ssKey.clear();
     ssKey.write({AsBytePtr(datKey.get_data()), datKey.get_size()});
+    ssValue.SetType(SER_DISK);
     ssValue.clear();
     ssValue.write({AsBytePtr(datValue.get_data()), datValue.get_size()});
-    return Status::MORE;
+    return true;
 }
 
-BerkeleyCursor::~BerkeleyCursor()
+void BerkeleyBatch::CloseCursor()
 {
     if (!m_cursor) return;
     m_cursor->close();
     m_cursor = nullptr;
-}
-
-std::unique_ptr<DatabaseCursor> BerkeleyBatch::GetNewCursor()
-{
-    if (!pdb) return nullptr;
-    return std::make_unique<BerkeleyCursor>(m_database);
 }
 
 bool BerkeleyBatch::TxnBegin()
@@ -753,7 +749,7 @@ std::string BerkeleyDatabaseVersion()
     return DbEnv::version(nullptr, nullptr, nullptr);
 }
 
-bool BerkeleyBatch::ReadKey(DataStream&& key, DataStream& value)
+bool BerkeleyBatch::ReadKey(CDataStream&& key, CDataStream& value)
 {
     if (!pdb)
         return false;
@@ -769,7 +765,7 @@ bool BerkeleyBatch::ReadKey(DataStream&& key, DataStream& value)
     return false;
 }
 
-bool BerkeleyBatch::WriteKey(DataStream&& key, DataStream&& value, bool overwrite)
+bool BerkeleyBatch::WriteKey(CDataStream&& key, CDataStream&& value, bool overwrite)
 {
     if (!pdb)
         return false;
@@ -784,7 +780,7 @@ bool BerkeleyBatch::WriteKey(DataStream&& key, DataStream&& value, bool overwrit
     return (ret == 0);
 }
 
-bool BerkeleyBatch::EraseKey(DataStream&& key)
+bool BerkeleyBatch::EraseKey(CDataStream&& key)
 {
     if (!pdb)
         return false;
@@ -797,7 +793,7 @@ bool BerkeleyBatch::EraseKey(DataStream&& key)
     return (ret == 0 || ret == DB_NOTFOUND);
 }
 
-bool BerkeleyBatch::HasKey(DataStream&& key)
+bool BerkeleyBatch::HasKey(CDataStream&& key)
 {
     if (!pdb)
         return false;

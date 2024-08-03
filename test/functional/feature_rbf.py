@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the RBF code."""
@@ -11,7 +11,7 @@ from test_framework.messages import (
     COIN,
     SEQUENCE_FINAL,
 )
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
@@ -20,10 +20,7 @@ from test_framework.wallet import MiniWallet
 from test_framework.address import ADDRESS_BCRT1_UNSPENDABLE
 
 MAX_REPLACEMENT_LIMIT = 100
-class ReplaceByFeeTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class ReplaceByFeeTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.extra_args = [
@@ -42,6 +39,10 @@ class ReplaceByFeeTest(BitnetTestFramework):
 
     def run_test(self):
         self.wallet = MiniWallet(self.nodes[0])
+        # the pre-mined test framework chain contains coinbase outputs to the
+        # MiniWallet's default address in blocks 76-100 (see method
+        # BitcoinTestFramework._initialize_chain())
+        self.wallet.rescan_utxos()
 
         self.log.info("Running test simple doublespend...")
         self.test_simple_doublespend()
@@ -120,7 +121,7 @@ class ReplaceByFeeTest(BitnetTestFramework):
         # This will raise an exception due to insufficient fee
         assert_raises_rpc_error(-26, "insufficient fee", self.nodes[0].sendrawtransaction, tx.serialize().hex(), 0)
 
-        # Extra 0.1 BIT fee
+        # Extra 0.1 BTC fee
         tx.vout[0].nValue -= int(0.1 * COIN)
         tx1b_hex = tx.serialize().hex()
         # Works when enabled
@@ -153,7 +154,7 @@ class ReplaceByFeeTest(BitnetTestFramework):
             chain_txids.append(prevout["txid"])
 
         # Whether the double-spend is allowed is evaluated by including all
-        # child fees - 4 BIT - so this attempt is rejected.
+        # child fees - 4 BTC - so this attempt is rejected.
         dbl_tx = self.wallet.create_self_transfer(
             utxo_to_spend=tx0_outpoint,
             sequence=0,
@@ -176,10 +177,10 @@ class ReplaceByFeeTest(BitnetTestFramework):
     def test_doublespend_tree(self):
         """Doublespend of a big tree of transactions"""
 
-        initial_nValue = 5 * COIN
+        initial_nValue = 50 * COIN
         tx0_outpoint = self.make_utxo(self.nodes[0], initial_nValue)
 
-        def branch(prevout, initial_value, max_txs, tree_width=5, fee=0.00001 * COIN, _total_txs=None):
+        def branch(prevout, initial_value, max_txs, tree_width=5, fee=0.0001 * COIN, _total_txs=None):
             if _total_txs is None:
                 _total_txs = [0]
             if _total_txs[0] >= max_txs:
@@ -207,7 +208,7 @@ class ReplaceByFeeTest(BitnetTestFramework):
                                   _total_txs=_total_txs):
                     yield x
 
-        fee = int(0.00001 * COIN)
+        fee = int(0.01 * COIN)
         n = MAX_REPLACEMENT_LIMIT
         tree_txs = list(branch(tx0_outpoint, initial_nValue, n, fee=fee))
         assert_equal(len(tree_txs), n)
@@ -221,7 +222,7 @@ class ReplaceByFeeTest(BitnetTestFramework):
         # This will raise an exception due to insufficient fee
         assert_raises_rpc_error(-26, "insufficient fee", self.nodes[0].sendrawtransaction, dbl_tx_hex, 0)
 
-        # 0.1 BIT fee is enough
+        # 0.1 BTC fee is enough
         dbl_tx_hex = self.wallet.create_self_transfer(
             utxo_to_spend=tx0_outpoint,
             sequence=0,
@@ -237,7 +238,7 @@ class ReplaceByFeeTest(BitnetTestFramework):
         # Try again, but with more total transactions than the "max txs
         # double-spent at once" anti-DoS limit.
         for n in (MAX_REPLACEMENT_LIMIT + 1, MAX_REPLACEMENT_LIMIT * 2):
-            fee = int(0.00001 * COIN)
+            fee = int(0.01 * COIN)
             tx0_outpoint = self.make_utxo(self.nodes[0], initial_nValue)
             tree_txs = list(branch(tx0_outpoint, initial_nValue, n, fee=fee))
             assert_equal(len(tree_txs), n)
@@ -270,7 +271,7 @@ class ReplaceByFeeTest(BitnetTestFramework):
             utxos_to_spend=[tx0_outpoint],
             sequence=0,
             num_outputs=100,
-            amount_per_output=1000,
+            amount_per_output=99900,
         )["hex"]
 
         # This will raise an exception due to insufficient fee
@@ -342,9 +343,9 @@ class ReplaceByFeeTest(BitnetTestFramework):
         # transactions
 
         # Start by creating a single transaction with many outputs
-        initial_nValue = 10 * COIN
+        initial_nValue = 1000 * COIN
         utxo = self.make_utxo(self.nodes[0], initial_nValue)
-        fee = int(0.0001 * COIN)
+        fee = 1761601  # int(0.01 * COIN)
         split_value = int((initial_nValue - fee) / (MAX_REPLACEMENT_LIMIT + 1))
 
         splitting_tx_utxos = self.wallet.send_self_transfer_multi(
@@ -392,11 +393,12 @@ class ReplaceByFeeTest(BitnetTestFramework):
         enough transactions off of each root UTXO to exceed the MAX_REPLACEMENT_LIMIT.
         Then create a conflicting RBF replacement transaction.
         """
+        normal_node = self.nodes[1]
+        wallet = MiniWallet(normal_node)
+        wallet.rescan_utxos()
         # Clear mempools to avoid cross-node sync failure.
         for node in self.nodes:
             self.generate(node, 1)
-        normal_node = self.nodes[1]
-        wallet = MiniWallet(normal_node)
 
         # This has to be chosen so that the total number of transactions can exceed
         # MAX_REPLACEMENT_LIMIT without having any one tx graph run into the descendant
@@ -453,7 +455,7 @@ class ReplaceByFeeTest(BitnetTestFramework):
             # would invalidate `num_txs_invalidated` transactions.
             tx_hex = wallet.create_self_transfer_multi(
                 utxos_to_spend=root_utxos,
-                fee_per_output=10_000_000,  # absurdly high feerate
+                fee_per_output=36_000_000,  # absurdly high feerate
             )["hex"]
 
             if failure_expected:
@@ -562,7 +564,7 @@ class ReplaceByFeeTest(BitnetTestFramework):
             utxos_to_spend=[tx0_outpoint],
             sequence=0,
             num_outputs=100,
-            amount_per_output=int(0.00001 * COIN),
+            amount_per_output=int(0.01 * COIN),
         )["hex"]
 
         # Verify tx1b cannot replace tx1a.
@@ -691,11 +693,11 @@ class ReplaceByFeeTest(BitnetTestFramework):
         self.wallet.get_utxo(txid=optout_child_tx['txid'])
 
     def test_replacement_relay_fee(self):
-        tx = self.wallet.send_self_transfer(from_node=self.nodes[0])['tx']
+        tx = self.wallet.send_self_transfer(from_node=self.nodes[0], fee_rate=Decimal("0.03"))['tx']
 
         # Higher fee, higher feerate, different txid, but the replacement does not provide a relay
         # fee conforming to node's `incrementalrelayfee` policy of 1000 sat per KB.
-        assert_equal(self.nodes[0].getmempoolinfo()["incrementalrelayfee"], Decimal("0.00001"))
+        assert_equal(self.nodes[0].getmempoolinfo()["incrementalrelayfee"], Decimal("0.00010000"))
         tx.vout[0].nValue -= 1
         assert_raises_rpc_error(-26, "insufficient fee", self.nodes[0].sendrawtransaction, tx.serialize().hex())
 

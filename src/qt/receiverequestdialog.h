@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2020 The Bitnet Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,48 +8,49 @@
 #include <qt/sendcoinsrecipient.h>
 
 #include <QDialog>
-//for infinite loops
 
-#include <QThread>
-#include <QDebug>
-#include <QEventLoop>
-#include <QTimer>
-#include <QApplication>
-
-#include <iostream>
-#include <random>
-#include <string>
-//#include <unistd.h>
-
-
+class PlatformStyle;
+class ReceiveCoinsDialog;
 class WalletModel;
 
 namespace Ui {
     class ReceiveRequestDialog;
 }
 
-
 class ReceiveRequestDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ReceiveRequestDialog(QWidget *parent = nullptr);
+    explicit ReceiveRequestDialog(const PlatformStyle *platformStyle, QWidget *parent = nullptr);
     ~ReceiveRequestDialog();
 
     void setModel(WalletModel *model);
     void setInfo(const SendCoinsRecipient &info);
-    void setInfoReal(const SendCoinsRecipient &info);
+
+public Q_SLOTS:
+    void clear();
+    void reject() override;
+    void accept() override;
 
 private Q_SLOTS:
     void on_btnCopyURI_clicked();
     void on_btnCopyAddress_clicked();
-    void updateDisplayUnit();
+    void on_btnRefreshAddress_clicked();
+    void on_btnRequestPayment_clicked();
+    void on_btnClear_clicked();
+
+    void update();
+private:
+    bool refreshAddress();
+    bool getDefaultAddress();
 
 private:
     Ui::ReceiveRequestDialog *ui;
-    WalletModel* model{nullptr};
+    WalletModel *model;
     SendCoinsRecipient info;
+    const PlatformStyle *platformStyle;
+    ReceiveCoinsDialog* requestPaymentDialog;
 };
 
 #endif // BITCOIN_QT_RECEIVEREQUESTDIALOG_H

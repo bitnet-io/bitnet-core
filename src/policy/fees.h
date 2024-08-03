@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #ifndef BITCOIN_POLICY_FEES_H
@@ -242,16 +242,16 @@ public:
 private:
     mutable Mutex m_cs_fee_estimator;
 
-    unsigned int nBestSeenHeight GUARDED_BY(m_cs_fee_estimator){0};
-    unsigned int firstRecordedHeight GUARDED_BY(m_cs_fee_estimator){0};
-    unsigned int historicalFirst GUARDED_BY(m_cs_fee_estimator){0};
-    unsigned int historicalBest GUARDED_BY(m_cs_fee_estimator){0};
+    unsigned int nBestSeenHeight GUARDED_BY(m_cs_fee_estimator);
+    unsigned int firstRecordedHeight GUARDED_BY(m_cs_fee_estimator);
+    unsigned int historicalFirst GUARDED_BY(m_cs_fee_estimator);
+    unsigned int historicalBest GUARDED_BY(m_cs_fee_estimator);
 
     struct TxStatsInfo
     {
-        unsigned int blockHeight{0};
-        unsigned int bucketIndex{0};
-        TxStatsInfo() {}
+        unsigned int blockHeight;
+        unsigned int bucketIndex;
+        TxStatsInfo() : blockHeight(0), bucketIndex(0) {}
     };
 
     // map of txids to information about that transaction
@@ -262,8 +262,8 @@ private:
     std::unique_ptr<TxConfirmStats> shortStats PT_GUARDED_BY(m_cs_fee_estimator);
     std::unique_ptr<TxConfirmStats> longStats PT_GUARDED_BY(m_cs_fee_estimator);
 
-    unsigned int trackedTxs GUARDED_BY(m_cs_fee_estimator){0};
-    unsigned int untrackedTxs GUARDED_BY(m_cs_fee_estimator){0};
+    unsigned int trackedTxs GUARDED_BY(m_cs_fee_estimator);
+    unsigned int untrackedTxs GUARDED_BY(m_cs_fee_estimator);
 
     std::vector<double> buckets GUARDED_BY(m_cs_fee_estimator); // The upper-bound of the range for the bucket (inclusive)
     std::map<double, unsigned int> bucketMap GUARDED_BY(m_cs_fee_estimator); // Map of bucket upper-bound to index into all vectors by bucket
@@ -299,15 +299,14 @@ private:
 
 public:
     /** Create new FeeFilterRounder */
-    explicit FeeFilterRounder(const CFeeRate& min_incremental_fee);
+    explicit FeeFilterRounder(const CFeeRate& minIncrementalFee);
 
-    /** Quantize a minimum fee for privacy purpose before broadcast. */
-    CAmount round(CAmount currentMinFee) EXCLUSIVE_LOCKS_REQUIRED(!m_insecure_rand_mutex);
+    /** Quantize a minimum fee for privacy purpose before broadcast. Not thread-safe due to use of FastRandomContext */
+    CAmount round(CAmount currentMinFee);
 
 private:
-    const std::set<double> m_fee_set;
-    Mutex m_insecure_rand_mutex;
-    FastRandomContext insecure_rand GUARDED_BY(m_insecure_rand_mutex);
+    std::set<double> feeset;
+    FastRandomContext insecure_rand;
 };
 
 #endif // BITCOIN_POLICY_FEES_H

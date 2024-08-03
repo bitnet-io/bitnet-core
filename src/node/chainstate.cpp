@@ -1,14 +1,12 @@
-// Copyright (c) 2021-2022 The Bitnet Core developers
+// Copyright (c) 2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <node/chainstate.h>
 
-#include <arith_uint256.h>
 #include <chain.h>
 #include <coins.h>
 #include <consensus/params.h>
-#include <logging.h>
 #include <node/blockstorage.h>
 #include <node/caches.h>
 #include <sync.h>
@@ -19,11 +17,11 @@
 #include <util/time.h>
 #include <util/translation.h>
 #include <validation.h>
+#include <chainparams.h>
 
 #include <algorithm>
 #include <atomic>
 #include <cassert>
-#include <limits>
 #include <memory>
 #include <vector>
 
@@ -35,41 +33,34 @@ ChainstateLoadResult LoadChainstate(ChainstateManager& chainman, const CacheSize
         return options.reindex || options.reindex_chainstate || chainstate->CoinsTip().GetBestBlock().IsNull();
     };
 
-    if (!chainman.AssumedValidBlock().IsNull()) {
-        LogPrintf("Assuming ancestors of block %s have valid signatures.\n", chainman.AssumedValidBlock().GetHex());
+    if (!hashAssumeValid.IsNull()) {
+        LogPrintf("Assuming ancestors of block %s have valid signatures.\n", hashAssumeValid.GetHex());
     } else {
         LogPrintf("Validating signatures for all blocks.\n");
     }
-    LogPrintf("Setting nMinimumChainWork=%s\n", chainman.MinimumChainWork().GetHex());
-    if (chainman.MinimumChainWork() < UintToArith256(chainman.GetConsensus().nMinimumChainWork)) {
+    LogPrintf("Setting nMinimumChainWork=%s\n", nMinimumChainWork.GetHex());
+    if (nMinimumChainWork < UintToArith256(chainman.GetConsensus().nMinimumChainWork)) {
         LogPrintf("Warning: nMinimumChainWork set below default value of %s\n", chainman.GetConsensus().nMinimumChainWork.GetHex());
     }
-    if (chainman.m_blockman.GetPruneTarget() == std::numeric_limits<uint64_t>::max()) {
+    if (nPruneTarget == std::numeric_limits<uint64_t>::max()) {
         LogPrintf("Block pruning enabled.  Use RPC call pruneblockchain(height) to manually prune block and undo files.\n");
-    } else if (chainman.m_blockman.GetPruneTarget()) {
-        LogPrintf("Prune configured to target %u MiB on disk for block and undo files.\n", chainman.m_blockman.GetPruneTarget() / 1024 / 1024);
+    } else if (nPruneTarget) {
+        LogPrintf("Prune configured to target %u MiB on disk for block and undo files.\n", nPruneTarget / 1024 / 1024);
     }
 
     LOCK(cs_main);
+    chainman.InitializeChainstate(options.mempool);
     chainman.m_total_coinstip_cache = cache_sizes.coins;
     chainman.m_total_coinsdb_cache = cache_sizes.coins_db;
-
-    // Load the fully validated chainstate.
-    chainman.InitializeChainstate(options.mempool);
-
-    // Load a chain created from a UTXO snapshot, if any exist.
-    chainman.DetectSnapshotChainstate(options.mempool);
 
     auto& pblocktree{chainman.m_blockman.m_block_tree_db};
     // new CBlockTreeDB tries to delete the existing file, which
     // fails if it's still open from the previous loop. Close it first:
     pblocktree.reset();
-    pblocktree = std::make_unique<CBlockTreeDB>(DBParams{
-        .path = chainman.m_options.datadir / "blocks" / "index",
-        .cache_bytes = static_cast<size_t>(cache_sizes.block_tree_db),
-        .memory_only = options.block_tree_db_in_memory,
-        .wipe_data = options.reindex,
-        .options = chainman.m_options.block_tree_db});
+    pstorageresult.reset();
+    globalState.reset();
+    globalSealEngine.reset();
+    pblocktree.reset(new CBlockTreeDB(cache_sizes.block_tree_db, options.block_tree_db_in_memory, options.reindex));
 
     if (options.reindex) {
         pblocktree->WriteReindexing(true);
@@ -111,20 +102,12 @@ ChainstateLoadResult LoadChainstate(ChainstateManager& chainman, const CacheSize
         return {ChainstateLoadStatus::FAILURE, _("Error initializing block database")};
     }
 
-    // Conservative value which is arbitrarily chosen, as it will ultimately be changed
-    // by a call to `chainman.MaybeRebalanceCaches()`. We just need to make sure
-    // that the sum of the two caches (40%) does not exceed the allowable amount
-    // during this temporary initialization state.
-    double init_cache_fraction = 0.2;
-
     // At this point we're either in reindex or we've loaded a useful
     // block tree into BlockIndex()!
 
     for (Chainstate* chainstate : chainman.GetAll()) {
-        LogPrintf("Initializing chainstate %s\n", chainstate->ToString());
-
         chainstate->InitCoinsDB(
-            /*cache_size_bytes=*/chainman.m_total_coinsdb_cache * init_cache_fraction,
+            /*cache_size_bytes=*/cache_sizes.coins_db,
             /*in_memory=*/options.coins_db_in_memory,
             /*should_wipe=*/options.reindex || options.reindex_chainstate);
 
@@ -146,7 +129,7 @@ ChainstateLoadResult LoadChainstate(ChainstateManager& chainman, const CacheSize
         }
 
         // The on-disk coinsdb is now in a good state, create the cache
-        chainstate->InitCoinsCache(chainman.m_total_coinstip_cache * init_cache_fraction);
+        chainstate->InitCoinsCache(cache_sizes.coins);
         assert(chainstate->CanFlushToDisk());
 
         if (!is_coinsview_empty(chainstate)) {
@@ -158,6 +141,62 @@ ChainstateLoadResult LoadChainstate(ChainstateManager& chainman, const CacheSize
         }
     }
 
+    /////////////////////////////////////////////////////////// qtum
+    fGettingValuesDGP = options.getting_values_dgp;
+
+    dev::eth::NoProof::init();
+    fs::path qtumStateDir = gArgs.GetDataDirNet() / "stateQtum";
+    bool fStatus = fs::exists(qtumStateDir);
+    const std::string dirQtum = PathToString(qtumStateDir);
+    const dev::h256 hashDB(dev::sha3(dev::rlp("")));
+    dev::eth::BaseState existsQtumstate = fStatus ? dev::eth::BaseState::PreExisting : dev::eth::BaseState::Empty;
+    globalState = std::unique_ptr<QtumState>(new QtumState(dev::u256(0), QtumState::openDB(dirQtum, hashDB, dev::WithExisting::Trust), dirQtum, existsQtumstate));
+    const CChainParams& chainparams = Params();
+    dev::eth::ChainParams cp(chainparams.EVMGenesisInfo());
+    globalSealEngine = std::unique_ptr<dev::eth::SealEngineFace>(cp.createSealEngine());
+
+    pstorageresult.reset(new StorageResults(PathToString(qtumStateDir)));
+    if (options.reindex) {
+        pstorageresult->wipeResults();
+    }
+
+    {
+        LOCK(cs_main);
+        CChain& active_chain = chainman.ActiveChain();
+        if(active_chain.Tip() != nullptr){
+        globalState->setRoot(uintToh256(active_chain.Tip()->hashStateRoot));
+        globalState->setRootUTXO(uintToh256(active_chain.Tip()->hashUTXORoot));
+        } else {
+            globalState->setRoot(dev::sha3(dev::rlp("")));
+            globalState->setRootUTXO(uintToh256(chainparams.GenesisBlock().hashUTXORoot));
+            globalState->populateFrom(cp.genesisState);
+        }
+        globalState->db().commit();
+        globalState->dbUtxo().commit();
+    }
+
+    fRecordLogOpcodes = options.record_log_opcodes;
+    fIsVMlogFile = fs::exists(gArgs.GetDataDirNet() / "vmExecLogs.json");
+    ///////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////// // qtum
+    if (fAddressIndex != options.addrindex) {
+        return {ChainstateLoadStatus::FAILURE, _("You need to rebuild the database using -reindex to change -addrindex")};
+    }
+    ///////////////////////////////////////////////////////////////
+    // Check for changed -logevents state
+    if (fLogEvents != options.logevents && !fLogEvents) {
+        return {ChainstateLoadStatus::FAILURE, _("You need to rebuild the database using -reindex to enable -logevents")};
+    }
+
+    if (!options.logevents)
+    {
+        pstorageresult->wipeResults();
+        pblocktree->WipeHeightIndex();
+        fLogEvents = false;
+        pblocktree->WriteFlag("logevents", fLogEvents);
+    }
+
     if (!options.reindex) {
         auto chainstates{chainman.GetAll()};
         if (std::any_of(chainstates.begin(), chainstates.end(),
@@ -166,11 +205,6 @@ ChainstateLoadResult LoadChainstate(ChainstateManager& chainman, const CacheSize
                                                              chainman.GetConsensus().SegwitHeight)};
         };
     }
-
-    // Now that chainstates are loaded and we're able to flush to
-    // disk, rebalance the coins caches to desired levels based
-    // on the condition of each chainstate.
-    chainman.MaybeRebalanceCaches();
 
     return {ChainstateLoadStatus::SUCCESS, {}};
 }
@@ -183,6 +217,10 @@ ChainstateLoadResult VerifyLoadedChainstate(ChainstateManager& chainman, const C
 
     LOCK(cs_main);
 
+    CChain& active_chain = chainman.ActiveChain();
+    QtumDGP qtumDGP(globalState.get(), chainman.ActiveChainstate(), fGettingValuesDGP);
+    globalSealEngine->setQtumSchedule(qtumDGP.getGasSchedule(active_chain.Height() + (active_chain.Height()+1 >= chainman.GetConsensus().QIP7Height ? 0 : 1) ));
+
     for (Chainstate* chainstate : chainman.GetAll()) {
         if (!is_coinsview_empty(chainstate)) {
             const CBlockIndex* tip = chainstate->m_chain.Tip();
@@ -192,24 +230,12 @@ ChainstateLoadResult VerifyLoadedChainstate(ChainstateManager& chainman, const C
                                                          "Only rebuild the block database if you are sure that your computer's date and time are correct")};
             }
 
-            VerifyDBResult result = CVerifyDB().VerifyDB(
-                *chainstate, chainman.GetConsensus(), chainstate->CoinsDB(),
-                options.check_level,
-                options.check_blocks);
-            switch (result) {
-            case VerifyDBResult::SUCCESS:
-            case VerifyDBResult::SKIPPED_MISSING_BLOCKS:
-                break;
-            case VerifyDBResult::INTERRUPTED:
-                return {ChainstateLoadStatus::INTERRUPTED, _("Block verification was interrupted")};
-            case VerifyDBResult::CORRUPTED_BLOCK_DB:
+            if (!CVerifyDB().VerifyDB(
+                    *chainstate, chainman.GetConsensus(), chainstate->CoinsDB(),
+                    options.check_level,
+                    options.check_blocks)) {
                 return {ChainstateLoadStatus::FAILURE, _("Corrupted block database detected")};
-            case VerifyDBResult::SKIPPED_L3_CHECKS:
-                if (options.require_full_verification) {
-                    return {ChainstateLoadStatus::FAILURE_INSUFFICIENT_DBCACHE, _("Insufficient dbcache for block verification")};
-                }
-                break;
-            } // no default case, so the compiler can warn about missing cases
+            }
         }
     }
 

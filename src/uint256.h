@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,12 +9,11 @@
 #include <crypto/common.h>
 #include <span.h>
 
-#include <algorithm>
-#include <array>
-#include <cassert>
+#include <assert.h>
 #include <cstring>
 #include <stdint.h>
 #include <string>
+#include <vector>
 
 /** Template base class for fixed-sized opaque blobs. */
 template<unsigned int BITS>
@@ -22,9 +21,7 @@ class base_blob
 {
 protected:
     static constexpr int WIDTH = BITS / 8;
-    std::array<uint8_t, WIDTH> m_data;
-    static_assert(WIDTH == sizeof(m_data), "Sanity check");
-
+    uint8_t m_data[WIDTH];
 public:
     /* construct 0 value by default */
     constexpr base_blob() : m_data() {}
@@ -32,47 +29,67 @@ public:
     /* constructor for constants between 1 and 255 */
     constexpr explicit base_blob(uint8_t v) : m_data{v} {}
 
-    constexpr explicit base_blob(Span<const unsigned char> vch)
+    explicit base_blob(const std::vector<unsigned char>& vch);
+
+    bool IsNull() const
     {
-        assert(vch.size() == WIDTH);
-        std::copy(vch.begin(), vch.end(), m_data.begin());
+        for (int i = 0; i < WIDTH; i++)
+            if (m_data[i] != 0)
+                return false;
+        return true;
     }
 
-    constexpr bool IsNull() const
+    void SetNull()
     {
-        return std::all_of(m_data.begin(), m_data.end(), [](uint8_t val) {
-            return val == 0;
-        });
+        memset(m_data, 0, sizeof(m_data));
     }
 
-    constexpr void SetNull()
-    {
-        std::fill(m_data.begin(), m_data.end(), 0);
-    }
+    inline int Compare(const base_blob& other) const { return memcmp(m_data, other.m_data, sizeof(m_data)); }
 
-    constexpr int Compare(const base_blob& other) const { return std::memcmp(m_data.data(), other.m_data.data(), WIDTH); }
-
-    friend constexpr bool operator==(const base_blob& a, const base_blob& b) { return a.Compare(b) == 0; }
-    friend constexpr bool operator!=(const base_blob& a, const base_blob& b) { return a.Compare(b) != 0; }
-    friend constexpr bool operator<(const base_blob& a, const base_blob& b) { return a.Compare(b) < 0; }
+    friend inline bool operator==(const base_blob& a, const base_blob& b) { return a.Compare(b) == 0; }
+    friend inline bool operator!=(const base_blob& a, const base_blob& b) { return a.Compare(b) != 0; }
+    friend inline bool operator<(const base_blob& a, const base_blob& b) { return a.Compare(b) < 0; }
 
     std::string GetHex() const;
+    std::string GetReverseHex() const;
     void SetHex(const char* psz);
     void SetHex(const std::string& str);
+    void SetReverseHex(const char* psz);
+    void SetReverseHex(const std::string& str);
     std::string ToString() const;
 
-    constexpr const unsigned char* data() const { return m_data.data(); }
-    constexpr unsigned char* data() { return m_data.data(); }
+    const unsigned char* data() const { return m_data; }
+    unsigned char* data() { return m_data; }
 
-    constexpr unsigned char* begin() { return m_data.data(); }
-    constexpr unsigned char* end() { return m_data.data() + WIDTH; }
+    unsigned char* begin()
+    {
+        return &m_data[0];
+    }
 
-    constexpr const unsigned char* begin() const { return m_data.data(); }
-    constexpr const unsigned char* end() const { return m_data.data() + WIDTH; }
+    unsigned char* end()
+    {
+        return &m_data[WIDTH];
+    }
 
-    static constexpr unsigned int size() { return WIDTH; }
+    const unsigned char* begin() const
+    {
+        return &m_data[0];
+    }
 
-    constexpr uint64_t GetUint64(int pos) const { return ReadLE64(m_data.data() + pos * 8); }
+    const unsigned char* end() const
+    {
+        return &m_data[WIDTH];
+    }
+
+    static constexpr unsigned int size()
+    {
+        return sizeof(m_data);
+    }
+
+    uint64_t GetUint64(int pos) const
+    {
+        return ReadLE64(m_data + pos * 8);
+    }
 
     template<typename Stream>
     void Serialize(Stream& s) const
@@ -93,9 +110,21 @@ public:
  */
 class uint160 : public base_blob<160> {
 public:
-    constexpr uint160() = default;
-    constexpr explicit uint160(Span<const unsigned char> vch) : base_blob<160>(vch) {}
+    constexpr uint160() {}
+    explicit uint160(const std::vector<unsigned char>& vch) : base_blob<160>(vch) {}
 };
+inline uint160 uint160S(const char *str)
+{
+    uint160 rv;
+    rv.SetHex(str);
+    return rv;
+}
+inline uint160 uint160S(const std::string& str)
+{
+    uint160 rv;
+    rv.SetHex(str);
+    return rv;
+}
 
 /** 256-bit opaque blob.
  * @note This type is called uint256 for historical reasons only. It is an
@@ -104,9 +133,9 @@ public:
  */
 class uint256 : public base_blob<256> {
 public:
-    constexpr uint256() = default;
+    constexpr uint256() {}
     constexpr explicit uint256(uint8_t v) : base_blob<256>(v) {}
-    constexpr explicit uint256(Span<const unsigned char> vch) : base_blob<256>(vch) {}
+    explicit uint256(const std::vector<unsigned char>& vch) : base_blob<256>(vch) {}
     static const uint256 ZERO;
     static const uint256 ONE;
 };

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,7 +8,6 @@
 #include <clientversion.h>
 #include <consensus/amount.h>
 #include <fs.h>
-#include <kernel/mempool_entry.h>
 #include <logging.h>
 #include <policy/feerate.h>
 #include <primitives/transaction.h>
@@ -17,6 +16,7 @@
 #include <streams.h>
 #include <sync.h>
 #include <tinyformat.h>
+#include <txmempool.h>
 #include <uint256.h>
 #include <util/serfloat.h>
 #include <util/system.h>
@@ -528,7 +528,7 @@ bool CBlockPolicyEstimator::_removeTx(const uint256& hash, bool inBlock)
 }
 
 CBlockPolicyEstimator::CBlockPolicyEstimator(const fs::path& estimation_filepath)
-    : m_estimation_filepath{estimation_filepath}
+    : m_estimation_filepath{estimation_filepath}, nBestSeenHeight{0}, firstRecordedHeight{0}, historicalFirst{0}, historicalBest{0}, trackedTxs{0}, untrackedTxs{0}
 {
     static_assert(MIN_BUCKET_FEERATE > 0, "Min feerate must be nonzero");
     size_t bucketIndex = 0;
@@ -581,7 +581,7 @@ void CBlockPolicyEstimator::processTransaction(const CTxMemPoolEntry& entry, boo
     }
     trackedTxs++;
 
-    // Feerates are stored and reported as BIT-per-kb:
+    // Feerates are stored and reported as BTC-per-kb:
     CFeeRate feeRate(entry.GetFee(), entry.GetTxSize());
 
     mapMemPoolTxs[hash].blockHeight = txHeight;
@@ -601,6 +601,11 @@ bool CBlockPolicyEstimator::processBlockTx(unsigned int nBlockHeight, const CTxM
         return false;
     }
 
+    if(entry->GetTx().HasCreateOrCall()){
+    	//Exclude contract transactions
+    	return false;
+    }
+
     // How many blocks did it take for miners to include this transaction?
     // blocksToConfirm is 1-based, so a transaction included in the earliest
     // possible block has confirmation count of 1
@@ -612,7 +617,7 @@ bool CBlockPolicyEstimator::processBlockTx(unsigned int nBlockHeight, const CTxM
         return false;
     }
 
-    // Feerates are stored and reported as BIT-per-kb:
+    // Feerates are stored and reported as BTC-per-kb:
     CFeeRate feeRate(entry->GetFee(), entry->GetTxSize());
 
     feeStats->Record(blocksToConfirm, (double)feeRate.GetFeePerK());
@@ -997,9 +1002,8 @@ bool CBlockPolicyEstimator::Read(AutoFile& filein)
     return true;
 }
 
-void CBlockPolicyEstimator::FlushUnconfirmed()
-{
-    const auto startclear{SteadyClock::now()};
+void CBlockPolicyEstimator::FlushUnconfirmed() {
+    int64_t startclear = GetTimeMicros();
     LOCK(m_cs_fee_estimator);
     size_t num_entries = mapMemPoolTxs.size();
     // Remove every entry in mapMemPoolTxs
@@ -1007,41 +1011,24 @@ void CBlockPolicyEstimator::FlushUnconfirmed()
         auto mi = mapMemPoolTxs.begin();
         _removeTx(mi->first, false); // this calls erase() on mapMemPoolTxs
     }
-    const auto endclear{SteadyClock::now()};
-    LogPrint(BCLog::ESTIMATEFEE, "Recorded %u unconfirmed txs from mempool in %gs\n", num_entries, Ticks<SecondsDouble>(endclear - startclear));
-}
-
-static std::set<double> MakeFeeSet(const CFeeRate& min_incremental_fee,
-                                   double max_filter_fee_rate,
-                                   double fee_filter_spacing)
-{
-    std::set<double> fee_set;
-
-    const CAmount min_fee_limit{std::max(CAmount(1), min_incremental_fee.GetFeePerK() / 2)};
-    fee_set.insert(0);
-    for (double bucket_boundary = min_fee_limit;
-         bucket_boundary <= max_filter_fee_rate;
-         bucket_boundary *= fee_filter_spacing) {
-
-        fee_set.insert(bucket_boundary);
-    }
-
-    return fee_set;
+    int64_t endclear = GetTimeMicros();
+    LogPrint(BCLog::ESTIMATEFEE, "Recorded %u unconfirmed txs from mempool in %gs\n", num_entries, (endclear - startclear)*0.000001);
 }
 
 FeeFilterRounder::FeeFilterRounder(const CFeeRate& minIncrementalFee)
-    : m_fee_set{MakeFeeSet(minIncrementalFee, MAX_FILTER_FEERATE, FEE_FILTER_SPACING)}
 {
+    CAmount minFeeLimit = std::max(CAmount(1), minIncrementalFee.GetFeePerK() / 2);
+    feeset.insert(0);
+    for (double bucketBoundary = minFeeLimit; bucketBoundary <= MAX_FILTER_FEERATE; bucketBoundary *= FEE_FILTER_SPACING) {
+        feeset.insert(bucketBoundary);
+    }
 }
 
 CAmount FeeFilterRounder::round(CAmount currentMinFee)
 {
-    AssertLockNotHeld(m_insecure_rand_mutex);
-    std::set<double>::iterator it = m_fee_set.lower_bound(currentMinFee);
-    if (it == m_fee_set.end() ||
-        (it != m_fee_set.begin() &&
-         WITH_LOCK(m_insecure_rand_mutex, return insecure_rand.rand32()) % 3 != 0)) {
-        --it;
+    std::set<double>::iterator it = feeset.lower_bound(currentMinFee);
+    if ((it != feeset.begin() && insecure_rand.rand32() % 3 != 0) || it == feeset.end()) {
+        it--;
     }
     return static_cast<CAmount>(*it);
 }

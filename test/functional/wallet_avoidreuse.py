@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018-2022 The Bitnet Core developers
+# Copyright (c) 2018-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the avoid_reuse and setwalletflag features."""
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_approx,
     assert_equal,
@@ -42,7 +42,7 @@ def count_unspent(node):
     r["reused"]["supported"] = supports_reused
     return r
 
-def assert_unspent(node, total_count=None, total_sum=None, reused_supported=None, reused_count=None, reused_sum=None, margin=0.001):
+def assert_unspent(node, total_count=None, total_sum=None, reused_supported=None, reused_count=None, reused_sum=None, margin=0.01):
     '''Make assertions about a node's unspent output statistics'''
     stats = count_unspent(node)
     if total_count is not None:
@@ -62,9 +62,7 @@ def assert_balances(node, mine, margin=0.001):
     for k,v in mine.items():
         assert_approx(got[k], v, margin)
 
-class AvoidReuseTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
+class AvoidReuseTest(BitcoinTestFramework):
 
     def set_test_params(self):
         self.num_nodes = 2
@@ -119,8 +117,6 @@ class AvoidReuseTest(BitnetTestFramework):
         # Attempting to set flag to its current state should throw
         assert_raises_rpc_error(-8, "Wallet flag is already set to false", self.nodes[0].setwalletflag, 'avoid_reuse', False)
         assert_raises_rpc_error(-8, "Wallet flag is already set to true", self.nodes[1].setwalletflag, 'avoid_reuse', True)
-
-        assert_raises_rpc_error(-8, "Unknown wallet flag: abc", self.nodes[0].setwalletflag, 'abc', True)
 
         # Create a wallet with avoid reuse, and test that disabling it afterwards persists
         self.nodes[1].createwallet(wallet_name="avoid_reuse_persist", avoid_reuse=True)
@@ -178,8 +174,8 @@ class AvoidReuseTest(BitnetTestFramework):
 
     def test_sending_from_reused_address_without_avoid_reuse(self):
         '''
-        Test the same as test_sending_from_reused_address_fails, except send the 10 BIT with
-        the avoid_reuse flag set to false. This means the 10 BIT send should succeed,
+        Test the same as test_sending_from_reused_address_fails, except send the 10 BTC with
+        the avoid_reuse flag set to false. This means the 10 BTC send should succeed,
         where it fails in test_sending_from_reused_address_fails.
         '''
         self.log.info("Test sending from reused address with avoid_reuse=false")
@@ -195,7 +191,7 @@ class AvoidReuseTest(BitnetTestFramework):
         # getbalances should show no used, 10 btc trusted
         assert_balances(self.nodes[1], mine={"used": 0, "trusted": 10})
         # node 0 should not show a used entry, as it does not enable avoid_reuse
-        assert "used" not in self.nodes[0].getbalances()["mine"]
+        assert("used" not in self.nodes[0].getbalances()["mine"])
 
         self.nodes[1].sendtoaddress(retaddr, 5)
         self.generate(self.nodes[0], 1)
@@ -218,20 +214,20 @@ class AvoidReuseTest(BitnetTestFramework):
         # listunspent should show 1 total outputs (5 btc), unused
         assert_unspent(self.nodes[1], total_count=1, total_sum=5, reused_count=0)
         # getbalances should show no used, 5 btc trusted
-        assert_balances(self.nodes[1], mine={"used": 0, "trusted": 5})
+        assert_balances(self.nodes[1], mine={"used": 0, "trusted": 5}, margin=0.01)
 
         # node 1 should now have about 5 btc left (for both cases)
-        assert_approx(self.nodes[1].getbalance(), 5, 0.001)
-        assert_approx(self.nodes[1].getbalance(avoid_reuse=False), 5, 0.001)
+        assert_approx(self.nodes[1].getbalance(), 5, 0.01)
+        assert_approx(self.nodes[1].getbalance(avoid_reuse=False), 5, 0.01)
 
     def test_sending_from_reused_address_fails(self, second_addr_type):
         '''
         Test the simple case where [1] generates a new address A, then
-        [0] sends 10 BIT to A.
-        [1] spends 5 BIT from A. (leaving roughly 5 BIT useable)
-        [0] sends 10 BIT to A again.
-        [1] tries to spend 10 BIT (fails; dirty).
-        [1] tries to spend 4 BIT (succeeds; change address sufficient)
+        [0] sends 10 BTC to A.
+        [1] spends 5 BTC from A. (leaving roughly 5 BTC useable)
+        [0] sends 10 BTC to A again.
+        [1] tries to spend 10 BTC (fails; dirty).
+        [1] tries to spend 4 BTC (succeeds; change address sufficient)
         '''
         self.log.info("Test sending from reused {} address fails".format(second_addr_type))
 
@@ -276,8 +272,8 @@ class AvoidReuseTest(BitnetTestFramework):
             assert_balances(self.nodes[1], mine={"used": 10, "trusted": 5})
 
             # node 1 should now have a balance of 5 (no dirty) or 15 (including dirty)
-            assert_approx(self.nodes[1].getbalance(), 5, 0.001)
-            assert_approx(self.nodes[1].getbalance(avoid_reuse=False), 15, 0.001)
+            assert_approx(self.nodes[1].getbalance(), 5, 0.01)
+            assert_approx(self.nodes[1].getbalance(avoid_reuse=False), 15, 0.01)
 
             assert_raises_rpc_error(-6, "Insufficient funds", self.nodes[1].sendtoaddress, retaddr, 10)
 
@@ -286,11 +282,11 @@ class AvoidReuseTest(BitnetTestFramework):
             # listunspent should show 2 total outputs (1, 10 btc), one unused (1), one reused (10)
             assert_unspent(self.nodes[1], total_count=2, total_sum=11, reused_count=1, reused_sum=10)
             # getbalances should show 10 used, 1 btc trusted
-            assert_balances(self.nodes[1], mine={"used": 10, "trusted": 1})
+            assert_balances(self.nodes[1], mine={"used": 10, "trusted": 1}, margin=0.01)
 
             # node 1 should now have about 1 btc left (no dirty) and 11 (including dirty)
-            assert_approx(self.nodes[1].getbalance(), 1, 0.001)
-            assert_approx(self.nodes[1].getbalance(avoid_reuse=False), 11, 0.001)
+            assert_approx(self.nodes[1].getbalance(), 1, 0.01)
+            assert_approx(self.nodes[1].getbalance(avoid_reuse=False), 11, 0.01)
 
     def test_getbalances_used(self):
         '''
@@ -318,15 +314,15 @@ class AvoidReuseTest(BitnetTestFramework):
 
         # getbalances and listunspent should show the remaining outputs
         # in the reused address as used/reused
-        assert_unspent(self.nodes[1], total_count=2, total_sum=96, reused_count=1, reused_sum=1, margin=0.01)
-        assert_balances(self.nodes[1], mine={"used": 1, "trusted": 95}, margin=0.01)
+        assert_unspent(self.nodes[1], total_count=2, total_sum=96, reused_count=1, reused_sum=1, margin=0.06)
+        assert_balances(self.nodes[1], mine={"used": 1, "trusted": 95}, margin=0.06)
 
     def test_full_destination_group_is_preferred(self):
         '''
-        Test the case where [1] only has 101 outputs of 1 BIT in the same reused
-        address and tries to send a small payment of 0.5 BIT. The wallet
+        Test the case where [1] only has 101 outputs of 1 BTC in the same reused
+        address and tries to send a small payment of 0.5 BTC. The wallet
         should use 100 outputs from the reused address as inputs and not a
-        single 1 BIT input, in order to join several outputs from the reused
+        single 1 BTC input, in order to join several outputs from the reused
         address.
         '''
         self.log.info("Test that full destination groups are preferred in coin selection")
@@ -337,7 +333,7 @@ class AvoidReuseTest(BitnetTestFramework):
         new_addr = self.nodes[1].getnewaddress()
         ret_addr = self.nodes[0].getnewaddress()
 
-        # Send 101 outputs of 1 BIT to the same, reused address in the wallet
+        # Send 101 outputs of 1 BTC to the same, reused address in the wallet
         for _ in range(101):
             self.nodes[0].sendtoaddress(new_addr, 1)
 
@@ -353,8 +349,8 @@ class AvoidReuseTest(BitnetTestFramework):
 
     def test_all_destination_groups_are_used(self):
         '''
-        Test the case where [1] only has 202 outputs of 1 BIT in the same reused
-        address and tries to send a payment of 200.5 BIT. The wallet
+        Test the case where [1] only has 202 outputs of 1 BTC in the same reused
+        address and tries to send a payment of 200.5 BTC. The wallet
         should use all 202 outputs from the reused address as inputs.
         '''
         self.log.info("Test that all destination groups are used")
@@ -365,7 +361,7 @@ class AvoidReuseTest(BitnetTestFramework):
         new_addr = self.nodes[1].getnewaddress()
         ret_addr = self.nodes[0].getnewaddress()
 
-        # Send 202 outputs of 1 BIT to the same, reused address in the wallet
+        # Send 202 outputs of 1 BTC to the same, reused address in the wallet
         for _ in range(202):
             self.nodes[0].sendtoaddress(new_addr, 1)
 

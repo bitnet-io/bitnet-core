@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2018-2022 The Bitnet Core developers
+# Copyright (c) 2018-2022 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,7 +25,7 @@ def check_shellcheck_install():
         sys.exit(0)
 
 def get_files(command):
-    output = subprocess.run(command, stdout=subprocess.PIPE, text=True)
+    output = subprocess.run(command, stdout=subprocess.PIPE, universal_newlines=True)
     files = output.stdout.split('\n')
 
     # remove whitespace element

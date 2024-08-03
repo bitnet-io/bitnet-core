@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2022 The Bitnet Core developers
+# Copyright (c) 2022 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -47,7 +47,6 @@ ENABLED = (
     'E711,'  # comparison to None should be 'if cond is None:'
     'E714,'  # test for object identity should be "is not"
     'E721,'  # do not compare types, use "isinstance()"
-    'E722,'  # do not use bare 'except'
     'E742,'  # do not define classes named "l", "O", or "I"
     'E743,'  # do not define functions named "l", "O", or "I"
     'E901,'  # SyntaxError: invalid syntax

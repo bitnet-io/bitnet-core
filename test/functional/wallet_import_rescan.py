@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test wallet import RPCs.
@@ -8,18 +8,18 @@ Test rescan behavior of importaddress, importpubkey, importprivkey, and
 importmulti RPCs with different types of keys and rescan options.
 
 In the first part of the test, node 0 creates an address for each type of
-import RPC call and sends BIT to it. Then other nodes import the addresses,
+import RPC call and sends BTC to it. Then other nodes import the addresses,
 and the test makes listtransactions and getbalance calls to confirm that the
 importing node either did or did not execute rescans picking up the send
 transactions.
 
-In the second part of the test, node 0 sends more BIT to each address, and the
+In the second part of the test, node 0 sends more BTC to each address, and the
 test makes more listtransactions and getbalance calls to confirm that the
 importing nodes pick up the new transactions regardless of whether rescans
 happened previously.
 """
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.address import AddressType
 from test_framework.util import (
     assert_equal,
@@ -146,10 +146,7 @@ def get_rand_amount():
     return Decimal(str(round(r, 8)))
 
 
-class ImportRescanTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser, descriptors=False)
-
+class ImportRescanTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2 + len(IMPORT_NODES)
         self.supports_cli = False
@@ -179,16 +176,7 @@ class ImportRescanTest(BitnetTestFramework):
 
         # Create one transaction on node 0 with a unique amount for
         # each possible type of wallet import RPC.
-        last_variants = []
         for i, variant in enumerate(IMPORT_VARIANTS):
-            if i % 10 == 0:
-                blockhash = self.generate(self.nodes[0], 1)[0]
-                conf_height = self.nodes[0].getblockcount()
-                timestamp = self.nodes[0].getblockheader(blockhash)["time"]
-                for var in last_variants:
-                    var.confirmation_height = conf_height
-                    var.timestamp = timestamp
-                last_variants.clear()
             variant.label = "label {} {}".format(i, variant)
             variant.address = self.nodes[1].getaddressinfo(self.nodes[1].getnewaddress(
                 label=variant.label,
@@ -197,15 +185,9 @@ class ImportRescanTest(BitnetTestFramework):
             variant.key = self.nodes[1].dumpprivkey(variant.address["address"])
             variant.initial_amount = get_rand_amount()
             variant.initial_txid = self.nodes[0].sendtoaddress(variant.address["address"], variant.initial_amount)
-            last_variants.append(variant)
-
-        blockhash = self.generate(self.nodes[0], 1)[0]
-        conf_height = self.nodes[0].getblockcount()
-        timestamp = self.nodes[0].getblockheader(blockhash)["time"]
-        for var in last_variants:
-            var.confirmation_height = conf_height
-            var.timestamp = timestamp
-        last_variants.clear()
+            self.generate(self.nodes[0], 1)  # Generate one block for each send
+            variant.confirmation_height = self.nodes[0].getblockcount()
+            variant.timestamp = self.nodes[0].getblockheader(self.nodes[0].getbestblockhash())["time"]
 
         # Generate a block further in the future (past the rescan window).
         assert_equal(self.nodes[0].getrawmempool(), [])
@@ -232,14 +214,11 @@ class ImportRescanTest(BitnetTestFramework):
                 variant.check()
 
         # Create new transactions sending to each address.
-        for i, variant in enumerate(IMPORT_VARIANTS):
-            if i % 10 == 0:
-                blockhash = self.generate(self.nodes[0], 1)[0]
-                conf_height = self.nodes[0].getblockcount() + 1
+        for variant in IMPORT_VARIANTS:
             variant.sent_amount = get_rand_amount()
             variant.sent_txid = self.nodes[0].sendtoaddress(variant.address["address"], variant.sent_amount)
-            variant.confirmation_height = conf_height
-        self.generate(self.nodes[0], 1)
+            self.generate(self.nodes[0], 1)  # Generate one block for each send
+            variant.confirmation_height = self.nodes[0].getblockcount()
 
         assert_equal(self.nodes[0].getrawmempool(), [])
         self.sync_all()

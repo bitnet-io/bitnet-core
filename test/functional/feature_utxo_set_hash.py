@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
-# Copyright (c) 2020-2022 The Bitnet Core developers
+# Copyright (c) 2020-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test UTXO set hash value calculation in gettxoutsetinfo."""
 
 import struct
 
+from decimal import Decimal
 from test_framework.messages import (
     CBlock,
     COutPoint,
     from_hex,
 )
 from test_framework.muhash import MuHash3072
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal
 from test_framework.wallet import MiniWallet
 
-class UTXOSetHashTest(BitnetTestFramework):
+class UTXOSetHashTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -31,12 +32,12 @@ class UTXOSetHashTest(BitnetTestFramework):
 
         # Generate 100 blocks and remove the first since we plan to spend its
         # coinbase
-        block_hashes = self.generate(wallet, 1) + self.generate(node, 99)
+        block_hashes = self.generate(wallet, 1) + self.generate(node, 1999)
         blocks = list(map(lambda block: from_hex(CBlock(), node.getblock(block, False)), block_hashes))
         blocks.pop(0)
 
         # Create a spending transaction and mine a block which includes it
-        txid = wallet.send_self_transfer(from_node=node)['txid']
+        txid = wallet.send_self_transfer(from_node=node, fee_rate=Decimal("0.03"))['txid']
         tx_block = self.generateblock(node, output=wallet.get_address(), transactions=[txid])
         blocks.append(from_hex(CBlock(), node.getblock(tx_block['hash'], False)))
 
@@ -69,8 +70,8 @@ class UTXOSetHashTest(BitnetTestFramework):
         assert_equal(finalized[::-1].hex(), node_muhash)
 
         self.log.info("Test deterministic UTXO set hash results")
-        assert_equal(node.gettxoutsetinfo()['hash_serialized_2'], "f9aa4fb5ffd10489b9a6994e70ccf1de8a8bfa2d5f201d9857332e9954b0855d")
-        assert_equal(node.gettxoutsetinfo("muhash")['muhash'], "d1725b2fe3ef43e55aa4907480aea98d406fc9e0bf8f60169e2305f1fbf5961b")
+        assert_equal(node.gettxoutsetinfo()['hash_serialized_2'], "c7e78ab6b073b92e81ccf19a81aa999f979e39c140d5452a22f6410d8bc79080")
+        assert_equal(node.gettxoutsetinfo("muhash")['muhash'], "6e8cb792ac86331ee314a7ab1b7d1e89c187d8630569b1625e0802f90876db1a")
 
     def run_test(self):
         self.test_muhash_implementation()

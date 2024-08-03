@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test mempool re-org scenarios.
@@ -7,12 +7,13 @@
 Test re-org scenarios with a mempool that contains transactions
 that spend (directly or indirectly) coinbase transactions.
 """
-
-from test_framework.test_framework import BitnetTestFramework
+from decimal import Decimal
+from test_framework.blocktools import COINBASE_MATURITY
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal, assert_raises_rpc_error
 from test_framework.wallet import MiniWallet
 
-class MempoolCoinbaseTest(BitnetTestFramework):
+class MempoolCoinbaseTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.extra_args = [
@@ -26,11 +27,12 @@ class MempoolCoinbaseTest(BitnetTestFramework):
         wallet = MiniWallet(self.nodes[0])
 
         # Start with a 200 block chain
-        assert_equal(self.nodes[0].getblockcount(), 200)
+        assert_equal(self.nodes[0].getblockcount(), COINBASE_MATURITY+100)
 
         self.log.info("Add 4 coinbase utxos to the miniwallet")
         # Block 76 contains the first spendable coinbase txs.
         first_block = 76
+        wallet.rescan_utxos()
 
         # Three scenarios for re-orging coinbase spends in the memory pool:
         # 1. Direct coinbase spend  :  spend_1
@@ -44,15 +46,16 @@ class MempoolCoinbaseTest(BitnetTestFramework):
         utxo_2 = wallet.get_utxo(txid=coinbase_txids[2])
         utxo_3 = wallet.get_utxo(txid=coinbase_txids[3])
         self.log.info("Create three transactions spending from coinbase utxos: spend_1, spend_2, spend_3")
-        spend_1 = wallet.create_self_transfer(utxo_to_spend=utxo_1)
-        spend_2 = wallet.create_self_transfer(utxo_to_spend=utxo_2)
-        spend_3 = wallet.create_self_transfer(utxo_to_spend=utxo_3)
+        spend_1 = wallet.create_self_transfer(utxo_to_spend=utxo_1, fee_rate=Decimal("0.03"))
+        spend_2 = wallet.create_self_transfer(utxo_to_spend=utxo_2, fee_rate=Decimal("0.03"))
+        spend_3 = wallet.create_self_transfer(utxo_to_spend=utxo_3, fee_rate=Decimal("0.03"))
 
         self.log.info("Create another transaction which is time-locked to two blocks in the future")
         utxo = wallet.get_utxo(txid=coinbase_txids[0])
         timelock_tx = wallet.create_self_transfer(
             utxo_to_spend=utxo,
             locktime=self.nodes[0].getblockcount() + 2,
+            fee_rate=Decimal("0.03")
         )['hex']
 
         self.log.info("Check that the time-locked transaction is too immature to spend")
@@ -67,8 +70,8 @@ class MempoolCoinbaseTest(BitnetTestFramework):
         assert_raises_rpc_error(-26, 'non-final', self.nodes[0].sendrawtransaction, timelock_tx)
 
         self.log.info("Create spend_2_1 and spend_3_1")
-        spend_2_1 = wallet.create_self_transfer(utxo_to_spend=spend_2["new_utxo"])
-        spend_3_1 = wallet.create_self_transfer(utxo_to_spend=spend_3["new_utxo"])
+        spend_2_1 = wallet.create_self_transfer(utxo_to_spend=spend_2["new_utxo"], fee_rate=Decimal("0.03"))
+        spend_3_1 = wallet.create_self_transfer(utxo_to_spend=spend_3["new_utxo"], fee_rate=Decimal("0.03"))
 
         self.log.info("Broadcast and mine spend_3_1")
         spend_3_1_id = self.nodes[0].sendrawtransaction(spend_3_1['hex'])

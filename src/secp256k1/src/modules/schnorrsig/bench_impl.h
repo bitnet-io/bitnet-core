@@ -50,7 +50,7 @@ void run_schnorrsig_bench(int iters, int argc, char** argv) {
     bench_schnorrsig_data data;
     int d = argc == 1;
 
-    data.ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
+    data.ctx = secp256k1_context_create(SECP256K1_CONTEXT_VERIFY | SECP256K1_CONTEXT_SIGN);
     data.keypairs = (const secp256k1_keypair **)malloc(iters * sizeof(secp256k1_keypair *));
     data.pk = (const unsigned char **)malloc(iters * sizeof(unsigned char *));
     data.msgs = (const unsigned char **)malloc(iters * sizeof(unsigned char *));
@@ -91,12 +91,10 @@ void run_schnorrsig_bench(int iters, int argc, char** argv) {
         free((void *)data.msgs[i]);
         free((void *)data.sigs[i]);
     }
-
-    /* Casting to (void *) avoids a stupid warning in MSVC. */
-    free((void *)data.keypairs);
-    free((void *)data.pk);
-    free((void *)data.msgs);
-    free((void *)data.sigs);
+    free(data.keypairs);
+    free(data.pk);
+    free(data.msgs);
+    free(data.sigs);
 
     secp256k1_context_destroy(data.ctx);
 }

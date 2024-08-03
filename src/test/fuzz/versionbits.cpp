@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2021 The Bitnet Core developers
+// Copyright (c) 2020-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -55,7 +55,7 @@ public:
 
     bool Condition(int32_t version) const
     {
-        uint32_t mask = (uint32_t{1}) << m_bit;
+        uint32_t mask = ((uint32_t)1) << m_bit;
         return (((version & VERSIONBITS_TOP_MASK) == VERSIONBITS_TOP_BITS) && (version & mask) != 0);
     }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Bitnet Core developers
+// Copyright (c) 2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,10 +21,12 @@ Context::Context()
     LogPrintf("Using the '%s' SHA256 implementation\n", sha256_algo);
     RandomInit();
     ECC_Start();
+    ecc_verify_handle.reset(new ECCVerifyHandle());
 }
 
 Context::~Context()
 {
+    ecc_verify_handle.reset();
     ECC_Stop();
 }
 

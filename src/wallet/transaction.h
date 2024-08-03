@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 The Bitnet Core developers
+// Copyright (c) 2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,8 +25,9 @@ struct TxStateConfirmed {
     uint256 confirmed_block_hash;
     int confirmed_block_height;
     int position_in_block;
+    bool has_delegation;
 
-    explicit TxStateConfirmed(const uint256& block_hash, int height, int index) : confirmed_block_hash(block_hash), confirmed_block_height(height), position_in_block(index) {}
+    explicit TxStateConfirmed(const uint256& block_hash, int height, int index, bool delegation) : confirmed_block_hash(block_hash), confirmed_block_height(height), position_in_block(index), has_delegation(delegation) {}
 };
 
 //! State of transaction added to mempool.
@@ -47,8 +48,9 @@ struct TxStateConflicted {
 //! reason.
 struct TxStateInactive {
     bool abandoned;
+    bool disabled;
 
-    explicit TxStateInactive(bool abandoned = false) : abandoned(abandoned) {}
+    explicit TxStateInactive(bool abandoned = false, bool disabled = false) : abandoned(abandoned), disabled(disabled) {}
 };
 
 //! State of transaction loaded in an unrecognized state with unexpected hash or
@@ -76,7 +78,7 @@ static inline TxState TxStateInterpretSerialized(TxStateUnrecognized data)
     } else if (data.block_hash == uint256::ONE) {
         if (data.index == -1) return TxStateInactive{/*abandoned=*/true};
     } else if (data.index >= 0) {
-        return TxStateConfirmed{data.block_hash, /*height=*/-1, data.index};
+        return TxStateConfirmed{data.block_hash, /*height=*/-1, data.index, /*delegation=*/false};
     } else if (data.index == -1) {
         return TxStateConflicted{data.block_hash, /*height=*/-1};
     }
@@ -178,7 +180,7 @@ public:
     unsigned int nTimeSmart;
     /**
      * From me flag is set to 1 for transactions that were created by the wallet
-     * on this bitnet node, and set to 0 for transactions that were created
+     * on this bitcoin node, and set to 0 for transactions that were created
      * externally and came in through the network or sendrawtransaction RPC.
      */
     bool fFromMe;
@@ -293,12 +295,12 @@ public:
 
     bool isAbandoned() const { return state<TxStateInactive>() && state<TxStateInactive>()->abandoned; }
     bool isConflicted() const { return state<TxStateConflicted>(); }
-    bool isInactive() const { return state<TxStateInactive>(); }
     bool isUnconfirmed() const { return !isAbandoned() && !isConflicted() && !isConfirmed(); }
     bool isConfirmed() const { return state<TxStateConfirmed>(); }
     const uint256& GetHash() const { return tx->GetHash(); }
     const uint256& GetWitnessHash() const { return tx->GetWitnessHash(); }
     bool IsCoinBase() const { return tx->IsCoinBase(); }
+    bool IsCoinStake() const { return tx->IsCoinStake(); }
 
     // Disable copying of CWalletTx objects to prevent bugs where instances get
     // copied in and out of the mapWallet map, and fields are updated in the

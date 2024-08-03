@@ -1,10 +1,10 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitnet-config.h>
+#include <config/bitcoin-config.h>
 #endif
 
 #include <randomenv.h>
@@ -13,21 +13,21 @@
 #include <compat/cpuid.h>
 #include <crypto/sha512.h>
 #include <support/cleanse.h>
-#include <util/time.h>
+#include <util/time.h> // for GetTime()
+#ifdef WIN32
+#include <compat/compat.h>
+#endif
 
 #include <algorithm>
 #include <atomic>
-#include <cstdint>
-#include <cstring>
 #include <chrono>
 #include <climits>
 #include <thread>
 #include <vector>
 
-#ifdef WIN32
-#include <windows.h>
-#include <winreg.h>
-#else
+#include <stdint.h>
+#include <string.h>
+#ifndef WIN32
 #include <sys/types.h> // must go before a number of other headers
 #include <fcntl.h>
 #include <netinet/in.h>
@@ -250,7 +250,7 @@ void RandAddDynamicEnv(CSHA512& hasher)
     gettimeofday(&tv, nullptr);
     hasher << tv;
 #endif
-    // Probably redundant, but also use all the standard library clocks:
+    // Probably redundant, but also use all the clocks C++11 provides:
     hasher << std::chrono::system_clock::now().time_since_epoch().count();
     hasher << std::chrono::steady_clock::now().time_since_epoch().count();
     hasher << std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -322,7 +322,7 @@ void RandAddStaticEnv(CSHA512& hasher)
     hasher.Write((const unsigned char*)COMPILER_VERSION, strlen(COMPILER_VERSION) + 1);
 #endif
 
-    // Bitnet client version
+    // Bitcoin client version
     hasher << CLIENT_VERSION;
 
 #if defined(HAVE_STRONG_GETAUXVAL)

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -30,6 +30,17 @@ public:
 
     bool VerifyECDSASignature(const std::vector<unsigned char>& vchSig, const CPubKey& vchPubKey, const uint256& sighash) const override;
     bool VerifySchnorrSignature(Span<const unsigned char> sig, const XOnlyPubKey& pubkey, const uint256& sighash) const override;
+};
+
+class CachingTransactionSignatureOutputChecker : public TransactionSignatureOutputChecker
+{
+private:
+    bool store;
+
+public:
+    CachingTransactionSignatureOutputChecker(const CTransaction* txToIn, unsigned int nOutIn, const CAmount& amountIn, bool storeIn, PrecomputedTransactionData& txdataIn) : TransactionSignatureOutputChecker(txToIn, nOutIn, amountIn, txdataIn), store(storeIn) {}
+
+    bool VerifyECDSASignature(const std::vector<unsigned char>& vchSig, const CPubKey& vchPubKey, const uint256& sighash) const override;
 };
 
 [[nodiscard]] bool InitSignatureCache(size_t max_size_bytes);

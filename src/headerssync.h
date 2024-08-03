@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Bitnet Core developers
+// Copyright (c) 2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,10 +25,18 @@ struct CompressedHeader {
     uint32_t nTime{0};
     uint32_t nBits{0};
     uint32_t nNonce{0};
+    uint256 hashStateRoot;
+    uint256 hashUTXORoot;
+    COutPoint prevoutStake;
+    std::vector<unsigned char> vchBlockSigDlgt;
 
     CompressedHeader()
     {
         hashMerkleRoot.SetNull();
+        hashStateRoot.SetNull();
+        hashUTXORoot.SetNull();
+        vchBlockSigDlgt.clear();
+        prevoutStake.SetNull();
     }
 
     CompressedHeader(const CBlockHeader& header)
@@ -38,6 +46,10 @@ struct CompressedHeader {
         nTime = header.nTime;
         nBits = header.nBits;
         nNonce = header.nNonce;
+        hashStateRoot = header.hashStateRoot;
+        hashUTXORoot = header.hashUTXORoot;
+        vchBlockSigDlgt = header.vchBlockSigDlgt;
+        prevoutStake = header.prevoutStake;
     }
 
     CBlockHeader GetFullHeader(const uint256& hash_prev_block) {
@@ -48,6 +60,10 @@ struct CompressedHeader {
         ret.nTime = nTime;
         ret.nBits = nBits;
         ret.nNonce = nNonce;
+        ret.hashStateRoot = hashStateRoot;
+        ret.hashUTXORoot = hashUTXORoot;
+        ret.vchBlockSigDlgt = vchBlockSigDlgt;
+        ret.prevoutStake = prevoutStake;
         return ret;
     };
 };
@@ -56,7 +72,7 @@ struct CompressedHeader {
  *
  * We wish to download a peer's headers chain in a DoS-resistant way.
  *
- * The Bitnet protocol does not offer an easy way to determine the work on a
+ * The Bitcoin protocol does not offer an easy way to determine the work on a
  * peer's chain. Currently, we can query a peer's headers by using a GETHEADERS
  * message, and our peer can return a set of up to 2000 headers that connect to
  * something we know. If a peer's chain has more than 2000 blocks, then we need

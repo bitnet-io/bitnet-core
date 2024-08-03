@@ -1,5 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,7 +18,7 @@
 #include <vector>
 
 /**
- * JSON-RPC protocol.  Bitnet speaks version 1.0 for maximum compatibility,
+ * JSON-RPC protocol.  Bitcoin speaks version 1.0 for maximum compatibility,
  * but uses JSON-RPC 1.1/2.0 standards for parts of the 1.0 standard that were
  * unspecified (HTTP errors and contents of 'error').
  *
@@ -75,7 +75,7 @@ static fs::path GetAuthCookieFile(bool temp=false)
     if (temp) {
         arg += ".tmp";
     }
-    return AbsPathForConfigVal(gArgs, arg);
+    return AbsPathForConfigVal(arg);
 }
 
 bool GenerateAuthCookie(std::string *cookie_out)
@@ -86,7 +86,7 @@ bool GenerateAuthCookie(std::string *cookie_out)
     std::string cookie = COOKIEAUTH_USER + ":" + HexStr(rand_pwd);
 
     /** the umask determines what permissions are used to create this file -
-     * these are set to 0077 in util/system.cpp.
+     * these are set to 077 in init.cpp unless overridden with -sysperms.
      */
     std::ofstream file;
     fs::path filepath_tmp = GetAuthCookieFile(true);
@@ -187,3 +187,13 @@ void JSONRPCRequest::parse(const UniValue& valRequest)
     else
         throw JSONRPCError(RPC_INVALID_REQUEST, "Params must be an array or object");
 }
+
+bool JSONRPCRequest::PollAlive() { return false;}
+
+void JSONRPCRequest::PollStart() {}
+
+void JSONRPCRequest::PollPing() {}
+
+void JSONRPCRequest::PollCancel() {}
+
+void JSONRPCRequest::PollReply(const UniValue& result) {}

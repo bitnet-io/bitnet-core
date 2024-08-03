@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,7 +9,6 @@
 #include <arith_uint256.h>
 #include <consensus/params.h>
 #include <flatfile.h>
-#include <kernel/cs_main.h>
 #include <primitives/block.h>
 #include <sync.h>
 #include <uint256.h>
@@ -35,9 +34,11 @@ static constexpr int64_t TIMESTAMP_WINDOW = MAX_FUTURE_BLOCK_TIME;
  * Maximum gap between node time and block time used
  * for the "Catching up..." mode in GUI.
  *
- * Ref: https://github.com/bitnet/bitnet/pull/1026
+ * Ref: https://github.com/bitcoin/bitcoin/pull/1026
  */
 static constexpr int64_t MAX_BLOCK_TIME_GAP = 90 * 60;
+
+extern RecursiveMutex cs_main;
 
 class CBlockFileInfo
 {
@@ -156,6 +157,9 @@ public:
     //! pointer to the index of the predecessor of this block
     CBlockIndex* pprev{nullptr};
 
+    //! pointer to the index of the successor of this block
+    CBlockIndex* pnext{nullptr};
+
     //! pointer to the index of some further predecessor of this block
     CBlockIndex* pskip{nullptr};
 
@@ -205,6 +209,15 @@ public:
     uint32_t nTime{0};
     uint32_t nBits{0};
     uint32_t nNonce{0};
+    uint256 hashStateRoot{}; // qtum
+    uint256 hashUTXORoot{}; // qtum
+    // block signature - proof-of-stake protect the block by signing the block using a stake holder private key
+    std::vector<unsigned char> vchBlockSigDlgt{};
+    uint256 nStakeModifier{};
+    // proof-of-stake specific fields
+    COutPoint prevoutStake{};
+    uint256 hashProof{}; // qtum
+    uint64_t nMoneySupply{0};
 
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     int32_t nSequenceId{0};
@@ -212,12 +225,20 @@ public:
     //! (memory only) Maximum nTime in the chain up to and including this block.
     unsigned int nTimeMax{0};
 
+    CBlockIndex()
+    {
+    }
+
     explicit CBlockIndex(const CBlockHeader& block)
         : nVersion{block.nVersion},
           hashMerkleRoot{block.hashMerkleRoot},
           nTime{block.nTime},
           nBits{block.nBits},
-          nNonce{block.nNonce}
+          nNonce{block.nNonce},
+          hashStateRoot{block.hashStateRoot},
+          hashUTXORoot{block.hashUTXORoot},
+          vchBlockSigDlgt{block.vchBlockSigDlgt},
+          prevoutStake{block.prevoutStake}
     {
     }
 
@@ -253,6 +274,10 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
+        block.hashStateRoot = hashStateRoot; // qtum
+        block.hashUTXORoot = hashUTXORoot; // qtum
+        block.vchBlockSigDlgt = vchBlockSigDlgt;
+        block.prevoutStake = prevoutStake;
         return block;
     }
 
@@ -302,6 +327,22 @@ public:
         return pbegin[(pend - pbegin) / 2];
     }
 
+    bool IsProofOfWork() const // qtum
+    {
+        return !IsProofOfStake();
+    }
+
+    bool IsProofOfStake() const
+    {
+        return !prevoutStake.IsNull();
+    }
+
+    std::vector<unsigned char> GetBlockSignature() const;
+
+    std::vector<unsigned char> GetProofOfDelegation() const;
+
+    bool HasProofOfDelegation() const;
+
     std::string ToString() const;
 
     //! Check whether this block index entry is valid up to the passed validity level.
@@ -350,24 +391,6 @@ public:
     //! Efficiently find an ancestor of this block.
     CBlockIndex* GetAncestor(int height);
     const CBlockIndex* GetAncestor(int height) const;
-
-    CBlockIndex() = default;
-    ~CBlockIndex() = default;
-
-protected:
-    //! CBlockIndex should not allow public copy construction because equality
-    //! comparison via pointer is very common throughout the codebase, making
-    //! use of copy a footgun. Also, use of copies do not have the benefit
-    //! of simplifying lifetime considerations due to attributes like pprev and
-    //! pskip, which are at risk of becoming dangling pointers in a copied
-    //! instance.
-    //!
-    //! We declare these protected instead of simply deleting them so that
-    //! CDiskBlockIndex can reuse copy construction.
-    CBlockIndex(const CBlockIndex&) = default;
-    CBlockIndex& operator=(const CBlockIndex&) = delete;
-    CBlockIndex(CBlockIndex&&) = delete;
-    CBlockIndex& operator=(CBlockIndex&&) = delete;
 };
 
 arith_uint256 GetBlockProof(const CBlockIndex& block);
@@ -405,6 +428,7 @@ public:
         if (obj.nStatus & (BLOCK_HAVE_DATA | BLOCK_HAVE_UNDO)) READWRITE(VARINT_MODE(obj.nFile, VarIntMode::NONNEGATIVE_SIGNED));
         if (obj.nStatus & BLOCK_HAVE_DATA) READWRITE(VARINT(obj.nDataPos));
         if (obj.nStatus & BLOCK_HAVE_UNDO) READWRITE(VARINT(obj.nUndoPos));
+        READWRITE(VARINT(obj.nMoneySupply));
 
         // block header
         READWRITE(obj.nVersion);
@@ -413,6 +437,12 @@ public:
         READWRITE(obj.nTime);
         READWRITE(obj.nBits);
         READWRITE(obj.nNonce);
+        READWRITE(obj.hashStateRoot); // qtum
+        READWRITE(obj.hashUTXORoot); // qtum
+        READWRITE(obj.nStakeModifier);
+        READWRITE(obj.prevoutStake);
+        READWRITE(obj.hashProof);
+        READWRITE(obj.vchBlockSigDlgt); // qtum
     }
 
     uint256 ConstructBlockHash() const
@@ -424,6 +454,10 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
+        block.hashStateRoot = hashStateRoot; // qtum
+        block.hashUTXORoot = hashUTXORoot; // qtum
+        block.vchBlockSigDlgt = vchBlockSigDlgt;
+        block.prevoutStake = prevoutStake;
         return block.GetHash();
     }
 
@@ -460,6 +494,12 @@ public:
         if (nHeight < 0 || nHeight >= (int)vChain.size())
             return nullptr;
         return vChain[nHeight];
+    }
+
+    /** Compare two chains efficiently. */
+    friend bool operator==(const CChain &a, const CChain &b) {
+        return a.vChain.size() == b.vChain.size() &&
+               a.vChain[a.vChain.size() - 1] == b.vChain[b.vChain.size() - 1];
     }
 
     /** Efficiently check whether a block is present in this chain. */

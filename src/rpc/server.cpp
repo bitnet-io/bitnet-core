@@ -1,5 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,6 +12,7 @@
 #include <util/string.h>
 #include <util/system.h>
 #include <util/time.h>
+#include <httpserver.h>
 
 #include <boost/signals2/signal.hpp>
 
@@ -22,7 +23,6 @@
 #include <unordered_map>
 
 static GlobalMutex g_rpc_warmup_mutex;
-static std::atomic<bool> g_rpc_running{false};
 static bool fRPCInWarmup GUARDED_BY(g_rpc_warmup_mutex) = true;
 static std::string rpcWarmupStatus GUARDED_BY(g_rpc_warmup_mutex) = "RPC server started";
 /* Timer-creating functions */
@@ -103,7 +103,7 @@ std::string CRPCTable::help(const std::string& strCommand, const JSONRPCRequest&
         {
             UniValue unused_result;
             if (setDone.insert(pcmd->unique_id).second)
-                pcmd->actor(jreq, unused_result, /*last_handler=*/true);
+                pcmd->actor(jreq, unused_result, true /* last_handler */);
         }
         catch (const std::exception& e)
         {
@@ -168,7 +168,7 @@ static RPCHelpMan stop()
     // to the client (intended for testing)
                 "\nRequest a graceful shutdown of " PACKAGE_NAME ".",
                 {
-                    {"wait", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "how long to wait in ms", RPCArgOptions{.hidden=true}},
+                    {"wait", RPCArg::Type::NUM, RPCArg::Optional::OMITTED_NAMED_ARG, "how long to wait in ms", "", {}, /*hidden=*/true},
                 },
                 RPCResult{RPCResult::Type::STR, "", "A string with the content '" + RESULT + "'"},
                 RPCExamples{""},
@@ -315,11 +315,6 @@ void StopRPC()
     });
 }
 
-bool IsRPCRunning()
-{
-    return g_rpc_running;
-}
-
 void RpcInterruptionPoint()
 {
     if (!IsRPCRunning()) throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED, "Shutting down");
@@ -344,6 +339,49 @@ bool RPCIsInWarmup(std::string *outStatus)
     if (outStatus)
         *outStatus = rpcWarmupStatus;
     return fRPCInWarmup;
+}
+
+JSONRPCRequestLong::JSONRPCRequestLong(HTTPRequest *_req) {
+	httpreq = _req;
+}
+
+bool JSONRPCRequestLong::PollAlive() {
+    return !req()->isConnClosed();
+}
+
+void JSONRPCRequestLong::PollStart() {
+    // send an empty space to the client to ensure that it's still alive.
+    assert(!isLongPolling);
+    req()->WriteHeader("Content-Type", "application/json");
+    req()->WriteHeader("Connection", "close");
+    req()->Chunk(std::string(" "));
+    isLongPolling = true;
+}
+
+void JSONRPCRequestLong::PollPing() {
+    assert(isLongPolling);
+    // send an empty space to the client to ensure that it's still alive.
+    req()->Chunk(std::string(" "));
+}
+
+void JSONRPCRequestLong::PollCancel() {
+    assert(isLongPolling);
+    req()->ChunkEnd();
+}
+
+void JSONRPCRequestLong::PollReply(const UniValue& result) {
+    assert(isLongPolling);
+    UniValue reply(UniValue::VOBJ);
+    reply.pushKV("result", result);
+    reply.pushKV("error", NullUniValue);
+    reply.pushKV("id", id);
+
+    req()->Chunk(reply.write() + "\n");
+    req()->ChunkEnd();
+}
+
+HTTPRequest* JSONRPCRequestLong::req() {
+    return (HTTPRequest*)httpreq;
 }
 
 bool IsDeprecatedRPCEnabled(const std::string& method)
@@ -389,9 +427,10 @@ std::string JSONRPCExecBatch(const JSONRPCRequest& jreq, const UniValue& vReq)
  * Process named arguments into a vector of positional arguments, based on the
  * passed-in specification for the RPC call's arguments.
  */
-static inline JSONRPCRequest transformNamedArguments(const JSONRPCRequest& in, const std::vector<std::string>& argNames)
+static inline JSONRPCRequest& transformNamedArguments(const JSONRPCRequest& _in, const std::vector<std::string>& argNames)
 {
-    JSONRPCRequest out = in;
+    JSONRPCRequest in = _in;
+    JSONRPCRequest& out = (JSONRPCRequest&)_in;
     out.params = UniValue(UniValue::VARR);
     // Build a map of parameters, and remove ones that have been processed, so that we can throw a focused error if
     // there is an unknown one.
@@ -399,21 +438,10 @@ static inline JSONRPCRequest transformNamedArguments(const JSONRPCRequest& in, c
     const std::vector<UniValue>& values = in.params.getValues();
     std::unordered_map<std::string, const UniValue*> argsIn;
     for (size_t i=0; i<keys.size(); ++i) {
-        auto [_, inserted] = argsIn.emplace(keys[i], &values[i]);
-        if (!inserted) {
-            throw JSONRPCError(RPC_INVALID_PARAMETER, "Parameter " + keys[i] + " specified multiple times");
-        }
+        argsIn[keys[i]] = &values[i];
     }
-    // Process expected parameters. If any parameters were left unspecified in
-    // the request before a parameter that was specified, null values need to be
-    // inserted at the unspecifed parameter positions, and the "hole" variable
-    // below tracks the number of null values that need to be inserted.
-    // The "initial_hole_size" variable stores the size of the initial hole,
-    // i.e. how many initial positional arguments were left unspecified. This is
-    // used after the for-loop to add initial positional arguments from the
-    // "args" parameter, if present.
+    // Process expected parameters.
     int hole = 0;
-    int initial_hole_size = 0;
     for (const std::string &argNamePattern: argNames) {
         std::vector<std::string> vargNames = SplitString(argNamePattern, '|');
         auto fr = argsIn.end();
@@ -435,24 +463,6 @@ static inline JSONRPCRequest transformNamedArguments(const JSONRPCRequest& in, c
             argsIn.erase(fr);
         } else {
             hole += 1;
-            if (out.params.empty()) initial_hole_size = hole;
-        }
-    }
-    // If leftover "args" param was found, use it as a source of positional
-    // arguments and add named arguments after. This is a convenience for
-    // clients that want to pass a combination of named and positional
-    // arguments as described in doc/JSON-RPC-interface.md#parameter-passing
-    auto positional_args{argsIn.extract("args")};
-    if (positional_args && positional_args.mapped()->isArray()) {
-        const bool has_named_arguments{initial_hole_size < (int)argNames.size()};
-        if (initial_hole_size < (int)positional_args.mapped()->size() && has_named_arguments) {
-            throw JSONRPCError(RPC_INVALID_PARAMETER, "Parameter " + argNames[initial_hole_size] + " specified twice both as positional and named argument");
-        }
-        // Assign positional_args to out.params and append named_args after.
-        UniValue named_args{std::move(out.params)};
-        out.params = *positional_args.mapped();
-        for (size_t i{out.params.size()}; i < named_args.size(); ++i) {
-            out.params.push_back(named_args[i]);
         }
     }
     // If there are still arguments in the argsIn map, this is an error.
@@ -495,7 +505,8 @@ UniValue CRPCTable::execute(const JSONRPCRequest &request) const
 
 static bool ExecuteCommand(const CRPCCommand& command, const JSONRPCRequest& request, UniValue& result, bool last_handler)
 {
-    try {
+    try
+    {
         RPCCommandExecution execution(request.strMethod);
         // Execute, convert arguments to array if necessary
         if (request.params.isObject()) {
@@ -503,9 +514,9 @@ static bool ExecuteCommand(const CRPCCommand& command, const JSONRPCRequest& req
         } else {
             return command.actor(request, result, last_handler);
         }
-    } catch (const UniValue::type_error& e) {
-        throw JSONRPCError(RPC_TYPE_ERROR, e.what());
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         throw JSONRPCError(RPC_MISC_ERROR, e.what());
     }
 }

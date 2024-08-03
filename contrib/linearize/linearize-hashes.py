@@ -2,7 +2,7 @@
 #
 # linearize-hashes.py:  List blocks in a linear, no-fork version of the chain.
 #
-# Copyright (c) 2013-2022 The Bitnet Core developers
+# Copyright (c) 2013-2019 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #
@@ -17,7 +17,7 @@ import os.path
 
 settings = {}
 
-class BitnetRPC:
+class BitcoinRPC:
     def __init__(self, host, port, username, password):
         authpair = "%s:%s" % (username, password)
         authpair = authpair.encode('utf-8')
@@ -59,7 +59,7 @@ class BitnetRPC:
         return 'error' in resp_obj and resp_obj['error'] is not None
 
 def get_block_hashes(settings, max_blocks_per_call=10000):
-    rpc = BitnetRPC(settings['host'], settings['port'],
+    rpc = BitcoinRPC(settings['host'], settings['port'],
              settings['rpcuser'], settings['rpcpassword'])
 
     height = settings['min_height']
@@ -78,7 +78,7 @@ def get_block_hashes(settings, max_blocks_per_call=10000):
             if rpc.response_is_error(resp_obj):
                 print('JSON-RPC: error at height', height+x, ': ', resp_obj['error'], file=sys.stderr)
                 sys.exit(1)
-            assert resp_obj['id'] == x  # assume replies are in-sequence
+            assert(resp_obj['id'] == x) # assume replies are in-sequence
             if settings['rev_hash_bytes'] == 'true':
                 resp_obj['result'] = bytes.fromhex(resp_obj['result'])[::-1].hex()
             print(resp_obj['result'])
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     if 'host' not in settings:
         settings['host'] = '127.0.0.1'
     if 'port' not in settings:
-        settings['port'] = 8332
+        settings['port'] = 3889
     if 'min_height' not in settings:
         settings['min_height'] = 0
     if 'max_height' not in settings:

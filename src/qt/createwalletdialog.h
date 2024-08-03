@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2021 The Bitnet Core developers
+// Copyright (c) 2019-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -37,6 +37,7 @@ public:
     bool isMakeBlankWalletChecked() const;
     bool isDescriptorWalletChecked() const;
     bool isExternalSignerChecked() const;
+    bool isHardwareWalletChecked() const;
 
 private:
     Ui::CreateWalletDialog *ui;

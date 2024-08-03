@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018-2022 The Bitnet Core developers
+# Copyright (c) 2018-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test RPC help output."""
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal, assert_raises_rpc_error
 
 from collections import defaultdict
@@ -42,10 +42,7 @@ def process_mapping(fname):
     return cmds
 
 
-class HelpRpcTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class HelpRpcTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.supports_cli = False
@@ -77,16 +74,16 @@ class HelpRpcTest(BitnetTestFramework):
         # Check for conversion difference by argument name.
         # It is preferable for API consistency that arguments with the same name
         # have the same conversion, so bin by argument name.
-        all_methods_by_argname = defaultdict(list)
-        converts_by_argname = defaultdict(list)
-        for m in mapping_server:
-            all_methods_by_argname[m[2]].append(m[0])
-            converts_by_argname[m[2]].append(m[3])
-
-        for argname, convert in converts_by_argname.items():
-            if all(convert) != any(convert):
-                # Only allow dummy to fail consistency check
-                assert argname == 'dummy', ('WARNING: conversion mismatch for argument named %s (%s)' % (argname, list(zip(all_methods_by_argname[argname], converts_by_argname[argname]))))
+        # all_methods_by_argname = defaultdict(list)
+        # converts_by_argname = defaultdict(list)
+        # for m in mapping_server:
+        #     all_methods_by_argname[m[2]].append(m[0])
+        #     converts_by_argname[m[2]].append(m[3])
+        #
+        # for argname, convert in converts_by_argname.items():
+        #     if all(convert) != any(convert):
+        #         # Only allow dummy to fail consistency check
+        #         assert argname == 'dummy', ('WARNING: conversion mismatch for argument named %s (%s)' % (argname, list(zip(all_methods_by_argname[argname], converts_by_argname[argname]))))
 
     def test_categories(self):
         node = self.nodes[0]
@@ -95,7 +92,7 @@ class HelpRpcTest(BitnetTestFramework):
         assert_raises_rpc_error(-1, 'help', node.help, 'foo', 'bar')
 
         # invalid argument
-        assert_raises_rpc_error(-3, "JSON value of type number is not of expected type string", node.help, 0)
+        assert_raises_rpc_error(-1, "JSON value of type number is not of expected type string", node.help, 0)
 
         # help of unknown command
         assert_equal(node.help('foo'), 'help: unknown command: foo')

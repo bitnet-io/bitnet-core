@@ -1,14 +1,17 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/qvalidatedlineedit.h>
 
-#include <qt/bitnetaddressvalidator.h>
-#include <qt/guiconstants.h>
+#include <qt/bitcoinaddressvalidator.h>
+#include <qt/styleSheet.h>
 
-QValidatedLineEdit::QValidatedLineEdit(QWidget* parent)
-    : QLineEdit(parent)
+QValidatedLineEdit::QValidatedLineEdit(QWidget *parent) :
+    QLineEdit(parent),
+    valid(true),
+    checkValidator(nullptr),
+    emptyIsValid(true)
 {
     connect(this, &QValidatedLineEdit::textChanged, this, &QValidatedLineEdit::markValid);
 }
@@ -28,11 +31,31 @@ void QValidatedLineEdit::setValid(bool _valid)
 
     if(_valid)
     {
-        setStyleSheet("");
+
+        QWidget *widget = this->parentWidget();
+        if(widget && widget->inherits("QComboBox"))
+        {
+            widget->setStyleSheet("");
+        }
+        else
+        {
+
+            setStyleSheet("");
+        }
+
     }
     else
     {
-        setStyleSheet("QValidatedLineEdit { " STYLE_INVALID "}");
+        QWidget *widget = this->parentWidget();
+        if(widget && widget->inherits("QComboBox"))
+        {
+            SetObjectStyleSheet(widget, StyleSheetNames::Invalid);
+        }
+        else
+        {
+            SetObjectStyleSheet(this, StyleSheetNames::Invalid);
+        }
+
     }
     this->valid = _valid;
 }
@@ -50,6 +73,17 @@ void QValidatedLineEdit::focusOutEvent(QFocusEvent *evt)
     checkValidity();
 
     QLineEdit::focusOutEvent(evt);
+}
+
+
+bool QValidatedLineEdit::getEmptyIsValid() const
+{
+    return emptyIsValid;
+}
+
+void QValidatedLineEdit::setEmptyIsValid(bool value)
+{
+    emptyIsValid = value;
 }
 
 void QValidatedLineEdit::markValid()
@@ -82,7 +116,7 @@ void QValidatedLineEdit::setEnabled(bool enabled)
 
 void QValidatedLineEdit::checkValidity()
 {
-    if (text().isEmpty())
+    if (emptyIsValid && text().isEmpty())
     {
         setValid(true);
     }

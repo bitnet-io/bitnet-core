@@ -10,16 +10,16 @@ This guide describes how to build bitnetd, command-line utilities, and GUI on Fr
 Run the following as root to install the base dependencies for building.
 
 ```bash
-pkg install autoconf automake boost-libs git gmake libevent libtool pkgconf
+pkg install autoconf automake boost-libs git gmake libevent libtool pkgconf gmp
 
 ```
 
 See [dependencies.md](dependencies.md) for a complete overview.
 
-### 2. Clone Bitnet Repo
+### 2. Clone Qtum Repo
 Now that `git` and all the required dependencies are installed, let's clone the Bitnet Core repository to a directory. All build scripts and commands will run from this directory.
 ``` bash
-git clone https://github.com/bitnet/bitnet.git
+git clone https://github.com/qtumproject/qtum --recursive
 ```
 
 ### 3. Install Optional Dependencies
@@ -36,30 +36,13 @@ pkg install sqlite3
 ```
 
 ###### Legacy Wallet Support
-BerkeleyDB is only required if legacy wallet support is required.
+`db5` is only required to support legacy wallets.
+Skip if you don't intend to use legacy wallets.
 
-It is required to use Berkeley DB 4.8. You **cannot** use the BerkeleyDB library
-from ports. However, you can build DB 4.8 yourself [using depends](/depends).
-
+```bash
+pkg install db5
 ```
-gmake -C depends NO_BOOST=1 NO_LIBEVENT=1 NO_QT=1 NO_SQLITE=1 NO_NATPMP=1 NO_UPNP=1 NO_ZMQ=1 NO_USDT=1
-```
-
-When the build is complete, the Berkeley DB installation location will be displayed:
-
-```
-to: /path/to/bitnet/depends/x86_64-unknown-freebsd[release-number]
-```
-
-Finally, set `BDB_PREFIX` to this path according to your shell:
-
-```
-csh: setenv BDB_PREFIX [path displayed above]
-```
-
-```
-sh/bash: export BDB_PREFIX=[path displayed above]
-```
+---
 
 #### GUI Dependencies
 ###### Qt5
@@ -89,7 +72,7 @@ There is an included test suite that is useful for testing code changes when dev
 To run the test suite (recommended), you will need to have Python 3 installed:
 
 ```bash
-pkg install python3 databases/py-sqlite3
+pkg install python3
 ```
 ---
 
@@ -108,12 +91,12 @@ This explicitly enables the GUI and disables legacy wallet support, assuming `sq
 
 ##### Descriptor & Legacy Wallet. No GUI:
 This enables support for both wallet types and disables the GUI, assuming
-`sqlite3` and `db4` are both installed.
+`sqlite3` and `db5` are both installed.
 ```bash
 ./autogen.sh
-./configure --with-gui=no \
-    BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" \
-    BDB_CFLAGS="-I${BDB_PREFIX}/include" \
+./configure --with-gui=no --with-incompatible-bdb \
+    BDB_LIBS="-ldb_cxx-5" \
+    BDB_CFLAGS="-I/usr/local/include/db5" \
     MAKE=gmake
 ```
 

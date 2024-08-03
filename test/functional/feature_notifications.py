@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the -alertnotify, -blocknotify and -walletnotify options."""
@@ -7,10 +7,12 @@ import os
 
 from test_framework.address import ADDRESS_BCRT1_UNSPENDABLE
 from test_framework.descriptors import descsum_create
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
 )
+from test_framework.qtumconfig import * 
+from test_framework.qtum import generatesynchronized
 
 # Linux allow all characters other than \x00
 # Windows disallow control characters (0-31) and /\?%:|"<>
@@ -23,15 +25,12 @@ def notify_outputname(walletname, txid):
     return txid if os.name == 'nt' else f'{walletname}_{txid}'
 
 
-class NotificationsTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class NotificationsTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.setup_clean_chain = True
         # The experimental syscall sandbox feature (-sandbox) is not compatible with -alertnotify,
-        # -blocknotify, -walletnotify or -shutdownnotify (which all invoke execve).
+        # -blocknotify or -walletnotify (which all invoke execve).
         self.disable_syscall_sandbox = True
 
     def setup_network(self):
@@ -39,18 +38,14 @@ class NotificationsTest(BitnetTestFramework):
         self.alertnotify_dir = os.path.join(self.options.tmpdir, "alertnotify")
         self.blocknotify_dir = os.path.join(self.options.tmpdir, "blocknotify")
         self.walletnotify_dir = os.path.join(self.options.tmpdir, "walletnotify")
-        self.shutdownnotify_dir = os.path.join(self.options.tmpdir, "shutdownnotify")
-        self.shutdownnotify_file = os.path.join(self.shutdownnotify_dir, "shutdownnotify.txt")
         os.mkdir(self.alertnotify_dir)
         os.mkdir(self.blocknotify_dir)
         os.mkdir(self.walletnotify_dir)
-        os.mkdir(self.shutdownnotify_dir)
 
         # -alertnotify and -blocknotify on node0, walletnotify on node1
         self.extra_args = [[
             f"-alertnotify=echo > {os.path.join(self.alertnotify_dir, '%s')}",
             f"-blocknotify=echo > {os.path.join(self.blocknotify_dir, '%s')}",
-            f"-shutdownnotify=echo > {self.shutdownnotify_file}",
         ], [
             f"-walletnotify=echo %h_%b > {os.path.join(self.walletnotify_dir, notify_outputname('%w', '%s'))}",
         ]]
@@ -118,7 +113,7 @@ class NotificationsTest(BitnetTestFramework):
             # triggered by node 1
             self.log.info("test -walletnotify with conflicting transactions")
             self.nodes[0].rescanblockchain()
-            self.generatetoaddress(self.nodes[0], 100, ADDRESS_BCRT1_UNSPENDABLE)
+            generatesynchronized(self.nodes[0], COINBASE_MATURITY, ADDRESS_BCRT1_UNSPENDABLE, self.nodes)
 
             # Generate transaction on node 0, sync mempools, and check for
             # notification on node 1.
@@ -129,7 +124,7 @@ class NotificationsTest(BitnetTestFramework):
 
             # Generate bump transaction, sync mempools, and check for bump1
             # notification. In the future, per
-            # https://github.com/bitnet/bitnet/pull/9371, it might be better
+            # https://github.com/bitcoin/bitcoin/pull/9371, it might be better
             # to have notifications for both tx1 and bump1.
             bump1 = self.nodes[0].bumpfee(tx1)["txid"]
             assert_equal(bump1 in self.nodes[0].getrawmempool(), True)
@@ -165,10 +160,6 @@ class NotificationsTest(BitnetTestFramework):
             assert_equal(self.nodes[1].gettransaction(bump2)["confirmations"], 1)
 
         # TODO: add test for `-alertnotify` large fork notifications
-
-        self.log.info("test -shutdownnotify")
-        self.stop_nodes()
-        self.wait_until(lambda: os.path.isfile(self.shutdownnotify_file), timeout=10)
 
     def expect_wallet_notify(self, tx_details):
         self.wait_until(lambda: len(os.listdir(self.walletnotify_dir)) >= len(tx_details), timeout=10)

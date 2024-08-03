@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 The Bitnet Core developers
+// Copyright (c) 2014-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,8 +11,8 @@
 class ArgsManager;
 
 /**
- * CBaseChainParams defines the base parameters (shared between bitnet-cli and bitnetd)
- * of a given instance of the Bitnet system.
+ * CBaseChainParams defines the base parameters (shared between bitcoin-cli and bitcoind)
+ * of a given instance of the Bitcoin system.
  */
 class CBaseChainParams
 {
@@ -23,6 +23,7 @@ public:
     static const std::string TESTNET;
     static const std::string SIGNET;
     static const std::string REGTEST;
+    static const std::string UNITTEST;
     ///@}
 
     const std::string& DataDir() const { return strDataDir; }

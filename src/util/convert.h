@@ -1,5 +1,5 @@
-#ifndef QTUM_CONVERT_H
-#define QTUM_CONVERT_H
+#ifndef BIT_CONVERT_H
+#define BIT_CONVERT_H
 
 ////////////////////////////////////////////////////// qtum
 #include <uint256.h>
@@ -62,4 +62,4 @@ inline uint160 u160Touint(const dev::u160& in)
 }
 //////////////////////////////////////////////////////
 
-#endif // QTUM_CONVERT_H
+#endif // BIT_CONVERT_H

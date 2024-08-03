@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2022 The Bitnet Core developers
+// Copyright (c) 2015-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,4 +18,4 @@ static void Trig(benchmark::Bench& bench)
     });
 }
 
-BENCHMARK(Trig, benchmark::PriorityLevel::HIGH);
+BENCHMARK(Trig);

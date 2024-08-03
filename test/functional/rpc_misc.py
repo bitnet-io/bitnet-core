@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2022 The Bitnet Core developers
+# Copyright (c) 2019-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test RPC misc output."""
 import xml.etree.ElementTree as ET
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_raises_rpc_error,
     assert_equal,
@@ -16,7 +16,7 @@ from test_framework.util import (
 from test_framework.authproxy import JSONRPCException
 
 
-class RpcMiscTest(BitnetTestFramework):
+class RpcMiscTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.supports_cli = False
@@ -84,7 +84,7 @@ class RpcMiscTest(BitnetTestFramework):
         self.wait_until(lambda: all(i["synced"] for i in node.getindexinfo().values()))
 
         # Returns a list of all running indices by default
-        values = {"synced": True, "best_block_height": 200}
+        values = {"synced": True, "best_block_height": 2100}
         assert_equal(
             node.getindexinfo(),
             {

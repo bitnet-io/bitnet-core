@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 The Bitnet Core developers
+// Copyright (c) 2017-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -155,7 +155,7 @@ bool TransactionCanBeBumped(const CWallet& wallet, const uint256& txid)
 }
 
 Result CreateRateBumpTransaction(CWallet& wallet, const uint256& txid, const CCoinControl& coin_control, std::vector<bilingual_str>& errors,
-                                 CAmount& old_fee, CAmount& new_fee, CMutableTransaction& mtx, bool require_mine, const std::vector<CTxOut>& outputs)
+                                 CAmount& old_fee, CAmount& new_fee, CMutableTransaction& mtx, bool require_mine)
 {
     // We are going to modify coin control later, copy to re-use
     CCoinControl new_coin_control(coin_control);
@@ -222,19 +222,11 @@ Result CreateRateBumpTransaction(CWallet& wallet, const uint256& txid, const CCo
         return result;
     }
 
-    // Calculate the old output amount.
-    CAmount output_value = 0;
-    for (const auto& old_output : wtx.tx->vout) {
-        output_value += old_output.nValue;
-    }
-
-    old_fee = input_value - output_value;
-
-    // Fill in recipients (and preserve a single change key if there
-    // is one). If outputs vector is non-empty, replace original
-    // outputs with its contents, otherwise use original outputs.
+    // Fill in recipients(and preserve a single change key if there is one)
+    // While we're here, calculate the output amount
     std::vector<CRecipient> recipients;
-    for (const auto& output : outputs.empty() ? wtx.tx->vout : outputs) {
+    CAmount output_value = 0;
+    for (const auto& output : wtx.tx->vout) {
         if (!OutputIsChange(wallet, output)) {
             CRecipient recipient = {output.scriptPubKey, output.nValue, false};
             recipients.push_back(recipient);
@@ -243,7 +235,10 @@ Result CreateRateBumpTransaction(CWallet& wallet, const uint256& txid, const CCo
             ExtractDestination(output.scriptPubKey, change_dest);
             new_coin_control.destChange = change_dest;
         }
+        output_value += output.nValue;
     }
+
+    old_fee = input_value - output_value;
 
     if (coin_control.m_feerate) {
         // The user provided a feeRate argument.
@@ -298,22 +293,7 @@ Result CreateRateBumpTransaction(CWallet& wallet, const uint256& txid, const CCo
 
 bool SignTransaction(CWallet& wallet, CMutableTransaction& mtx) {
     LOCK(wallet.cs_wallet);
-
-    if (wallet.IsWalletFlagSet(WALLET_FLAG_EXTERNAL_SIGNER)) {
-        // Make a blank psbt
-        PartiallySignedTransaction psbtx(mtx);
-
-        // First fill transaction with our data without signing,
-        // so external signers are not asked to sign more than once.
-        bool complete;
-        wallet.FillPSBT(psbtx, complete, SIGHASH_ALL, false /* sign */, true /* bip32derivs */);
-        const TransactionError err = wallet.FillPSBT(psbtx, complete, SIGHASH_ALL, true /* sign */, false  /* bip32derivs */);
-        if (err != TransactionError::OK) return false;
-        complete = FinalizeAndExtractPSBT(psbtx, mtx);
-        return complete;
-    } else {
-        return wallet.SignTransaction(mtx);
-    }
+    return wallet.SignTransaction(mtx);
 }
 
 Result CommitTransaction(CWallet& wallet, const uint256& txid, CMutableTransaction&& mtx, std::vector<bilingual_str>& errors, uint256& bumped_txid)

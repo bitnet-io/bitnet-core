@@ -87,15 +87,21 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@BUILD_BITCOIND_TRUE@am__append_1 = bitnetd.1
-@ENABLE_QT_TRUE@am__append_2 = bitnet-qt.1
-@BUILD_BITCOIN_CLI_TRUE@am__append_3 = bitnet-cli.1
-@BUILD_BITCOIN_TX_TRUE@am__append_4 = bitnet-tx.1
-@BUILD_BITCOIN_UTIL_TRUE@am__append_5 = bitnet-util.1
-@BUILD_BITCOIN_WALLET_TRUE@@ENABLE_WALLET_TRUE@am__append_6 = bitnet-wallet.1
+@BUILD_BITCOIND_TRUE@am__append_1 = bitcoind.1
+@ENABLE_QT_TRUE@am__append_2 = bitcoin-qt.1
+@BUILD_BITCOIN_CLI_TRUE@am__append_3 = bitcoin-cli.1
+@BUILD_BITCOIN_TX_TRUE@am__append_4 = bitcoin-tx.1
+@BUILD_BITCOIN_UTIL_TRUE@am__append_5 = bitcoin-util.1
+@BUILD_BITCOIN_WALLET_TRUE@@ENABLE_WALLET_TRUE@am__append_6 = bitcoin-wallet.1
 subdir = doc/man
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/build-aux/m4/ax_boost_base.m4 \
+	$(top_srcdir)/build-aux/m4/ax_boost_chrono.m4 \
+	$(top_srcdir)/build-aux/m4/ax_boost_filesystem.m4 \
+	$(top_srcdir)/build-aux/m4/ax_boost_program_options.m4 \
+	$(top_srcdir)/build-aux/m4/ax_boost_random.m4 \
+	$(top_srcdir)/build-aux/m4/ax_boost_system.m4 \
+	$(top_srcdir)/build-aux/m4/ax_boost_thread.m4 \
 	$(top_srcdir)/build-aux/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/build-aux/m4/ax_check_link_flag.m4 \
 	$(top_srcdir)/build-aux/m4/ax_check_preproc_flag.m4 \
@@ -118,7 +124,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
-CONFIG_HEADER = $(top_builddir)/src/config/bitnet-config.h
+CONFIG_HEADER = $(top_builddir)/src/config/bitcoin-config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_@AM_V@)
@@ -201,8 +207,15 @@ BITCOIN_TEST_NAME = @BITCOIN_TEST_NAME@
 BITCOIN_TX_NAME = @BITCOIN_TX_NAME@
 BITCOIN_UTIL_NAME = @BITCOIN_UTIL_NAME@
 BITCOIN_WALLET_TOOL_NAME = @BITCOIN_WALLET_TOOL_NAME@
+BOOST_CHRONO_LIB = @BOOST_CHRONO_LIB@
 BOOST_CPPFLAGS = @BOOST_CPPFLAGS@
+BOOST_FILESYSTEM_LIB = @BOOST_FILESYSTEM_LIB@
 BOOST_LDFLAGS = @BOOST_LDFLAGS@
+BOOST_LIBS = @BOOST_LIBS@
+BOOST_PROGRAM_OPTIONS_LIB = @BOOST_PROGRAM_OPTIONS_LIB@
+BOOST_RANDOM_LIB = @BOOST_RANDOM_LIB@
+BOOST_SYSTEM_LIB = @BOOST_SYSTEM_LIB@
+BOOST_THREAD_LIB = @BOOST_THREAD_LIB@
 BREW = @BREW@
 CC = @CC@
 CCACHE = @CCACHE@
@@ -225,6 +238,9 @@ COV_TOOL_WRAPPER = @COV_TOOL_WRAPPER@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CRYPTOPP_CPPFLAGS = @CRYPTOPP_CPPFLAGS@
+CRYPTOPP_TARGET_FLAGS = @CRYPTOPP_TARGET_FLAGS@
+CRYPTO_CFLAGS = @CRYPTO_CFLAGS@
+CRYPTO_LIBS = @CRYPTO_LIBS@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
@@ -254,6 +270,9 @@ FGREP = @FGREP@
 GCOV = @GCOV@
 GENHTML = @GENHTML@
 GIT = @GIT@
+GMPXX_LIBS = @GMPXX_LIBS@
+GMP_CFLAGS = @GMP_CFLAGS@
+GMP_LIBS = @GMP_LIBS@
 GPROF_CXXFLAGS = @GPROF_CXXFLAGS@
 GPROF_LDFLAGS = @GPROF_LDFLAGS@
 GREP = @GREP@
@@ -407,6 +426,8 @@ SQLITE_CFLAGS = @SQLITE_CFLAGS@
 SQLITE_LIBS = @SQLITE_LIBS@
 SSE41_CXXFLAGS = @SSE41_CXXFLAGS@
 SSE42_CXXFLAGS = @SSE42_CXXFLAGS@
+SSL_CFLAGS = @SSL_CFLAGS@
+SSL_LIBS = @SSL_LIBS@
 STRIP = @STRIP@
 TESTDEFS = @TESTDEFS@
 UIC = @UIC@

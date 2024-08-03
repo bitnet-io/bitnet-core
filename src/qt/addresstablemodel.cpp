@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -336,7 +336,7 @@ QModelIndex AddressTableModel::index(int row, int column, const QModelIndex &par
 void AddressTableModel::updateEntry(const QString &address,
         const QString &label, bool isMine, const QString &purpose, int status)
 {
-    // Update address book model from Bitnet core
+    // Update address book model from Bitcoin core
     priv->updateEntry(address, label, isMine, purpose, status);
 }
 
@@ -407,11 +407,27 @@ bool AddressTableModel::removeRows(int row, int count, const QModelIndex &parent
     return true;
 }
 
-QString AddressTableModel::labelForAddress(const QString &address) const
+QString AddressTableModel::labelForAddress(const QString &address, bool cached) const
 {
-    std::string name;
-    if (getAddressData(address, &name, /* purpose= */ nullptr)) {
-        return QString::fromStdString(name);
+    if(cached)
+    {
+        // Find address / label in model
+        QList<AddressTableEntry>::iterator lower = std::lower_bound(
+            priv->cachedAddressTable.begin(), priv->cachedAddressTable.end(), address, AddressTableEntryLessThan());
+        QList<AddressTableEntry>::iterator upper = std::upper_bound(
+            priv->cachedAddressTable.begin(), priv->cachedAddressTable.end(), address, AddressTableEntryLessThan());
+        bool inModel = (lower != upper);
+        if(inModel)
+        {
+            return lower->label;
+        }
+    }
+    else
+    {
+        std::string name;
+        if (getAddressData(address, &name, /* purpose= */ nullptr)) {
+            return QString::fromStdString(name);
+        }
     }
     return QString();
 }

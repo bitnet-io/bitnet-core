@@ -1,5 +1,5 @@
 // Copyright 2014 BitPay Inc.
-// Copyright 2015 Bitnet Core Developers
+// Copyright 2015 Bitcoin Core Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or https://opensource.org/licenses/mit-license.php.
 
@@ -44,15 +44,15 @@ static bool validNumStr(const std::string& s)
     return (tt == JTOK_NUMBER);
 }
 
-void UniValue::setNumStr(std::string str)
+void UniValue::setNumStr(const std::string& val_)
 {
-    if (!validNumStr(str)) {
-        throw std::runtime_error{"The string '" + str + "' is not a valid JSON number"};
+    if (!validNumStr(val_)) {
+        throw std::runtime_error{"The string '" + val_ + "' is not a valid JSON number"};
     }
 
     clear();
     typ = VNUM;
-    val = std::move(str);
+    val = val_;
 }
 
 void UniValue::setInt(uint64_t val_)
@@ -82,11 +82,11 @@ void UniValue::setFloat(double val_)
     return setNumStr(oss.str());
 }
 
-void UniValue::setStr(std::string str)
+void UniValue::setStr(const std::string& val_)
 {
     clear();
     typ = VSTR;
-    val = std::move(str);
+    val = val_;
 }
 
 void UniValue::setArray()
@@ -210,7 +210,7 @@ const UniValue& UniValue::operator[](size_t index) const
 void UniValue::checkType(const VType& expected) const
 {
     if (typ != expected) {
-        throw type_error{"JSON value of type " + std::string{uvTypeName(typ)} + " is not of expected type " +
+        throw std::runtime_error{"JSON value of type " + std::string{uvTypeName(typ)} + " is not of expected type " +
                                  std::string{uvTypeName(expected)}};
     }
 }

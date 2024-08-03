@@ -1,11 +1,9 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <bench/bench.h>
 #include <chainparamsbase.h>
-#include <kernel/cs_main.h>
-#include <kernel/mempool_entry.h>
 #include <rpc/mempool.h>
 #include <test/util/setup_common.h>
 #include <txmempool.h>
@@ -42,4 +40,4 @@ static void RpcMempool(benchmark::Bench& bench)
     });
 }
 
-BENCHMARK(RpcMempool, benchmark::PriorityLevel::HIGH);
+BENCHMARK(RpcMempool);

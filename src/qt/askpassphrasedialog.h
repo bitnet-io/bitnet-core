@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2020 The Bitnet Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -24,6 +24,7 @@ class AskPassphraseDialog : public QDialog
 public:
     enum Mode {
         Encrypt,    /**< Ask passphrase twice and encrypt */
+        UnlockStaking,  /**< Ask passphrase and unlock staking only */
         Unlock,     /**< Ask passphrase and unlock */
         ChangePass, /**< Ask old passphrase + new passphrase twice */
     };
@@ -38,8 +39,8 @@ public:
 private:
     Ui::AskPassphraseDialog *ui;
     Mode mode;
-    WalletModel* model{nullptr};
-    bool fCapsLock{false};
+    WalletModel *model;
+    bool fCapsLock;
     SecureString* m_passphrase_out;
 
 private Q_SLOTS:

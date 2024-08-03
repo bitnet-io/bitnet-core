@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2021 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,49 +14,25 @@
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QPainter>
-#include <QThread>
-#include <QPushButton>
-#include <QMessageBox>
-#include <QTimer>
-
-
-
-
-
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitnet-config.h> /* for USE_QRCODE */
+#include <config/bitcoin-config.h> /* for USE_QRCODE */
 #endif
 
 #ifdef USE_QRCODE
 #include <qrencode.h>
 #endif
 
-
-
-
-
-
-
-using namespace std;
-
-
-QRImageWidget::QRImageWidget(QWidget* parent)
-    : QLabel(parent)
+QRImageWidget::QRImageWidget(QWidget *parent):
+    QLabel(parent), contextMenu(nullptr)
 {
     contextMenu = new QMenu(this);
     contextMenu->addAction(tr("&Save Image…"), this, &QRImageWidget::saveImage);
-    contextMenu->addAction(tr("&Close"), this, &QRImageWidget::close);
     contextMenu->addAction(tr("&Copy Image"), this, &QRImageWidget::copyImage);
 }
 
-
-
-
 bool QRImageWidget::setQR(const QString& data, const QString& text)
 {
-
-
 #ifdef USE_QRCODE
     setText("");
     if (data.isEmpty()) return false;
@@ -67,19 +43,7 @@ bool QRImageWidget::setQR(const QString& data, const QString& text)
         return false;
     }
 
-
-
-
-//qr code draws here
-
-
-
-
-
-
-//const QR = QR_MODE_NUM = 16;
-
-    QRcode *code = QRcode_encodeString(data.toUtf8().constData(), 0, QR_ECLEVEL_H, QR_MODE_8, 1);
+    QRcode *code = QRcode_encodeString(data.toUtf8().constData(), 0, QR_ECLEVEL_L, QR_MODE_8, 1);
 
     if (!code) {
         setText(tr("Error encoding URI into QR Code."));
@@ -87,26 +51,23 @@ bool QRImageWidget::setQR(const QString& data, const QString& text)
     }
 
     QImage qrImage = QImage(code->width + 8, code->width + 8, QImage::Format_RGB32);
-//    qrImage.fill(0xffffff);
-    qrImage.fill(0xf0f2f0);
+    qrImage.fill(0xffffff);
     unsigned char *p = code->data;
     for (int y = 0; y < code->width; ++y) {
         for (int x = 0; x < code->width; ++x) {
-            qrImage.setPixel(x + 4, y + 4, ((*p & 1) ? 0x0 : 0xf0f2f0));
+            qrImage.setPixel(x + 4, y + 4, ((*p & 1) ? 0x0 : 0xffffff));
             ++p;
         }
     }
-
-
     QRcode_free(code);
 
-
-    const int qr_image_size = QR_IMAGE_SIZE + (text.isEmpty() ? 0 : 2 * QR_IMAGE_MARGIN);
+    const int qr_image_margin = text.isEmpty() ? 0 : QR_IMAGE_MARGIN;
+    const int qr_image_size = QR_IMAGE_SIZE + 2 * qr_image_margin;
     QImage qrAddrImage(qr_image_size, qr_image_size, QImage::Format_RGB32);
-    qrAddrImage.fill(0xf0f2f0);
+    qrAddrImage.fill(0xffffff);
     {
         QPainter painter(&qrAddrImage);
-        painter.drawImage(QR_IMAGE_MARGIN, 0, qrImage.scaled(QR_IMAGE_SIZE, QR_IMAGE_SIZE));
+        painter.drawImage(qr_image_margin, 0, qrImage.scaled(QR_IMAGE_SIZE, QR_IMAGE_SIZE));
 
         if (!text.isEmpty()) {
             QRect paddedRect = qrAddrImage.rect();
@@ -130,9 +91,6 @@ bool QRImageWidget::setQR(const QString& data, const QString& text)
     setText(tr("QR code support not available."));
     return false;
 #endif
-
-
-
 }
 
 QImage QRImageWidget::exportImage()
@@ -170,16 +128,6 @@ void QRImageWidget::saveImage()
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 void QRImageWidget::copyImage()
 {
     if (!GUIUtil::HasPixmap(this))
@@ -192,65 +140,4 @@ void QRImageWidget::contextMenuEvent(QContextMenuEvent *event)
     if (!GUIUtil::HasPixmap(this))
         return;
     contextMenu->exec(event->globalPos());
-}
-
-
-void QRImageWidget::close()  // Condition For Stop Button for your particular task
-{
-
-QTimer *timer = new QTimer(this);
-connect(timer, SIGNAL(timeout()), this, SLOT(done()));
-timer->start(5000);
-
-//usleep(200000);
-//this->close();
-//usleep(200000);
-//this->hide();
-
-//std::terminate();
-//  QPushButton *quitButton = new QPushButton( "Quit" );
-//    connect( quitButton, SIGNAL(clicked()), qApp, SLOT(quit()) );
-//connect(quitButton, SIGNAL(accepted()), qApp, SLOT(accept())   );
-
-
-
-//        QObject::connect(buttonBox, SIGNAL(accepted()), &ReceiveRequestDialog, SLOT(accept()));
-
-
-
-/*
- QMessageBox *closemsg = new QMessageBox;
-     closemsg->setText("pausing the QR code would you like to exit?");
-     closemsg->setInformativeText("");
-     closemsg->setStandardButtons(QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
-     closemsg->setDefaultButton(QMessageBox::Yes);
-     int ret=closemsg->exec();
- 
-     closemsg->deleteLater();   // this will free the memory from the event loop.
-
-     switch(ret)
-     {
- 
-     case QMessageBox::Yes:
- 
-         this->close();
-         break;
-
-     case QMessageBox::No:
- 
-         this->close();
-         break;
- 
- 
-     default:
-     case QMessageBox::Cancel:
-         return;
-
-     }
-
-     this->close();
-
-
-
-*/
 }

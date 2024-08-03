@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2018-2022 The Bitnet Core developers
+# Copyright (c) 2018-2022 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #
@@ -12,7 +12,7 @@ import subprocess
 
 def git_grep(params: [], error_msg: ""):
     try:
-        output = subprocess.check_output(["git", "grep", *params], text=True, encoding="utf8")
+        output = subprocess.check_output(["git", "grep", *params], universal_newlines=True, encoding="utf8")
         print(error_msg)
         print(output)
         return 1

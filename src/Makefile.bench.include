@@ -1,23 +1,23 @@
-# Copyright (c) 2015-2016 The Bitnet Core developers
+# Copyright (c) 2015-2016 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-bin_PROGRAMS += bench/bench_bitnet
+bin_PROGRAMS += bench/bench_qtum
 BENCH_SRCDIR = bench
-BENCH_BINARY = bench/bench_bitnet$(EXEEXT)
+BENCH_BINARY = bench/bench_qtum$(EXEEXT)
 
 RAW_BENCH_FILES = \
-  bench/data/block413567.raw
+  bench/data/blockbench.raw
 GENERATED_BENCH_FILES = $(RAW_BENCH_FILES:.raw=.raw.h)
 
-bench_bench_bitnet_SOURCES = \
+bench_bench_qtum_SOURCES = \
   $(RAW_BENCH_FILES) \
   bench/addrman.cpp \
   bench/base58.cpp \
   bench/bech32.cpp \
   bench/bench.cpp \
   bench/bench.h \
-  bench/bench_bitnet.cpp \
+  bench/bench_bitcoin.cpp \
   bench/block_assemble.cpp \
   bench/ccoins_caching.cpp \
   bench/chacha20.cpp \
@@ -32,7 +32,6 @@ bench_bench_bitnet_SOURCES = \
   bench/examples.cpp \
   bench/gcs_filter.cpp \
   bench/hashpadding.cpp \
-  bench/load_external.cpp \
   bench/lockedpool.cpp \
   bench/logging.cpp \
   bench/mempool_eviction.cpp \
@@ -50,12 +49,11 @@ bench_bench_bitnet_SOURCES = \
   bench/util_time.cpp \
   bench/verify_script.cpp
 
-nodist_bench_bench_bitnet_SOURCES = $(GENERATED_BENCH_FILES)
+nodist_bench_bench_qtum_SOURCES = $(GENERATED_BENCH_FILES)
 
-bench_bench_bitnet_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS) -I$(builddir)/bench/
-bench_bench_bitnet_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bench_bench_bitnet_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
-bench_bench_bitnet_LDADD = \
+bench_bench_qtum_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS) -I$(builddir)/bench/
+bench_bench_qtum_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+bench_bench_qtum_LDADD = \
   $(LIBTEST_UTIL) \
   $(LIBBITCOIN_NODE) \
   $(LIBBITCOIN_WALLET) \
@@ -69,31 +67,31 @@ bench_bench_bitnet_LDADD = \
   $(LIBUNIVALUE) \
   $(EVENT_PTHREADS_LIBS) \
   $(EVENT_LIBS) \
-  $(MINIUPNPC_LIBS) \
-  $(NATPMP_LIBS)
+  $(LIBCRYPTOPP)
 
 if ENABLE_ZMQ
-bench_bench_bitnet_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+bench_bench_qtum_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
-bench_bench_bitnet_SOURCES += bench/coin_selection.cpp
-bench_bench_bitnet_SOURCES += bench/wallet_balance.cpp
-bench_bench_bitnet_SOURCES += bench/wallet_loading.cpp
-bench_bench_bitnet_SOURCES += bench/wallet_create_tx.cpp
-bench_bench_bitnet_LDADD += $(BDB_LIBS) $(SQLITE_LIBS)
+bench_bench_qtum_SOURCES += bench/coin_selection.cpp
+bench_bench_qtum_SOURCES += bench/wallet_balance.cpp
+bench_bench_qtum_SOURCES += bench/wallet_loading.cpp
 endif
+
+bench_bench_qtum_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(SQLITE_LIBS) $(LIBFF) $(GMP_LIBS) $(GMPXX_LIBS)
+bench_bench_qtum_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 CLEAN_BITCOIN_BENCH = bench/*.gcda bench/*.gcno $(GENERATED_BENCH_FILES)
 
 CLEANFILES += $(CLEAN_BITCOIN_BENCH)
 
-bench/data.cpp: bench/data/block413567.raw.h
+bench/data.cpp: bench/data/blockbench.raw.h
 
-bitnet_bench: $(BENCH_BINARY)
+qtum_bench: $(BENCH_BINARY)
 
 bench: $(BENCH_BINARY) FORCE
 	$(BENCH_BINARY)
 
-bitnet_bench_clean : FORCE
-	rm -f $(CLEAN_BITCOIN_BENCH) $(bench_bench_bitnet_OBJECTS) $(BENCH_BINARY)
+qtum_bench_clean : FORCE
+	rm -f $(CLEAN_BITCOIN_BENCH) $(bench_bench_qtum_OBJECTS) $(BENCH_BINARY)

@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-"""HTTP proxy for opening RPC connection to bitnetd.
+"""HTTP proxy for opening RPC connection to bitcoind.
 
 AuthServiceProxy has the following improvements over python-jsonrpc's
 ServiceProxy class:
@@ -47,7 +47,7 @@ import urllib.parse
 HTTP_TIMEOUT = 30
 USER_AGENT = "AuthServiceProxy/0.1"
 
-log = logging.getLogger("BitnetRPC")
+log = logging.getLogger("BitcoinRPC")
 
 class JSONRPCException(Exception):
     def __init__(self, rpc_error, http_status=None):
@@ -78,10 +78,7 @@ class AuthServiceProxy():
         passwd = None if self.__url.password is None else self.__url.password.encode('utf8')
         authpair = user + b':' + passwd
         self.__auth_header = b'Basic ' + base64.b64encode(authpair)
-        # clamp the socket timeout, since larger values can cause an
-        # "Invalid argument" exception in Python's HTTP(S) client
-        # library on some operating systems (e.g. OpenBSD, FreeBSD)
-        self.timeout = min(timeout, 2147483)
+        self.timeout = timeout
         self._set_conn(connection)
 
     def __getattr__(self, name):
@@ -134,12 +131,10 @@ class AuthServiceProxy():
             json.dumps(args or argsn, default=EncodeDecimal, ensure_ascii=self.ensure_ascii),
         ))
         if args and argsn:
-            params = dict(args=args, **argsn)
-        else:
-            params = args or argsn
+            raise ValueError('Cannot handle both named and positional arguments')
         return {'version': '1.1',
                 'method': self._service_name,
-                'params': params,
+                'params': args or argsn,
                 'id': AuthServiceProxy.__id_count}
 
     def __call__(self, *args, **argsn):

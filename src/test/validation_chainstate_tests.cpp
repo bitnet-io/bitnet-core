@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2022 The Bitnet Core developers
+// Copyright (c) 2020-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 //
@@ -8,8 +8,6 @@
 #include <rpc/blockchain.h>
 #include <sync.h>
 #include <test/util/chainstate.h>
-#include <test/util/coins.h>
-#include <test/util/random.h>
 #include <test/util/setup_common.h>
 #include <uint256.h>
 #include <validation.h>
@@ -26,6 +24,20 @@ BOOST_AUTO_TEST_CASE(validation_chainstate_resize_caches)
 {
     ChainstateManager& manager = *Assert(m_node.chainman);
     CTxMemPool& mempool = *Assert(m_node.mempool);
+
+    //! Create and add a Coin with DynamicMemoryUsage of 80 bytes to the given view.
+    auto add_coin = [](CCoinsViewCache& coins_view) -> COutPoint {
+        Coin newcoin;
+        uint256 txid = InsecureRand256();
+        COutPoint outp{txid, 0};
+        newcoin.nHeight = 1;
+        newcoin.out.nValue = InsecureRand32();
+        newcoin.out.scriptPubKey.assign((uint32_t)56, 1);
+        coins_view.AddCoin(outp, std::move(newcoin), false);
+
+        return outp;
+    };
+
     Chainstate& c1 = WITH_LOCK(cs_main, return manager.InitializeChainstate(&mempool));
     c1.InitCoinsDB(
         /*cache_size_bytes=*/1 << 23, /*in_memory=*/true, /*should_wipe=*/false);
@@ -35,7 +47,7 @@ BOOST_AUTO_TEST_CASE(validation_chainstate_resize_caches)
     // Add a coin to the in-memory cache, upsize once, then downsize.
     {
         LOCK(::cs_main);
-        const auto outpoint = AddTestCoin(c1.CoinsTip());
+        auto outpoint = add_coin(c1.CoinsTip());
 
         // Set a meaningless bestblock value in the coinsview cache - otherwise we won't
         // flush during ResizecoinsCaches() and will subsequently hit an assertion.
@@ -77,8 +89,7 @@ BOOST_FIXTURE_TEST_CASE(chainstate_update_tip, TestChain100Setup)
     // After adding some blocks to the tip, best block should have changed.
     BOOST_CHECK(::g_best_block != curr_tip);
 
-    BOOST_REQUIRE(CreateAndActivateUTXOSnapshot(
-        this, NoMalleation, /*reset_chainstate=*/ true));
+    BOOST_REQUIRE(CreateAndActivateUTXOSnapshot(m_node, m_path_root));
 
     // Ensure our active chain is the snapshot chainstate.
     BOOST_CHECK(WITH_LOCK(::cs_main, return chainman.IsSnapshotActive()));
@@ -118,8 +129,8 @@ BOOST_FIXTURE_TEST_CASE(chainstate_update_tip, TestChain100Setup)
     // once it is changed to support multiple chainstates.
     {
         LOCK(::cs_main);
-       //        bool checked = CheckBlock(*pblock, state, chainparams.GetConsensus());
-       //  BOOST_CHECK(checked);
+        bool checked = CheckBlock(*pblock, state, chainparams.GetConsensus(), chainman.ActiveChainstate());
+        BOOST_CHECK(checked);
         bool accepted = background_cs.AcceptBlock(
             pblock, state, &pindex, true, nullptr, &newblock, true);
         BOOST_CHECK(accepted);

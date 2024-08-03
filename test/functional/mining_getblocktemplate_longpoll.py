@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2021 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test longpolling with getblocktemplate."""
@@ -8,10 +8,11 @@ from decimal import Decimal
 import random
 import threading
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.blocktools import COINBASE_MATURITY
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import get_rpc_proxy
 from test_framework.wallet import MiniWallet
-
+from test_framework.qtum import generatesynchronized 
 
 class LongpollThread(threading.Thread):
     def __init__(self, node):
@@ -26,10 +27,11 @@ class LongpollThread(threading.Thread):
     def run(self):
         self.node.getblocktemplate({'longpollid': self.longpollid, 'rules': ['segwit']})
 
-class GetBlockTemplateLPTest(BitnetTestFramework):
+class GetBlockTemplateLPTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.supports_cli = False
+        self.requires_wallet = True 
 
     def run_test(self):
         self.log.info("Warning: this test will take about 70 seconds in the best case. Be patient.")
@@ -60,6 +62,9 @@ class GetBlockTemplateLPTest(BitnetTestFramework):
         self.generate(miniwallets[0], 1)  # generate a block on own node
         thr.join(5)  # wait 5 seconds or until thread exits
         assert not thr.is_alive()
+
+        # Add enough mature utxos to the wallets, so that all txs spend confirmed coins
+        generatesynchronized(self.nodes[0], COINBASE_MATURITY,sync_with_nodes=self.nodes)
 
         self.log.info("Test that introducing a new transaction into the mempool will terminate the longpoll")
         thr = LongpollThread(self.nodes[0])

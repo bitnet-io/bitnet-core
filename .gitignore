@@ -2,18 +2,19 @@
 
 *.exe
 *.pdb
-src/bitnet
+src/qtum
 src/bitnetd
 src/bitnet-cli
-src/bitnet-gui
-src/bitnet-node
+src/qtum-gui
+src/qtum-node
 src/bitnet-tx
 src/bitnet-util
-src/bitnet-chainstate
+src/qtum-chainstate
 src/bitnet-wallet
 src/test/fuzz/fuzz
-src/test/test_bitnet
+src/test/test_qtum
 src/qt/test/test_bitnet-qt
+src/bench/bench_qtum
 
 # autoreconf
 Makefile.in
@@ -37,8 +38,8 @@ config.log
 config.status
 configure
 libtool
-src/config/bitnet-config.h
-src/config/bitnet-config.h.in
+src/config/bitcoin-config.h
+src/config/bitcoin-config.h.in
 src/config/stamp-h1
 src/obj
 share/setup.nsi
@@ -50,11 +51,11 @@ src/qt/forms/ui_*.h
 
 src/qt/test/moc*.cpp
 
-src/qt/bitnet-qt.config
-src/qt/bitnet-qt.creator
-src/qt/bitnet-qt.creator.user
-src/qt/bitnet-qt.files
-src/qt/bitnet-qt.includes
+src/qt/bitcoin-qt.config
+src/qt/bitcoin-qt.creator
+src/qt/bitcoin-qt.creator.user
+src/qt/bitcoin-qt.files
+src/qt/bitcoin-qt.includes
 
 .deps
 .dirstamp
@@ -93,7 +94,7 @@ src/qt/bitnet-qt.includes
 Makefile
 !depends/Makefile
 src/qt/bitnet-qt
-Bitnet-Qt.app
+Qtum-Qt.app
 
 # Qt Creator
 Makefile.am.user
@@ -116,7 +117,7 @@ releases
 *.gcno
 *.gcda
 /*.info
-test_bitnet.coverage/
+test_bitcoin.coverage/
 total.coverage/
 fuzz.coverage/
 coverage_percent.txt
@@ -135,7 +136,7 @@ test/.mypy_cache/
 
 /doc/doxygen/
 
-libbitnetconsensus.pc
+libbitcoinconsensus.pc
 contrib/devtools/split-debug.sh
 
 # Output from running db4 installation
@@ -150,3 +151,11 @@ dist/
 /guix-build-*
 
 /ci/scratch/
+
+.cproject
+.project
+.settings/language.settings.xml
+src/test/buildenv.py
+Debug
+src/secp256k1/gen_context
+src/secp256k1/src/ecmult_static_context.h

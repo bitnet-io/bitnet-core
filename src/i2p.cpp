@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2022 The Bitnet Core developers
+// Copyright (c) 2020-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,7 +18,6 @@
 #include <util/spanparsing.h>
 #include <util/strencodings.h>
 #include <util/system.h>
-#include <util/threadinterrupt.h>
 
 #include <chrono>
 #include <memory>
@@ -206,7 +205,7 @@ bool Session::Connect(const CService& to, Connection& conn, bool& proxy_error)
         }
 
         const Reply& lookup_reply =
-            SendRequestAndGetReply(*sock, strprintf("NAMING LOOKUP NAME=%s", to.ToStringAddr()));
+            SendRequestAndGetReply(*sock, strprintf("NAMING LOOKUP NAME=%s", to.ToStringIP()));
 
         const std::string& dest = lookup_reply.Get("VALUE");
 
@@ -233,7 +232,7 @@ bool Session::Connect(const CService& to, Connection& conn, bool& proxy_error)
 
         throw std::runtime_error(strprintf("\"%s\"", connect_reply.full));
     } catch (const std::runtime_error& e) {
-        Log("Error connecting to %s: %s", to.ToStringAddrPort(), e.what());
+        Log("Error connecting to %s: %s", to.ToString(), e.what());
         CheckControlSock();
         return false;
     }
@@ -302,7 +301,7 @@ std::unique_ptr<Sock> Session::Hello() const
     }
 
     if (!ConnectSocketDirectly(m_control_host, *sock, nConnectTimeout, true)) {
-        throw std::runtime_error(strprintf("Cannot connect to %s", m_control_host.ToStringAddrPort()));
+        throw std::runtime_error(strprintf("Cannot connect to %s", m_control_host.ToString()));
     }
 
     SendRequestAndGetReply(*sock, "HELLO VERSION MIN=3.1 MAX=3.1");
@@ -336,7 +335,7 @@ void Session::GenerateAndSavePrivateKey(const Sock& sock)
 {
     DestGenerate(sock);
 
-    // umask is set to 0077 in util/system.cpp, which is ok.
+    // umask is set to 077 in init.cpp, which is ok (unless -sysperms is given)
     if (!WriteBinaryFile(m_private_key_file,
                          std::string(m_private_key.begin(), m_private_key.end()))) {
         throw std::runtime_error(
@@ -371,7 +370,7 @@ void Session::CreateIfNotCreatedAlready()
     const auto session_type = m_transient ? "transient" : "persistent";
     const auto session_id = GetRandHash().GetHex().substr(0, 10); // full is overkill, too verbose in the logs
 
-    Log("Creating %s SAM session %s with %s", session_type, session_id, m_control_host.ToStringAddrPort());
+    Log("Creating %s SAM session %s with %s", session_type, session_id, m_control_host.ToString());
 
     auto sock = Hello();
 
@@ -411,7 +410,7 @@ void Session::CreateIfNotCreatedAlready()
     Log("%s SAM session %s created, my address=%s",
         Capitalize(session_type),
         m_session_id,
-        m_my_addr.ToStringAddrPort());
+        m_my_addr.ToString());
 }
 
 std::unique_ptr<Sock> Session::StreamAccept()

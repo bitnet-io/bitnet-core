@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2021 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,7 +9,12 @@
 
 #include <limits>
 
-FUZZ_TARGET(eval_script)
+void initialize_eval_script()
+{
+    static const ECCVerifyHandle verify_handle;
+}
+
+FUZZ_TARGET_INIT(eval_script, initialize_eval_script)
 {
     FuzzedDataProvider fuzzed_data_provider(buffer.data(), buffer.size());
     const unsigned int flags = fuzzed_data_provider.ConsumeIntegral<unsigned int>();

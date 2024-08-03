@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2022 The Bitnet Core developers
+// Copyright (c) 2019-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -32,7 +32,10 @@
 
 void initialize_script()
 {
-    SelectParams(CBaseChainParams::REGTEST);
+    // Fuzzers using pubkey must hold an ECCVerifyHandle.
+    static const ECCVerifyHandle verify_handle;
+
+    SelectParams(CBaseChainParams::UNITTEST);
 }
 
 FUZZ_TARGET_INIT(script, initialize_script)

@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Bitnet Core developers
+// Copyright (c) 2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,19 +8,23 @@
 #include <timedata.h>
 #include <util/check.h>
 
-// The two constants below are computed using the simulation script on
+// The two Bitcoin constants are computed using the simulation script on
 // https://gist.github.com/sipa/016ae445c132cdf65a2791534dfb7ae1
+// The two Qtum constants below are computed using the simulation script on
+// qtum/contrib/sync/headersync_params.py
+// It is the same simulation as for Bitcoin, just updated with Qtum parameters.
 
 //! Store a commitment to a header every HEADER_COMMITMENT_PERIOD blocks.
-constexpr size_t HEADER_COMMITMENT_PERIOD{584};
+constexpr size_t HEADER_COMMITMENT_PERIOD{59};
 
 //! Only feed headers to validation once this many headers on top have been
 //! received and validated against commitments.
-constexpr size_t REDOWNLOAD_BUFFER_SIZE{13959}; // 13959/584 = ~23.9 commitments
+constexpr size_t REDOWNLOAD_BUFFER_SIZE{741}; // 741/59 = ~12.6 commitments
 
-// Our memory analysis assumes 48 bytes for a CompressedHeader (so we should
+// Our memory analysis assumes 176 bytes for a CompressedHeader (so we should
 // re-calculate parameters if we compress further)
-static_assert(sizeof(CompressedHeader) == 48);
+// 160 bytes for a CompressedHeader is for ARM Linux
+static_assert(sizeof(CompressedHeader) == 176 || sizeof(CompressedHeader) == 160);
 
 HeadersSyncState::HeadersSyncState(NodeId id, const Consensus::Params& consensus_params,
         const CBlockIndex* chain_start, const arith_uint256& minimum_required_work) :
@@ -40,7 +44,25 @@ HeadersSyncState::HeadersSyncState(NodeId id, const Consensus::Params& consensus
     // exceeds this bound, because it's not possible for a consensus-valid
     // chain to be longer than this (at the current time -- in the future we
     // could try again, if necessary, to sync a longer chain).
-    m_max_commitments = 6*(Ticks<std::chrono::seconds>(GetAdjustedTime() - NodeSeconds{std::chrono::seconds{chain_start->GetMedianTimePast()}}) + MAX_FUTURE_BLOCK_TIME) / HEADER_COMMITMENT_PERIOD;
+    if(consensus_params.nLastPOWBlock != consensus_params.nLastBigReward)
+    {
+        // Regtest mode, so use the Bitcoin formula for max commitments
+        m_max_commitments = 6*(Ticks<std::chrono::seconds>(GetAdjustedTime() - NodeSeconds{std::chrono::seconds{chain_start->GetMedianTimePast()}}) + MAX_FUTURE_BLOCK_TIME) / HEADER_COMMITMENT_PERIOD;
+    }
+    else
+    {
+        // Mainnet or testnet, so use the Qtum formula
+        int64_t numberOfBlocks = (GetAdjustedTimeSeconds() + MAX_FUTURE_BLOCK_TIME - chain_start->GetBlockTime()) / (consensus_params.MinStakeTimestampMask() + 1);
+        if(numberOfBlocks > 0)
+        {
+            if(chain_start->nHeight <= consensus_params.nLastPOWBlock)
+            {
+                // Add the PoW block, they take no time
+                numberOfBlocks += consensus_params.nLastPOWBlock;
+            }
+            m_max_commitments = 1 + numberOfBlocks / HEADER_COMMITMENT_PERIOD;
+        }
+    }
 
     LogPrint(BCLog::NET, "Initial headers sync started with peer=%d: height=%i, max_commitments=%i, min_work=%s\n", m_id, m_current_height, m_max_commitments, m_minimum_required_work.ToString());
 }
@@ -145,7 +167,8 @@ bool HeadersSyncState::ValidateAndStoreHeadersCommitments(const std::vector<CBlo
     Assume(m_download_state == State::PRESYNC);
     if (m_download_state != State::PRESYNC) return false;
 
-    if (headers[0].hashPrevBlock != m_last_header_received.GetHash()) {
+    if (headers[0].hashPrevBlock != m_last_header_received.GetHash() ||
+            (headers[0].IsProofOfStake() && headers[0].GetBlockTime() <= m_last_header_received.GetBlockTime())) {
         // Somehow our peer gave us a header that doesn't connect.
         // This might be benign -- perhaps our peer reorged away from the chain
         // they were on. Give up on this sync for now (likely we will start a
@@ -186,11 +209,11 @@ bool HeadersSyncState::ValidateAndProcessSingleHeader(const CBlockHeader& curren
     // work chain if they compress the work into as few blocks as possible,
     // so don't let anyone give a chain that would violate the difficulty
     // adjustment maximum.
-//    if (!PermittedDifficultyTransition(m_consensus_params, next_height,
-  //              m_last_header_received.nBits, current.nBits)) {
-    //    LogPrint(BCLog::NET, "Initial headers sync aborted with peer=%d: invalid difficulty transition at height=%i (presync phase)\n", m_id, next_height);
-      //  return false;
-   // }
+    if (!PermittedDifficultyTransition(m_consensus_params, next_height,
+                m_last_header_received.nBits, current.nBits)) {
+        LogPrint(BCLog::NET, "Initial headers sync aborted with peer=%d: invalid difficulty transition at height=%i (presync phase)\n", m_id, next_height);
+        return false;
+    }
 
     if (next_height % HEADER_COMMITMENT_PERIOD == m_commit_offset) {
         // Add a commitment.
@@ -234,11 +257,11 @@ bool HeadersSyncState::ValidateAndStoreRedownloadedHeader(const CBlockHeader& he
         previous_nBits = m_chain_start->nBits;
     }
 
-//    if (!PermittedDifficultyTransition(m_consensus_params, next_height,
-  //              previous_nBits, header.nBits)) {
-    //    LogPrint(BCLog::NET, "Initial headers sync aborted with peer=%d: invalid difficulty transition at height=%i (redownload phase)\n", m_id, next_height);
-      //  return false;
-    //}
+    if (!PermittedDifficultyTransition(m_consensus_params, next_height,
+                previous_nBits, header.nBits)) {
+        LogPrint(BCLog::NET, "Initial headers sync aborted with peer=%d: invalid difficulty transition at height=%i (redownload phase)\n", m_id, next_height);
+        return false;
+    }
 
     // Track work on the redownloaded chain
     m_redownload_chain_work += GetBlockProof(CBlockIndex(header));

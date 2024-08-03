@@ -1,5 +1,5 @@
-/* src/config/bitnet-config.h.  Generated from bitnet-config.h.in by configure.  */
-/* src/config/bitnet-config.h.in.  Generated from configure.ac by autoheader.  */
+/* src/config/bitcoin-config.h.  Generated from bitcoin-config.h.in by configure.  */
+/* src/config/bitcoin-config.h.in.  Generated from configure.ac by autoheader.  */
 
 #ifndef BITCOIN_CONFIG_H
 
@@ -27,13 +27,13 @@
 #define COPYRIGHT_HOLDERS "The %s developers"
 
 /* Copyright holder(s) */
-#define COPYRIGHT_HOLDERS_FINAL "The Bitnet Core developers"
+#define COPYRIGHT_HOLDERS_FINAL "The Bitnet IO Core developers"
 
 /* Replacement for %s in copyright holders string */
-#define COPYRIGHT_HOLDERS_SUBSTITUTION "Bitnet Core"
+#define COPYRIGHT_HOLDERS_SUBSTITUTION "Bitnet IO Core"
 
 /* Copyright year */
-#define COPYRIGHT_YEAR 2023
+#define COPYRIGHT_YEAR 2024
 
 /* Define this symbol to build code that uses ARMv8 SHA-NI intrinsics */
 /* #undef ENABLE_ARM_SHANI */
@@ -42,14 +42,14 @@
 #define ENABLE_AVX2 1
 
 /* Define if external signer support is enabled */
-/* #undef ENABLE_EXTERNAL_SIGNER */
+#define ENABLE_EXTERNAL_SIGNER 1
 
 /* Define this symbol to build code that uses SSE4.1 intrinsics */
 #define ENABLE_SSE41 1
 
 /* Define to 1 to enable tracepoints for Userspace, Statically Defined Tracing
    */
-/* #undef ENABLE_TRACING */
+#define ENABLE_TRACING 1
 
 /* Define to 1 to enable wallet functions */
 #define ENABLE_WALLET 1
@@ -62,6 +62,24 @@
 
 /* define if the Boost library is available */
 #define HAVE_BOOST /**/
+
+/* define if the Boost::Chrono library is available */
+#define HAVE_BOOST_CHRONO /**/
+
+/* define if the Boost::Filesystem library is available */
+#define HAVE_BOOST_FILESYSTEM /**/
+
+/* define if the Boost::PROGRAM_OPTIONS library is available */
+#define HAVE_BOOST_PROGRAM_OPTIONS /**/
+
+/* define if the Boost::Random library is available */
+#define HAVE_BOOST_RANDOM /**/
+
+/* define if the Boost::System library is available */
+#define HAVE_BOOST_SYSTEM /**/
+
+/* define if the Boost::Thread library is available */
+#define HAVE_BOOST_THREAD /**/
 
 /* Define this symbol if you have __builtin_clzl */
 #define HAVE_BUILTIN_CLZL 1
@@ -110,6 +128,10 @@
 /* Define to 1 if you have the declaration of `bswap_64', and to 0 if you
    don't. */
 #define HAVE_DECL_BSWAP_64 1
+
+/* Define to 1 if you have the declaration of `EVP_MD_CTX_new', and to 0 if
+   you don't. */
+#define HAVE_DECL_EVP_MD_CTX_NEW 1
 
 /* Define to 1 if you have the declaration of `fork', and to 0 if you don't.
    */
@@ -263,7 +285,7 @@
 #define HAVE_MINIUPNPC_UPNPERRORS_H 1
 
 /* Define to 1 if you have the <natpmp.h> header file. */
-/* #undef HAVE_NATPMP_H */
+#define HAVE_NATPMP_H 1
 
 /* Define to 1 if O_CLOEXEC flag is available. */
 #define HAVE_O_CLOEXEC 1
@@ -279,6 +301,9 @@
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#define HAVE_STDIO_H 1
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
@@ -323,7 +348,7 @@
 #define HAVE_SYS_STAT_H 1
 
 /* Define to 1 if you have the <sys/sysctl.h> header file. */
-/* #undef HAVE_SYS_SYSCTL_H */
+#define HAVE_SYS_SYSCTL_H 1
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
@@ -347,13 +372,13 @@
 #define LT_OBJDIR ".libs/"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "https://github.com/bitnet/bitnet/issues"
+#define PACKAGE_BUGREPORT "https://github.com/bitnet-io/bitnet-core/issues"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "Bitnet Core"
+#define PACKAGE_NAME "Bitnet IO Core"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Bitnet Core 25.00.0"
+#define PACKAGE_STRING "Bitnet IO Core 24.99.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bitnet"
@@ -362,7 +387,7 @@
 #define PACKAGE_URL "https://bitnet-io.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "25.00.0"
+#define PACKAGE_VERSION "24.99.0"
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -375,16 +400,16 @@
 /* #undef QT_QPA_PLATFORM_COCOA */
 
 /* Define this symbol if the minimal qt platform exists */
-/* #undef QT_QPA_PLATFORM_MINIMAL */
+#define QT_QPA_PLATFORM_MINIMAL 1
 
 /* Define this symbol if the qt platform is windows */
 /* #undef QT_QPA_PLATFORM_WINDOWS */
 
 /* Define this symbol if the qt platform is xcb */
-/* #undef QT_QPA_PLATFORM_XCB */
+#define QT_QPA_PLATFORM_XCB 1
 
 /* Define this symbol if qt plugins are static */
-/* #undef QT_STATICPLUGIN */
+#define QT_STATICPLUGIN 1
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -401,8 +426,9 @@
 /* Define if dbus support should be compiled in */
 #define USE_DBUS 1
 
-/* Define to 1 if UPnP support should be compiled in. */
-/* #undef USE_NATPMP */
+/* NAT-PMP support not compiled if undefined, otherwise value (0 or 1)
+   determines default state */
+#define USE_NATPMP 0
 
 /* Define if QR support should be compiled in */
 #define USE_QRCODE 1
@@ -413,8 +439,9 @@
 /* Define this symbol to build with syscall sandbox support. */
 #define USE_SYSCALL_SANDBOX 1
 
-/* Define to 1 if UPnP support should be compiled in. */
-#define USE_UPNP 1
+/* UPnP support not compiled if undefined, otherwise value (0 or 1) determines
+   default state */
+#define USE_UPNP 0
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */

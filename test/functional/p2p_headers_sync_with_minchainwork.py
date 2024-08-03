@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2022 The Bitnet Core developers
+# Copyright (c) 2019-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test that we reject low difficulty headers to prevent our block tree from filling up with useless bloat"""
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 
 from test_framework.p2p import (
     P2PInterface,
@@ -25,9 +25,8 @@ NODE1_BLOCKS_REQUIRED = 15
 NODE2_BLOCKS_REQUIRED = 2047
 
 
-class RejectLowDifficultyHeadersTest(BitnetTestFramework):
+class RejectLowDifficultyHeadersTest(BitcoinTestFramework):
     def set_test_params(self):
-        self.rpc_timeout *= 4  # To avoid timeout when generating BLOCKS_TO_MINE
         self.setup_clean_chain = True
         self.num_nodes = 4
         # Node0 has no required chainwork; node1 requires 15 blocks on top of the genesis block; node2 requires 2047
@@ -58,7 +57,7 @@ class RejectLowDifficultyHeadersTest(BitnetTestFramework):
 
         def check_node3_chaintips(num_tips, tip_hash, height):
             node3_chaintips = self.nodes[3].getchaintips()
-            assert len(node3_chaintips) == num_tips
+            assert(len(node3_chaintips) == num_tips)
             assert {
                 'height': height,
                 'hash': tip_hash,
@@ -70,10 +69,10 @@ class RejectLowDifficultyHeadersTest(BitnetTestFramework):
 
         for node in self.nodes[1:3]:
             chaintips = node.getchaintips()
-            assert len(chaintips) == 1
+            assert(len(chaintips) == 1)
             assert {
                 'height': 0,
-                'hash': '0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206',
+                'hash': '665ed5b402ac0b44efc37d8926332994363e8a7278b7ee9a58fb972efadae943',
                 'branchlen': 0,
                 'status': 'active',
             } in chaintips
@@ -85,12 +84,12 @@ class RejectLowDifficultyHeadersTest(BitnetTestFramework):
 
         assert {
             'height': 0,
-            'hash': '0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206',
+            'hash': '665ed5b402ac0b44efc37d8926332994363e8a7278b7ee9a58fb972efadae943',
             'branchlen': 0,
             'status': 'active',
         } in self.nodes[2].getchaintips()
 
-        assert len(self.nodes[2].getchaintips()) == 1
+        assert(len(self.nodes[2].getchaintips()) == 1)
 
         self.log.info("Check that node3 accepted these headers as well")
         check_node3_chaintips(2, self.nodes[0].getbestblockhash(), NODE1_BLOCKS_REQUIRED)
@@ -113,8 +112,8 @@ class RejectLowDifficultyHeadersTest(BitnetTestFramework):
 
         # Ensure we have a long chain already
         current_height = self.nodes[0].getblockcount()
-        if (current_height < 3000):
-            self.generate(node, 3000-current_height, sync_fun=self.no_op)
+        if (current_height < 5000):
+            self.generate(node, 5000-current_height, sync_fun=self.no_op)
 
         # Send a group of 2000 headers, forking from genesis.
         new_blocks = []
@@ -132,7 +131,7 @@ class RejectLowDifficultyHeadersTest(BitnetTestFramework):
         assert_equal(node.getpeerinfo()[0]['presynced_headers'], 2000)
 
     def test_large_reorgs_can_succeed(self):
-        self.log.info("Test that a 2000+ block reorg, starting from a point that is more than 2000 blocks before a locator entry, can succeed")
+        self.log.info("Test that a 1000+ block reorg, starting from a point that is more than 1000 blocks before a locator entry, can succeed")
 
         self.sync_all() # Ensure all nodes are synced.
         self.disconnect_all()
@@ -142,7 +141,8 @@ class RejectLowDifficultyHeadersTest(BitnetTestFramework):
         #  T-520, T-1032, T-2056, T-4104, ...]
         # So mine a number of blocks > 4104 to ensure that the first window of
         # received headers during a sync are fully between locator entries.
-        BLOCKS_TO_MINE = 4110
+        # Qtum has automatic check point every 2000 blocks, so block reorganization need to be below it
+        BLOCKS_TO_MINE = 1910
 
         self.generate(self.nodes[0], BLOCKS_TO_MINE, sync_fun=self.no_op)
         self.generate(self.nodes[1], BLOCKS_TO_MINE+2, sync_fun=self.no_op)

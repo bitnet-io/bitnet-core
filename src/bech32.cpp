@@ -1,5 +1,5 @@
 // Copyright (c) 2017, 2021 Pieter Wuille
-// Copyright (c) 2021-2022 The Bitnet Core developers
+// Copyright (c) 2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -241,7 +241,7 @@ constexpr std::array<uint32_t, 25> GenerateSyndromeConstants() {
     std::array<uint32_t, 25> SYNDROME_CONSTS{};
     for (int k = 1; k < 6; ++k) {
         for (int shift = 0; shift < 5; ++shift) {
-            int16_t b = GF1024_LOG.at(size_t{1} << shift);
+            int16_t b = GF1024_LOG.at(1 << shift);
             int16_t c0 = GF1024_EXP.at((997*k + b) % 1023);
             int16_t c1 = GF1024_EXP.at((998*k + b) % 1023);
             int16_t c2 = GF1024_EXP.at((999*k + b) % 1023);
@@ -412,7 +412,7 @@ std::pair<std::string, std::vector<int>> LocateErrors(const std::string& str) {
 
     size_t pos = str.rfind('1');
     if (pos == str.npos) {
-//        return std::make_pair("Missing separator", std::vector<int>{});
+        return std::make_pair("Missing separator", std::vector<int>{});
     }
     if (pos == 0 || pos + 7 > str.size()) {
         error_locations.push_back(pos);

@@ -1,25 +1,27 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2022 The Bitnet Core developers
+# Copyright (c) 2019-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test p2p blocksonly mode & block-relay-only connections."""
 
 import time
-
+from decimal import Decimal 
 from test_framework.messages import msg_tx, msg_inv, CInv, MSG_WTX
 from test_framework.p2p import P2PInterface, P2PTxInvStore
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal
 from test_framework.wallet import MiniWallet
 
 
-class P2PBlocksOnly(BitnetTestFramework):
+class P2PBlocksOnly(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.extra_args = [["-blocksonly"]]
 
     def run_test(self):
         self.miniwallet = MiniWallet(self.nodes[0])
+        # Add enough mature utxos to the wallet, so that all txs spend confirmed coins
+        self.miniwallet.rescan_utxos()
 
         self.blocksonly_mode_tests()
         self.blocks_relay_conn_tests()
@@ -55,7 +57,6 @@ class P2PBlocksOnly(BitnetTestFramework):
         second_peer = self.nodes[0].add_p2p_connection(P2PInterface())
         peer_1_info = self.nodes[0].getpeerinfo()[0]
         assert_equal(peer_1_info['permissions'], ['relay'])
-        assert_equal(first_peer.relay, 1)
         peer_2_info = self.nodes[0].getpeerinfo()[1]
         assert_equal(peer_2_info['permissions'], ['relay'])
         assert_equal(self.nodes[0].testmempoolaccept([tx_hex])[0]['allowed'], True)
@@ -64,10 +65,10 @@ class P2PBlocksOnly(BitnetTestFramework):
         with self.nodes[0].assert_debug_log(["received getdata"]):
             # Note that normally, first_peer would never send us transactions since we're a blocksonly node.
             # By activating blocksonly, we explicitly tell our peers that they should not send us transactions,
-            # and Bitnet Core respects that choice and will not send transactions.
+            # and Bitcoin Core respects that choice and will not send transactions.
             # But if, for some reason, first_peer decides to relay transactions to us anyway, we should relay them to
             # second_peer since we gave relay permission to first_peer.
-            # See https://github.com/bitnet/bitnet/issues/19943 for details.
+            # See https://github.com/bitcoin/bitcoin/issues/19943 for details.
             first_peer.send_message(msg_tx(tx))
             self.log.info('Check that the peer with relay-permission is still connected after sending the transaction')
             assert_equal(first_peer.is_connected, True)
@@ -102,7 +103,7 @@ class P2PBlocksOnly(BitnetTestFramework):
         self.nodes[0].setmocktime(int(time.time()) + 60)
 
         conn.sync_send_with_ping()
-        assert int(txid, 16) not in conn.get_invs()
+        assert(int(txid, 16) not in conn.get_invs())
 
     def check_p2p_inv_violation(self, peer):
         self.log.info("Check that tx-invs from P2P are rejected and result in disconnect")
@@ -113,7 +114,7 @@ class P2PBlocksOnly(BitnetTestFramework):
 
     def check_p2p_tx_violation(self):
         self.log.info('Check that txs from P2P are rejected and result in disconnect')
-        spendtx = self.miniwallet.create_self_transfer()
+        spendtx = self.miniwallet.create_self_transfer(fee_rate=Decimal("0.03")) 
 
         with self.nodes[0].assert_debug_log(['transaction sent in violation of protocol peer=0']):
             self.nodes[0].p2ps[0].send_message(msg_tx(spendtx['tx']))

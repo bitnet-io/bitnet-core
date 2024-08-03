@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2022 The Bitnet Core developers
+// Copyright (c) 2020-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,8 +13,6 @@ class CDBBatch;
 namespace kernel {
 struct CCoinsStats;
 }
-
-static constexpr bool DEFAULT_COINSTATSINDEX{false};
 
 /**
  * CoinStatsIndex maintains statistics on the UTXO set.

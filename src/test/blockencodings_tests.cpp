@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,8 +7,6 @@
 #include <consensus/merkle.h>
 #include <pow.h>
 #include <streams.h>
-#include <test/util/random.h>
-#include <test/util/txmempool.h>
 
 #include <test/util/setup_common.h>
 
@@ -74,7 +72,7 @@ BOOST_AUTO_TEST_CASE(SimpleRoundTripTest)
         CBlockHeaderAndShortTxIDs shortIDs2;
         stream >> shortIDs2;
 
-        PartiallyDownloadedBlock partialBlock(&pool);
+        PartiallyDownloadedBlock partialBlock(&pool, m_node.chainman.get());
         BOOST_CHECK(partialBlock.InitData(shortIDs2, extra_txn) == READ_STATUS_OK);
         BOOST_CHECK( partialBlock.IsTxAvailable(0));
         BOOST_CHECK(!partialBlock.IsTxAvailable(1));
@@ -164,7 +162,7 @@ BOOST_AUTO_TEST_CASE(NonCoinbasePreforwardRTTest)
         CBlockHeaderAndShortTxIDs shortIDs2;
         stream >> shortIDs2;
 
-        PartiallyDownloadedBlock partialBlock(&pool);
+        PartiallyDownloadedBlock partialBlock(&pool, m_node.chainman.get());
         BOOST_CHECK(partialBlock.InitData(shortIDs2, extra_txn) == READ_STATUS_OK);
         BOOST_CHECK(!partialBlock.IsTxAvailable(0));
         BOOST_CHECK( partialBlock.IsTxAvailable(1));
@@ -234,7 +232,7 @@ BOOST_AUTO_TEST_CASE(SufficientPreforwardRTTest)
         CBlockHeaderAndShortTxIDs shortIDs2;
         stream >> shortIDs2;
 
-        PartiallyDownloadedBlock partialBlock(&pool);
+        PartiallyDownloadedBlock partialBlock(&pool, m_node.chainman.get());
         BOOST_CHECK(partialBlock.InitData(shortIDs2, extra_txn) == READ_STATUS_OK);
         BOOST_CHECK( partialBlock.IsTxAvailable(0));
         BOOST_CHECK( partialBlock.IsTxAvailable(1));
@@ -289,7 +287,7 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
         CBlockHeaderAndShortTxIDs shortIDs2;
         stream >> shortIDs2;
 
-        PartiallyDownloadedBlock partialBlock(&pool);
+        PartiallyDownloadedBlock partialBlock(&pool, m_node.chainman.get());
         BOOST_CHECK(partialBlock.InitData(shortIDs2, extra_txn) == READ_STATUS_OK);
         BOOST_CHECK(partialBlock.IsTxAvailable(0));
 
@@ -311,7 +309,7 @@ BOOST_AUTO_TEST_CASE(TransactionsRequestSerializationTest) {
     req1.indexes[2] = 3;
     req1.indexes[3] = 4;
 
-    DataStream stream{};
+    CDataStream stream(SER_NETWORK, PROTOCOL_VERSION);
     stream << req1;
 
     BlockTransactionsRequest req2;
@@ -331,7 +329,7 @@ BOOST_AUTO_TEST_CASE(TransactionsRequestDeserializationMaxTest) {
     req0.blockhash = InsecureRand256();
     req0.indexes.resize(1);
     req0.indexes[0] = 0xffff;
-    DataStream stream{};
+    CDataStream stream(SER_NETWORK, PROTOCOL_VERSION);
     stream << req0;
 
     BlockTransactionsRequest req1;
@@ -351,7 +349,7 @@ BOOST_AUTO_TEST_CASE(TransactionsRequestDeserializationOverflowTest) {
     req0.indexes[0] = 0x7000;
     req0.indexes[1] = 0x10000 - 0x7000 - 2;
     req0.indexes[2] = 0;
-    DataStream stream{};
+    CDataStream stream(SER_NETWORK, PROTOCOL_VERSION);
     stream << req0.blockhash;
     WriteCompactSize(stream, req0.indexes.size());
     WriteCompactSize(stream, req0.indexes[0]);

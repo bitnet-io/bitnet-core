@@ -1,11 +1,4 @@
 
-rebugging for hashStateRoot
-
-```
-  src/primitives/block.cpp
-   src/primitives/block.h
-```
-
 bitnet-io staging tree 24.x
 ===========================
 
@@ -19,11 +12,6 @@ How do I build the software?
 
 The most troublefree and reproducable method of building the repository is via the depends method:
 
-# this directory will be created by the make command you do not have to do a mkdir here "call it whatever you want 
-# --prefix=$PWD/my-binaries (for other developers)
-```
---prefix=$PWD/bitnet-shared-linux 
-```
 # LINUX
 
 ```
@@ -35,7 +23,7 @@ The most troublefree and reproducable method of building the repository is via t
     cd ..
     ./autogen.sh
 
-    CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure \
+    CPPFLAGS="-w -fcompare-debug-second" CXXFLAGS="-w -fcompare-debug-second" LDFLAGS="-w -fcompare-debug-second" CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure \
     --prefix=$PWD/bitnet-shared-linux --disable-tests --disable-bench --disable-fuzz-binary
 
     make -j8 				# -j8 for 8 cores adjust here

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2022 The Bitnet Core developers
+# Copyright (c) 2022 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,6 +12,7 @@ def enumerate(args):
         {"fingerprint": "00000002", "type": "trezor", "model": "trezor_one"}]))
 
 parser = argparse.ArgumentParser(prog='./multi_signers.py', description='External multi-signer mock')
+parser.add_argument('--chain', default='main')
 
 subparsers = parser.add_subparsers(description='Commands', dest='command')
 subparsers.required = True

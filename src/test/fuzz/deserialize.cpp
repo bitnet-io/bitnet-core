@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2021 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -46,6 +46,9 @@ void initialize_deserialize()
 {
     static const auto testing_setup = MakeNoLogFileContext<>();
     g_setup = testing_setup.get();
+
+    // Fuzzers using pubkey must hold an ECCVerifyHandle.
+    static const ECCVerifyHandle verify_handle;
 }
 
 #define FUZZ_TARGET_DESERIALIZE(name, code)                \

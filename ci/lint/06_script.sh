@@ -1,17 +1,14 @@
 #!/usr/bin/env bash
 #
-# Copyright (c) 2018-2022 The Bitnet Core developers
+# Copyright (c) 2018-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 export LC_ALL=C
 
-if [ -n "$LOCAL_BRANCH" ]; then
-  # To faithfully recreate CI linting locally, specify all commits on the current
-  # branch.
-  COMMIT_RANGE="$(git merge-base HEAD master)..HEAD"
-elif [ -n "$CIRRUS_PR" ]; then
-  COMMIT_RANGE="HEAD~..HEAD"
+GIT_HEAD=$(git rev-parse HEAD)
+if [ -n "$CIRRUS_PR" ]; then
+  COMMIT_RANGE="${CIRRUS_BASE_SHA}..$GIT_HEAD"
   echo
   git log --no-merges --oneline "$COMMIT_RANGE"
   echo
@@ -31,7 +28,7 @@ test/lint/git-subtree-check.sh src/crc32c
 test/lint/check-doc.py
 test/lint/all-lint.py
 
-if [ "$CIRRUS_REPO_FULL_NAME" = "bitnet/bitnet" ] && [ "$CIRRUS_PR" = "" ] ; then
+if [ "$CIRRUS_REPO_FULL_NAME" = "bitcoin/bitcoin" ] && [ "$CIRRUS_PR" = "" ] ; then
     # Sanity check only the last few commits to get notified of missing sigs,
     # missing keys, or expired keys. Usually there is only one new merge commit
     # per push on the master branch and a few commits on release branches, so

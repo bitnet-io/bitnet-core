@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -124,5 +124,18 @@ bool CachingTransactionSignatureChecker::VerifySchnorrSignature(Span<const unsig
     if (signatureCache.Get(entry, !store)) return true;
     if (!TransactionSignatureChecker::VerifySchnorrSignature(sig, pubkey, sighash)) return false;
     if (store) signatureCache.Set(entry);
+    return true;
+}
+
+bool CachingTransactionSignatureOutputChecker::VerifyECDSASignature(const std::vector<unsigned char>& vchSig, const CPubKey& pubkey, const uint256& sighash) const
+{
+    uint256 entry;
+    signatureCache.ComputeEntryECDSA(entry, sighash, vchSig, pubkey);
+    if (signatureCache.Get(entry, !store))
+        return true;
+    if (!TransactionSignatureOutputChecker::VerifyECDSASignature(vchSig, pubkey, sighash))
+        return false;
+    if (store)
+        signatureCache.Set(entry);
     return true;
 }

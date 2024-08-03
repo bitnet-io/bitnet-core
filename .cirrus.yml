@@ -18,7 +18,7 @@ persistent_worker_template: &PERSISTENT_WORKER_TEMPLATE
 
 # https://cirrus-ci.org/guide/tips-and-tricks/#sharing-configuration-between-tasks
 filter_template: &FILTER_TEMPLATE
-  skip: $CIRRUS_REPO_FULL_NAME == "bitnet-core/gui" && $CIRRUS_PR == ""  # No need to run on the read-only mirror, unless it is a PR. https://cirrus-ci.org/guide/writing-tasks/#conditional-task-execution
+  skip: $CIRRUS_REPO_FULL_NAME == "bitcoin-core/gui" && $CIRRUS_PR == ""  # No need to run on the read-only mirror, unless it is a PR. https://cirrus-ci.org/guide/writing-tasks/#conditional-task-execution
   stateful: false  # https://cirrus-ci.org/guide/writing-tasks/#stateful-tasks
 
 base_template: &BASE_TEMPLATE
@@ -61,7 +61,7 @@ macos_native_task_template: &MACOS_NATIVE_TASK_TEMPLATE
 compute_credits_template: &CREDITS_TEMPLATE
   # https://cirrus-ci.org/pricing/#compute-credits
   # Only use credits for pull requests to the main repo
-  use_compute_credits: $CIRRUS_REPO_FULL_NAME == 'bitnet/bitnet' && $CIRRUS_PR != ""
+  use_compute_credits: $CIRRUS_REPO_FULL_NAME == 'bitcoin/bitcoin' && $CIRRUS_PR != ""
 
 task:
   name: 'lint [bionic]'
@@ -171,11 +171,11 @@ task:
     - cd %CIRRUS_WORKING_DIR%
     - ccache --zero-stats --max-size=%CCACHE_SIZE%
     - python build_msvc\msvc-autogen.py
-    - msbuild build_msvc\bitnet.sln -property:CLToolExe=%WRAPPED_CL% -property:Configuration=Release -maxCpuCount -verbosity:minimal -noLogo
+    - msbuild build_msvc\bitcoin.sln -property:CLToolExe=%WRAPPED_CL% -property:Configuration=Release -maxCpuCount -verbosity:minimal -noLogo
     - ccache --show-stats
   unit_tests_script:
-    - src\test_bitnet.exe -l test_suite
-    - src\bench_bitnet.exe > NUL
+    - src\test_bitcoin.exe -l test_suite
+    - src\bench_bitcoin.exe > NUL
     - python test\util\test_runner.py
     - python test\util\rpcauth-test.py
   functional_tests_script:
@@ -252,7 +252,7 @@ task:
   name: '[ASan + LSan + UBSan + integer, no depends, USDT] [jammy]'
   << : *GLOBAL_TASK_TEMPLATE
   # We can't use a 'container' for the USDT interface tests as the CirrusCI
-  # containers don't have privileges to hook into bitnetd. CirrusCI uses
+  # containers don't have privileges to hook into bitcoind. CirrusCI uses
   # Google Compute Engine instances: https://cirrus-ci.org/guide/custom-vms/
   # Images can be found here: https://cloud.google.com/compute/docs/images/os-details
   compute_engine_instance:
@@ -289,13 +289,13 @@ task:
     FILE_ENV: "./ci/test/00_setup_env_i686_multiprocess.sh"
 
 task:
-  name: '[no wallet, libbitnetkernel] [bionic]'
+  name: '[no wallet, libbitcoinkernel] [bionic]'
   << : *GLOBAL_TASK_TEMPLATE
   container:
     image: ubuntu:bionic
   env:
     << : *CIRRUS_EPHEMERAL_WORKER_TEMPLATE_ENV
-    FILE_ENV: "./ci/test/00_setup_env_native_nowallet_libbitnetkernel.sh"
+    FILE_ENV: "./ci/test/00_setup_env_native_nowallet_libbitcoinkernel.sh"
 
 task:
   name: 'macOS 10.15 [gui, no tests] [focal]'
@@ -312,16 +312,16 @@ task:
     FILE_ENV: "./ci/test/00_setup_env_mac.sh"
 
 task:
-  name: 'macOS 12 native x86_64 [gui, system sqlite] [no depends]'
+  name: 'macOS 13 native arm64 [gui, sqlite only] [no depends]'
   macos_instance:
     # Use latest image, but hardcode version to avoid silent upgrades (and breaks)
-    image: monterey-xcode-13.3  # https://cirrus-ci.org/guide/macOS
+    image: ghcr.io/cirruslabs/macos-ventura-xcode:14.1  # https://cirrus-ci.org/guide/macOS
   << : *MACOS_NATIVE_TASK_TEMPLATE
   env:
     << : *CIRRUS_EPHEMERAL_WORKER_TEMPLATE_ENV
     CI_USE_APT_INSTALL: "no"
     PACKAGE_MANAGER_INSTALL: "echo"  # Nothing to do
-    FILE_ENV: "./ci/test/00_setup_env_mac_native_x86_64.sh"
+    FILE_ENV: "./ci/test/00_setup_env_mac_native_arm64.sh"
 
 task:
   name: 'ARM64 Android APK [focal]'

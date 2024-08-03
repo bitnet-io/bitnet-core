@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2022 The Bitnet Core developers
+// Copyright (c) 2020-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,7 +11,6 @@
 #include <test/fuzz/FuzzedDataProvider.h>
 #include <test/fuzz/fuzz.h>
 #include <test/fuzz/util.h>
-#include <test/fuzz/util/net.h>
 #include <test/util/setup_common.h>
 #include <time.h>
 #include <util/asmap.h>
@@ -34,7 +33,7 @@ int32_t GetCheckRatio()
 
 void initialize_addrman()
 {
-    static const auto testing_setup = MakeNoLogFileContext<>(CBaseChainParams::REGTEST);
+    static const auto testing_setup = MakeNoLogFileContext<>(CBaseChainParams::UNITTEST);
     g_setup = testing_setup.get();
 }
 
@@ -117,7 +116,7 @@ void FillAddrman(AddrMan& addrman, FuzzedDataProvider& fuzzed_data_provider)
             const std::chrono::seconds time_penalty{fast_random_context.randrange(100000001)};
             addrman.Add({addr}, source, time_penalty);
 
-            if (n > 0 && addrman.Size() % n == 0) {
+            if (n > 0 && addrman.size() % n == 0) {
                 addrman.Good(addr, Now<NodeSeconds>());
             }
 
@@ -304,7 +303,7 @@ FUZZ_TARGET_INIT(addrman, initialize_addrman)
         /*max_pct=*/fuzzed_data_provider.ConsumeIntegralInRange<size_t>(0, 4096),
         /*network=*/std::nullopt);
     (void)const_addr_man.Select(fuzzed_data_provider.ConsumeBool());
-    (void)const_addr_man.Size();
+    (void)const_addr_man.size();
     CDataStream data_stream(SER_NETWORK, PROTOCOL_VERSION);
     data_stream << const_addr_man;
 }

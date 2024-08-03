@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2022 The Bitnet Core developers
+// Copyright (c) 2018-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -65,7 +65,7 @@ public:
     virtual std::string getName() = 0;
 };
 
-//! Top-level interface for a bitnet node (bitnetd process).
+//! Top-level interface for a bitcoin node (bitcoind process).
 class Node
 {
 public:
@@ -102,7 +102,7 @@ public:
     //! would be ignored because it is also specified in the command line.
     virtual bool isSettingIgnored(const std::string& name) = 0;
 
-    //! Return setting value from <datadir>/settings.json or bitnet.conf.
+    //! Return setting value from <datadir>/settings.json or bitcoin.conf.
     virtual util::SettingsValue getPersistentSetting(const std::string& name) = 0;
 
     //! Update a setting in <datadir>/settings.json.
@@ -171,20 +171,38 @@ public:
     //! Get last block time.
     virtual int64_t getLastBlockTime() = 0;
 
+    //! Get block hash.
+    virtual uint256 getBlockHash(int blockNumber) = 0;
+
+    //! Get block time.
+    virtual int64_t getBlockTime(int blockNumber) = 0;
+
     //! Get verification progress.
     virtual double getVerificationProgress() = 0;
 
     //! Is initial block download.
     virtual bool isInitialBlockDownload() = 0;
 
-    //! Is loading blocks.
-    virtual bool isLoadingBlocks() = 0;
+    //! Is -addresstype set.
+    virtual bool isAddressTypeSet() = 0;
+
+    //! Get reindex.
+    virtual bool getReindex() = 0;
+
+    //! Get importing.
+    virtual bool getImporting() = 0;
 
     //! Set network active.
     virtual void setNetworkActive(bool active) = 0;
 
     //! Get network active.
     virtual bool getNetworkActive() = 0;
+
+    //! Get node synchronization information.
+    virtual void getSyncInfo(int& numBlocks, bool& isSyncing) = 0;
+
+    //! Try get node synchronization information.
+    virtual bool tryGetSyncInfo(int& numBlocks, bool& isSyncing) = 0;
 
     //! Get dust relay fee.
     virtual CFeeRate getDustRelayFee() = 0;
@@ -209,6 +227,24 @@ public:
 
     //! Get wallet loader.
     virtual WalletLoader& walletLoader() = 0;
+
+    //! Get the information about the needed gas
+    virtual void getGasInfo(uint64_t& blockGasLimit, uint64_t& minGasPrice, uint64_t& nGasPrice) = 0;
+
+    //! Get the reward for the block at some specific height
+    virtual int64_t getBlockSubsidy(int nHeight) = 0;
+
+    //! Get the network stake weight
+    virtual uint64_t getNetworkStakeWeight() = 0;
+
+    //! Get the estimated annual roi
+    virtual double getEstimatedAnnualROI() = 0;
+
+    //! Get the money supply
+    virtual int64_t getMoneySupply() = 0;
+
+    //! Get PoS kernel PS
+    virtual double getPoSKernelPS() = 0;
 
     //! Register handler for init messages.
     using InitMessageFn = std::function<void(const std::string& message)>;

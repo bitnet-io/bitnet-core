@@ -1,11 +1,10 @@
-// Copyright (c) 2016-2022 The Bitnet Core developers
+// Copyright (c) 2016-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <policy/rbf.h>
 
 #include <consensus/amount.h>
-#include <kernel/mempool_entry.h>
 #include <policy/feerate.h>
 #include <primitives/transaction.h>
 #include <sync.h>
@@ -22,6 +21,8 @@ RBFTransactionState IsRBFOptIn(const CTransaction& tx, const CTxMemPool& pool)
 {
     AssertLockHeld(pool.cs);
 
+    CTxMemPool::setEntries ancestors;
+
     // First check the transaction itself.
     if (SignalsOptInRBF(tx)) {
         return RBFTransactionState::REPLACEABLE_BIP125;
@@ -35,9 +36,10 @@ RBFTransactionState IsRBFOptIn(const CTransaction& tx, const CTxMemPool& pool)
 
     // If all the inputs have nSequence >= maxint-1, it still might be
     // signaled for RBF if any unconfirmed parents have signaled.
-    const CTxMemPoolEntry entry{*pool.mapTx.find(tx.GetHash())};
-    auto ancestors{pool.AssumeCalculateMemPoolAncestors(__func__, entry, CTxMemPool::Limits::NoLimits(),
-                                                        /*fSearchForParents=*/false)};
+    uint64_t noLimit = std::numeric_limits<uint64_t>::max();
+    std::string dummy;
+    CTxMemPoolEntry entry = *pool.mapTx.find(tx.GetHash());
+    pool.CalculateMemPoolAncestors(entry, ancestors, noLimit, noLimit, noLimit, noLimit, dummy, false);
 
     for (CTxMemPool::txiter it : ancestors) {
         if (SignalsOptInRBF(it->GetTx())) {

@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,25 +20,29 @@ public:
     void setCheckValidator(const QValidator *v);
     bool isValid();
 
+    bool getEmptyIsValid() const;
+    void setEmptyIsValid(bool value);
 protected:
     void focusInEvent(QFocusEvent *evt) override;
     void focusOutEvent(QFocusEvent *evt) override;
 
 private:
-    bool valid{true};
-    const QValidator* checkValidator{nullptr};
+    bool valid;
+    const QValidator *checkValidator;
+    bool emptyIsValid;
 
 public Q_SLOTS:
     void setText(const QString&);
     void setValid(bool valid);
     void setEnabled(bool enabled);
+    void checkValidity();
 
 Q_SIGNALS:
     void validationDidChange(QValidatedLineEdit *validatedLineEdit);
 
 private Q_SLOTS:
     void markValid();
-    void checkValidity();
+
 };
 
 #endif // BITCOIN_QT_QVALIDATEDLINEEDIT_H

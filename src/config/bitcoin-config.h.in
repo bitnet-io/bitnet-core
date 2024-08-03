@@ -1,4 +1,4 @@
-/* src/config/bitnet-config.h.in.  Generated from configure.ac by autoheader.  */
+/* src/config/bitcoin-config.h.in.  Generated from configure.ac by autoheader.  */
 
 #ifndef BITCOIN_CONFIG_H
 
@@ -62,6 +62,24 @@
 /* define if the Boost library is available */
 #undef HAVE_BOOST
 
+/* define if the Boost::Chrono library is available */
+#undef HAVE_BOOST_CHRONO
+
+/* define if the Boost::Filesystem library is available */
+#undef HAVE_BOOST_FILESYSTEM
+
+/* define if the Boost::PROGRAM_OPTIONS library is available */
+#undef HAVE_BOOST_PROGRAM_OPTIONS
+
+/* define if the Boost::Random library is available */
+#undef HAVE_BOOST_RANDOM
+
+/* define if the Boost::System library is available */
+#undef HAVE_BOOST_SYSTEM
+
+/* define if the Boost::Thread library is available */
+#undef HAVE_BOOST_THREAD
+
 /* Define this symbol if you have __builtin_clzl */
 #undef HAVE_BUILTIN_CLZL
 
@@ -109,6 +127,10 @@
 /* Define to 1 if you have the declaration of `bswap_64', and to 0 if you
    don't. */
 #undef HAVE_DECL_BSWAP_64
+
+/* Define to 1 if you have the declaration of `EVP_MD_CTX_new', and to 0 if
+   you don't. */
+#undef HAVE_DECL_EVP_MD_CTX_NEW
 
 /* Define to 1 if you have the declaration of `fork', and to 0 if you don't.
    */
@@ -279,6 +301,9 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
+/* Define to 1 if you have the <stdio.h> header file. */
+#undef HAVE_STDIO_H
+
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
@@ -400,7 +425,8 @@
 /* Define if dbus support should be compiled in */
 #undef USE_DBUS
 
-/* Define to 1 if UPnP support should be compiled in. */
+/* NAT-PMP support not compiled if undefined, otherwise value (0 or 1)
+   determines default state */
 #undef USE_NATPMP
 
 /* Define if QR support should be compiled in */
@@ -412,7 +438,8 @@
 /* Define this symbol to build with syscall sandbox support. */
 #undef USE_SYSCALL_SANDBOX
 
-/* Define to 1 if UPnP support should be compiled in. */
+/* UPnP support not compiled if undefined, otherwise value (0 or 1) determines
+   default state */
 #undef USE_UPNP
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most

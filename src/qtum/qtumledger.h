@@ -1,5 +1,5 @@
-#ifndef QTUMLEDGER_H
-#define QTUMLEDGER_H
+#ifndef BITLEDGER_H
+#define BITLEDGER_H
 
 #include <string>
 #include <vector>

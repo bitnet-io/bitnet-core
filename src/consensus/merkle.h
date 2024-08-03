@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2019 The Bitnet Core developers
+// Copyright (c) 2015-2019 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,6 +22,6 @@ uint256 BlockMerkleRoot(const CBlock& block, bool* mutated = nullptr);
  * Compute the Merkle root of the witness transactions in a block.
  * *mutated is set to true if a duplicated subtree was found.
  */
-uint256 BlockWitnessMerkleRoot(const CBlock& block, bool* mutated = nullptr);
+uint256 BlockWitnessMerkleRoot(const CBlock& block, bool* mutated = nullptr, bool* pfProofOfStake = nullptr);
 
 #endif // BITCOIN_CONSENSUS_MERKLE_H

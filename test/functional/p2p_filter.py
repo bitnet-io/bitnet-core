@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2020-2021 The Bitnet Core developers
+# Copyright (c) 2020-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """
@@ -27,14 +27,15 @@ from test_framework.p2p import (
     P2P_VERSION,
     p2p_lock,
 )
-from test_framework.script import MAX_SCRIPT_ELEMENT_SIZE
-from test_framework.test_framework import BitnetTestFramework
+#from test_framework.script import MAX_SCRIPT_ELEMENT_SIZE
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.wallet import (
     MiniWallet,
     getnewdestination,
 )
 
 
+MAX_SCRIPT_ELEMENT_SIZE = 128000
 class P2PBloomFilter(P2PInterface):
     # This is a P2SH watch-only wallet
     watch_script_pubkey = bytes.fromhex('a914ffffffffffffffffffffffffffffffffffffffff87')
@@ -90,7 +91,7 @@ class P2PBloomFilter(P2PInterface):
             self._merkleblock_received = value
 
 
-class FilterTest(BitnetTestFramework):
+class FilterTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.extra_args = [[
@@ -214,6 +215,7 @@ class FilterTest(BitnetTestFramework):
 
     def run_test(self):
         self.wallet = MiniWallet(self.nodes[0])
+        self.wallet.rescan_utxos()
 
         filter_peer = self.nodes[0].add_p2p_connection(P2PBloomFilter())
         self.log.info('Test filter size limits')

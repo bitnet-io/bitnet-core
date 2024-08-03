@@ -2,14 +2,14 @@
 # dependencies that cannot be fixed in-tree.
 #
 # Example use:
-# $ valgrind --suppressions=contrib/valgrind.supp src/test/test_bitnet
+# $ valgrind --suppressions=contrib/valgrind.supp src/test/test_bitcoin
 # $ valgrind --suppressions=contrib/valgrind.supp --leak-check=full \
-#       --show-leak-kinds=all src/test/test_bitnet
+#       --show-leak-kinds=all src/test/test_bitcoin
 #
 # To create suppressions for found issues, use the --gen-suppressions=all option:
 # $ valgrind --suppressions=contrib/valgrind.supp --leak-check=full \
 #       --show-leak-kinds=all --gen-suppressions=all --show-reachable=yes \
-#       --error-limit=no src/test/test_bitnet
+#       --error-limit=no src/test/test_bitcoin
 #
 # Note that suppressions may depend on OS and/or library versions.
 # Tested on:
@@ -97,6 +97,14 @@
    match-leak-kinds: reachable
    fun:_Znwm
    fun:_Z11LogInstancev
+}
+{
+   Suppress secp256k1_context_create still reachable memory warning
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   fun:secp256k1_context_create
 }
 {
    Suppress BCLog::Logger::StartLogging() still reachable memory warning

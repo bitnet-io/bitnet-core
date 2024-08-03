@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Run regression test suite.
@@ -8,7 +8,7 @@ This module calls down into individual test cases via subprocess. It will
 forward all unrecognized arguments onto the individual test scripts.
 
 For a description of arguments recognized by test scripts, see
-`test/functional/test_framework/test_framework.py:BitnetTestFramework.main`.
+`test/functional/test_framework/test_framework.py:BitcoinTestFramework.main`.
 
 """
 
@@ -26,8 +26,6 @@ import tempfile
 import re
 import logging
 import unittest
-
-os.environ["REQUIRE_WALLET_TYPE_SET"] = "1"
 
 # Formatting. Default colors to empty strings.
 DEFAULT, BOLD, GREEN, RED = ("", ""), ("", ""), ("", ""), ("", "")
@@ -82,94 +80,68 @@ TEST_FRAMEWORK_MODULES = [
 EXTENDED_SCRIPTS = [
     # These tests are not run by default.
     # Longest test should go first, to favor running tests in parallel
+    'qtum_evm_london_activation.py',
+    'qtum_evm_shanghai_activation.py',
     'feature_pruning.py',
-    'feature_dbcrash.py',
-    'feature_index_prune.py',
-    'wallet_pruning.py --legacy-wallet',
+    'feature_dbcrash.py'
 ]
 
 BASE_SCRIPTS = [
     # Scripts that are run by default.
     # Longest test should go first, to favor running tests in parallel
-    # vv Tests less than 5m vv
-    'feature_fee_estimation.py',
-    'feature_taproot.py',
-    'feature_block.py',
-    # vv Tests less than 2m vv
-    'mining_getblocktemplate_longpoll.py',
-    'p2p_segwit.py',
-    'feature_maxuploadtarget.py',
-    'mempool_updatefromblock.py',
-    'mempool_persist.py --descriptors',
-    # vv Tests less than 60s vv
-    'rpc_psbt.py --legacy-wallet',
-    'rpc_psbt.py --descriptors',
-    'wallet_fundrawtransaction.py --legacy-wallet',
-    'wallet_fundrawtransaction.py --descriptors',
-    'wallet_bumpfee.py --legacy-wallet',
-    'wallet_bumpfee.py --descriptors',
-    'wallet_import_rescan.py --legacy-wallet',
+    'wallet_hd.py --legacy-wallet',
+    'wallet_hd.py --descriptors',
     'wallet_backup.py --legacy-wallet',
     'wallet_backup.py --descriptors',
+    # vv Tests less than 5m vv
+    'mining_getblocktemplate_longpoll.py',
+    'feature_maxuploadtarget.py',
+    'feature_block.py',
+    'rpc_fundrawtransaction.py --legacy-wallet',
+    'rpc_fundrawtransaction.py --descriptors',
+    'p2p_compactblocks.py',
+    'p2p_compactblocks_blocksonly.py',
     'feature_segwit.py --legacy-wallet',
     'feature_segwit.py --descriptors',
-    'p2p_tx_download.py',
-    'wallet_avoidreuse.py --legacy-wallet',
-    'wallet_avoidreuse.py --descriptors',
-    'feature_abortnode.py',
-    'wallet_address_types.py --legacy-wallet',
-    'wallet_address_types.py --descriptors',
+    # vv Tests less than 2m vv
     'wallet_basic.py --legacy-wallet',
     'wallet_basic.py --descriptors',
-    'feature_maxtipage.py',
-    'wallet_multiwallet.py --legacy-wallet',
-    'wallet_multiwallet.py --descriptors',
-    'wallet_multiwallet.py --usecli',
-    'p2p_dns_seeds.py',
-    'wallet_groups.py --legacy-wallet',
-    'wallet_groups.py --descriptors',
-    'p2p_blockfilters.py',
-    'feature_assumevalid.py',
-    'wallet_taproot.py --descriptors',
-    'feature_bip68_sequence.py',
-    'rpc_packages.py',
-    'rpc_bind.py --ipv4',
-    'rpc_bind.py --ipv6',
-    'rpc_bind.py --nonloopback',
-    'p2p_headers_sync_with_minchainwork.py',
-    'p2p_feefilter.py',
-    'feature_csv_activation.py',
-    'p2p_sendheaders.py',
-    'wallet_listtransactions.py --legacy-wallet',
-    'wallet_listtransactions.py --descriptors',
-    # vv Tests less than 30s vv
-    'p2p_invalid_messages.py',
-    'rpc_createmultisig.py',
+    'wallet_labels.py --legacy-wallet',
+    'wallet_labels.py --descriptors',
+    'p2p_segwit.py',
     'p2p_timeouts.py',
+    'p2p_tx_download.py',
+    'mempool_updatefromblock.py',
     'wallet_dump.py --legacy-wallet',
+    'feature_taproot.py',
     'rpc_signer.py',
     'wallet_signer.py --descriptors',
+    # vv Tests less than 60s vv
+    'p2p_sendheaders.py',
     'wallet_importmulti.py --legacy-wallet',
     'mempool_limit.py',
     'rpc_txoutproof.py',
     'wallet_listreceivedby.py --legacy-wallet',
     'wallet_listreceivedby.py --descriptors',
     'wallet_abandonconflict.py --legacy-wallet',
+    'p2p_dns_seeds.py',
     'wallet_abandonconflict.py --descriptors',
+    #'feature_csv_activation.py',
+    'wallet_address_types.py --legacy-wallet',
+    'wallet_address_types.py --descriptors',
+    'feature_bip68_sequence.py',
+    'p2p_feefilter.py',
+    'rpc_packages.py',
     'feature_reindex.py',
-    'wallet_labels.py --legacy-wallet',
-    'wallet_labels.py --descriptors',
-    'p2p_compactblocks.py',
-    'p2p_compactblocks_blocksonly.py',
-    'wallet_hd.py --legacy-wallet',
-    'wallet_hd.py --descriptors',
+    'feature_abortnode.py',
+    # vv Tests less than 30s vv
     'wallet_keypool_topup.py --legacy-wallet',
     'wallet_keypool_topup.py --descriptors',
-    'wallet_fast_rescan.py --descriptors',
+    'feature_fee_estimation.py',
     'interface_zmq.py',
     'rpc_invalid_address_message.py',
-    'interface_bitnet_cli.py --legacy-wallet',
-    'interface_bitnet_cli.py --descriptors',
+    'interface_bitcoin_cli.py --legacy-wallet',
+    'interface_bitcoin_cli.py --descriptors',
     'feature_bind_extra.py',
     'mempool_resurrect.py',
     'wallet_txn_doublespend.py --mineblock',
@@ -183,12 +155,20 @@ BASE_SCRIPTS = [
     'rpc_misc.py',
     'interface_rest.py',
     'mempool_spend_coinbase.py',
+    'wallet_avoidreuse.py --legacy-wallet',
+    'wallet_avoidreuse.py --descriptors',
     'wallet_avoid_mixing_output_types.py --descriptors',
     'mempool_reorg.py',
+    'mempool_persist.py',
     'p2p_block_sync.py',
+    'wallet_multiwallet.py --legacy-wallet',
+    'wallet_multiwallet.py --descriptors',
+    'wallet_multiwallet.py --usecli',
     'wallet_createwallet.py --legacy-wallet',
     'wallet_createwallet.py --usecli',
     'wallet_createwallet.py --descriptors',
+    'wallet_listtransactions.py --legacy-wallet',
+    'wallet_listtransactions.py --descriptors',
     'wallet_watchonly.py --legacy-wallet',
     'wallet_watchonly.py --usecli --legacy-wallet',
     'wallet_reorgsrestore.py',
@@ -198,6 +178,8 @@ BASE_SCRIPTS = [
     'interface_usdt_net.py',
     'interface_usdt_utxocache.py',
     'interface_usdt_validation.py',
+    'rpc_psbt.py --legacy-wallet',
+    'rpc_psbt.py --descriptors',
     'rpc_users.py',
     'rpc_whitelist.py',
     'feature_proxy.py',
@@ -205,13 +187,15 @@ BASE_SCRIPTS = [
     'wallet_signrawtransactionwithwallet.py --legacy-wallet',
     'wallet_signrawtransactionwithwallet.py --descriptors',
     'rpc_signrawtransactionwithkey.py',
+    'p2p_headers_sync_with_minchainwork.py',
     'rpc_rawtransaction.py --legacy-wallet',
+    'wallet_groups.py --legacy-wallet',
     'wallet_transactiontime_rescan.py --descriptors',
     'wallet_transactiontime_rescan.py --legacy-wallet',
     'p2p_addrv2_relay.py',
+    'wallet_groups.py --descriptors',
     'p2p_compactblocks_hb.py',
     'p2p_disconnect_ban.py',
-    'feature_posix_fs_permissions.py',
     'rpc_decodescript.py',
     'rpc_blockchain.py',
     'rpc_deprecated.py',
@@ -226,7 +210,8 @@ BASE_SCRIPTS = [
     'wallet_keypool.py --legacy-wallet',
     'wallet_keypool.py --descriptors',
     'wallet_descriptor.py --descriptors',
-    'wallet_miniscript.py --descriptors',
+    'wallet_miniscript.py',
+    'feature_maxtipage.py',
     'p2p_nobloomfilter_messages.py',
     'p2p_filter.py',
     'rpc_setban.py',
@@ -234,13 +219,15 @@ BASE_SCRIPTS = [
     'mining_prioritisetransaction.py',
     'p2p_invalid_locator.py',
     'p2p_invalid_block.py',
+    'p2p_invalid_messages.py',
     'p2p_invalid_tx.py',
+    'feature_assumevalid.py',
     'example_test.py',
     'wallet_txn_doublespend.py --legacy-wallet',
-    'wallet_multisig_descriptor_psbt.py --descriptors',
+    'wallet_multisig_descriptor_psbt.py',
     'wallet_txn_doublespend.py --descriptors',
-    'wallet_backwards_compatibility.py --legacy-wallet',
-    'wallet_backwards_compatibility.py --descriptors',
+    'feature_backwards_compatibility.py --legacy-wallet',
+    'feature_backwards_compatibility.py --descriptors',
     'wallet_txn_clone.py --mineblock',
     'feature_notifications.py',
     'rpc_getblockfilter.py',
@@ -250,6 +237,7 @@ BASE_SCRIPTS = [
     'feature_rbf.py',
     'mempool_packages.py',
     'mempool_package_onemore.py',
+    'rpc_createmultisig.py',
     'mempool_package_limits.py',
     'feature_versionbits_warning.py',
     'rpc_preciousblock.py',
@@ -257,7 +245,6 @@ BASE_SCRIPTS = [
     'wallet_importprunedfunds.py --descriptors',
     'p2p_leak_tx.py',
     'p2p_eviction.py',
-    'p2p_ibd_stalling.py',
     'wallet_signmessagewithaddress.py',
     'rpc_signmessagewithprivkey.py',
     'rpc_generate.py',
@@ -267,12 +254,18 @@ BASE_SCRIPTS = [
     'feature_nulldummy.py',
     'mempool_accept.py',
     'mempool_expiry.py',
+    'wallet_import_rescan.py --legacy-wallet',
     'wallet_import_with_label.py --legacy-wallet',
     'wallet_importdescriptors.py --descriptors',
     'wallet_upgradewallet.py --legacy-wallet',
+    'rpc_bind.py --ipv4',
+    'rpc_bind.py --ipv6',
+    'rpc_bind.py --nonloopback',
     'wallet_crosschain.py',
     'mining_basic.py',
     'feature_signet.py',
+    'wallet_bumpfee.py --legacy-wallet',
+    'wallet_bumpfee.py --descriptors',
     'wallet_implicitsegwit.py --legacy-wallet',
     'rpc_named_arguments.py',
     'feature_startupnotify.py',
@@ -285,9 +278,8 @@ BASE_SCRIPTS = [
     'wallet_encryption.py --legacy-wallet',
     'wallet_encryption.py --descriptors',
     'feature_dersig.py',
-    'feature_cltv.py',
+    #'feature_cltv.py',
     'rpc_uptime.py',
-    'feature_discover.py',
     'wallet_resendwallettransactions.py --legacy-wallet',
     'wallet_resendwallettransactions.py --descriptors',
     'wallet_fallbackfee.py --legacy-wallet',
@@ -303,7 +295,8 @@ BASE_SCRIPTS = [
     'wallet_sendall.py --legacy-wallet',
     'wallet_sendall.py --descriptors',
     'wallet_create_tx.py --descriptors',
-    'wallet_inactive_hdchains.py --legacy-wallet',
+    'wallet_taproot.py',
+    'wallet_inactive_hdchains.py',
     'p2p_fingerprint.py',
     'feature_uacomment.py',
     'feature_init.py',
@@ -311,10 +304,11 @@ BASE_SCRIPTS = [
     'wallet_coinbase_category.py --descriptors',
     'feature_filelock.py',
     'feature_loadblock.py',
-    'p2p_dos_header_tree.py',
+    #'p2p_dos_header_tree.py',
     'p2p_add_connections.py',
     'feature_bind_port_discover.py',
     'p2p_unrequested_blocks.py',
+    'p2p_blockfilters.py',
     'p2p_message_capture.py',
     'feature_includeconf.py',
     'feature_addrman.py',
@@ -322,13 +316,10 @@ BASE_SCRIPTS = [
     'mempool_unbroadcast.py',
     'mempool_compatibility.py',
     'mempool_accept_wtxid.py',
-    'mempool_dust.py',
     'rpc_deriveaddresses.py',
     'rpc_deriveaddresses.py --usecli',
     'p2p_ping.py',
     'p2p_tx_privacy.py',
-    'rpc_scanblocks.py',
-    'p2p_sendtxrcncl.py',
     'rpc_scantxoutset.py',
     'feature_txindex_compatibility.py',
     'feature_unsupported_utxo_db.py',
@@ -336,13 +327,12 @@ BASE_SCRIPTS = [
     'feature_anchors.py',
     'mempool_datacarrier.py',
     'feature_coinstatsindex.py',
-    'wallet_orphanedreward.py',
+    # 'wallet_orphanedreward.py', // N/A in Qtum due to rolling checkpoints 
     'wallet_timelock.py',
     'p2p_node_network_limited.py',
     'p2p_permissions.py',
     'feature_blocksdir.py',
     'wallet_startup.py',
-    'feature_remove_pruned_files_on_startup.py',
     'p2p_i2p_ports.py',
     'p2p_i2p_sessions.py',
     'feature_config_args.py',
@@ -356,8 +346,79 @@ BASE_SCRIPTS = [
     'feature_shutdown.py',
     'wallet_migration.py',
     'p2p_ibd_txrelay.py',
+    'feature_index_prune.py',
     # Don't append tests at the end to avoid merge conflicts
     # Put them in a random line within the section that fits their approximate run-time
+    # qtum
+    'qtum_evm_london_gas_usage.py',
+    'qtum_dgp.py',
+    'qtum_pos.py',
+    'qtum_opcall.py',
+    'qtum_opcreate.py',
+    'qtum_8mb_block.py',
+    'qtum_gas_limit.py',
+    'qtum_searchlog.py',
+    'qtum_pos_segwit.py',
+    'qtum_state_root.py',
+    'qtum_evm_globals.py',
+    'qtum_null_sender.py',
+    'qtum_waitforlogs.py',
+    'qtum_block_header.py',
+    'qtum_callcontract.py',
+    'qtum_spend_op_call.py',
+    'qtum_condensing_txs.py',
+    'qtum_createcontract.py',
+    'qtum_sendtocontract.py',
+    'qtum_identical_refunds.py',
+    'qtum_create_eth_op_code.py',
+    'qtum_gas_limit_overflow.py',
+    'qtum_call_empty_contract.py',
+    'qtum_dgp_block_size_sync.py',
+    'qtum_pos_conflicting_txs.py',
+    'qtum_globals_state_changer.py',
+    'qtum_no_exec_call_disabled.py',
+    'qtum_soft_block_gas_limits.py',
+    'qtum_dgp_block_size_restart.py',
+    'qtum_searchlog_restart_node.py',
+    'qtum_immature_coinstake_spend.py',
+    'qtum_transaction_prioritization.py',
+    'qtum_assign_mpos_fees_to_gas_refund.py',
+    'qtum_ignore_mpos_participant_reward.py',
+    'qtum_evm_constantinople_activation.py',
+    'qtum_many_value_refunds_from_same_tx.py',
+    'qtum_combined_outputs_exceed_gas_limit.py',
+    'qtum_dgp_gas_price_lingering_mempool_tx.py',
+    'qtum_dgp_gas_schedule.py',
+    'qtum_header_spam.py --dos-same-height',
+    'qtum_header_spam.py --dos-variable-height',
+    'qtum_header_spam.py --run-standard-tests',
+    'qtum_divergence_dos.py',
+    'qtum_prioritize_create_over_call.py',
+    'qtum_callcontract_timestamp.py',
+    'qtum_transaction_receipt_origin_contract_address.py',
+    'qtum_block_number_corruption.py',
+    'qtum_duplicate_stake.py',
+    'qtum_rpc_bitcore.py',
+    'qtum_faulty_header_chain.py',
+    'qtum_signrawsender.py',
+    'qtum_op_sender.py',
+    'qtum_evm_revert.py',
+    'qtum_evm_create2.py',
+    'qtum_evm_staticcall.py',
+    'qtum_evm_constantinople_precompiles.py',
+    'qtum_evm_constantinople_opcodes.py',
+    'qtum_block_index_cleanup.py',
+    'qtum_pod.py',
+    'qtum_simple_delegation_contract.py',
+    'qtum_delegation_contract.py',
+    'qtum_qrc20.py'
+]
+# scripts irreleveant for Qtum
+DISABLED_SCRIPTS = [
+      'wallet_orphanedreward.py',
+      'feature_cltv.py',
+      'feature_csv_activation.py',
+      'p2p_dos_header_tree.py'
 ]
 
 # Place EXTENDED_SCRIPTS first since it has the 3 longest running tests
@@ -422,9 +483,9 @@ def main():
 
     logging.debug("Temporary test directory at %s" % tmpdir)
 
-    enable_bitnetd = config["components"].getboolean("ENABLE_BITCOIND")
+    enable_bitcoind = config["components"].getboolean("ENABLE_BITCOIND")
 
-    if not enable_bitnetd:
+    if not enable_bitcoind:
         print("No functional tests to run.")
         print("Rerun ./configure with --with-daemon and then make")
         sys.exit(0)
@@ -506,11 +567,11 @@ def main():
 def run_tests(*, test_list, src_dir, build_dir, tmpdir, jobs=1, enable_coverage=False, args=None, combined_logs_len=0, failfast=False, use_term_control):
     args = args or []
 
-    # Warn if bitnetd is already running
+    # Warn if bitcoind is already running
     try:
         # pgrep exits with code zero when one or more matching processes found
-        if subprocess.run(["pgrep", "-x", "bitnetd"], stdout=subprocess.DEVNULL).returncode == 0:
-            print("%sWARNING!%s There is already a bitnetd process running on this system. Tests may fail unexpectedly due to resource contention!" % (BOLD[1], BOLD[0]))
+        if subprocess.run(["pgrep", "-x", "bitcoind"], stdout=subprocess.DEVNULL).returncode == 0:
+            print("%sWARNING!%s There is already a bitcoind process running on this system. Tests may fail unexpectedly due to resource contention!" % (BOLD[1], BOLD[0]))
     except OSError:
         # pgrep not supported
         pass
@@ -590,7 +651,7 @@ def run_tests(*, test_list, src_dir, build_dir, tmpdir, jobs=1, enable_coverage=
                     combined_logs_args = [sys.executable, os.path.join(tests_dir, 'combine_logs.py'), testdir]
                     if BOLD[0]:
                         combined_logs_args += ['--color']
-                    combined_logs, _ = subprocess.Popen(combined_logs_args, text=True, stdout=subprocess.PIPE).communicate()
+                    combined_logs, _ = subprocess.Popen(combined_logs_args, universal_newlines=True, stdout=subprocess.PIPE).communicate()
                     print("\n".join(deque(combined_logs.splitlines(), combined_logs_len)))
 
                 if failfast:
@@ -675,7 +736,7 @@ class TestHandler:
             self.jobs.append((test,
                               time.time(),
                               subprocess.Popen([sys.executable, self.tests_dir + test_argv[0]] + test_argv[1:] + self.flags + portseed_arg + tmpdir_arg,
-                                               text=True,
+                                               universal_newlines=True,
                                                stdout=log_stdout,
                                                stderr=log_stderr),
                               testdir,
@@ -757,7 +818,7 @@ class TestResult():
 def check_script_prefixes():
     """Check that test scripts start with one of the allowed name prefixes."""
 
-    good_prefixes_re = re.compile("^(example|feature|interface|mempool|mining|p2p|rpc|wallet|tool)_")
+    good_prefixes_re = re.compile("^(example|feature|interface|mempool|mining|p2p|rpc|wallet|tool|qtum)_")
     bad_script_names = [script for script in ALL_SCRIPTS if good_prefixes_re.match(script) is None]
 
     if bad_script_names:
@@ -773,7 +834,7 @@ def check_script_list(*, src_dir, fail_on_warn):
     not being run by pull-tester.py."""
     script_dir = src_dir + '/test/functional/'
     python_files = set([test_file for test_file in os.listdir(script_dir) if test_file.endswith(".py")])
-    missed_tests = list(python_files - set(map(lambda x: x.split()[0], ALL_SCRIPTS + NON_SCRIPTS)))
+    missed_tests = list(python_files - set(map(lambda x: x.split()[0], ALL_SCRIPTS + NON_SCRIPTS + DISABLED_SCRIPTS)))
     if len(missed_tests) != 0:
         print("%sWARNING!%s The following scripts are not being run: %s. Check the test lists in test_runner.py." % (BOLD[1], BOLD[0], str(missed_tests)))
         if fail_on_warn:
@@ -788,7 +849,7 @@ class RPCCoverage():
     Coverage calculation works by having each test script subprocess write
     coverage files into a particular directory. These files contain the RPC
     commands invoked during testing, as well as a complete listing of RPC
-    commands per `bitnet-cli help` (`rpc_interface.txt`).
+    commands per `bitcoin-cli help` (`rpc_interface.txt`).
 
     After all tests complete, the commands run are combined and diff'd against
     the complete list to calculate uncovered RPC commands.

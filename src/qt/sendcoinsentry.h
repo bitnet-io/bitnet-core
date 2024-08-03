@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,7 +21,7 @@ namespace Ui {
 }
 
 /**
- * A single entry in the dialog for sending bitnets.
+ * A single entry in the dialog for sending bitcoins.
  */
 class SendCoinsEntry : public QWidget
 {
@@ -73,7 +73,7 @@ protected:
 private:
     SendCoinsRecipient recipient;
     Ui::SendCoinsEntry *ui;
-    WalletModel* model{nullptr};
+    WalletModel *model;
     const PlatformStyle *platformStyle;
 
     bool updateLabel(const QString &address);

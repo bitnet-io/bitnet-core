@@ -1,24 +1,21 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021-2022 The Bitnet Core developers
+# Copyright (c) 2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Stress tests related to node initialization."""
 import os
 from pathlib import Path
 
-from test_framework.test_framework import BitnetTestFramework, SkipTest
+from test_framework.test_framework import BitcoinTestFramework, SkipTest
 from test_framework.test_node import ErrorMatch
 from test_framework.util import assert_equal
 
 
-class InitStressTest(BitnetTestFramework):
+class InitStressTest(BitcoinTestFramework):
     """
     Ensure that initialization can be interrupted at a number of points and not impair
     subsequent starts.
     """
-
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
 
     def set_test_params(self):
         self.setup_clean_chain = False
@@ -49,7 +46,7 @@ class InitStressTest(BitnetTestFramework):
             """Ensure that node restarts successfully after various interrupts."""
             node.start()
             node.wait_for_rpc_connection()
-            assert_equal(200, node.getblockcount())
+            assert_equal(2100, node.getblockcount())
 
         lines_to_terminate_after = [
             b'Validating signatures for all blocks',
@@ -58,6 +55,7 @@ class InitStressTest(BitnetTestFramework):
             b'Loading P2P addresses',
             b'Loading banlist',
             b'Loading block index',
+            b'Switching active chainstate',
             b'Checking all blk files are present',
             b'Loaded best chain:',
             b'init message: Verifying blocks',
@@ -109,7 +107,7 @@ class InitStressTest(BitnetTestFramework):
             # tweaked_contents[50:250] = b'1' * 200
             # target_file.write_bytes(bytes(tweaked_contents))
             #
-            # At the moment I can't get this to work (bitnetd loads successfully?) so
+            # At the moment I can't get this to work (bitcoind loads successfully?) so
             # investigate doing this later.
 
             node.assert_start_raises_init_error(

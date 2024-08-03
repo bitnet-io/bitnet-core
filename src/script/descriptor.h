@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2021 The Bitnet Core developers
+// Copyright (c) 2018-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -35,7 +35,7 @@ public:
     /** Retrieve a cached parent xpub
      *
      * @param[in] key_exp_pos Position of the key expression within the descriptor
-     * @param[out] xpub The CExtPubKey to get from cache
+     * @param[in] xpub The CExtPubKey to get from cache
      */
     bool GetCachedParentExtPubKey(uint32_t key_exp_pos, CExtPubKey& xpub) const;
     /** Cache an xpub derived at an index
@@ -49,7 +49,7 @@ public:
      *
      * @param[in] key_exp_pos Position of the key expression within the descriptor
      * @param[in] der_index Derivation index of the xpub
-     * @param[out] xpub The CExtPubKey to get from cache
+     * @param[in] xpub The CExtPubKey to get from cache
      */
     bool GetCachedDerivedExtPubKey(uint32_t key_exp_pos, uint32_t der_index, CExtPubKey& xpub) const;
     /** Cache a last hardened xpub
@@ -61,16 +61,16 @@ public:
     /** Retrieve a cached last hardened xpub
      *
      * @param[in] key_exp_pos Position of the key expression within the descriptor
-     * @param[out] xpub The CExtPubKey to get from cache
+     * @param[in] xpub The CExtPubKey to get from cache
      */
     bool GetCachedLastHardenedExtPubKey(uint32_t key_exp_pos, CExtPubKey& xpub) const;
 
     /** Retrieve all cached parent xpubs */
-    ExtPubKeyMap GetCachedParentExtPubKeys() const;
+    const ExtPubKeyMap GetCachedParentExtPubKeys() const;
     /** Retrieve all cached derived xpubs */
-    std::unordered_map<uint32_t, ExtPubKeyMap> GetCachedDerivedExtPubKeys() const;
+    const std::unordered_map<uint32_t, ExtPubKeyMap> GetCachedDerivedExtPubKeys() const;
     /** Retrieve all cached last hardened xpubs */
-    ExtPubKeyMap GetCachedLastHardenedExtPubKeys() const;
+    const ExtPubKeyMap GetCachedLastHardenedExtPubKeys() const;
 
     /** Combine another DescriptorCache into this one.
      * Returns a cache containing the items from the other cache unknown to current cache

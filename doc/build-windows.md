@@ -1,82 +1,87 @@
 WINDOWS BUILD NOTES
 ====================
 
-mkdir /opt/winradio
+Below are some notes on how to build Bitnet Core for Windows.
 
-or from docker run -it -d -v /opt/winradio:/opt/winradio ubuntu:20.10
+The options known to work for building Bitnet Core on Windows are:
 
-docker exec -it <docker_random_hash_> bash
+* On Linux, using the [Mingw-w64](https://www.mingw-w64.org/) cross compiler tool chain.
+* On Windows, using [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/windows/wsl/about) and Mingw-w64.
+* On Windows, using [Microsoft Visual Studio](https://www.visualstudio.com). See [README.md](/build_msvc/README.md).
 
-as root
+Other options which may work, but which have not been extensively tested are (please contribute instructions):
 
-apt-get update && apt-get install git-core build-essential nano sudo -y
+* On Windows, using a POSIX compatibility layer application such as [cygwin](https://www.cygwin.com/) or [msys2](https://www.msys2.org/).
 
-cd /opt/winradio
+Installing Windows Subsystem for Linux
+---------------------------------------
 
-git clone https://github.com/c4pt000/bitnet
+Follow the upstream installation instructions, available [here](https://docs.microsoft.com/windows/wsl/install-win10).
 
-cd bitnet
+Cross-compilation for Ubuntu and Windows Subsystem for Linux
+------------------------------------------------------------
 
-then as always install more of the general dependencies:
+The steps below can be performed on Ubuntu or WSL. The depends system
+will also work on other Linux distributions, however the commands for
+installing the toolchain will be different.
 
-as root:
+First, install the general dependencies:
 
- apt-get update && apt-get upgrade && apt-get install apt aptitude apt-file wget nano build-essential git-core build-essential libtool autotools-dev automake pkg-config bsdmainutils curl git sudo nsis g++-mingw-w64-x86-64 protobuf* -y
- apt-get install *mingw* g++-mingw-w64-x86-64 mingw-w64-x86-64-dev -y
-
-Then build using: (windows x86_64 64bit .exe binaries)
-replace -j8 with your cpu core count (core i7 = 8 cores)
-
-    cd depends
-    make -j8 HOST=x86_64-w64-mingw32
-    cd ..
-    ./autogen.sh # not required when building from tarball
-    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/usr
-    #select 1 for posix both updates (dont forget to put back for standard linux or macOS builds)
-    update-alternatives --config x86_64-w64-mingw32-g++
-    update-alternatives --config x86_64-w64-mingw32-gcc
-    make -j8    (where 200 is cpu core count)
-
-
-
-
-
-
-original bitcoin-core build-windows.md notes
+    sudo apt update
+    sudo apt upgrade
+    sudo apt install build-essential libtool autotools-dev automake cmake pkg-config bsdmainutils curl git
 
 A host toolchain (`build-essential`) is necessary because some dependency
-packages (such as `protobuf`) need to build host utilities that are used in the
-build process.
+packages need to build host utilities that are used in the build process.
+
+See [dependencies.md](dependencies.md) for a complete overview.
+
+If you want to build the windows installer with `make deploy` you need [NSIS](https://nsis.sourceforge.io/Main_Page):
+
+    sudo apt install nsis
+
+Acquire the source in the usual way:
+
+    git clone https://github.com/qtumproject/qtum --recursive
+    cd qtum
 
 ## Building for 64-bit Windows
 
-To build executables for Windows 64-bit, install the following dependencies:
+The first step is to install the mingw-w64 cross-compilation tool chain:
+  - on modern systems (Ubuntu 21.04 Hirsute Hippo or newer, Debian 11 Bullseye or newer):
 
-    sudo apt-get install g++-mingw-w64-x86-64 mingw-w64-x86-64-dev
+```sh
+sudo apt install g++-mingw-w64-x86-64-posix
+```
 
-Then build using:
+  - on older systems:
 
+```sh
+sudo apt install g++-mingw-w64-x86-64
+```
+
+Once the toolchain is installed the build steps are common:
+
+Note that for WSL the Bitnet Core source path MUST be somewhere in the default mount file system, for
+example /usr/src/qtum, AND not under /mnt/d/. If this is not the case the dependency autoconf scripts will fail.
+This means you cannot use a directory that is located directly on the host Windows file system to perform the build.
+
+Additional WSL Note: WSL support for [launching Win32 applications](https://docs.microsoft.com/en-us/archive/blogs/wsl/windows-and-ubuntu-interoperability#launching-win32-applications-from-within-wsl)
+results in `Autoconf` configure scripts being able to execute Windows Portable Executable files. This can cause
+unexpected behaviour during the build, such as Win32 error dialogs for missing libraries. The recommended approach
+is to temporarily disable WSL support for Win32 applications.
+
+Build using:
+
+    PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
+    sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
     cd depends
     make HOST=x86_64-w64-mingw32
     cd ..
-    ./autogen.sh # not required when building from tarball
+    ./autogen.sh
     CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
-    make
-
-## Building for 32-bit Windows
-
-To build executables for Windows 32-bit, install the following dependencies:
-
-    sudo apt-get install g++-mingw-w64-i686 mingw-w64-i686-dev 
-
-Then build using:
-
-    cd depends
-    make HOST=i686-w64-mingw32
-    cd ..
-    ./autogen.sh # not required when building from tarball
-    CONFIG_SITE=$PWD/depends/i686-w64-mingw32/share/config.site ./configure --prefix=/
-    make
+    make # use "-j N" for N parallel jobs
+    sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications.
 
 ## Depends system
 
@@ -86,8 +91,12 @@ Installation
 -------------
 
 After building using the Windows subsystem it can be useful to copy the compiled
-executables to a directory on the windows drive in the same directory structure
+executables to a directory on the Windows drive in the same directory structure
 as they appear in the release `.zip` archive. This can be done in the following
-way. This will install to `c:\workspace\bitcoin`, for example:
+way. This will install to `c:\workspace\qtum`, for example:
 
-    make install DESTDIR=/mnt/c/workspace/bitcoin
+    make install DESTDIR=/mnt/c/workspace/qtum
+
+You can also create an installer using:
+
+    make deploy

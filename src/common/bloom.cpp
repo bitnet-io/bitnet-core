@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2022 The Bitnet Core developers
+// Copyright (c) 2012-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -60,7 +60,7 @@ void CBloomFilter::insert(Span<const unsigned char> vKey)
 
 void CBloomFilter::insert(const COutPoint& outpoint)
 {
-    DataStream stream{};
+    CDataStream stream(SER_NETWORK, PROTOCOL_VERSION);
     stream << outpoint;
     insert(MakeUCharSpan(stream));
 }
@@ -81,7 +81,7 @@ bool CBloomFilter::contains(Span<const unsigned char> vKey) const
 
 bool CBloomFilter::contains(const COutPoint& outpoint) const
 {
-    DataStream stream{};
+    CDataStream stream(SER_NETWORK, PROTOCOL_VERSION);
     stream << outpoint;
     return contains(MakeUCharSpan(stream));
 }

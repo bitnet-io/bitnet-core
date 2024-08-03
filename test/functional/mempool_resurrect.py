@@ -1,21 +1,28 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2021 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test resurrection of mined transactions when the blockchain is re-organized."""
 
-from test_framework.test_framework import BitnetTestFramework
+from decimal import Decimal 
+from test_framework.blocktools import COINBASE_MATURITY
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal
 from test_framework.wallet import MiniWallet
 
 
-class MempoolCoinbaseTest(BitnetTestFramework):
+class MempoolCoinbaseTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
+        self.setup_clean_chain = True
 
     def run_test(self):
         node = self.nodes[0]
         wallet = MiniWallet(node)
+
+        # Add enough mature utxos to the wallet so that all txs spend confirmed coins
+        self.generate(wallet, 3)
+        self.generate(node, COINBASE_MATURITY)
 
         # Spend block 1/2/3's coinbase transactions
         # Mine a block
@@ -27,9 +34,9 @@ class MempoolCoinbaseTest(BitnetTestFramework):
         # Mine a new block
         # ... make sure all the transactions are confirmed again
         blocks = []
-        spends1_ids = [wallet.send_self_transfer(from_node=node)['txid'] for _ in range(3)]
+        spends1_ids = [wallet.send_self_transfer(from_node=node, fee_rate=Decimal("0.03"))['txid'] for _ in range(3)]
         blocks.extend(self.generate(node, 1))
-        spends2_ids = [wallet.send_self_transfer(from_node=node)['txid'] for _ in range(3)]
+        spends2_ids = [wallet.send_self_transfer(from_node=node, fee_rate=Decimal("0.03"))['txid'] for _ in range(3)]
         blocks.extend(self.generate(node, 1))
 
         spends_ids = set(spends1_ids + spends2_ids)

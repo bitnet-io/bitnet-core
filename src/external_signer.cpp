@@ -1,12 +1,12 @@
-// Copyright (c) 2018-2022 The Bitnet Core developers
+// Copyright (c) 2018-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <chainparams.h>
-#include <common/run_command.h>
 #include <core_io.h>
 #include <psbt.h>
 #include <util/strencodings.h>
+#include <util/system.h>
 #include <external_signer.h>
 
 #include <algorithm>
@@ -16,15 +16,15 @@
 
 ExternalSigner::ExternalSigner(const std::string& command, const std::string chain, const std::string& fingerprint, const std::string name): m_command(command), m_chain(chain), m_fingerprint(fingerprint), m_name(name) {}
 
-std::string ExternalSigner::NetworkArg() const
+const std::string ExternalSigner::NetworkArg() const
 {
-    return " --chain " + m_chain;
+    return NetworkArg(m_chain);
 }
 
 bool ExternalSigner::Enumerate(const std::string& command, std::vector<ExternalSigner>& signers, const std::string chain)
 {
     // Call <command> enumerate
-    const UniValue result = RunCommandParseJSON(command + " enumerate");
+    const UniValue result = RunCommandParseJSON(command + NetworkArg(chain) + " enumerate");
     if (!result.isArray()) {
         throw std::runtime_error(strprintf("'%s' received invalid response, expected array of signers", command));
     }
@@ -81,9 +81,6 @@ bool ExternalSigner::SignTransaction(PartiallySignedTransaction& psbtx, std::str
         for (const auto& entry : input.hd_keypaths) {
             if (parsed_m_fingerprint == MakeUCharSpan(entry.second.fingerprint)) return true;
         }
-        for (const auto& entry : input.m_tap_bip32_paths) {
-            if (parsed_m_fingerprint == MakeUCharSpan(entry.second.second.fingerprint)) return true;
-        }
         return false;
     };
 
@@ -117,4 +114,9 @@ bool ExternalSigner::SignTransaction(PartiallySignedTransaction& psbtx, std::str
     psbtx = signer_psbtx;
 
     return true;
+}
+
+std::string ExternalSigner::NetworkArg(const std::string chain)
+{
+    return " --chain " + chain;
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 The Bitnet Core developers
+// Copyright (c) 2017-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,6 +16,15 @@ struct CMutableTransaction;
 class Coin;
 class COutPoint;
 class SigningProvider;
+
+/**
+ * @brief The IRawContract class Parse the contract output for raw transaction
+ */
+class IRawContract
+{
+public:
+    virtual void addContract(CMutableTransaction& rawTx, const UniValue& contract) = 0;
+};
 
 /**
  * Sign a transaction with the given keystore and previous transactions
@@ -38,14 +47,12 @@ void SignTransactionResultToJSON(CMutableTransaction& mtx, bool complete, const 
   */
 void ParsePrevouts(const UniValue& prevTxsUnival, FillableSigningProvider* keystore, std::map<COutPoint, Coin>& coins);
 
-
-/** Normalize univalue-represented inputs and add them to the transaction */
-void AddInputs(CMutableTransaction& rawTx, const UniValue& inputs_in, bool rbf);
-
-/** Normalize univalue-represented outputs and add them to the transaction */
-void AddOutputs(CMutableTransaction& rawTx, const UniValue& outputs_in);
-
 /** Create a transaction from univalue parameters */
-CMutableTransaction ConstructTransaction(const UniValue& inputs_in, const UniValue& outputs_in, const UniValue& locktime, std::optional<bool> rbf);
+CMutableTransaction ConstructTransaction(const UniValue& inputs_in, const UniValue& outputs_in, const UniValue& locktime, std::optional<bool> rbf, IRawContract* rawContract = nullptr);
+
+void SignTransactionOutput(CMutableTransaction& mtx, FillableSigningProvider *keystore, const UniValue& hashType, UniValue& result);
+void SignTransactionOutputResultToJSON(CMutableTransaction& mtx, bool complete, std::map<int, std::string>& output_errors, UniValue& result);
+
+void CheckSenderSignatures(CMutableTransaction& mtx);
 
 #endif // BITCOIN_RPC_RAWTRANSACTION_UTIL_H

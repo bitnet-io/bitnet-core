@@ -11,7 +11,7 @@
   </array>
 
   <key>CFBundleIconFile</key>
-  <string>bitnet.icns</string>
+  <string>bitcoin.icns</string>
 
   <key>CFBundlePackageType</key>
   <string>APPL</string>
@@ -34,16 +34,16 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>Bitnet-Qt</string>
+  <string>Qtum-Qt</string>
 
   <key>CFBundleName</key>
-  <string>Bitnet-Qt</string>
+  <string>Qtum-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.bitnetfoundation.Bitnet-Qt</string>
+  <string>org.qtumproject.Qtum-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -51,10 +51,10 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.bitnet.BitnetPayment</string>
+      <string>org.qtum.QtumPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>bitnet</string>
+        <string>qtum</string>
       </array>
     </dict>
   </array>

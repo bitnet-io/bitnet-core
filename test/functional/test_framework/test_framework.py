@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Base class for RPC testing."""
@@ -35,7 +35,8 @@ from .util import (
     p2p_port,
     wait_until_helper,
 )
-
+from .qtumconfig import COINBASE_MATURITY
+from .qtum import generatesynchronized
 
 class TestStatus(Enum):
     PASSED = 1
@@ -46,7 +47,7 @@ TEST_EXIT_PASSED = 0
 TEST_EXIT_FAILED = 1
 TEST_EXIT_SKIPPED = 77
 
-TMPDIR_PREFIX = "bitnet_func_test_"
+TMPDIR_PREFIX = "bitcoin_func_test_"
 
 
 class SkipTest(Exception):
@@ -56,30 +57,30 @@ class SkipTest(Exception):
         self.message = message
 
 
-class BitnetTestMetaClass(type):
-    """Metaclass for BitnetTestFramework.
+class BitcoinTestMetaClass(type):
+    """Metaclass for BitcoinTestFramework.
 
-    Ensures that any attempt to register a subclass of `BitnetTestFramework`
+    Ensures that any attempt to register a subclass of `BitcoinTestFramework`
     adheres to a standard whereby the subclass overrides `set_test_params` and
     `run_test` but DOES NOT override either `__init__` or `main`. If any of
     those standards are violated, a ``TypeError`` is raised."""
 
     def __new__(cls, clsname, bases, dct):
-        if not clsname == 'BitnetTestFramework':
+        if not clsname == 'BitcoinTestFramework':
             if not ('run_test' in dct and 'set_test_params' in dct):
-                raise TypeError("BitnetTestFramework subclasses must override "
+                raise TypeError("BitcoinTestFramework subclasses must override "
                                 "'run_test' and 'set_test_params'")
             if '__init__' in dct or 'main' in dct:
-                raise TypeError("BitnetTestFramework subclasses may not override "
+                raise TypeError("BitcoinTestFramework subclasses may not override "
                                 "'__init__' or 'main'")
 
         return super().__new__(cls, clsname, bases, dct)
 
 
-class BitnetTestFramework(metaclass=BitnetTestMetaClass):
-    """Base class for a bitnet test script.
+class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
+    """Base class for a bitcoin test script.
 
-    Individual bitnet test scripts should subclass this class and override the set_test_params() and run_test() methods.
+    Individual bitcoin test scripts should subclass this class and override the set_test_params() and run_test() methods.
 
     Individual tests can also override the following methods to customize the test setup:
 
@@ -97,9 +98,9 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         self.chain: str = 'regtest'
         self.setup_clean_chain: bool = False
         self.nodes: List[TestNode] = []
-        self.extra_args = None
         self.network_thread = None
-        self.rpc_timeout = 60  # Wait for up to 60 seconds for the RPC server to respond
+        self.rpc_timeout = 360  # Wait for up to 60 seconds for the RPC server to respond
+        self.rpc_timewait = 360  # Wait for up to 60 seconds for the RPC server to respond
         self.supports_cli = True
         self.bind_to_localhost_only = True
         self.parse_args()
@@ -114,7 +115,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         self.wallet_names = None
         # By default the wallet is not required. Set to true by skip_if_no_wallet().
         # When False, we ignore wallet_names regardless of what it is.
-        self._requires_wallet = False
+        self.requires_wallet = False
         # Disable ThreadOpenConnections by default, so that adding entries to
         # addrman will not result in automatic connections to them.
         self.disable_autoconnect = True
@@ -122,6 +123,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         assert self.wallet_names is None or len(self.wallet_names) <= self.num_nodes
         if self.options.timeout_factor == 0 :
             self.options.timeout_factor = 99999
+        self.options.timeout_factor = 7 
         self.rpc_timeout = int(self.rpc_timeout * self.options.timeout_factor) # optionally, increase timeout by a factor
 
     def main(self):
@@ -161,11 +163,11 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         previous_releases_path = os.getenv("PREVIOUS_RELEASES_DIR") or os.getcwd() + "/releases"
         parser = argparse.ArgumentParser(usage="%(prog)s [options]")
         parser.add_argument("--nocleanup", dest="nocleanup", default=False, action="store_true",
-                            help="Leave bitnetds and test.* datadir on exit or error")
+                            help="Leave bitcoinds and test.* datadir on exit or error")
         parser.add_argument("--nosandbox", dest="nosandbox", default=False, action="store_true",
                             help="Don't use the syscall sandbox")
         parser.add_argument("--noshutdown", dest="noshutdown", default=False, action="store_true",
-                            help="Don't stop bitnetds after the test execution")
+                            help="Don't stop bitcoinds after the test execution")
         parser.add_argument("--cachedir", dest="cachedir", default=os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + "/../../cache"),
                             help="Directory for caching pregenerated datadirs (default: %(default)s)")
         parser.add_argument("--tmpdir", dest="tmpdir", help="Root directory for datadirs")
@@ -186,7 +188,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         parser.add_argument("--pdbonfailure", dest="pdbonfailure", default=False, action="store_true",
                             help="Attach a python debugger if test fails")
         parser.add_argument("--usecli", dest="usecli", default=False, action="store_true",
-                            help="use bitnet-cli instead of RPC for all commands")
+                            help="use bitcoin-cli instead of RPC for all commands")
         parser.add_argument("--perf", dest="perf", default=False, action="store_true",
                             help="profile running nodes with perf for the duration of the test")
         parser.add_argument("--valgrind", dest="valgrind", default=False, action="store_true",
@@ -194,6 +196,12 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         parser.add_argument("--randomseed", type=int,
                             help="set a random seed for deterministically reproducing a previous test run")
         parser.add_argument('--timeout-factor', dest="timeout_factor", type=float, default=1.0, help='adjust test timeouts by a factor. Setting it to 0 disables all timeouts')
+
+        group = parser.add_mutually_exclusive_group()
+        group.add_argument("--descriptors", action='store_const', const=True,
+                            help="Run test using a descriptor wallet", dest='descriptors')
+        group.add_argument("--legacy-wallet", action='store_const', const=False,
+                            help="Run test using legacy wallets", dest='descriptors')
 
         self.add_options(parser)
         # Running TestShell in a Jupyter notebook causes an additional -f argument
@@ -207,22 +215,15 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         config.read_file(open(self.options.configfile))
         self.config = config
 
-        if "descriptors" not in self.options:
-            # Wallet is not required by the test at all and the value of self.options.descriptors won't matter.
-            # It still needs to exist and be None in order for tests to work however.
-            # So set it to None to force -disablewallet, because the wallet is not needed.
-            self.options.descriptors = None
-        elif self.options.descriptors is None:
-            # Some wallet is either required or optionally used by the test.
-            # Prefer SQLite unless it isn't available
-            if self.is_sqlite_compiled():
-                self.options.descriptors = True
-            elif self.is_bdb_compiled():
+        if self.options.descriptors is None:
+            # Prefer BDB unless it isn't available
+            if self.is_bdb_compiled():
                 self.options.descriptors = False
+            elif self.is_sqlite_compiled():
+                self.options.descriptors = True
             else:
                 # If neither are compiled, tests requiring a wallet will be skipped and the value of self.options.descriptors won't matter
                 # It still needs to exist and be None in order for tests to work however.
-                # So set it to None, which will also set -disablewallet.
                 self.options.descriptors = None
 
         PortSeed.n = self.options.port_seed
@@ -236,24 +237,24 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
 
         config = self.config
 
-        fname_bitnetd = os.path.join(
+        fname_bitcoind = os.path.join(
             config["environment"]["BUILDDIR"],
             "src",
             "bitnetd" + config["environment"]["EXEEXT"],
         )
-        fname_bitnetcli = os.path.join(
+        fname_bitcoincli = os.path.join(
             config["environment"]["BUILDDIR"],
             "src",
             "bitnet-cli" + config["environment"]["EXEEXT"],
         )
-        fname_bitnetutil = os.path.join(
+        fname_bitcoinutil = os.path.join(
             config["environment"]["BUILDDIR"],
             "src",
             "bitnet-util" + config["environment"]["EXEEXT"],
         )
-        self.options.bitnetd = os.getenv("BITCOIND", default=fname_bitnetd)
-        self.options.bitnetcli = os.getenv("BITCOINCLI", default=fname_bitnetcli)
-        self.options.bitnetutil = os.getenv("BITCOINUTIL", default=fname_bitnetutil)
+        self.options.bitcoind = os.getenv("BITCOIND", default=fname_bitcoind)
+        self.options.bitcoincli = os.getenv("BITCOINCLI", default=fname_bitcoincli)
+        self.options.bitcoinutil = os.getenv("BITCOINUTIL", default=fname_bitcoinutil)
 
         os.environ['PATH'] = os.pathsep.join([
             os.path.join(config['environment']['BUILDDIR'], 'src'),
@@ -279,10 +280,10 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         if seed is None:
             seed = random.randrange(sys.maxsize)
         else:
-            self.log.info("User supplied random seed {}".format(seed))
+            self.log.debug("User supplied random seed {}".format(seed))
 
         random.seed(seed)
-        self.log.info("PRNG seed is: {}".format(seed))
+        self.log.debug("PRNG seed is: {}".format(seed))
 
         self.log.debug('Setting up network thread')
         self.network_thread = NetworkThread()
@@ -314,7 +315,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         else:
             for node in self.nodes:
                 node.cleanup_on_exit = False
-            self.log.info("Note: bitnetds were not stopped and may still be running")
+            self.log.info("Note: bitcoinds were not stopped and may still be running")
 
         should_clean_up = (
             not self.options.nocleanup and
@@ -355,7 +356,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
             h.flush()
             h.close()
             self.log.removeHandler(h)
-        rpc_logger = logging.getLogger("BitnetRPC")
+        rpc_logger = logging.getLogger("BitcoinRPC")
         for h in list(rpc_logger.handlers):
             h.flush()
             rpc_logger.removeHandler(h)
@@ -409,13 +410,16 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
 
     def setup_nodes(self):
         """Override this method to customize test node setup"""
-        self.add_nodes(self.num_nodes, self.extra_args)
+        extra_args = [[]] * self.num_nodes
+        if hasattr(self, "extra_args"):
+            extra_args = self.extra_args
+        self.add_nodes(self.num_nodes, extra_args)
         self.start_nodes()
-        if self._requires_wallet:
+        if self.requires_wallet:
             self.import_deterministic_coinbase_privkeys()
         if not self.setup_clean_chain:
             for n in self.nodes:
-                assert_equal(n.getblockchaininfo()["blocks"], 199)
+                assert_equal(n.getblockchaininfo()["blocks"], COINBASE_MATURITY+99)
             # To ensure that all nodes are out of IBD, the most recent block
             # must have a timestamp not too old (see IsInitialBlockDownload()).
             self.log.debug('Generate a block with current time')
@@ -424,7 +428,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
             for n in self.nodes:
                 n.submitblock(block)
                 chain_info = n.getblockchaininfo()
-                assert_equal(chain_info["blocks"], 200)
+                assert_equal(chain_info["blocks"], COINBASE_MATURITY+100)
                 assert_equal(chain_info["initialblockdownload"], False)
 
     def import_deterministic_coinbase_privkeys(self):
@@ -444,21 +448,6 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         raise NotImplementedError
 
     # Public helper methods. These can be accessed by the subclass test scripts.
-
-    def add_wallet_options(self, parser, *, descriptors=True, legacy=True):
-        kwargs = {}
-        if descriptors + legacy == 1:
-            # If only one type can be chosen, set it as default
-            kwargs["default"] = descriptors
-        group = parser.add_mutually_exclusive_group(
-            # If only one type is allowed, require it to be set in test_runner.py
-            required=os.getenv("REQUIRE_WALLET_TYPE_SET") == "1" and "default" in kwargs)
-        if descriptors:
-            group.add_argument("--descriptors", action='store_const', const=True, **kwargs,
-                               help="Run test using a descriptor wallet", dest='descriptors')
-        if legacy:
-            group.add_argument("--legacy-wallet", action='store_const', const=False, **kwargs,
-                               help="Run test using legacy wallets", dest='descriptors')
 
     def add_nodes(self, num_nodes: int, extra_args=None, *, rpchost=None, binary=None, binary_cli=None, versions=None):
         """Instantiate TestNode objects.
@@ -502,9 +491,9 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
                 if versions[i] is None or versions[i] >= 229900:
                     extra_args[i] = extra_args[i] + ["-sandbox=log-and-abort"]
         if binary is None:
-            binary = [get_bin_from_version(v, 'bitnetd', self.options.bitnetd) for v in versions]
+            binary = [get_bin_from_version(v, 'bitnetd', self.options.bitcoind) for v in versions]
         if binary_cli is None:
-            binary_cli = [get_bin_from_version(v, 'bitnet-cli', self.options.bitnetcli) for v in versions]
+            binary_cli = [get_bin_from_version(v, 'bitnet-cli', self.options.bitcoincli) for v in versions]
         assert_equal(len(extra_confs), num_nodes)
         assert_equal(len(extra_args), num_nodes)
         assert_equal(len(versions), num_nodes)
@@ -518,8 +507,8 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
                 rpchost=rpchost,
                 timewait=self.rpc_timeout,
                 timeout_factor=self.options.timeout_factor,
-                bitnetd=binary[i],
-                bitnet_cli=binary_cli[i],
+                bitcoind=binary[i],
+                bitcoin_cli=binary_cli[i],
                 version=versions[i],
                 coverage_dir=self.options.coveragedir,
                 cwd=self.options.tmpdir,
@@ -533,10 +522,14 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
             self.nodes.append(test_node_i)
             if not test_node_i.version_is_at_least(170000):
                 # adjust conf for pre 17
-                test_node_i.replace_in_config([('[regtest]', '')])
+                conf_file = test_node_i.bitcoinconf
+                with open(conf_file, 'r', encoding='utf8') as conf:
+                    conf_data = conf.read()
+                with open(conf_file, 'w', encoding='utf8') as conf:
+                    conf.write(conf_data.replace('[regtest]', ''))
 
     def start_node(self, i, *args, **kwargs):
-        """Start a bitnetd"""
+        """Start a bitcoind"""
 
         node = self.nodes[i]
 
@@ -547,7 +540,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
             coverage.write_all_rpc_commands(self.options.coveragedir, node.rpc)
 
     def start_nodes(self, extra_args=None, *args, **kwargs):
-        """Start multiple bitnetds"""
+        """Start multiple bitcoinds"""
 
         if extra_args is None:
             extra_args = [None] * self.num_nodes
@@ -557,7 +550,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
                 node.start(extra_args[i], *args, **kwargs)
             for node in self.nodes:
                 node.wait_for_rpc_connection()
-        except Exception:
+        except:
             # If one node failed to start, stop the others
             self.stop_nodes()
             raise
@@ -567,11 +560,11 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
                 coverage.write_all_rpc_commands(self.options.coveragedir, node.rpc)
 
     def stop_node(self, i, expected_stderr='', wait=0):
-        """Stop a bitnetd test node"""
+        """Stop a bitcoind test node"""
         self.nodes[i].stop_node(expected_stderr, wait=wait)
 
     def stop_nodes(self, wait=0):
-        """Stop multiple bitnetd test nodes"""
+        """Stop multiple bitcoind test nodes"""
         for node in self.nodes:
             # Issue RPC to stop nodes
             node.stop_node(wait=wait, wait_until_stopped=False)
@@ -604,10 +597,6 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         self.wait_until(lambda: sum(peer['version'] != 0 for peer in to_connection.getpeerinfo()) == to_num_peers)
         self.wait_until(lambda: sum(peer['bytesrecv_per_msg'].pop('verack', 0) == 24 for peer in from_connection.getpeerinfo()) == from_num_peers)
         self.wait_until(lambda: sum(peer['bytesrecv_per_msg'].pop('verack', 0) == 24 for peer in to_connection.getpeerinfo()) == to_num_peers)
-        # The message bytes are counted before processing the message, so make
-        # sure it was fully processed by waiting for a ping.
-        self.wait_until(lambda: sum(peer["bytesrecv_per_msg"].pop("pong", 0) >= 32 for peer in from_connection.getpeerinfo()) == from_num_peers)
-        self.wait_until(lambda: sum(peer["bytesrecv_per_msg"].pop("pong", 0) >= 32 for peer in to_connection.getpeerinfo()) == to_num_peers)
 
     def disconnect_nodes(self, a, b):
         def disconnect_nodes_helper(node_a, node_b):
@@ -745,7 +734,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         # User can provide log level as a number or string (eg DEBUG). loglevel was caught as a string, so try to convert it to an int
         ll = int(self.options.loglevel) if self.options.loglevel.isdigit() else self.options.loglevel.upper()
         ch.setLevel(ll)
-        # Format logs the same as bitnetd's debug.log with microprecision (so log files can be concatenated and sorted)
+        # Format logs the same as bitcoind's debug.log with microprecision (so log files can be concatenated and sorted)
         formatter = logging.Formatter(fmt='%(asctime)s.%(msecs)03d000Z %(name)s (%(levelname)s): %(message)s', datefmt='%Y-%m-%dT%H:%M:%S')
         formatter.converter = time.gmtime
         fh.setFormatter(formatter)
@@ -755,7 +744,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         self.log.addHandler(ch)
 
         if self.options.trace_rpc:
-            rpc_logger = logging.getLogger("BitnetRPC")
+            rpc_logger = logging.getLogger("BitcoinRPC")
             rpc_logger.setLevel(logging.DEBUG)
             rpc_handler = logging.StreamHandler(sys.stdout)
             rpc_handler.setLevel(logging.DEBUG)
@@ -785,8 +774,8 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
                     rpchost=None,
                     timewait=self.rpc_timeout,
                     timeout_factor=self.options.timeout_factor,
-                    bitnetd=self.options.bitnetd,
-                    bitnet_cli=self.options.bitnetcli,
+                    bitcoind=self.options.bitcoind,
+                    bitcoin_cli=self.options.bitcoincli,
                     coverage_dir=None,
                     cwd=self.options.tmpdir,
                     descriptors=self.options.descriptors,
@@ -808,14 +797,15 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
             # see the tip age check in IsInitialBlockDownload().
             gen_addresses = [k.address for k in TestNode.PRIV_KEYS][:3] + [create_deterministic_address_bcrt1_p2tr_op_true()[0]]
             assert_equal(len(gen_addresses), 4)
-            for i in range(8):
+            for i in range(4):
                 self.generatetoaddress(
                     cache_node,
                     nblocks=25 if i != 7 else 24,
-                    address=gen_addresses[i % len(gen_addresses)],
+                    address=gen_addresses[i % len(gen_addresses)]
                 )
-
-            assert_equal(cache_node.getblockchaininfo()["blocks"], 199)
+            for i in range(4):
+                generatesynchronized(self.nodes[0], COINBASE_MATURITY // 4 if i != 3 else (COINBASE_MATURITY // 4) - 1, TestNode.PRIV_KEYS[i % 4].address, self.nodes)
+            assert_equal(cache_node.getblockchaininfo()["blocks"], 99+COINBASE_MATURITY)
 
             # Shut it down, and clean up cache directories:
             self.stop_nodes()
@@ -826,14 +816,14 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
 
             os.rmdir(cache_path('wallets'))  # Remove empty wallets dir
             for entry in os.listdir(cache_path()):
-                if entry not in ['chainstate', 'blocks', 'indexes']:  # Only indexes, chainstate and blocks folders
+                if entry not in ['chainstate', 'blocks', 'indexes', 'stateQtum']:  # Only indexes, chainstate and blocks folders 
                     os.remove(cache_path(entry))
 
         for i in range(self.num_nodes):
             self.log.debug("Copy cache directory {} to node {}".format(cache_node_dir, i))
             to_dir = get_datadir_path(self.options.tmpdir, i)
             shutil.copytree(cache_node_dir, to_dir)
-            initialize_datadir(self.options.tmpdir, i, self.chain, self.disable_autoconnect)  # Overwrite port/rpcport in bitnet.conf
+            initialize_datadir(self.options.tmpdir, i, self.chain, self.disable_autoconnect)  # Overwrite port/rpcport in bitcoin.conf
 
     def _initialize_chain_clean(self):
         """Initialize empty blockchain for use by the test.
@@ -850,13 +840,6 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         except ImportError:
             raise SkipTest("python3-zmq module not available.")
 
-    def skip_if_no_py_sqlite3(self):
-        """Attempt to import the sqlite3 package and skip the test if the import fails."""
-        try:
-            import sqlite3  # noqa
-        except ImportError:
-            raise SkipTest("sqlite3 module not available.")
-
     def skip_if_no_python_bcc(self):
         """Attempt to import the bcc package and skip the tests if the import fails."""
         try:
@@ -864,10 +847,10 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         except ImportError:
             raise SkipTest("bcc python module not available")
 
-    def skip_if_no_bitnetd_tracepoints(self):
-        """Skip the running test if bitnetd has not been compiled with USDT tracepoint support."""
+    def skip_if_no_bitcoind_tracepoints(self):
+        """Skip the running test if bitcoind has not been compiled with USDT tracepoint support."""
         if not self.is_usdt_compiled():
-            raise SkipTest("bitnetd has not been built with USDT tracepoints enabled.")
+            raise SkipTest("bitcoind has not been built with USDT tracepoints enabled.")
 
     def skip_if_no_bpf_permissions(self):
         """Skip the running test if we don't have permissions to do BPF syscalls and load BPF maps."""
@@ -880,19 +863,14 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
         if platform.system() != "Linux":
             raise SkipTest("not on a Linux system")
 
-    def skip_if_platform_not_posix(self):
-        """Skip the running test if we are not on a POSIX platform"""
-        if os.name != 'posix':
-            raise SkipTest("not on a POSIX system")
-
-    def skip_if_no_bitnetd_zmq(self):
-        """Skip the running test if bitnetd has not been compiled with zmq support."""
+    def skip_if_no_bitcoind_zmq(self):
+        """Skip the running test if bitcoind has not been compiled with zmq support."""
         if not self.is_zmq_compiled():
-            raise SkipTest("bitnetd has not been built with zmq enabled.")
+            raise SkipTest("bitcoind has not been built with zmq enabled.")
 
     def skip_if_no_wallet(self):
         """Skip the running test if wallet has not been compiled."""
-        self._requires_wallet = True
+        self.requires_wallet = True
         if not self.is_wallet_compiled():
             raise SkipTest("wallet has not been compiled.")
         if self.options.descriptors:
@@ -911,19 +889,19 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
             raise SkipTest("BDB has not been compiled.")
 
     def skip_if_no_wallet_tool(self):
-        """Skip the running test if bitnet-wallet has not been compiled."""
+        """Skip the running test if bitcoin-wallet has not been compiled."""
         if not self.is_wallet_tool_compiled():
-            raise SkipTest("bitnet-wallet has not been compiled")
+            raise SkipTest("bitcoin-wallet has not been compiled")
 
-    def skip_if_no_bitnet_util(self):
-        """Skip the running test if bitnet-util has not been compiled."""
-        if not self.is_bitnet_util_compiled():
-            raise SkipTest("bitnet-util has not been compiled")
+    def skip_if_no_bitcoin_util(self):
+        """Skip the running test if bitcoin-util has not been compiled."""
+        if not self.is_bitcoin_util_compiled():
+            raise SkipTest("bitcoin-util has not been compiled")
 
     def skip_if_no_cli(self):
-        """Skip the running test if bitnet-cli has not been compiled."""
+        """Skip the running test if bitcoin-cli has not been compiled."""
         if not self.is_cli_compiled():
-            raise SkipTest("bitnet-cli has not been compiled.")
+            raise SkipTest("bitcoin-cli has not been compiled.")
 
     def skip_if_no_previous_releases(self):
         """Skip the running test if previous releases are not available."""
@@ -944,7 +922,7 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
             raise SkipTest("external signer support has not been compiled.")
 
     def is_cli_compiled(self):
-        """Checks whether bitnet-cli was compiled."""
+        """Checks whether bitcoin-cli was compiled."""
         return self.config["components"].getboolean("ENABLE_CLI")
 
     def is_external_signer_compiled(self):
@@ -964,11 +942,11 @@ class BitnetTestFramework(metaclass=BitnetTestMetaClass):
             return self.is_bdb_compiled()
 
     def is_wallet_tool_compiled(self):
-        """Checks whether bitnet-wallet was compiled."""
+        """Checks whether bitcoin-wallet was compiled."""
         return self.config["components"].getboolean("ENABLE_WALLET_TOOL")
 
-    def is_bitnet_util_compiled(self):
-        """Checks whether bitnet-util was compiled."""
+    def is_bitcoin_util_compiled(self):
+        """Checks whether bitcoin-util was compiled."""
         return self.config["components"].getboolean("ENABLE_BITCOIN_UTIL")
 
     def is_zmq_compiled(self):

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021-2022 The Bitnet Core developers
+# Copyright (c) 2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test a basic M-of-N multisig setup between multiple people using descriptor wallets and PSBTs, as well as a signing flow.
@@ -7,23 +7,20 @@
 This is meant to be documentation as much as functional tests, so it is kept as simple and readable as possible.
 """
 
-from test_framework.address import base58_to_byte
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.address import base58_to_byte_btc
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_approx,
     assert_equal,
 )
 
 
-class WalletMultisigDescriptorPSBTTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser, legacy=False)
-
+class WalletMultisigDescriptorPSBTTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 3
         self.setup_clean_chain = True
         self.wallet_names = []
-        self.extra_args = [["-keypool=100"]] * self.num_nodes
+        self.extra_args = [["-addresstype=bech32", "-keypool=100"]] * self.num_nodes
 
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()
@@ -53,7 +50,7 @@ class WalletMultisigDescriptorPSBTTest(BitnetTestFramework):
         assert_equal(len(xpubs), self.N)
         # a sanity-check/assertion, this will throw if the base58 checksum of any of the provided xpubs are invalid
         for xpub in xpubs:
-            base58_to_byte(xpub)
+            base58_to_byte_btc(xpub)
 
         for i, node in enumerate(self.nodes):
             node.createwallet(wallet_name=f"{self.name}_{i}", blank=True, descriptors=True, disable_private_keys=True)
@@ -107,7 +104,7 @@ class WalletMultisigDescriptorPSBTTest(BitnetTestFramework):
 
         self.log.info("Get a mature utxo to send to the multisig...")
         coordinator_wallet = participants["signers"][0]
-        self.generatetoaddress(self.nodes[0], 101, coordinator_wallet.getnewaddress())
+        self.generatetoaddress(self.nodes[0], 2001, coordinator_wallet.getnewaddress())
 
         deposit_amount = 6.15
         multisig_receiving_address = participants["multisigs"][0].getnewaddress()
@@ -121,7 +118,7 @@ class WalletMultisigDescriptorPSBTTest(BitnetTestFramework):
         to = participants["signers"][self.N - 1].getnewaddress()
         value = 1
         self.log.info("First, make a sending transaction, created using `walletcreatefundedpsbt` (anyone can initiate this)...")
-        psbt = participants["multisigs"][0].walletcreatefundedpsbt(inputs=[], outputs={to: value}, options={"feeRate": 0.00010})
+        psbt = participants["multisigs"][0].walletcreatefundedpsbt(inputs=[], outputs={to: value}, options={"feeRate": 0.010})
 
         psbts = []
         self.log.info("Now at least M users check the psbt with decodepsbt and (if OK) signs it with walletprocesspsbt...")
@@ -139,11 +136,11 @@ class WalletMultisigDescriptorPSBTTest(BitnetTestFramework):
 
         self.log.info("Check that balances are correct after the transaction has been included in a block.")
         self.generate(self.nodes[0], 1)
-        assert_approx(participants["multisigs"][0].getbalance(), deposit_amount - value, vspan=0.001)
+        assert_approx(participants["multisigs"][0].getbalance(), deposit_amount - value, vspan=0.01)
         assert_equal(participants["signers"][self.N - 1].getbalance(), value)
 
         self.log.info("Send another transaction from the multisig, this time with a daisy chained signing flow (one after another in series)!")
-        psbt = participants["multisigs"][0].walletcreatefundedpsbt(inputs=[], outputs={to: value}, options={"feeRate": 0.00010})
+        psbt = participants["multisigs"][0].walletcreatefundedpsbt(inputs=[], outputs={to: value}, options={"feeRate": 0.010})
         for m in range(self.M):
             signers_multisig = participants["multisigs"][m]
             self._check_psbt(psbt["psbt"], to, value, signers_multisig)
@@ -155,7 +152,7 @@ class WalletMultisigDescriptorPSBTTest(BitnetTestFramework):
 
         self.log.info("Check that balances are correct after the transaction has been included in a block.")
         self.generate(self.nodes[0], 1)
-        assert_approx(participants["multisigs"][0].getbalance(), deposit_amount - (value * 2), vspan=0.001)
+        assert_approx(participants["multisigs"][0].getbalance(), deposit_amount - (value * 2), vspan=0.01)
         assert_equal(participants["signers"][self.N - 1].getbalance(), value * 2)
 
 

@@ -59,9 +59,9 @@ public:
             if (m_root == EmptyTrie && !m_db->exists(m_root))
                 init();
         }
-        if (_v == Verification::Normal)
-            if (!node(m_root).size())
-                BOOST_THROW_EXCEPTION(RootNotFound());
+//        if (_v == Verification::Normal)
+//            if (!node(m_root).size())
+//                BOOST_THROW_EXCEPTION(RootNotFound());
     }
 
     /// True if the trie is uninitialised (i.e. that the DB doesn't contain the root node).
@@ -71,8 +71,8 @@ public:
 
     h256 const& root() const
     {
-        if (node(m_root).empty())
-            BOOST_THROW_EXCEPTION(BadRoot() << errinfo_hash256(m_root));
+  //      if (node(m_root).empty())
+  //          BOOST_THROW_EXCEPTION(BadRoot() << errinfo_hash256(m_root));
         return m_root;
     }  // patch the root in the case of the empty trie. TODO: handle this properly.
 

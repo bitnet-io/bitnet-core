@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,8 +16,6 @@
 #include <future>
 #include <unordered_map>
 #include <utility>
-
-std::string RemovalReasonToString(const MemPoolRemovalReason& r) noexcept;
 
 /**
  * MainSignalsImpl manages a list of shared_ptr<CValidationInterface> callbacks.
@@ -198,38 +196,37 @@ void CMainSignals::UpdatedBlockTip(const CBlockIndex *pindexNew, const CBlockInd
     auto event = [pindexNew, pindexFork, fInitialDownload, this] {
         m_internals->Iterate([&](CValidationInterface& callbacks) { callbacks.UpdatedBlockTip(pindexNew, pindexFork, fInitialDownload); });
     };
-    ENQUEUE_AND_LOG_EVENT(event, "%s: new block hash=%s fork block hash=%s (in IBD=%s)", __func__,
-                          pindexNew->GetBlockHash().ToString(),
-                          pindexFork ? pindexFork->GetBlockHash().ToString() : "null",
-                          fInitialDownload);
+//    ENQUEUE_AND_LOG_EVENT(event, "%s: new block hash=%s fork block hash=%s (in IBD=%s)", __func__,
+//                          pindexNew->GetBlockHash().ToString(),
+//                          pindexFork ? pindexFork->GetBlockHash().ToString() : "null",
+//                          fInitialDownload);
 }
 
 void CMainSignals::TransactionAddedToMempool(const CTransactionRef& tx, uint64_t mempool_sequence) {
     auto event = [tx, mempool_sequence, this] {
         m_internals->Iterate([&](CValidationInterface& callbacks) { callbacks.TransactionAddedToMempool(tx, mempool_sequence); });
     };
-    ENQUEUE_AND_LOG_EVENT(event, "%s: txid=%s wtxid=%s", __func__,
-                          tx->GetHash().ToString(),
-                          tx->GetWitnessHash().ToString());
+  //  ENQUEUE_AND_LOG_EVENT(event, "%s: txid=%s wtxid=%s", __func__,
+    //                      tx->GetHash().ToString(),
+      //                    tx->GetWitnessHash().ToString());
 }
 
 void CMainSignals::TransactionRemovedFromMempool(const CTransactionRef& tx, MemPoolRemovalReason reason, uint64_t mempool_sequence) {
     auto event = [tx, reason, mempool_sequence, this] {
         m_internals->Iterate([&](CValidationInterface& callbacks) { callbacks.TransactionRemovedFromMempool(tx, reason, mempool_sequence); });
     };
-    ENQUEUE_AND_LOG_EVENT(event, "%s: txid=%s wtxid=%s reason=%s", __func__,
-                          tx->GetHash().ToString(),
-                          tx->GetWitnessHash().ToString(),
-                          RemovalReasonToString(reason));
+//    ENQUEUE_AND_LOG_EVENT(event, "%s: txid=%s wtxid=%s", __func__,
+  //                        tx->GetHash().ToString(),
+    //                      tx->GetWitnessHash().ToString());
 }
 
 void CMainSignals::BlockConnected(const std::shared_ptr<const CBlock> &pblock, const CBlockIndex *pindex) {
     auto event = [pblock, pindex, this] {
         m_internals->Iterate([&](CValidationInterface& callbacks) { callbacks.BlockConnected(pblock, pindex); });
     };
-    ENQUEUE_AND_LOG_EVENT(event, "%s: block hash=%s block height=%d", __func__,
-                          pblock->GetHash().ToString(),
-                          pindex->nHeight);
+//    ENQUEUE_AND_LOG_EVENT(event, "%s: block hash=%s block height=%d", __func__,
+//                          pblock->GetHash().ToString(),
+//                          pindex->nHeight);
 }
 
 void CMainSignals::BlockDisconnected(const std::shared_ptr<const CBlock>& pblock, const CBlockIndex* pindex)
@@ -237,26 +234,26 @@ void CMainSignals::BlockDisconnected(const std::shared_ptr<const CBlock>& pblock
     auto event = [pblock, pindex, this] {
         m_internals->Iterate([&](CValidationInterface& callbacks) { callbacks.BlockDisconnected(pblock, pindex); });
     };
-    ENQUEUE_AND_LOG_EVENT(event, "%s: block hash=%s block height=%d", __func__,
-                          pblock->GetHash().ToString(),
-                          pindex->nHeight);
+ //   ENQUEUE_AND_LOG_EVENT(event, "%s: block hash=%s block height=%d", __func__,
+   //                       pblock->GetHash().ToString(),
+     //                     pindex->nHeight);
 }
 
 void CMainSignals::ChainStateFlushed(const CBlockLocator &locator) {
     auto event = [locator, this] {
         m_internals->Iterate([&](CValidationInterface& callbacks) { callbacks.ChainStateFlushed(locator); });
     };
-    ENQUEUE_AND_LOG_EVENT(event, "%s: block hash=%s", __func__,
-                          locator.IsNull() ? "null" : locator.vHave.front().ToString());
+  //  ENQUEUE_AND_LOG_EVENT(event, "%s: block hash=%s", __func__,
+    //                      locator.IsNull() ? "null" : locator.vHave.front().ToString());
 }
 
 void CMainSignals::BlockChecked(const CBlock& block, const BlockValidationState& state) {
-    LOG_EVENT("%s: block hash=%s state=%s", __func__,
-              block.GetHash().ToString(), state.ToString());
+ //   LOG_EVENT("%s: block hash=%s state=%s", __func__,
+   //           block.GetHash().ToString(), state.ToString());
     m_internals->Iterate([&](CValidationInterface& callbacks) { callbacks.BlockChecked(block, state); });
 }
 
 void CMainSignals::NewPoWValidBlock(const CBlockIndex *pindex, const std::shared_ptr<const CBlock> &block) {
-    LOG_EVENT("%s: block hash=%s", __func__, block->GetHash().ToString());
+   // LOG_EVENT("%s: block hash=%s", __func__, block->GetHash().ToString());
     m_internals->Iterate([&](CValidationInterface& callbacks) { callbacks.NewPoWValidBlock(pindex, block); });
 }

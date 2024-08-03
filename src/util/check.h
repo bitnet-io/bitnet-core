@@ -1,33 +1,34 @@
-// Copyright (c) 2019-2022 The Bitnet Core developers
+// Copyright (c) 2019-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_UTIL_CHECK_H
 #define BITCOIN_UTIL_CHECK_H
 
-#include <attributes.h>
+#if defined(HAVE_CONFIG_H)
+#include <config/bitcoin-config.h>
+#endif
+
+#include <tinyformat.h>
 
 #include <stdexcept>
-#include <string>
-#include <string_view>
-#include <utility>
-
-std::string StrFormatInternalBug(std::string_view msg, std::string_view file, int line, std::string_view func);
 
 class NonFatalCheckError : public std::runtime_error
 {
-public:
-    NonFatalCheckError(std::string_view msg, std::string_view file, int line, std::string_view func);
+    using std::runtime_error::runtime_error;
 };
 
-#define STR_INTERNAL_BUG(msg) StrFormatInternalBug((msg), __FILE__, __LINE__, __func__)
+#define format_internal_error(msg, file, line, func, report)                                    \
+    strprintf("Internal bug detected: \"%s\"\n%s:%d (%s)\nPlease report this issue here: %s\n", \
+              msg, file, line, func, report)
 
 /** Helper for CHECK_NONFATAL() */
 template <typename T>
-T&& inline_check_non_fatal(LIFETIMEBOUND T&& val, const char* file, int line, const char* func, const char* assertion)
+T&& inline_check_non_fatal(T&& val, const char* file, int line, const char* func, const char* assertion)
 {
-    if (!val) {
-        throw NonFatalCheckError{assertion, file, line, func};
+    if (!(val)) {
+        throw NonFatalCheckError(
+            format_internal_error(assertion, file, line, func, PACKAGE_BUGREPORT));
     }
     return std::forward<T>(val);
 }
@@ -51,11 +52,11 @@ T&& inline_check_non_fatal(LIFETIMEBOUND T&& val, const char* file, int line, co
 #endif
 
 /** Helper for Assert() */
-void assertion_fail(std::string_view file, int line, std::string_view func, std::string_view assertion);
+void assertion_fail(const char* file, int line, const char* func, const char* assertion);
 
 /** Helper for Assert()/Assume() */
 template <bool IS_ASSERT, typename T>
-T&& inline_assertion_check(LIFETIMEBOUND T&& val, [[maybe_unused]] const char* file, [[maybe_unused]] int line, [[maybe_unused]] const char* func, [[maybe_unused]] const char* assertion)
+T&& inline_assertion_check(T&& val, [[maybe_unused]] const char* file, [[maybe_unused]] int line, [[maybe_unused]] const char* func, [[maybe_unused]] const char* assertion)
 {
     if constexpr (IS_ASSERT
 #ifdef ABORT_ON_FAILED_ASSUME
@@ -86,9 +87,11 @@ T&& inline_assertion_check(LIFETIMEBOUND T&& val, [[maybe_unused]] const char* f
 
 /**
  * NONFATAL_UNREACHABLE() is a macro that is used to mark unreachable code. It throws a NonFatalCheckError.
+ * This is used to mark code that is not yet implemented or is not yet reachable.
  */
 #define NONFATAL_UNREACHABLE()                                        \
     throw NonFatalCheckError(                                         \
-        "Unreachable code reached (non-fatal)", __FILE__, __LINE__, __func__)
+        format_internal_error("Unreachable code reached (non-fatal)", \
+                              __FILE__, __LINE__, __func__, PACKAGE_BUGREPORT))
 
 #endif // BITCOIN_UTIL_CHECK_H

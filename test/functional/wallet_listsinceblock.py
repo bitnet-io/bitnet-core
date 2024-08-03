@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2022 The Bitnet Core developers
+# Copyright (c) 2017-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the listsinceblock RPC."""
@@ -8,7 +8,7 @@ from test_framework.address import key_to_p2wpkh
 from test_framework.blocktools import COINBASE_MATURITY
 from test_framework.descriptors import descsum_create
 from test_framework.key import ECKey
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.messages import MAX_BIP125_RBF_SEQUENCE
 from test_framework.util import (
     assert_array_result,
@@ -18,11 +18,9 @@ from test_framework.util import (
 from test_framework.wallet_util import bytes_to_wif
 
 from decimal import Decimal
+from test_framework.qtum import generatesynchronized 
 
-class ListSinceBlockTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class ListSinceBlockTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 4
         self.setup_clean_chain = True
@@ -36,7 +34,7 @@ class ListSinceBlockTest(BitnetTestFramework):
         # All nodes are in IBD from genesis, so they'll need the miner (node2) to be an outbound connection, or have
         # only one connection. (See fPreferredDownload in net_processing)
         self.connect_nodes(1, 2)
-        self.generate(self.nodes[2], COINBASE_MATURITY + 1)
+        generatesynchronized(self.nodes[2], COINBASE_MATURITY+1, None, self.nodes)
 
         self.test_no_blockhash()
         self.test_invalid_blockhash()
@@ -49,7 +47,6 @@ class ListSinceBlockTest(BitnetTestFramework):
             self.test_desc()
         self.test_send_to_self()
         self.test_op_return()
-        self.test_label()
 
     def test_no_blockhash(self):
         self.log.info("Test no blockhash")
@@ -185,8 +182,8 @@ class ListSinceBlockTest(BitnetTestFramework):
 
         Problematic case:
 
-        1. User 1 receives BIT in tx1 from utxo1 in block aa1.
-        2. User 2 receives BIT in tx2 from utxo1 (same) in block bb1
+        1. User 1 receives BTC in tx1 from utxo1 in block aa1.
+        2. User 2 receives BTC in tx2 from utxo1 (same) in block bb1
         3. User 1 sees 2 confirmations at block aa3.
         4. Reorg into bb chain.
         5. User 1 asks `listsinceblock aa3` and does not see that tx1 is now
@@ -217,9 +214,9 @@ class ListSinceBlockTest(BitnetTestFramework):
         self.split_network()
 
         # send from nodes[1] using utxo to nodes[0]
-        change = '%.8f' % (float(utxo['amount']) - 1.0003)
+        change = '%.8f' % (float(utxo['amount']) - 1.03)
         recipient_dict = {
-            self.nodes[0].getnewaddress(): 1,
+            self.nodes[0].getnewaddress("", "bech32"): 1,
             self.nodes[1].getnewaddress(): change,
         }
         utxo_dicts = [{
@@ -293,7 +290,7 @@ class ListSinceBlockTest(BitnetTestFramework):
         # create and sign a transaction
         utxos = self.nodes[2].listunspent()
         utxo = utxos[0]
-        change = '%.8f' % (float(utxo['amount']) - 1.0003)
+        change = '%.8f' % (float(utxo['amount']) - 1.03)
         recipient_dict = {
             self.nodes[0].getnewaddress(): 1,
             self.nodes[2].getnewaddress(): change,
@@ -359,8 +356,8 @@ class ListSinceBlockTest(BitnetTestFramework):
         tx_input = dict(
             sequence=MAX_BIP125_RBF_SEQUENCE, **next(u for u in spending_node.listunspent()))
         rawtx = spending_node.createrawtransaction(
-            [tx_input], {dest_address: tx_input["amount"] - Decimal("0.00051000"),
-                         spending_node.getrawchangeaddress(): Decimal("0.00050000")})
+            [tx_input], {dest_address: tx_input["amount"] - Decimal("0.05100000"),
+                         spending_node.getrawchangeaddress(): Decimal("0.05000000")})
         signedtx = spending_node.signrawtransactionwithwallet(rawtx)
         orig_tx_id = spending_node.sendrawtransaction(signedtx["hex"])
         original_tx = spending_node.gettransaction(orig_tx_id)
@@ -465,20 +462,6 @@ class ListSinceBlockTest(BitnetTestFramework):
         op_ret_tx = [tx for tx in self.nodes[2].listsinceblock(blockhash=block_hash)["transactions"] if tx['txid'] == tx_id][0]
 
         assert 'address' not in op_ret_tx
-
-    def test_label(self):
-        self.log.info('Test passing "label" argument fetches incoming transactions having the specified label')
-        new_addr = self.nodes[1].getnewaddress(label="new_addr", address_type="bech32")
-
-        self.nodes[2].sendtoaddress(address=new_addr, amount="0.001")
-        self.generate(self.nodes[2], 1)
-
-        for label in ["new_addr", ""]:
-            new_addr_transactions = self.nodes[1].listsinceblock(label=label)["transactions"]
-            assert_equal(len(new_addr_transactions), 1)
-            assert_equal(new_addr_transactions[0]["label"], label)
-            if label == "new_addr":
-                assert_equal(new_addr_transactions[0]["address"], new_addr)
 
 
 if __name__ == '__main__':

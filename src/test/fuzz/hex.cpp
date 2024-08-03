@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2021 The Bitnet Core developers
+// Copyright (c) 2019-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,7 +16,12 @@
 #include <string>
 #include <vector>
 
-FUZZ_TARGET(hex)
+void initialize_hex()
+{
+    static const ECCVerifyHandle verify_handle;
+}
+
+FUZZ_TARGET_INIT(hex, initialize_hex)
 {
     const std::string random_hex_string(buffer.begin(), buffer.end());
     const std::vector<unsigned char> data = ParseHex(random_hex_string);

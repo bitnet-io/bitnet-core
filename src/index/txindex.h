@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 The Bitnet Core developers
+// Copyright (c) 2017-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,8 +6,6 @@
 #define BITCOIN_INDEX_TXINDEX_H
 
 #include <index/base.h>
-
-static constexpr bool DEFAULT_TXINDEX{false};
 
 /**
  * TxIndex is used to look up transactions included in the blockchain by hash.

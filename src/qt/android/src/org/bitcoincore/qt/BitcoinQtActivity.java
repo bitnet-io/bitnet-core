@@ -1,4 +1,4 @@
-package org.bitnetcore.qt;
+package org.bitcoincore.qt;
 
 import android.os.Bundle;
 import android.system.ErrnoException;
@@ -13,9 +13,9 @@ public class BitcoinQtActivity extends QtActivity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        final File bitnetDir = new File(getFilesDir().getAbsolutePath() + "/.bitnet");
-        if (!bitnetDir.exists()) {
-            bitnetDir.mkdir();
+        final File bitcoinDir = new File(getFilesDir().getAbsolutePath() + "/.bitcoin");
+        if (!bitcoinDir.exists()) {
+            bitcoinDir.mkdir();
         }
 
         super.onCreate(savedInstanceState);

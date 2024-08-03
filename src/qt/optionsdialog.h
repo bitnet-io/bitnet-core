@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -55,9 +55,11 @@ private Q_SLOTS:
     /* set OK button state (enabled / disabled) */
     void setOkButtonState(bool fState);
     void on_resetButton_clicked();
-    void on_openBitnetConfButton_clicked();
+    void on_openBitcoinConfButton_clicked();
     void on_okButton_clicked();
     void on_cancelButton_clicked();
+    void on_toolHWIPath_clicked();
+    void on_toolStakeLedgerId_clicked();
 
     void on_showTrayIcon_stateChanged(int state);
 
@@ -68,6 +70,8 @@ private Q_SLOTS:
     /* query the networks, for which the default proxy is used */
     void updateDefaultProxyNets();
 
+    void updateLogEvents(bool checked = false);
+
 Q_SIGNALS:
     void proxyIpChecks(QValidatedLineEdit *pUiProxyIp, uint16_t nProxyPort);
     void quitOnReset();
@@ -75,8 +79,8 @@ Q_SIGNALS:
 private:
     Ui::OptionsDialog *ui;
     ClientModel* m_client_model{nullptr};
-    OptionsModel* model{nullptr};
-    QDataWidgetMapper* mapper{nullptr};
+    OptionsModel *model;
+    QDataWidgetMapper *mapper;
 };
 
 #endif // BITCOIN_QT_OPTIONSDIALOG_H

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2022 The Bitnet Core developers
+# Copyright (c) 2017-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test that the mempool ensures transaction delivery by periodically sending
@@ -8,21 +8,21 @@ to peers until a GETDATA is received."""
 import time
 
 from test_framework.p2p import P2PTxInvStore
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal
 from test_framework.wallet import MiniWallet
 
 MAX_INITIAL_BROADCAST_DELAY = 15 * 60 # 15 minutes in seconds
 
-class MempoolUnbroadcastTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class MempoolUnbroadcastTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
+        if self.is_wallet_compiled():
+            self.requires_wallet = True
 
     def run_test(self):
         self.wallet = MiniWallet(self.nodes[0])
+        self.wallet.rescan_utxos()
         self.test_broadcast()
         self.test_txn_removal()
 
@@ -34,11 +34,9 @@ class MempoolUnbroadcastTest(BitnetTestFramework):
 
         self.log.info("Generate transactions that only node 0 knows about")
 
-        if self.is_wallet_compiled():
-            self.import_deterministic_coinbase_privkeys()
-            # generate a wallet txn
-            addr = node.getnewaddress()
-            wallet_tx_hsh = node.sendtoaddress(addr, 0.0001)
+        # generate a wallet txn
+        addr = node.getnewaddress()
+        wallet_tx_hsh = node.sendtoaddress(addr, 0.01)
 
         # generate a txn using sendrawtransaction
         txFS = self.wallet.create_self_transfer()
@@ -99,7 +97,8 @@ class MempoolUnbroadcastTest(BitnetTestFramework):
 
         # since the node doesn't have any connections, it will not receive
         # any GETDATAs & thus the transaction will remain in the unbroadcast set.
-        txhsh = self.wallet.send_self_transfer(from_node=node)["txid"]
+        addr = node.getnewaddress()
+        txhsh = node.sendtoaddress(addr, 0.01)
 
         # check transaction was removed from unbroadcast set due to presence in
         # a block

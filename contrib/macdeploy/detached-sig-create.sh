@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,8 +7,8 @@ export LC_ALL=C
 set -e
 
 ROOTDIR=dist
-BUNDLE="${ROOTDIR}/Bitnet-Qt.app"
-BINARY="${BUNDLE}/Contents/MacOS/Bitnet-Qt"
+BUNDLE="${ROOTDIR}/Qtum-Qt.app"
+BINARY="${BUNDLE}/Contents/MacOS/Qtum-Qt"
 SIGNAPPLE=signapple
 TEMPDIR=sign.temp
 ARCH=$(${SIGNAPPLE} info ${BINARY} | head -n 1 | cut -d " " -f 1)

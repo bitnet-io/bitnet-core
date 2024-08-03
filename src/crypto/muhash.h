@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2021 The Bitnet Core developers
+// Copyright (c) 2017-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,7 +6,7 @@
 #define BITCOIN_CRYPTO_MUHASH_H
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitnet-config.h>
+#include <config/bitcoin-config.h>
 #endif
 
 #include <serialize.h>
@@ -22,7 +22,7 @@ private:
     Num3072 GetInverse() const;
 
 public:
-    static constexpr size_t BYTE_SIZE = 384;
+    static constexpr size_t DATA_BYTE_SIZE = 384;
 
 #ifdef __SIZEOF_INT128__
     typedef unsigned __int128 double_limb_t;
@@ -49,10 +49,10 @@ public:
     void Divide(const Num3072& a);
     void SetToOne();
     void Square();
-    void ToBytes(unsigned char (&out)[BYTE_SIZE]);
+    void ToBytes(unsigned char (&out)[DATA_BYTE_SIZE]);
 
     Num3072() { this->SetToOne(); };
-    Num3072(const unsigned char (&data)[BYTE_SIZE]);
+    Num3072(const unsigned char (&data)[DATA_BYTE_SIZE]);
 
     SERIALIZE_METHODS(Num3072, obj)
     {
@@ -89,7 +89,7 @@ public:
  * is intended to represent a set of elements.
  *
  * See also https://cseweb.ucsd.edu/~mihir/papers/inchash.pdf and
- * https://lists.linuxfoundation.org/pipermail/bitnet-dev/2017-May/014337.html.
+ * https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2017-May/014337.html.
  */
 class MuHash3072
 {

@@ -1,4 +1,4 @@
-# Copyright (c) 2013-2016 The Bitnet Core developers
+# Copyright (c) 2013-2016 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,14 +7,25 @@ noinst_PROGRAMS += test/fuzz/fuzz
 endif
 
 if ENABLE_TESTS
-bin_PROGRAMS += test/test_bitnet
+bin_PROGRAMS += test/test_qtum
 endif
 
 TEST_SRCDIR = test
-TEST_BINARY=test/test_bitnet$(EXEEXT)
+TEST_BINARY=test/test_qtum$(EXEEXT)
 FUZZ_BINARY=test/fuzz/fuzz$(EXEEXT)
 
 JSON_TEST_FILES = \
+  test/qtumtests/data/btc_ecrecover.json \
+  test/qtumtests/data/ecrecover.json \
+  test/qtumtests/data/sha256.json \
+  test/qtumtests/data/ripemd160.json \
+  test/qtumtests/data/identity.json \
+  test/qtumtests/data/modexp.json \
+  test/qtumtests/data/modexp_eip2565.json \
+  test/qtumtests/data/alt_bn128_G1_add.json \
+  test/qtumtests/data/alt_bn128_G1_mul.json \
+  test/qtumtests/data/alt_bn128_pairing_product.json \
+  test/qtumtests/data/blake2_compression.json \
   test/data/script_tests.json \
   test/data/bip341_wallet_vectors.json \
   test/data/base58_encode_decode.json \
@@ -47,6 +58,9 @@ FUZZ_SUITE_LD_COMMON = \
  $(LIBBITCOIN_CLI) \
  $(LIBUNIVALUE) \
  $(LIBLEVELDB) \
+ $(BOOST_LIBS) \
+ $(SSL_LIBS) \
+ $(CRYPTO_LIBS) \
  $(LIBMEMENV) \
  $(LIBSECP256K1) \
  $(MINISKETCH_LIBS) \
@@ -61,12 +75,11 @@ if USE_NATPMP
 FUZZ_SUITE_LD_COMMON += $(NATPMP_LIBS)
 endif
 
-# test_bitnet binary #
+# test_bitcoin binary #
 BITCOIN_TESTS =\
   test/addrman_tests.cpp \
   test/allocator_tests.cpp \
   test/amount_tests.cpp \
-  test/argsman_tests.cpp \
   test/arith_uint256_tests.cpp \
   test/banman_tests.cpp \
   test/base32_tests.cpp \
@@ -78,7 +91,6 @@ BITCOIN_TESTS =\
   test/blockencodings_tests.cpp \
   test/blockfilter_index_tests.cpp \
   test/blockfilter_tests.cpp \
-  test/blockmanager_tests.cpp \
   test/bloom_tests.cpp \
   test/bswap_tests.cpp \
   test/checkqueue_tests.cpp \
@@ -149,7 +161,6 @@ BITCOIN_TESTS =\
   test/transaction_tests.cpp \
   test/txindex_tests.cpp \
   test/txpackage_tests.cpp \
-  test/txreconciliation_tests.cpp \
   test/txrequest_tests.cpp \
   test/txvalidation_tests.cpp \
   test/txvalidationcache_tests.cpp \
@@ -163,7 +174,20 @@ BITCOIN_TESTS =\
   test/validation_tests.cpp \
   test/validationinterface_tests.cpp \
   test/versionbits_tests.cpp \
-  test/xoroshiro128plusplus_tests.cpp
+  test/qtumtests/test_utils.h \
+  test/qtumtests/precompiled_utils.h \
+  test/qtumtests/qtumtxconverter_tests.cpp \
+  test/qtumtests/bytecodeexec_tests.cpp \
+  test/qtumtests/condensingtransaction_tests.cpp \
+  test/qtumtests/dgp_tests.cpp \
+  test/qtumtests/constantinoplefork_tests.cpp \
+  test/qtumtests/btcecrecoverfork_tests.cpp \
+  test/qtumtests/delegations_tests.cpp \
+  test/qtumtests/istanbulfork_tests.cpp \
+  test/qtumtests/londonfork_tests.cpp \
+  test/qtumtests/evmone_tests.cpp \
+  test/qtumtests/shanghaifork_tests.cpp
+
 
 if ENABLE_WALLET
 BITCOIN_TESTS += \
@@ -175,9 +199,9 @@ BITCOIN_TESTS += \
   wallet/test/wallet_crypto_tests.cpp \
   wallet/test/wallet_transaction_tests.cpp \
   wallet/test/coinselector_tests.cpp \
+  wallet/test/availablecoins_tests.cpp \
   wallet/test/init_tests.cpp \
   wallet/test/ismine_tests.cpp \
-  wallet/test/rpc_util_tests.cpp \
   wallet/test/scriptpubkeyman_tests.cpp \
   wallet/test/walletload_tests.cpp
 
@@ -190,8 +214,7 @@ BITCOIN_TESTS += wallet/test/db_tests.cpp
 endif
 
 FUZZ_WALLET_SRC = \
- wallet/test/fuzz/coinselection.cpp \
- wallet/test/fuzz/parse_iso8601.cpp
+ wallet/test/fuzz/coinselection.cpp
 
 if USE_SQLITE
 FUZZ_WALLET_SRC += \
@@ -199,36 +222,38 @@ FUZZ_WALLET_SRC += \
 endif # USE_SQLITE
 
 BITCOIN_TEST_SUITE += \
+  wallet/test/util.cpp \
+  wallet/test/util.h \
   wallet/test/wallet_test_fixture.cpp \
   wallet/test/wallet_test_fixture.h \
   wallet/test/init_test_fixture.cpp \
   wallet/test/init_test_fixture.h
 endif # ENABLE_WALLET
 
-test_test_bitnet_SOURCES = $(BITCOIN_TEST_SUITE) $(BITCOIN_TESTS) $(JSON_TEST_FILES) $(RAW_TEST_FILES)
-test_test_bitnet_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(TESTDEFS) $(BOOST_CPPFLAGS) $(EVENT_CFLAGS)
-test_test_bitnet_LDADD = $(LIBTEST_UTIL)
+test_test_qtum_SOURCES = $(BITCOIN_TEST_SUITE) $(BITCOIN_TESTS) $(JSON_TEST_FILES) $(RAW_TEST_FILES)
+test_test_qtum_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -I$(srcdir)/test/ $(TESTDEFS) $(EVENT_CFLAGS)
+test_test_qtum_LDADD = $(LIBTEST_UTIL)
 if ENABLE_WALLET
-test_test_bitnet_LDADD += $(LIBBITCOIN_WALLET)
-test_test_bitnet_CPPFLAGS += $(BDB_CPPFLAGS)
+test_test_qtum_LDADD += $(LIBBITCOIN_WALLET)
+test_test_qtum_CPPFLAGS += $(BDB_CPPFLAGS)
 endif
 
-test_test_bitnet_LDADD += $(LIBBITCOIN_NODE) $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) \
-  $(LIBLEVELDB) $(LIBMEMENV) $(LIBSECP256K1) $(EVENT_LIBS) $(EVENT_PTHREADS_LIBS) $(MINISKETCH_LIBS)
-test_test_bitnet_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+test_test_qtum_LDADD += $(LIBBITCOIN_NODE) $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) \
+  $(LIBLEVELDB) $(LIBMEMENV) $(BOOST_LIBS) $(LIBSECP256K1) $(EVENT_LIBS) $(EVENT_PTHREADS_LIBS) $(MINISKETCH_LIBS) $(LIBCRYPTOPP) $(LIBSECP256K1)
+test_test_qtum_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
-test_test_bitnet_LDADD += $(BDB_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(SQLITE_LIBS)
-test_test_bitnet_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS) -static
+test_test_qtum_LDADD += $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(SQLITE_LIBS) $(LIBFF) $(GMP_LIBS) $(GMPXX_LIBS)
+test_test_qtum_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS) -static
 
 if ENABLE_ZMQ
-test_test_bitnet_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+test_test_qtum_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 FUZZ_SUITE_LD_COMMON += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_FUZZ_BINARY
-test_fuzz_fuzz_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS)
+test_fuzz_fuzz_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 test_fuzz_fuzz_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-test_fuzz_fuzz_LDADD = $(FUZZ_SUITE_LD_COMMON)
+test_fuzz_fuzz_LDADD = $(FUZZ_SUITE_LD_COMMON) $(LIBCRYPTOPP) $(LIBFF) $(GMP_LIBS) $(GMPXX_LIBS)
 test_fuzz_fuzz_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS) $(RUNTIME_LDFLAGS)
 test_fuzz_fuzz_SOURCES = \
  $(FUZZ_WALLET_SRC) \
@@ -249,7 +274,6 @@ test_fuzz_fuzz_SOURCES = \
  test/fuzz/chain.cpp \
  test/fuzz/checkqueue.cpp \
  test/fuzz/coins_view.cpp \
- test/fuzz/coinscache_sim.cpp \
  test/fuzz/connman.cpp \
  test/fuzz/crypto.cpp \
  test/fuzz/crypto_aes256.cpp \
@@ -292,10 +316,10 @@ test_fuzz_fuzz_SOURCES = \
  test/fuzz/node_eviction.cpp \
  test/fuzz/p2p_transport_serialization.cpp \
  test/fuzz/parse_hd_keypath.cpp \
+ test/fuzz/parse_iso8601.cpp \
  test/fuzz/parse_numbers.cpp \
  test/fuzz/parse_script.cpp \
  test/fuzz/parse_univalue.cpp \
- test/fuzz/partially_downloaded_block.cpp \
  test/fuzz/policy_estimator.cpp \
  test/fuzz/policy_estimator_io.cpp \
  test/fuzz/pow.cpp \
@@ -311,7 +335,7 @@ test_fuzz_fuzz_SOURCES = \
  test/fuzz/rpc.cpp \
  test/fuzz/script.cpp \
  test/fuzz/script_assets_test_minimizer.cpp \
- test/fuzz/script_bitnet_consensus.cpp \
+ test/fuzz/script_bitcoin_consensus.cpp \
  test/fuzz/script_descriptor_cache.cpp \
  test/fuzz/script_flags.cpp \
  test/fuzz/script_format.cpp \
@@ -343,7 +367,7 @@ test_fuzz_fuzz_SOURCES = \
  test/fuzz/versionbits.cpp
 endif # ENABLE_FUZZ_BINARY
 
-nodist_test_test_bitnet_SOURCES = $(GENERATED_TEST_FILES)
+nodist_test_test_qtum_SOURCES = $(GENERATED_TEST_FILES)
 
 $(BITCOIN_TESTS): $(GENERATED_TEST_FILES)
 
@@ -352,20 +376,20 @@ CLEAN_BITCOIN_TEST = test/*.gcda test/*.gcno test/fuzz/*.gcda test/fuzz/*.gcno t
 CLEANFILES += $(CLEAN_BITCOIN_TEST)
 
 if TARGET_WINDOWS
-bitnet_test: $(TEST_BINARY)
+qtum_test: $(TEST_BINARY)
 else
 if ENABLE_BENCH
-bitnet_test: $(TEST_BINARY) $(BENCH_BINARY)
+qtum_test: $(TEST_BINARY) $(BENCH_BINARY)
 else
-bitnet_test: $(TEST_BINARY)
+qtum_test: $(TEST_BINARY)
 endif
 endif
 
-bitnet_test_check: $(TEST_BINARY) FORCE
+qtum_test_check: $(TEST_BINARY) FORCE
 	$(MAKE) check-TESTS TESTS=$^
 
-bitnet_test_clean : FORCE
-	rm -f $(CLEAN_BITCOIN_TEST) $(test_test_bitnet_OBJECTS) $(TEST_BINARY)
+qtum_test_clean : FORCE
+	rm -f $(CLEAN_BITCOIN_TEST) $(test_test_qtum_OBJECTS) $(TEST_BINARY)
 
 check-local: $(BITCOIN_TESTS:.cpp=.cpp.test)
 if BUILD_BITCOIN_TX
@@ -377,8 +401,8 @@ endif
 if TARGET_WINDOWS
 else
 if ENABLE_BENCH
-	@echo "Running bench/bench_bitnet (one iteration sanity check, only high priority)..."
-	$(BENCH_BINARY) -sanity-check -priority-level=high
+	@echo "Running bench/bench_qtum (one iteration sanity check)..."
+	$(BENCH_BINARY) --sanity-check > /dev/null
 endif
 endif
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C secp256k1 check

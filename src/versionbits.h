@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 The Bitnet Core developers
+// Copyright (c) 2016-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -100,6 +100,8 @@ public:
     /** Determine what nVersion a new block should use
      */
     int32_t ComputeBlockVersion(const CBlockIndex* pindexPrev, const Consensus::Params& params) EXCLUSIVE_LOCKS_REQUIRED(!m_mutex);
+
+    void Erase(CBlockIndex *pindex) EXCLUSIVE_LOCKS_REQUIRED(!m_mutex);
 
     void Clear() EXCLUSIVE_LOCKS_REQUIRED(!m_mutex);
 };

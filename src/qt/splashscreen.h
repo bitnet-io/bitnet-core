@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,7 +19,7 @@ class Wallet;
 
 /** Class for the splashscreen with information of the running client.
  *
- * @note this is intentionally not a QSplashScreen. Bitnet Core initialization
+ * @note this is intentionally not a QSplashScreen. Bitcoin Core initialization
  * can take a long time, and in that case a progress window that cannot be
  * moved around and minimized has turned out to be frustrating to the user.
  */
@@ -37,6 +37,9 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
 public Q_SLOTS:
+    /** Hide the splash screen window and schedule the splash screen object for deletion */
+    void finish();
+
     /** Show message and progress */
     void showMessage(const QString &message, int alignment, const QColor &color);
 
@@ -57,7 +60,7 @@ private:
     QPixmap pixmap;
     QString curMessage;
     QColor curColor;
-    int curAlignment{0};
+    int curAlignment;
 
     interfaces::Node* m_node = nullptr;
     bool m_shutdown = false;

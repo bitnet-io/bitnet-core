@@ -7,7 +7,7 @@
 #ifndef SECP256K1_SELFTEST_H
 #define SECP256K1_SELFTEST_H
 
-#include "hash.h"
+#include "include/secp256k1_sha256.h"
 
 #include <string.h>
 
@@ -25,7 +25,7 @@ static int secp256k1_selftest_sha256(void) {
     return secp256k1_memcmp_var(out, output32, 32) == 0;
 }
 
-static int secp256k1_selftest_passes(void) {
+static int secp256k1_selftest(void) {
     return secp256k1_selftest_sha256();
 }
 

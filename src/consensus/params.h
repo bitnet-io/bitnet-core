@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,14 +11,12 @@
 #include <chrono>
 #include <limits>
 #include <map>
-#include <vector>
 
 namespace Consensus {
 
 /**
  * A buried deployment is one where the height of the activation has been hardcoded into
  * the client implementation long after the consensus change has activated. See BIP 90.
- * Consensus changes for which the new rules enforced from genesis are not listed here.
  */
 enum BuriedDeployment : int16_t {
     // buried deployments get negative values to avoid overlap with DeploymentPos
@@ -26,16 +24,14 @@ enum BuriedDeployment : int16_t {
     DEPLOYMENT_CLTV,
     DEPLOYMENT_DERSIG,
     DEPLOYMENT_CSV,
-    // SCRIPT_VERIFY_WITNESS is enforced from genesis, but the check for downloading
-    // missing witness data is not. BIP 147 also relies on hardcoded activation height.
     DEPLOYMENT_SEGWIT,
 };
 constexpr bool ValidDeployment(BuriedDeployment dep) { return dep <= DEPLOYMENT_SEGWIT; }
 
 enum DeploymentPos : uint16_t {
     DEPLOYMENT_TESTDUMMY,
+    DEPLOYMENT_TAPROOT, // Deployment of Schnorr/Taproot (BIPs 340-342)
     // NOTE: Also add new deployments to VersionBitsDeploymentInfo in deploymentinfo.cpp
-    // Removing an entry may require bumping MinBIP9WarningHeight.
     MAX_VERSION_BITS_DEPLOYMENTS
 };
 constexpr bool ValidDeployment(DeploymentPos dep) { return dep < MAX_VERSION_BITS_DEPLOYMENTS; }
@@ -77,6 +73,7 @@ struct BIP9Deployment {
 struct Params {
     uint256 hashGenesisBlock;
     int nSubsidyHalvingInterval;
+    int nSubsidyHalvingIntervalV2;
     /**
      * Hashes of blocks that
      * - are known to be consensus valid, and
@@ -98,8 +95,26 @@ struct Params {
      * BIP 16 exception blocks. */
     int SegwitHeight;
     /** Don't warn about unknown BIP 9 activations below this height.
-     * This prevents us from warning about the CSV, segwit and taproot activations. */
+     * This prevents us from warning about the CSV and segwit activations. */
     int MinBIP9WarningHeight;
+    /** Block height at which QIP5 becomes active */
+    int QIP5Height;
+    /** Block height at which QIP6 becomes active */
+    int QIP6Height;
+    /** Block height at which QIP7 becomes active */
+    int QIP7Height;
+    /** Block height at which QIP9 becomes active */
+    int QIP9Height;
+    /** Block height at which Offline Staking becomes active */
+    int nOfflineStakeHeight;
+    /** Block height at which Reduce Block Time becomes active */
+    int nReduceBlocktimeHeight;
+    /** Block height at which EVM Muir Glacier fork becomes active */
+    int nMuirGlacierHeight;
+    /** Block height at which EVM London fork becomes active */
+    int nLondonHeight;
+    /** Block height at which EVM Shanghai fork becomes active */
+    int nShanghaiHeight;
     /**
      * Minimum blocks including miner confirmation of the total of 2016 blocks in a retargeting period,
      * (nPowTargetTimespan / nPowTargetSpacing) which is also used for BIP9 deployments.
@@ -110,48 +125,36 @@ struct Params {
     BIP9Deployment vDeployments[MAX_VERSION_BITS_DEPLOYMENTS];
     /** Proof of work parameters */
     uint256 powLimit;
-    uint256 powLimit2;
-    bool fPowAllowMinDifficultyBlocks;
-    bool fPowNoRetargeting;
-    int64_t nPowTargetSpacing;
-    int64_t nPowTargetTimespan;
+    uint256 posLimit;
+    uint256 QIP9PosLimit;
+    uint256 RBTPosLimit;
     int switchAlgoHeight;
 
-    int nPowKGWHeight;
-    int nPowDGWHeight;
-//    int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
-//    uint256 nMinimumChainWork;
-//    uint256 defaultAssumeValid;
-
-    /** these parameters are only used on devnet and can be configured from the outside */
-    int nMinimumDifficultyBlocks{0};
-    int nHighSubsidyBlocks{0};
-    int nHighSubsidyFactor{1};
-
-
-
-
-
-
-
-
-
-
-
-
-
-    std::chrono::seconds PowTargetSpacing() const
+    bool fPowAllowMinDifficultyBlocks;
+    bool fPowNoRetargeting;
+    bool fPoSNoRetargeting;
+    int64_t nPowTargetSpacing;
+    int64_t nRBTPowTargetSpacing;
+    int64_t nPowTargetTimespan;
+    int64_t nPowTargetTimespanV2;
+    int64_t nRBTPowTargetTimespan;
+    std::chrono::seconds TargetSpacingChrono(int height) const
     {
-        return std::chrono::seconds{nPowTargetSpacing};
+        return std::chrono::seconds{TargetSpacing(height)};
     }
-    int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
+    int64_t DifficultyAdjustmentInterval(int height) const
+    {
+        int64_t targetTimespan = TargetTimespan(height);
+        int64_t targetSpacing = TargetSpacing(height);
+        return targetTimespan / targetSpacing;
+    }
     /** The best chain should have at least this much work */
     uint256 nMinimumChainWork;
     /** By default assume that the signatures in ancestors of this block are valid */
     uint256 defaultAssumeValid;
 
     /**
-     * If true, witness commitments contain a payload equal to a Bitnet Script solution
+     * If true, witness commitments contain a payload equal to a Bitcoin Script solution
      * to the signet challenge. See BIP325.
      */
     bool signet_blocks{false};
@@ -172,6 +175,76 @@ struct Params {
             return SegwitHeight;
         } // no default case, so the compiler can warn about missing cases
         return std::numeric_limits<int>::max();
+    }
+
+    int nLastPOWBlock;
+    int nFirstMPoSBlock;
+    int nMPoSRewardRecipients;
+    int nFixUTXOCacheHFHeight;
+    int nEnableHeaderSignatureHeight;
+    /** Block sync-checkpoint span*/
+    int nCheckpointSpan;
+    int nRBTCheckpointSpan;
+    uint160 delegationsAddress;
+    int nLastMPoSBlock;
+    int nLastBigReward;
+    uint32_t nStakeTimestampMask;
+    uint32_t nRBTStakeTimestampMask;
+    int64_t nBlocktimeDownscaleFactor;
+    /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
+    int nCoinbaseMaturity;
+    int nRBTCoinbaseMaturity;
+    int64_t StakeTimestampMask(int height) const
+    {
+        return height < nReduceBlocktimeHeight ? nStakeTimestampMask : nRBTStakeTimestampMask;
+    }
+    int64_t MinStakeTimestampMask() const
+    {
+        return nRBTStakeTimestampMask;
+    }
+    int SubsidyHalvingInterval(int height) const
+    {
+        return height < nReduceBlocktimeHeight ? nSubsidyHalvingInterval : nSubsidyHalvingIntervalV2;
+    }
+    int64_t BlocktimeDownscaleFactor(int height) const
+    {
+        return height < nReduceBlocktimeHeight ? 1 : nBlocktimeDownscaleFactor;
+    }
+    int64_t TargetSpacing(int height) const
+    {
+        return height < nReduceBlocktimeHeight ? nPowTargetSpacing : nRBTPowTargetSpacing;
+    }
+    int SubsidyHalvingWeight(int height) const
+    {
+        if(height <= nLastBigReward)
+            return 0;
+
+        int blocktimeDownscaleFactor = BlocktimeDownscaleFactor(height);
+        int blockCount = height - nLastBigReward;
+        int beforeDownscale = blocktimeDownscaleFactor == 1 ? 0 : nReduceBlocktimeHeight - nLastBigReward - 1;
+        int subsidyHalvingWeight = blockCount - beforeDownscale + beforeDownscale * blocktimeDownscaleFactor;
+        return subsidyHalvingWeight;
+    }
+    int64_t TimestampDownscaleFactor(int height) const
+    {
+        return height < nReduceBlocktimeHeight ? 1 : (nStakeTimestampMask + 1) / (nRBTStakeTimestampMask + 1);
+    }
+    int64_t TargetTimespan(int height) const
+    {
+        return height < QIP9Height ? nPowTargetTimespan : 
+            (height < nReduceBlocktimeHeight ? nPowTargetTimespanV2 : nRBTPowTargetTimespan);
+    }
+    int CheckpointSpan(int height) const
+    {
+        return height < nReduceBlocktimeHeight ? nCheckpointSpan : nRBTCheckpointSpan;
+    }
+    int CoinbaseMaturity(int height) const
+    {
+        return height < nReduceBlocktimeHeight ? nCoinbaseMaturity : nRBTCoinbaseMaturity;
+    }
+    int MaxCheckpointSpan() const
+    {
+        return nCheckpointSpan <= nRBTCheckpointSpan ? nRBTCheckpointSpan : nCheckpointSpan;
     }
 };
 

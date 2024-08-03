@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2021 The Bitnet Core developers
+# Copyright (c) 2019-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-"""Test bitnetd aborts if can't disconnect a block.
+"""Test bitcoind aborts if can't disconnect a block.
 
 - Start a single node and generate 3 blocks.
 - Delete the undo data.
 - Mine a fork that requires disconnecting the tip.
-- Verify that bitnetd AbortNode's.
+- Verify that bitcoind AbortNode's.
 """
 
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import get_datadir_path
 import os
 
 
-class AbortNodeTest(BitnetTestFramework):
+class AbortNodeTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2

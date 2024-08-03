@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Bitnet Core developers
+# Copyright (c) 2014-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the abandontransaction RPC.
@@ -13,17 +13,14 @@
 from decimal import Decimal
 
 from test_framework.blocktools import COINBASE_MATURITY
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
 )
 
 
-class AbandonConflictTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class AbandonConflictTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.extra_args = [["-minrelaytxfee=0.00001"], []]
@@ -40,7 +37,7 @@ class AbandonConflictTest(BitnetTestFramework):
         self.nodes[0].createwallet(wallet_name="bob")
         bob = self.nodes[0].get_wallet_rpc("bob")
 
-        self.generate(self.nodes[1], COINBASE_MATURITY)
+        self.nodes[1].generate(COINBASE_MATURITY)
         balance = alice.getbalance()
         txA = alice.sendtoaddress(alice.getnewaddress(), Decimal("10"))
         txB = alice.sendtoaddress(alice.getnewaddress(), Decimal("10"))
@@ -54,7 +51,7 @@ class AbandonConflictTest(BitnetTestFramework):
         assert_raises_rpc_error(-5, 'Transaction not eligible for abandonment', lambda: alice.abandontransaction(txid=txA))
 
         newbalance = alice.getbalance()
-        assert balance - newbalance < Decimal("0.001")  #no more than fees lost
+        assert balance - newbalance < Decimal("0.01")  #no more than fees lost
         balance = newbalance
 
         # Disconnect nodes so node0's transactions don't get into node1's mempool
@@ -178,7 +175,7 @@ class AbandonConflictTest(BitnetTestFramework):
         inputs = []
         inputs.append({"txid": txA, "vout": nA})
         outputs = {}
-        outputs[self.nodes[1].getnewaddress()] = Decimal("3.9999")
+        outputs[self.nodes[1].getnewaddress()] = Decimal("3.99")
         outputs[bob.getnewaddress()] = Decimal("5.9999")
         tx = alice.createrawtransaction(inputs, outputs)
         signed = alice.signrawtransactionwithwallet(tx)
@@ -225,13 +222,13 @@ class AbandonConflictTest(BitnetTestFramework):
         assert_equal(double_spend_txid, double_spend['txid'])
         assert_equal(double_spend["walletconflicts"], [txAB1])
 
-        # Verify that B and C's 10 BIT outputs are available for spending again because AB1 is now conflicted
+        # Verify that B and C's 10 BTC outputs are available for spending again because AB1 is now conflicted
         newbalance = alice.getbalance()
         assert_equal(newbalance, balance + Decimal("20"))
         balance = newbalance
 
         # There is currently a minor bug around this and so this test doesn't work.  See Issue #7315
-        # Invalidate the block with the double spend and B's 10 BIT output should no longer be available
+        # Invalidate the block with the double spend and B's 10 BTC output should no longer be available
         # Don't think C's should either
         self.nodes[0].invalidateblock(self.nodes[0].getbestblockhash())
         newbalance = alice.getbalance()

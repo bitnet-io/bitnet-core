@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021-2022 The Bitnet Core developers
+# Copyright (c) 2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,10 +7,10 @@ import sys
 import ctypes
 from bcc import BPF, USDT
 
-"""Example logging Bitnet Core utxo set cache flushes utilizing
+"""Example logging Bitcoin Core utxo set cache flushes utilizing
     the utxocache:flush tracepoint."""
 
-# USAGE:  ./contrib/tracing/log_utxocache_flush.py path/to/bitnetd
+# USAGE:  ./contrib/tracing/log_utxocache_flush.py path/to/bitcoind
 
 # BCC: The C program to be compiled to an eBPF program (by BCC) and loaded into
 # a sandboxed Linux kernel VM.
@@ -70,14 +70,14 @@ def print_event(event):
     ))
 
 
-def main(bitnetd_path):
-    bitnetd_with_usdts = USDT(path=str(bitnetd_path))
+def main(bitcoind_path):
+    bitcoind_with_usdts = USDT(path=str(bitcoind_path))
 
     # attaching the trace functions defined in the BPF program
     # to the tracepoints
-    bitnetd_with_usdts.enable_probe(
+    bitcoind_with_usdts.enable_probe(
         probe="flush", fn_name="trace_flush")
-    b = BPF(text=program, usdt_contexts=[bitnetd_with_usdts])
+    b = BPF(text=program, usdt_contexts=[bitcoind_with_usdts])
 
     def handle_flush(_, data, size):
         """ Coins Flush handler.
@@ -100,7 +100,7 @@ def main(bitnetd_path):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("USAGE: ", sys.argv[0], "path/to/bitnetd")
+        print("USAGE: ", sys.argv[0], "path/to/bitcoind")
         exit(1)
 
     path = sys.argv[1]

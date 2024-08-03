@@ -1,5 +1,5 @@
-#ifndef QTUMTOKEN_H
-#define QTUMTOKEN_H
+#ifndef BITTOKEN_H
+#define BITTOKEN_H
 #include <string>
 #include <vector>
 #include <map>
@@ -114,4 +114,4 @@ private:
     QtumTokenData* d;
 };
 
-#endif // QTUMTOKEN_H
+#endif // BITTOKEN_H

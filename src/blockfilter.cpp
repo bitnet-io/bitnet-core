@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2022 The Bitnet Core developers
+// Copyright (c) 2018-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -247,10 +247,21 @@ bool BlockFilter::BuildParams(GCSFilter::Params& params) const
 
 uint256 BlockFilter::GetHash() const
 {
-    return Hash(GetEncodedFilter());
+    const std::vector<unsigned char>& data = GetEncodedFilter();
+
+    uint256 result;
+    CHash256().Write(data).Finalize(result);
+    return result;
 }
 
 uint256 BlockFilter::ComputeHeader(const uint256& prev_header) const
 {
-    return Hash(GetHash(), prev_header);
+    const uint256& filter_hash = GetHash();
+
+    uint256 result;
+    CHash256()
+        .Write(filter_hash)
+        .Write(prev_header)
+        .Finalize(result);
+    return result;
 }

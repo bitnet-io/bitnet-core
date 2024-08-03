@@ -1,14 +1,14 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitnet-config.h>
+#include <config/bitcoin-config.h>
 #endif
 
 #include <qt/optionsmodel.h>
 
-#include <qt/bitnetunits.h>
+#include <qt/bitcoinunits.h>
 #include <qt/guiconstants.h>
 #include <qt/guiutil.h>
 
@@ -18,10 +18,12 @@
 #include <netbase.h>
 #include <txdb.h>       // for -dbcache defaults
 #include <util/string.h>
-#include <util/system.h>
 #include <validation.h> // For DEFAULT_SCRIPTCHECK_THREADS
 #include <wallet/wallet.h> // For DEFAULT_SPEND_ZEROCONF_CHANGE
 
+#ifdef ENABLE_WALLET
+#include <wallet/walletdb.h>
+#endif
 #include <QDebug>
 #include <QLatin1Char>
 #include <QSettings>
@@ -29,10 +31,11 @@
 #include <QVariant>
 
 #include <univalue.h>
+#include <util/moneystr.h>
 
 const char *DEFAULT_GUI_PROXY_HOST = "127.0.0.1";
 
-static QString GetDefaultProxyAddress();
+static const QString GetDefaultProxyAddress();
 
 /** Map GUI option ID to node setting name. */
 static const char* SettingName(OptionsModel::OptionID option)
@@ -55,12 +58,19 @@ static const char* SettingName(OptionsModel::OptionID option)
     case OptionsModel::ProxyPortTor: return "onion";
     case OptionsModel::ProxyUseTor: return "onion";
     case OptionsModel::Language: return "lang";
+    case OptionsModel::HWIToolPath: return "hwitoolpath";
+    case OptionsModel::StakeLedgerId: return "stakerledgerid";
+    case OptionsModel::SignPSBTWithHWITool: return "signpsbtwithhwitool";
+    case OptionsModel::UseChangeAddress: return "usechangeaddress";
+    case OptionsModel::ReserveBalance: return "reservebalance";
+    case OptionsModel::LogEvents: return "logevents";
+    case OptionsModel::SuperStaking: return "superstaking";
     default: throw std::logic_error(strprintf("GUI option %i has no corresponding node setting.", option));
     }
 }
 
-/** Call node.updateRwSetting() with Bitnet 22.x workaround. */
-static void UpdateRwSetting(interfaces::Node& node, OptionsModel::OptionID option, const std::string& suffix, const util::SettingsValue& value)
+/** Call node.updateRwSetting() with Bitcoin 22.x workaround. */
+static void UpdateRwSetting(interfaces::Node& node, OptionsModel::OptionID option, const util::SettingsValue& value)
 {
     if (value.isNum() &&
         (option == OptionsModel::DatabaseCache ||
@@ -68,33 +78,33 @@ static void UpdateRwSetting(interfaces::Node& node, OptionsModel::OptionID optio
          option == OptionsModel::Prune ||
          option == OptionsModel::PruneSize)) {
         // Write certain old settings as strings, even though they are numbers,
-        // because Bitnet 22.x releases try to read these specific settings as
+        // because Bitcoin 22.x releases try to read these specific settings as
         // strings in addOverriddenOption() calls at startup, triggering
         // uncaught exceptions in UniValue::get_str(). These errors were fixed
-        // in later releases by https://github.com/bitnet/bitnet/pull/24498.
+        // in later releases by https://github.com/bitcoin/bitcoin/pull/24498.
         // If new numeric settings are added, they can be written as numbers
-        // instead of strings, because bitnet 22.x will not try to read these.
-        node.updateRwSetting(SettingName(option) + suffix, value.getValStr());
+        // instead of strings, because bitcoin 22.x will not try to read these.
+        node.updateRwSetting(SettingName(option), value.getValStr());
     } else {
-        node.updateRwSetting(SettingName(option) + suffix, value);
+        node.updateRwSetting(SettingName(option), value);
     }
 }
 
-//! Convert enabled/size values to bitnet -prune setting.
+//! Convert enabled/size values to bitcoin -prune setting.
 static util::SettingsValue PruneSetting(bool prune_enabled, int prune_size_gb)
 {
     assert(!prune_enabled || prune_size_gb >= 1); // PruneSizeGB and ParsePruneSizeGB never return less
     return prune_enabled ? PruneGBtoMiB(prune_size_gb) : 0;
 }
 
-//! Get pruning enabled value to show in GUI from bitnet -prune setting.
+//! Get pruning enabled value to show in GUI from bitcoin -prune setting.
 static bool PruneEnabled(const util::SettingsValue& prune_setting)
 {
     // -prune=1 setting is manual pruning mode, so disabled for purposes of the gui
     return SettingToInt(prune_setting, 0) > 1;
 }
 
-//! Get pruning size value to show in GUI from bitnet -prune setting. If
+//! Get pruning size value to show in GUI from bitcoin -prune setting. If
 //! pruning is not enabled, just show default recommended pruning size (2GB).
 static int PruneSizeGB(const util::SettingsValue& prune_setting)
 {
@@ -119,7 +129,7 @@ static ProxySetting ParseProxyString(const std::string& proxy);
 static std::string ProxyString(bool is_set, QString ip, QString port);
 
 OptionsModel::OptionsModel(interfaces::Node& node, QObject *parent) :
-    QAbstractListModel(parent), m_node{node}
+    QAbstractListModel(parent), m_node{node}, restartApp{false}
 {
 }
 
@@ -132,6 +142,13 @@ void OptionsModel::addOverriddenOption(const std::string &option)
 bool OptionsModel::Init(bilingual_str& error)
 {
     // Initialize display settings from stored settings.
+    m_prune_size_gb = PruneSizeGB(node().getPersistentSetting("prune"));
+    ProxySetting proxy = ParseProxyString(SettingToString(node().getPersistentSetting("proxy"), GetDefaultProxyAddress().toStdString()));
+    m_proxy_ip = proxy.ip;
+    m_proxy_port = proxy.port;
+    ProxySetting onion = ParseProxyString(SettingToString(node().getPersistentSetting("onion"), GetDefaultProxyAddress().toStdString()));
+    m_onion_ip = onion.ip;
+    m_onion_port = onion.port;
     language = QString::fromStdString(SettingToString(node().getPersistentSetting("lang"), ""));
 
     checkAndMigrate();
@@ -159,15 +176,15 @@ bool OptionsModel::Init(bilingual_str& error)
     fMinimizeOnClose = settings.value("fMinimizeOnClose").toBool();
 
     // Display
-    if (!settings.contains("DisplayBitnetUnit")) {
-        settings.setValue("DisplayBitnetUnit", QVariant::fromValue(BitnetUnit::BIT));
+    if (!settings.contains("DisplayBitcoinUnit")) {
+        settings.setValue("DisplayBitcoinUnit", QVariant::fromValue(BitcoinUnit::BTC));
     }
-    QVariant unit = settings.value("DisplayBitnetUnit");
-    if (unit.canConvert<BitnetUnit>()) {
-        m_display_bitnet_unit = unit.value<BitnetUnit>();
+    QVariant unit = settings.value("DisplayBitcoinUnit");
+    if (unit.canConvert<BitcoinUnit>()) {
+        m_display_bitcoin_unit = unit.value<BitcoinUnit>();
     } else {
-        m_display_bitnet_unit = BitnetUnit::BIT;
-        settings.setValue("DisplayBitnetUnit", QVariant::fromValue(m_display_bitnet_unit));
+        m_display_bitcoin_unit = BitcoinUnit::BTC;
+        settings.setValue("DisplayBitcoinUnit", QVariant::fromValue(m_display_bitcoin_unit));
     }
 
     if (!settings.contains("strThirdPartyTxUrls"))
@@ -186,7 +203,9 @@ bool OptionsModel::Init(bilingual_str& error)
     // These are shared with the core or have a command-line parameter
     // and we want command-line parameters to overwrite the GUI settings.
     for (OptionID option : {DatabaseCache, ThreadsScriptVerif, SpendZeroConfChange, ExternalSignerPath, MapPortUPnP,
-                            MapPortNatpmp, Listen, Server, Prune, ProxyUse, ProxyUseTor, Language}) {
+                            MapPortNatpmp, Listen, Server, Prune, ProxyUse, ProxyUseTor, Language,
+                            HWIToolPath, StakeLedgerId, SignPSBTWithHWITool, UseChangeAddress, ReserveBalance,
+                            LogEvents, SuperStaking}) {
         std::string setting = SettingName(option);
         if (node().isSettingIgnored(setting)) addOverriddenOption("-" + setting);
         try {
@@ -208,11 +227,19 @@ bool OptionsModel::Init(bilingual_str& error)
 
     // Wallet
 #ifdef ENABLE_WALLET
+    if (!settings.contains("bZeroBalanceAddressToken"))
+        settings.setValue("bZeroBalanceAddressToken", wallet::DEFAULT_ZERO_BALANCE_ADDRESS_TOKEN);
+    bZeroBalanceAddressToken = settings.value("bZeroBalanceAddressToken").toBool();
+
     if (!settings.contains("SubFeeFromAmount")) {
         settings.setValue("SubFeeFromAmount", false);
     }
     m_sub_fee_from_amount = settings.value("SubFeeFromAmount", false).toBool();
 #endif
+
+    if (!settings.contains("fCheckForUpdates"))
+        settings.setValue("fCheckForUpdates", DEFAULT_CHECK_FOR_UPDATES);
+    fCheckForUpdates = settings.value("fCheckForUpdates").toBool();
 
     // Display
     if (!settings.contains("UseEmbeddedMonospacedFont")) {
@@ -221,7 +248,10 @@ bool OptionsModel::Init(bilingual_str& error)
     m_use_embedded_monospaced_font = settings.value("UseEmbeddedMonospacedFont").toBool();
     Q_EMIT useEmbeddedMonospacedFontChanged(m_use_embedded_monospaced_font);
 
-    m_mask_values = settings.value("mask_values", false).toBool();
+    if (!settings.contains("Theme"))
+        settings.setValue("Theme", "");
+
+    theme = settings.value("Theme").toString();
 
     return true;
 }
@@ -304,7 +334,7 @@ static std::string ProxyString(bool is_set, QString ip, QString port)
     return is_set ? QString(ip + ":" + port).toStdString() : "";
 }
 
-static QString GetDefaultProxyAddress()
+static const QString GetDefaultProxyAddress()
 {
     return QString("%1:%2").arg(DEFAULT_GUI_PROXY_HOST).arg(DEFAULT_GUI_PROXY_PORT);
 }
@@ -314,24 +344,21 @@ void OptionsModel::SetPruneTargetGB(int prune_target_gb)
     const util::SettingsValue cur_value = node().getPersistentSetting("prune");
     const util::SettingsValue new_value = PruneSetting(prune_target_gb > 0, prune_target_gb);
 
+    m_prune_size_gb = prune_target_gb;
+
     // Force setting to take effect. It is still safe to change the value at
     // this point because this function is only called after the intro screen is
     // shown, before the node starts.
     node().forceSetting("prune", new_value);
 
     // Update settings.json if value configured in intro screen is different
-    // from saved value. Avoid writing settings.json if bitnet.conf value
+    // from saved value. Avoid writing settings.json if bitcoin.conf value
     // doesn't need to be overridden.
     if (PruneEnabled(cur_value) != PruneEnabled(new_value) ||
         PruneSizeGB(cur_value) != PruneSizeGB(new_value)) {
         // Call UpdateRwSetting() instead of setOption() to avoid setting
         // RestartRequired flag
-        UpdateRwSetting(node(), Prune, "", new_value);
-    }
-
-    // Keep previous pruning size, if pruning was disabled.
-    if (PruneEnabled(cur_value)) {
-        UpdateRwSetting(node(), Prune, "-prev", PruneEnabled(new_value) ? util::SettingsValue{} : cur_value);
+        UpdateRwSetting(node(), Prune, new_value);
     }
 }
 
@@ -359,9 +386,9 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
     return successful;
 }
 
-QVariant OptionsModel::getOption(OptionID option, const std::string& suffix) const
+QVariant OptionsModel::getOption(OptionID option) const
 {
-    auto setting = [&]{ return node().getPersistentSetting(SettingName(option) + suffix); };
+    auto setting = [&]{ return node().getPersistentSetting(SettingName(option)); };
 
     QSettings settings;
     switch (option) {
@@ -388,30 +415,19 @@ QVariant OptionsModel::getOption(OptionID option, const std::string& suffix) con
 
     // default proxy
     case ProxyUse:
-    case ProxyUseTor:
         return ParseProxyString(SettingToString(setting(), "")).is_set;
     case ProxyIP:
-    case ProxyIPTor: {
-        ProxySetting proxy = ParseProxyString(SettingToString(setting(), ""));
-        if (proxy.is_set) {
-            return proxy.ip;
-        } else if (suffix.empty()) {
-            return getOption(option, "-prev");
-        } else {
-            return ParseProxyString(GetDefaultProxyAddress().toStdString()).ip;
-        }
-    }
+        return m_proxy_ip;
     case ProxyPort:
-    case ProxyPortTor: {
-        ProxySetting proxy = ParseProxyString(SettingToString(setting(), ""));
-        if (proxy.is_set) {
-            return proxy.port;
-        } else if (suffix.empty()) {
-            return getOption(option, "-prev");
-        } else {
-            return ParseProxyString(GetDefaultProxyAddress().toStdString()).port;
-        }
-    }
+        return m_proxy_port;
+
+    // separate Tor proxy
+    case ProxyUseTor:
+        return ParseProxyString(SettingToString(setting(), "")).is_set;
+    case ProxyIPTor:
+        return m_onion_ip;
+    case ProxyPortTor:
+        return m_onion_port;
 
 #ifdef ENABLE_WALLET
     case SpendZeroConfChange:
@@ -420,9 +436,15 @@ QVariant OptionsModel::getOption(OptionID option, const std::string& suffix) con
         return QString::fromStdString(SettingToString(setting(), ""));
     case SubFeeFromAmount:
         return m_sub_fee_from_amount;
+    case ZeroBalanceAddressToken:
+        return settings.value("bZeroBalanceAddressToken");
+    case ReserveBalance:
+        return QString::fromStdString(SettingToString(setting(), FormatMoney(wallet::DEFAULT_RESERVE_BALANCE)));
+    case SignPSBTWithHWITool:
+        return SettingToBool(setting(), wallet::DEFAULT_SIGN_PSBT_WITH_HWI_TOOL);
 #endif
     case DisplayUnit:
-        return QVariant::fromValue(m_display_bitnet_unit);
+        return QVariant::fromValue(m_display_bitcoin_unit);
     case ThirdPartyTxUrls:
         return strThirdPartyTxUrls;
     case Language:
@@ -431,33 +453,49 @@ QVariant OptionsModel::getOption(OptionID option, const std::string& suffix) con
         return m_use_embedded_monospaced_font;
     case CoinControlFeatures:
         return fCoinControlFeatures;
-    case EnablePSBITontrols:
+    case EnablePSBTControls:
         return settings.value("enable_psbt_controls");
     case Prune:
         return PruneEnabled(setting());
     case PruneSize:
-        return PruneEnabled(setting()) ? PruneSizeGB(setting()) :
-               suffix.empty()          ? getOption(option, "-prev") :
-                                         DEFAULT_PRUNE_TARGET_GB;
+        return m_prune_size_gb;
     case DatabaseCache:
         return qlonglong(SettingToInt(setting(), nDefaultDbCache));
+    case LogEvents:
+        return SettingToBool(setting(), fLogEvents);
+#ifdef ENABLE_WALLET
+    case SuperStaking:
+        return SettingToBool(setting(), false);
+#endif
     case ThreadsScriptVerif:
         return qlonglong(SettingToInt(setting(), DEFAULT_SCRIPTCHECK_THREADS));
     case Listen:
         return SettingToBool(setting(), DEFAULT_LISTEN);
     case Server:
         return SettingToBool(setting(), false);
-    case MaskValues:
-        return m_mask_values;
+#ifdef ENABLE_WALLET
+    case UseChangeAddress:
+        return SettingToBool(setting(), wallet::DEFAULT_USE_CHANGE_ADDRESS);
+#endif
+    case CheckForUpdates:
+        return settings.value("fCheckForUpdates");
+    case Theme:
+        return settings.value("Theme");
+#ifdef ENABLE_WALLET
+    case HWIToolPath:
+        return QString::fromStdString(SettingToString(setting(), ""));
+    case StakeLedgerId:
+        return QString::fromStdString(SettingToString(setting(), ""));
+#endif
     default:
         return QVariant();
     }
 }
 
-bool OptionsModel::setOption(OptionID option, const QVariant& value, const std::string& suffix)
+bool OptionsModel::setOption(OptionID option, const QVariant& value)
 {
-    auto changed = [&] { return value.isValid() && value != getOption(option, suffix); };
-    auto update = [&](const util::SettingsValue& value) { return UpdateRwSetting(node(), option, suffix, value); };
+    auto changed = [&] { return value.isValid() && value != getOption(option); };
+    auto update = [&](const util::SettingsValue& value) { return UpdateRwSetting(node(), option, value); };
 
     bool successful = true; /* set to false on parse error */
     QSettings settings;
@@ -495,60 +533,52 @@ bool OptionsModel::setOption(OptionID option, const QVariant& value, const std::
     // default proxy
     case ProxyUse:
         if (changed()) {
-            if (suffix.empty() && !value.toBool()) setOption(option, true, "-prev");
-            update(ProxyString(value.toBool(), getOption(ProxyIP).toString(), getOption(ProxyPort).toString()));
-            if (suffix.empty() && value.toBool()) UpdateRwSetting(node(), option, "-prev", {});
-            if (suffix.empty()) setRestartRequired(true);
+            update(ProxyString(value.toBool(), m_proxy_ip, m_proxy_port));
+            setRestartRequired(true);
         }
         break;
     case ProxyIP:
         if (changed()) {
-            if (suffix.empty() && !getOption(ProxyUse).toBool()) {
-                setOption(option, value, "-prev");
-            } else {
-                update(ProxyString(true, value.toString(), getOption(ProxyPort).toString()));
+            m_proxy_ip = value.toString();
+            if (getOption(ProxyUse).toBool()) {
+                update(ProxyString(true, m_proxy_ip, m_proxy_port));
+                setRestartRequired(true);
             }
-            if (suffix.empty() && getOption(ProxyUse).toBool()) setRestartRequired(true);
         }
         break;
     case ProxyPort:
         if (changed()) {
-            if (suffix.empty() && !getOption(ProxyUse).toBool()) {
-                setOption(option, value, "-prev");
-            } else {
-                update(ProxyString(true, getOption(ProxyIP).toString(), value.toString()));
+            m_proxy_port = value.toString();
+            if (getOption(ProxyUse).toBool()) {
+                update(ProxyString(true, m_proxy_ip, m_proxy_port));
+                setRestartRequired(true);
             }
-            if (suffix.empty() && getOption(ProxyUse).toBool()) setRestartRequired(true);
         }
         break;
 
     // separate Tor proxy
     case ProxyUseTor:
         if (changed()) {
-            if (suffix.empty() && !value.toBool()) setOption(option, true, "-prev");
-            update(ProxyString(value.toBool(), getOption(ProxyIPTor).toString(), getOption(ProxyPortTor).toString()));
-            if (suffix.empty() && value.toBool()) UpdateRwSetting(node(), option, "-prev", {});
-            if (suffix.empty()) setRestartRequired(true);
+            update(ProxyString(value.toBool(), m_onion_ip, m_onion_port));
+            setRestartRequired(true);
         }
         break;
     case ProxyIPTor:
         if (changed()) {
-            if (suffix.empty() && !getOption(ProxyUseTor).toBool()) {
-                setOption(option, value, "-prev");
-            } else {
-                update(ProxyString(true, value.toString(), getOption(ProxyPortTor).toString()));
+            m_onion_ip = value.toString();
+            if (getOption(ProxyUseTor).toBool()) {
+                update(ProxyString(true, m_onion_ip, m_onion_port));
+                setRestartRequired(true);
             }
-            if (suffix.empty() && getOption(ProxyUseTor).toBool()) setRestartRequired(true);
         }
         break;
     case ProxyPortTor:
         if (changed()) {
-            if (suffix.empty() && !getOption(ProxyUseTor).toBool()) {
-                setOption(option, value, "-prev");
-            } else {
-                update(ProxyString(true, getOption(ProxyIPTor).toString(), value.toString()));
+            m_onion_port = value.toString();
+            if (getOption(ProxyUseTor).toBool()) {
+                update(ProxyString(true, m_onion_ip, m_onion_port));
+                setRestartRequired(true);
             }
-            if (suffix.empty() && getOption(ProxyUseTor).toBool()) setRestartRequired(true);
         }
         break;
 
@@ -568,6 +598,17 @@ bool OptionsModel::setOption(OptionID option, const QVariant& value, const std::
     case SubFeeFromAmount:
         m_sub_fee_from_amount = value.toBool();
         settings.setValue("SubFeeFromAmount", m_sub_fee_from_amount);
+        break;
+    case ZeroBalanceAddressToken:
+        bZeroBalanceAddressToken = value.toBool();
+        settings.setValue("bZeroBalanceAddressToken", bZeroBalanceAddressToken);
+        Q_EMIT zeroBalanceAddressTokenChanged(bZeroBalanceAddressToken);
+        break;
+    case SignPSBTWithHWITool:
+        if (changed()) {
+            update(value.toBool());
+            setRestartRequired(true);
+        }
         break;
 #endif
     case DisplayUnit:
@@ -596,26 +637,23 @@ bool OptionsModel::setOption(OptionID option, const QVariant& value, const std::
         settings.setValue("fCoinControlFeatures", fCoinControlFeatures);
         Q_EMIT coinControlFeaturesChanged(fCoinControlFeatures);
         break;
-    case EnablePSBITontrols:
+    case EnablePSBTControls:
         m_enable_psbt_controls = value.toBool();
         settings.setValue("enable_psbt_controls", m_enable_psbt_controls);
         break;
     case Prune:
         if (changed()) {
-            if (suffix.empty() && !value.toBool()) setOption(option, true, "-prev");
-            update(PruneSetting(value.toBool(), getOption(PruneSize).toInt()));
-            if (suffix.empty() && value.toBool()) UpdateRwSetting(node(), option, "-prev", {});
-            if (suffix.empty()) setRestartRequired(true);
+            update(PruneSetting(value.toBool(), m_prune_size_gb));
+            setRestartRequired(true);
         }
         break;
     case PruneSize:
         if (changed()) {
-            if (suffix.empty() && !getOption(Prune).toBool()) {
-                setOption(option, value, "-prev");
-            } else {
-                update(PruneSetting(true, ParsePruneSizeGB(value)));
+            m_prune_size_gb = ParsePruneSizeGB(value);
+            if (getOption(Prune).toBool()) {
+                update(PruneSetting(true, m_prune_size_gb));
+                setRestartRequired(true);
             }
-            if (suffix.empty() && getOption(Prune).toBool()) setRestartRequired(true);
         }
         break;
     case DatabaseCache:
@@ -624,6 +662,26 @@ bool OptionsModel::setOption(OptionID option, const QVariant& value, const std::
             setRestartRequired(true);
         }
         break;
+    case LogEvents:
+        if (changed()) {
+            update(value.toBool());
+            setRestartRequired(true);
+        }
+        break;
+#ifdef ENABLE_WALLET
+    case SuperStaking:
+        if (changed()) {
+            update(value.toBool());
+            setRestartRequired(true);
+        }
+        break;
+    case ReserveBalance:
+        if (changed()) {
+            update(value.toString().toStdString());
+            setRestartRequired(true);
+        }
+        break;
+#endif
     case ThreadsScriptVerif:
         if (changed()) {
             update(static_cast<int64_t>(value.toLongLong()));
@@ -637,10 +695,40 @@ bool OptionsModel::setOption(OptionID option, const QVariant& value, const std::
             setRestartRequired(true);
         }
         break;
-    case MaskValues:
-        m_mask_values = value.toBool();
-        settings.setValue("mask_values", m_mask_values);
+#ifdef ENABLE_WALLET
+    case UseChangeAddress:
+        if (changed()) {
+            update(value.toBool());
+            setRestartRequired(true);
+        }
         break;
+#endif
+    case CheckForUpdates:
+        if (settings.value("fCheckForUpdates") != value) {
+            settings.setValue("fCheckForUpdates", value);
+            fCheckForUpdates = value.toBool();
+        }
+        break;
+    case Theme:
+        if (settings.value("Theme") != value) {
+            settings.setValue("Theme", value);
+            setRestartRequired(true);
+        }
+        break;
+#ifdef ENABLE_WALLET
+    case HWIToolPath:
+        if (changed()) {
+            update(value.toString().toStdString());
+            setRestartRequired(true);
+        }
+        break;
+    case StakeLedgerId:
+        if (changed()) {
+            update(value.toString().toStdString());
+            setRestartRequired(true);
+        }
+        break;
+#endif
     default:
         break;
     }
@@ -650,11 +738,11 @@ bool OptionsModel::setOption(OptionID option, const QVariant& value, const std::
 
 void OptionsModel::setDisplayUnit(const QVariant& new_unit)
 {
-    if (new_unit.isNull() || new_unit.value<BitnetUnit>() == m_display_bitnet_unit) return;
-    m_display_bitnet_unit = new_unit.value<BitnetUnit>();
+    if (new_unit.isNull() || new_unit.value<BitcoinUnit>() == m_display_bitcoin_unit) return;
+    m_display_bitcoin_unit = new_unit.value<BitcoinUnit>();
     QSettings settings;
-    settings.setValue("DisplayBitnetUnit", QVariant::fromValue(m_display_bitnet_unit));
-    Q_EMIT displayUnitChanged(m_display_bitnet_unit);
+    settings.setValue("DisplayBitcoinUnit", QVariant::fromValue(m_display_bitcoin_unit));
+    Q_EMIT displayUnitChanged(m_display_bitcoin_unit);
 }
 
 void OptionsModel::setRestartRequired(bool fRequired)
@@ -669,11 +757,6 @@ bool OptionsModel::isRestartRequired() const
     return settings.value("fRestartRequired", false).toBool();
 }
 
-bool OptionsModel::hasSigner()
-{
-    return gArgs.GetArg("-signer", "") != "";
-}
-
 void OptionsModel::checkAndMigrate()
 {
     // Migration of default values
@@ -684,7 +767,7 @@ void OptionsModel::checkAndMigrate()
     if (settingsVersion < CLIENT_VERSION)
     {
         // -dbcache was bumped from 100 to 300 in 0.13
-        // see https://github.com/bitnet/bitnet/pull/8273
+        // see https://github.com/bitcoin/bitcoin/pull/8273
         // force people to upgrade to the new value if they are using 100MB
         if (settingsVersion < 130000 && settings.contains("nDatabaseCache") && settings.value("nDatabaseCache").toLongLong() == 100)
             settings.setValue("nDatabaseCache", (qint64)nDefaultDbCache);
@@ -704,6 +787,30 @@ void OptionsModel::checkAndMigrate()
         settings.setValue("addrSeparateProxyTor", GetDefaultProxyAddress());
     }
 
+#ifdef ENABLE_WALLET
+    // Overwrite fNotUseChangeAddress for backward compatibility reason
+    if (settings.contains("fNotUseChangeAddress"))
+    {
+        if (!settings.contains("fUseChangeAddress"))
+        {
+            // Set the parameter value
+            bool useChangeAddress = !settings.value("fNotUseChangeAddress").toBool();
+            settings.setValue("fUseChangeAddress", useChangeAddress);
+        }
+        settings.remove("fNotUseChangeAddress");
+    }
+
+    // Overwrite fLogEvents when superstake
+    if (settings.contains("fSuperStaking"))
+    {
+        bool fSuperStaking = settings.value("fSuperStaking").toBool();
+        if(fSuperStaking)
+        {
+            settings.setValue("fLogEvents", true);
+        }
+    }
+#endif
+
     // Migrate and delete legacy GUI settings that have now moved to <datadir>/settings.json.
     auto migrate_setting = [&](OptionID option, const QString& qt_name) {
         if (!settings.contains(qt_name)) return;
@@ -717,6 +824,9 @@ void OptionsModel::checkAndMigrate()
                 ProxySetting parsed = ParseProxyString(value.toString());
                 setOption(ProxyIPTor, parsed.ip);
                 setOption(ProxyPortTor, parsed.port);
+            } else if (option == ReserveBalance) {
+                std::string balance = FormatMoney(value.toLongLong());
+                setOption(ReserveBalance, QString::fromStdString(balance));
             } else {
                 setOption(option, value);
             }
@@ -729,6 +839,12 @@ void OptionsModel::checkAndMigrate()
 #ifdef ENABLE_WALLET
     migrate_setting(SpendZeroConfChange, "bSpendZeroConfChange");
     migrate_setting(ExternalSignerPath, "external_signer_path");
+    migrate_setting(HWIToolPath, "HWIToolPath");
+    migrate_setting(StakeLedgerId, "StakeLedgerId");
+    migrate_setting(SignPSBTWithHWITool, "signPSBTWithHWITool");
+    migrate_setting(UseChangeAddress, "fUseChangeAddress");
+    migrate_setting(ReserveBalance, "nReserveBalance");
+    migrate_setting(SuperStaking, "fSuperStaking");
 #endif
     migrate_setting(MapPortUPnP, "fUseUPnP");
     migrate_setting(MapPortNatpmp, "fUseNatpmp");
@@ -741,11 +857,22 @@ void OptionsModel::checkAndMigrate()
     migrate_setting(ProxyIPTor, "addrSeparateProxyTor");
     migrate_setting(ProxyUseTor, "fUseSeparateProxyTor");
     migrate_setting(Language, "language");
+    migrate_setting(LogEvents, "fLogEvents");
 
     // In case migrating QSettings caused any settings value to change, rerun
     // parameter interaction code to update other settings. This is particularly
     // important for the -listen setting, which should cause -listenonion, -upnp,
     // and other settings to default to false if it was set to false.
-    // (https://github.com/bitnet-core/gui/issues/567).
+    // (https://github.com/bitcoin-core/gui/issues/567).
     node().initParameterInteraction();
+}
+
+bool OptionsModel::getRestartApp() const
+{
+    return restartApp;
+}
+
+void OptionsModel::setRestartApp(bool value)
+{
+    restartApp = value;
 }

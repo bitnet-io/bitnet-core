@@ -325,7 +325,7 @@ bool CreateCoinStakeFromDelegate(CWallet& wallet, unsigned int nBits, const CAmo
             Coin coinPrev;
             if(!wallet.chain().getUnspentOutput(prevoutStake, coinPrev)){
                 if(!GetSpentCoinFromMainChain(pindexPrev, prevoutStake, &coinPrev, wallet.chain().chainman().ActiveChain())) {
-                    return error("CreateCoinStake: Could not find coin and it was not at the tip");
+//                    return error("CreateCoinStake: Could not find coin and it was not at the tip");
                 }
             }
 

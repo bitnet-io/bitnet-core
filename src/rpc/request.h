@@ -1,5 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-2021 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -36,8 +36,35 @@ public:
     std::string authUser;
     std::string peerAddr;
     std::any context;
+    bool isLongPolling = false;
+    void *httpreq = nullptr;
 
     void parse(const UniValue& valRequest);
+
+    /**
+     * Start long-polling
+     */
+    virtual void PollStart();
+
+    /**
+     * Ping long-poll connection with an empty character to make sure it's still alive.
+     */
+    virtual void PollPing();
+
+    /**
+     * Returns whether the underlying long-poll connection is still alive.
+     */
+    virtual bool PollAlive();
+
+    /**
+     * End a long poll request.
+     */
+    virtual void PollCancel();
+
+    /**
+     * Return the JSON result of a long poll request
+     */
+    virtual void PollReply(const UniValue& result);
 };
 
 #endif // BITCOIN_RPC_REQUEST_H

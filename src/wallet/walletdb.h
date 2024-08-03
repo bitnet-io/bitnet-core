@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -26,6 +26,10 @@ class CMasterKey;
 class CWallet;
 class CWalletTx;
 struct WalletContext;
+class CTokenInfo;
+class CTokenTx;
+class CDelegationInfo;
+class CSuperStakerInfo;
 
 /**
  * Overview of wallet database classes:
@@ -52,8 +56,7 @@ enum class DBErrors
     LOAD_FAIL,
     NEED_REWRITE,
     NEED_RESCAN,
-    UNKNOWN_DESCRIPTOR,
-    UNEXPECTED_LEGACY_ENTRY
+    UNKNOWN_DESCRIPTOR
 };
 
 namespace DBKeys {
@@ -86,6 +89,11 @@ extern const std::string WALLETDESCRIPTORCKEY;
 extern const std::string WALLETDESCRIPTORKEY;
 extern const std::string WATCHMETA;
 extern const std::string WATCHS;
+extern const std::string TOKEN;
+extern const std::string TOKENTX;
+extern const std::string CONTRACTDATA;
+extern const std::string DELEGATION;
+extern const std::string SUPERSTAKER;
 
 // Keys in this set pertain only to the legacy wallet (LegacyScriptPubKeyMan) and are removed during migration from legacy to descriptors.
 extern const std::unordered_set<std::string> LEGACY_TYPES;
@@ -232,6 +240,18 @@ public:
     bool WriteTx(const CWalletTx& wtx);
     bool EraseTx(uint256 hash);
 
+    bool WriteToken(const CTokenInfo& wtoken);
+    bool EraseToken(uint256 hash);
+
+    bool WriteTokenTx(const CTokenTx& wTokenTx);
+    bool EraseTokenTx(uint256 hash);
+
+    bool WriteDelegation(const CDelegationInfo& wdelegation);
+    bool EraseDelegation(uint256 hash);
+
+    bool WriteSuperStaker(const CSuperStakerInfo& wsuperStaker);
+    bool EraseSuperStaker(uint256 hash);
+
     bool WriteKeyMetadata(const CKeyMetadata& meta, const CPubKey& pubkey, const bool overwrite);
     bool WriteKey(const CPubKey& vchPubKey, const CPrivKey& vchPrivKey, const CKeyMetadata &keyMeta);
     bool WriteCryptedKey(const CPubKey& vchPubKey, const std::vector<unsigned char>& vchCryptedSecret, const CKeyMetadata &keyMeta);
@@ -272,8 +292,13 @@ public:
     bool WriteActiveScriptPubKeyMan(uint8_t type, const uint256& id, bool internal);
     bool EraseActiveScriptPubKeyMan(uint8_t type, bool internal);
 
+    /// Write contract data key,value tuple to database
+    bool WriteContractData(const std::string &address, const std::string &key, const std::string &value);
+    /// Erase contract data tuple from wallet database
+    bool EraseContractData(const std::string &address, const std::string &key);
+
     DBErrors LoadWallet(CWallet* pwallet);
-    DBErrors FindWalletTxHashes(std::vector<uint256>& tx_hashes);
+    DBErrors FindWalletTx(std::vector<uint256>& vTxHash, std::list<CWalletTx>& vWtx);
     DBErrors ZapSelectTx(std::vector<uint256>& vHashIn, std::vector<uint256>& vHashOut);
     /* Function to determine if a certain KV/key-type is a key (cryptographical key) type */
     static bool IsKeyType(const std::string& strType);
@@ -303,7 +328,7 @@ void MaybeCompactWalletDB(WalletContext& context);
 using KeyFilterFn = std::function<bool(const std::string&)>;
 
 //! Unserialize a given Key-Value pair and load it into the wallet
-bool ReadKeyValue(CWallet* pwallet, DataStream& ssKey, CDataStream& ssValue, std::string& strType, std::string& strErr, const KeyFilterFn& filter_fn = nullptr);
+bool ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue, std::string& strType, std::string& strErr, const KeyFilterFn& filter_fn = nullptr);
 
 /** Return object for accessing dummy database with no read/write capabilities. */
 std::unique_ptr<WalletDatabase> CreateDummyWalletDatabase();

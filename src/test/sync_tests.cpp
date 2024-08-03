@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2022 The Bitnet Core developers
+// Copyright (c) 2012-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -107,12 +107,12 @@ BOOST_AUTO_TEST_CASE(potential_deadlock_detected)
 #ifdef DEBUG_LOCKORDER
 BOOST_AUTO_TEST_CASE(double_lock_mutex)
 {
-    TestDoubleLock<Mutex>(/*should_throw=*/true);
+    TestDoubleLock<Mutex>(true /* should throw */);
 }
 
 BOOST_AUTO_TEST_CASE(double_lock_recursive_mutex)
 {
-    TestDoubleLock<RecursiveMutex>(/*should_throw=*/false);
+    TestDoubleLock<RecursiveMutex>(false /* should not throw */);
 }
 #endif /* DEBUG_LOCKORDER */
 

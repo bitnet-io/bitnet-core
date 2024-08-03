@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018-2022 The Bitnet Core developers
+# Copyright (c) 2018-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test createwallet arguments.
@@ -8,19 +8,17 @@
 from test_framework.address import key_to_p2wpkh
 from test_framework.descriptors import descsum_create
 from test_framework.key import ECKey
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
 )
 from test_framework.wallet_util import bytes_to_wif, generate_wif_key
 
-class CreateWalletTest(BitnetTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
+class CreateWalletTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
+        self.extra_args = [['-addresstype=bech32']]
 
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()
@@ -154,7 +152,7 @@ class CreateWalletTest(BitnetTestFramework):
         w6.keypoolrefill(1)
         # There should only be 1 key for legacy, 3 for descriptors
         walletinfo = w6.getwalletinfo()
-        keys = 4 if self.options.descriptors else 1
+        keys = 5 if self.options.descriptors else 1
         assert_equal(walletinfo['keypoolsize'], keys)
         assert_equal(walletinfo['keypoolsize_hd_internal'], keys)
         # Allow empty passphrase, but there should be a warning

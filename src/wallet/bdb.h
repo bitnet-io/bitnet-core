@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -165,51 +165,40 @@ public:
     std::unique_ptr<DatabaseBatch> MakeBatch(bool flush_on_close = true) override;
 };
 
-/** RAII class that automatically cleanses its data on destruction */
-class SafeDbt final
-{
-    Dbt m_dbt;
-
-public:
-    // construct Dbt with internally-managed data
-    SafeDbt();
-    // construct Dbt with provided data
-    SafeDbt(void* data, size_t size);
-    ~SafeDbt();
-
-    // delegate to Dbt
-    const void* get_data() const;
-    uint32_t get_size() const;
-
-    // conversion operator to access the underlying Dbt
-    operator Dbt*();
-};
-
-class BerkeleyCursor : public DatabaseCursor
-{
-private:
-    Dbc* m_cursor;
-
-public:
-    explicit BerkeleyCursor(BerkeleyDatabase& database);
-    ~BerkeleyCursor() override;
-
-    Status Next(DataStream& key, DataStream& value) override;
-};
-
 /** RAII class that provides access to a Berkeley database */
 class BerkeleyBatch : public DatabaseBatch
 {
+    /** RAII class that automatically cleanses its data on destruction */
+    class SafeDbt final
+    {
+        Dbt m_dbt;
+
+    public:
+        // construct Dbt with internally-managed data
+        SafeDbt();
+        // construct Dbt with provided data
+        SafeDbt(void* data, size_t size);
+        ~SafeDbt();
+
+        // delegate to Dbt
+        const void* get_data() const;
+        uint32_t get_size() const;
+
+        // conversion operator to access the underlying Dbt
+        operator Dbt*();
+    };
+
 private:
-    bool ReadKey(DataStream&& key, DataStream& value) override;
-    bool WriteKey(DataStream&& key, DataStream&& value, bool overwrite = true) override;
-    bool EraseKey(DataStream&& key) override;
-    bool HasKey(DataStream&& key) override;
+    bool ReadKey(CDataStream&& key, CDataStream& value) override;
+    bool WriteKey(CDataStream&& key, CDataStream&& value, bool overwrite = true) override;
+    bool EraseKey(CDataStream&& key) override;
+    bool HasKey(CDataStream&& key) override;
 
 protected:
-    Db* pdb{nullptr};
+    Db* pdb;
     std::string strFile;
-    DbTxn* activeTxn{nullptr};
+    DbTxn* activeTxn;
+    Dbc* m_cursor;
     bool fReadOnly;
     bool fFlushOnClose;
     BerkeleyEnvironment *env;
@@ -225,7 +214,9 @@ public:
     void Flush() override;
     void Close() override;
 
-    std::unique_ptr<DatabaseCursor> GetNewCursor() override;
+    bool StartCursor() override;
+    bool ReadAtCursor(CDataStream& ssKey, CDataStream& ssValue, bool& complete) override;
+    void CloseCursor() override;
     bool TxnBegin() override;
     bool TxnCommit() override;
     bool TxnAbort() override;

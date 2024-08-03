@@ -1,15 +1,13 @@
-Building Bitnet Core with Visual Studio
+Building Bitcoin Core with Visual Studio
 ========================================
 
 Introduction
 ---------------------
-Visual Studio 2022 is minimum required to build Bitnet Core.
+Visual Studio 2022 is minimum required to build Bitcoin Core.
 
 Solution and project files to build with `msbuild` or Visual Studio can be found in the `build_msvc` directory.
 
-To build Bitnet Core from the command-line, it is sufficient to only install the [Visual Studio Build Tools](https://visualstudio.microsoft.com/downloads/) component.
-
-The "Desktop development with C++" workload must be installed as well.
+To build Bitcoin Core from the command-line, it is sufficient to only install the Visual Studio Build Tools component.
 
 Building with Visual Studio is an alternative to the Linux based [cross-compiler build](../doc/build-windows.md).
 
@@ -17,7 +15,7 @@ Building with Visual Studio is an alternative to the Linux based [cross-compiler
 Prerequisites
 ---------------------
 To build [dependencies](../doc/dependencies.md) (except for [Qt](#qt)),
-the default approach is to use the [vcpkg](https://vcpkg.io) package manager from Microsoft:
+the default approach is to use the [vcpkg](https://docs.microsoft.com/en-us/cpp/vcpkg) package manager from Microsoft:
 
 1. [Install](https://vcpkg.io/en/getting-started.html) vcpkg.
 
@@ -30,7 +28,7 @@ Add-Content -Path "vcpkg\triplets\x64-windows-static.cmake" -Value "set(VCPKG_BU
 
 Qt
 ---------------------
-To build Bitnet Core with the GUI, a static build of Qt is required.
+To build Bitcoin Core with the GUI, a static build of Qt is required.
 
 1. Download a single ZIP archive of Qt source code from https://download.qt.io/official_releases/qt/ (e.g., [`qt-everywhere-opensource-src-5.15.5.zip`](https://download.qt.io/official_releases/qt/5.15/5.15.5/single/qt-everywhere-opensource-src-5.15.5.zip)), and expand it into a dedicated folder. The following instructions assume that this folder is `C:\dev\qt-source`.
 
@@ -46,7 +44,7 @@ nmake install
 
 One could speed up building with [`jom`](https://wiki.qt.io/Jom), a replacement for `nmake` which makes use of all CPU cores.
 
-To build Bitnet Core without Qt, unload or disable the `bitnet-qt`, `libbitnet_qt` and `test_bitnet-qt` projects.
+To build Bitcoin Core without Qt, unload or disable the `bitcoin-qt`, `libbitcoin_qt` and `test_bitcoin-qt` projects.
 
 
 Building
@@ -62,19 +60,19 @@ python build_msvc\msvc-autogen.py
 3. To build from the command-line with the Visual Studio toolchain use:
 
 ```cmd
-msbuild build_msvc\bitnet.sln -property:Configuration=Release -maxCpuCount -verbosity:minimal
+msbuild build_msvc\bitcoin.sln -property:Configuration=Release -maxCpuCount -verbosity:minimal
 ```
 
-Alternatively, open the `build_msvc/bitnet.sln` file in Visual Studio.
+Alternatively, open the `build_msvc/bitcoin.sln` file in Visual Studio.
 
 Security
 ---------------------
-[Base address randomization](https://learn.microsoft.com/en-us/cpp/build/reference/dynamicbase-use-address-space-layout-randomization) is used to make Bitnet Core more secure. When building Bitnet using the `build_msvc` process base address randomization can be disabled by editing `common.init.vcproj` to change `RandomizedBaseAddress` from `true` to `false` and then rebuilding the project.
+[Base address randomization](https://docs.microsoft.com/en-us/cpp/build/reference/dynamicbase-use-address-space-layout-randomization?view=msvc-160) is used to make Bitcoin Core more secure. When building Bitcoin using the `build_msvc` process base address randomization can be disabled by editing `common.init.vcproj` to change `RandomizedBaseAddress` from `true` to `false` and then rebuilding the project.
 
-To check if `bitnetd` has `RandomizedBaseAddress` enabled or disabled run
+To check if `bitcoind` has `RandomizedBaseAddress` enabled or disabled run
 
 ```
-.\dumpbin.exe /headers src/bitnetd.exe
+.\dumpbin.exe /headers src/bitcoind.exe
 ```
 
 If is it enabled then in the output `Dynamic base` will be listed in the `DLL characteristics` under `OPTIONAL HEADER VALUES` as shown below

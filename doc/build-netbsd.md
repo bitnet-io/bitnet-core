@@ -12,7 +12,7 @@ Install the required dependencies the usual way you [install software on NetBSD]
 The example commands below use `pkgin`.
 
 ```bash
-pkgin install autoconf automake libtool pkg-config git gmake boost libevent
+pkgin install autoconf automake libtool pkg-config git gmake boost libevent gmp
 
 ```
 
@@ -34,12 +34,12 @@ Then, when configuring, pass the following:
 
 See [dependencies.md](dependencies.md) for a complete overview.
 
-### 2. Clone Bitnet Repo
+### 2. Clone Qtum Repo
 
 Clone the Bitnet Core repository to a directory. All build scripts and commands will run from this directory.
 
 ```bash
-git clone https://github.com/bitnet/bitnet.git
+git clone https://github.com/qtumproject/qtum --recursive
 ```
 
 ### 3. Install Optional Dependencies
@@ -50,7 +50,7 @@ It is not necessary to build wallet functionality to run bitnetd or the GUI.
 
 ###### Descriptor Wallet Support
 
-`sqlite3` is required to enable support for [descriptor wallets](https://github.com/bitnet/bitnet/blob/master/doc/descriptors.md).
+`sqlite3` is required to enable support for [descriptor wallets](https://github.com/qtumproject/qtum/blob/master/doc/descriptors.md).
 
 ```bash
 pkgin install sqlite3

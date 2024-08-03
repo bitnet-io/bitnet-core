@@ -1,7 +1,3 @@
-// Copyright (c) 2021 The Bitnet Core developers
-// Distributed under the MIT software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
 #include <policy/fees_args.h>
 
 #include <util/system.h>

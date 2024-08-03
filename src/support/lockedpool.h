@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2020 The Bitnet Core developers
+// Copyright (c) 2016-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -89,23 +89,23 @@ public:
      */
     bool addressInArena(void *ptr) const { return ptr >= base && ptr < end; }
 private:
-    typedef std::multimap<size_t, void*> SizeToChunkSortedMap;
+    typedef std::multimap<size_t, char*> SizeToChunkSortedMap;
     /** Map to enable O(log(n)) best-fit allocation, as it's sorted by size */
     SizeToChunkSortedMap size_to_free_chunk;
 
-    typedef std::unordered_map<void*, SizeToChunkSortedMap::const_iterator> ChunkToSizeMap;
+    typedef std::unordered_map<char*, SizeToChunkSortedMap::const_iterator> ChunkToSizeMap;
     /** Map from begin of free chunk to its node in size_to_free_chunk */
     ChunkToSizeMap chunks_free;
     /** Map from end of free chunk to its node in size_to_free_chunk */
     ChunkToSizeMap chunks_free_end;
 
     /** Map from begin of used chunk to its size */
-    std::unordered_map<void*, size_t> chunks_used;
+    std::unordered_map<char*, size_t> chunks_used;
 
     /** Base address of arena */
-    void* base;
+    char* base;
     /** End address of arena */
-    void* end;
+    char* end;
     /** Minimum chunk alignment */
     size_t alignment;
 };
@@ -198,7 +198,7 @@ private:
 
     std::list<LockedPageArena> arenas;
     LockingFailed_Callback lf_cb;
-    size_t cumulative_bytes_locked{0};
+    size_t cumulative_bytes_locked;
     /** Mutex protects access to this pool's data structures, including arenas.
      */
     mutable std::mutex mutex;

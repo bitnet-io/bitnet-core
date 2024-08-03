@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2016-2022 The Bitnet Core developers
+# Copyright (c) 2016-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test compact blocks (BIP 152)."""
 import random
+from decimal import Decimal
 
 from test_framework.blocktools import (
     COINBASE_MATURITY,
@@ -55,15 +56,16 @@ from test_framework.script import (
     OP_DROP,
     OP_TRUE,
 )
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     softfork_active,
+    satoshi_round,
 )
 from test_framework.wallet import MiniWallet
 
 
-# TestP2PConn: A peer we use to send messages to bitnetd, and store responses.
+# TestP2PConn: A peer we use to send messages to bitcoind, and store responses.
 class TestP2PConn(P2PInterface):
     def __init__(self):
         super().__init__()
@@ -137,7 +139,7 @@ class TestP2PConn(P2PInterface):
         self.send_message(message)
         self.wait_for_disconnect(timeout)
 
-class CompactBlocksTest(BitnetTestFramework):
+class CompactBlocksTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
@@ -260,7 +262,7 @@ class CompactBlocksTest(BitnetTestFramework):
         test_node.send_and_ping(msg_sendcmpct(announce=False, version=2))
         check_announcement_of_new_block(node, test_node, lambda p: "cmpctblock" not in p.last_message and "headers" in p.last_message)
 
-    # This test actually causes bitnetd to (reasonably!) disconnect us, so do this last.
+    # This test actually causes bitcoind to (reasonably!) disconnect us, so do this last.
     def test_invalid_cmpctblock_message(self):
         self.generate(self.nodes[0], COINBASE_MATURITY + 1)
         block = self.build_block_on_tip(self.nodes[0])
@@ -275,7 +277,7 @@ class CompactBlocksTest(BitnetTestFramework):
         assert_equal(int(self.nodes[0].getbestblockhash(), 16), block.hashPrevBlock)
 
     # Compare the generated shortids to what we expect based on BIP 152, given
-    # bitnetd's choice of nonce.
+    # bitcoind's choice of nonce.
     def test_compactblock_construction(self, test_node):
         node = self.nodes[0]
         # Generate a bunch of transactions.
@@ -371,7 +373,7 @@ class CompactBlocksTest(BitnetTestFramework):
                 header_and_shortids.shortids.pop(0)
             index += 1
 
-    # Test that bitnetd requests compact blocks when we announce new blocks
+    # Test that bitcoind requests compact blocks when we announce new blocks
     # via header or inv, and that responding to getblocktxn causes the block
     # to be successfully reconstructed.
     def test_compactblock_requests(self, test_node):
@@ -419,7 +421,7 @@ class CompactBlocksTest(BitnetTestFramework):
         for _ in range(num_transactions):
             tx = CTransaction()
             tx.vin.append(CTxIn(COutPoint(utxo[0], utxo[1]), b''))
-            tx.vout.append(CTxOut(utxo[2] - 1000, CScript([OP_TRUE, OP_DROP] * 15 + [OP_TRUE])))
+            tx.vout.append(CTxOut(utxo[2] - 100000, CScript([OP_TRUE, OP_DROP] * 15 + [OP_TRUE])))
             tx.rehash()
             utxo = [tx.sha256, 0, tx.vout[0].nValue]
             block.vtx.append(tx)
@@ -539,7 +541,7 @@ class CompactBlocksTest(BitnetTestFramework):
         assert_equal(absolute_indexes, [6, 7, 8, 9, 10])
 
         # Now give an incorrect response.
-        # Note that it's possible for bitnetd to be smart enough to know we're
+        # Note that it's possible for bitcoind to be smart enough to know we're
         # lying, since it could check to see if the shortid matches what we're
         # sending, and eg disconnect us for misbehavior.  If that behavior
         # change was made, we could just modify this test by having a
@@ -564,7 +566,7 @@ class CompactBlocksTest(BitnetTestFramework):
 
     def test_getblocktxn_handler(self, test_node):
         node = self.nodes[0]
-        # bitnetd will not send blocktxn responses for blocks whose height is
+        # bitcoind will not send blocktxn responses for blocks whose height is
         # more than 10 blocks deep.
         MAX_GETBLOCKTXN_DEPTH = 10
         chain_height = node.getblockcount()
@@ -618,7 +620,7 @@ class CompactBlocksTest(BitnetTestFramework):
     def test_low_work_compactblocks(self, test_node):
         # A compactblock with insufficient work won't get its header included
         node = self.nodes[0]
-        hashPrevBlock = int(node.getblockhash(node.getblockcount() - 150), 16)
+        hashPrevBlock = int(node.getblockhash(node.getblockcount() - 2050), 16)
         block = self.build_block_on_tip(node)
         block.hashPrevBlock = hashPrevBlock
         block.solve()

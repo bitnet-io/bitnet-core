@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2021 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,7 +20,7 @@ typedef std::pair<std::vector<unsigned char>, std::vector<unsigned char> > KeyVa
 
 static bool KeyFilter(const std::string& type)
 {
-    return WalletBatch::IsKeyType(type) || type == DBKeys::HDCHAIN;
+    return WalletBatch::IsKeyType(type) || type == DBKeys::HDCHAIN || type == DBKeys::TOKEN || type == DBKeys::TOKENTX || type == DBKeys::DELEGATION;
 }
 
 bool RecoverDatabaseFile(const ArgsManager& args, const fs::path& file_path, bilingual_str& error, std::vector<bilingual_str>& warnings)
@@ -135,11 +135,11 @@ bool RecoverDatabaseFile(const ArgsManager& args, const fs::path& file_path, bil
     }
 
     DbTxn* ptxn = env->TxnBegin();
-    CWallet dummyWallet(nullptr, "", CreateDummyWalletDatabase());
+    CWallet dummyWallet(nullptr, "", gArgs, CreateDummyWalletDatabase());
     for (KeyValPair& row : salvagedData)
     {
         /* Filter for only private key type KV pairs to be added to the salvaged wallet */
-        DataStream ssKey{row.first};
+        CDataStream ssKey(row.first, SER_DISK, CLIENT_VERSION);
         CDataStream ssValue(row.second, SER_DISK, CLIENT_VERSION);
         std::string strType, strErr;
         bool fReadOK;

@@ -1,17 +1,17 @@
-# Multiprocess Bitnet
+# Multiprocess Qtum
 
-On unix systems, the `--enable-multiprocess` build option can be passed to `./configure` to build new `bitnet-node`, `bitnet-wallet`, and `bitnet-gui` executables alongside existing `bitnetd` and `bitnet-qt` executables.
+On unix systems, the `--enable-multiprocess` build option can be passed to `./configure` to build new `qtum-node`, `bitnet-wallet`, and `qtum-gui` executables alongside existing `bitnetd` and `bitnet-qt` executables.
 
-`bitnet-node` is a drop-in replacement for `bitnetd`, and `bitnet-gui` is a drop-in replacement for `bitnet-qt`, and there are no differences in use or external behavior between the new and old executables. But internally (after [#10102](https://github.com/bitnet/bitnet/pull/10102)), `bitnet-gui` will spawn a `bitnet-node` process to run P2P and RPC code, communicating with it across a socket pair, and `bitnet-node` will spawn `bitnet-wallet` to run wallet code, also communicating over a socket pair. This will let node, wallet, and GUI code run in separate address spaces for better isolation, and allow future improvements like being able to start and stop components independently on different machines and environments.
+`qtum-node` is a drop-in replacement for `bitnetd`, and `qtum-gui` is a drop-in replacement for `bitnet-qt`, and there are no differences in use or external behavior between the new and old executables. But internally (after [#10102](https://github.com/bitcoin/bitcoin/pull/10102)), `qtum-gui` will spawn a `qtum-node` process to run P2P and RPC code, communicating with it across a socket pair, and `qtum-node` will spawn `bitnet-wallet` to run wallet code, also communicating over a socket pair. This will let node, wallet, and GUI code run in separate address spaces for better isolation, and allow future improvements like being able to start and stop components independently on different machines and environments.
 
 ## Next steps
 
-Specific next steps after [#10102](https://github.com/bitnet/bitnet/pull/10102) will be:
+Specific next steps after [#10102](https://github.com/bitcoin/bitcoin/pull/10102) will be:
 
-- [ ] Adding `-ipcbind` and `-ipcconnect` options to `bitnet-node`, `bitnet-wallet`, and `bitnet-gui` executables so they can listen and connect to TCP ports and unix socket paths. This will allow separate processes to be started and stopped any time and connect to each other.
+- [ ] Adding `-ipcbind` and `-ipcconnect` options to `qtum-node`, `bitnet-wallet`, and `qtum-gui` executables so they can listen and connect to TCP ports and unix socket paths. This will allow separate processes to be started and stopped any time and connect to each other.
 - [ ] Adding `-server` and `-rpcbind` options to the `bitnet-wallet` executable so wallet processes can handle RPC requests directly without going through the node.
 - [ ] Supporting windows, not just unix systems. The existing socket code is already cross-platform, so the only windows-specific code that needs to be written is code spawning a process and passing a socket descriptor. This can be implemented with `CreateProcess` and `WSADuplicateSocket`. Example: https://memset.wordpress.com/2010/10/13/win32-api-passing-socket-with-ipc-method/.
-- [ ] Adding sandbox features, restricting subprocess access to resources and data. See [https://eklitzke.org/multiprocess-bitnet](https://eklitzke.org/multiprocess-bitnet).
+- [ ] Adding sandbox features, restricting subprocess access to resources and data. See [https://eklitzke.org/multiprocess-bitcoin](https://eklitzke.org/multiprocess-bitcoin).
 
 ## Debugging
 
@@ -26,8 +26,8 @@ cd <BITCOIN_SOURCE_DIRECTORY>
 make -C depends NO_QT=1 MULTIPROCESS=1
 CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure
 make
-src/bitnet-node -regtest -printtoconsole -debug=ipc
-BITCOIND=bitnet-node test/functional/test_runner.py
+src/qtum-node -regtest -printtoconsole -debug=ipc
+BITCOIND=qtum-node test/functional/test_runner.py
 ```
 
 The configure script will pick up settings and library locations from the depends directory, so there is no need to pass `--enable-multiprocess` as a separate flag when using the depends system (it's controlled by the `MULTIPROCESS=1` option).

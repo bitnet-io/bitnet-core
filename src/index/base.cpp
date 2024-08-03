@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 The Bitnet Core developers
+// Copyright (c) 2017-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,7 +8,6 @@
 #include <kernel/chain.h>
 #include <node/blockstorage.h>
 #include <node/context.h>
-#include <node/database_args.h>
 #include <node/interface_ui.h>
 #include <shutdown.h>
 #include <tinyformat.h>
@@ -49,13 +48,7 @@ CBlockLocator GetLocator(interfaces::Chain& chain, const uint256& block_hash)
 }
 
 BaseIndex::DB::DB(const fs::path& path, size_t n_cache_size, bool f_memory, bool f_wipe, bool f_obfuscate) :
-    CDBWrapper{DBParams{
-        .path = path,
-        .cache_bytes = n_cache_size,
-        .memory_only = f_memory,
-        .wipe_data = f_wipe,
-        .obfuscate = f_obfuscate,
-        .options = [] { DBOptions options; node::ReadDatabaseArgs(gArgs, options); return options; }()}}
+    CDBWrapper(path, n_cache_size, f_memory, f_wipe, f_obfuscate)
 {}
 
 bool BaseIndex::DB::ReadBestBlock(CBlockLocator& locator) const
@@ -388,7 +381,7 @@ void BaseIndex::Interrupt()
 bool BaseIndex::Start()
 {
     // m_chainstate member gives indexing code access to node internals. It is
-    // removed in followup https://github.com/bitnet/bitnet/pull/24230
+    // removed in followup https://github.com/bitcoin/bitcoin/pull/24230
     m_chainstate = &m_chain->context()->chainman->ActiveChainstate();
     // Need to register this ValidationInterface before running Init(), so that
     // callbacks are not missed if Init sets m_synced to true.
@@ -422,9 +415,8 @@ IndexSummary BaseIndex::GetSummary() const
     return summary;
 }
 
-void BaseIndex::SetBestBlockIndex(const CBlockIndex* block)
-{
-    assert(!m_chainstate->m_blockman.IsPruneMode() || AllowPrune());
+void BaseIndex::SetBestBlockIndex(const CBlockIndex* block) {
+    assert(!node::fPruneMode || AllowPrune());
 
     if (AllowPrune() && block) {
         node::PruneLockInfo prune_lock;

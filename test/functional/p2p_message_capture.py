@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2020-2022 The Bitnet Core developers
+# Copyright (c) 2020-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test per-peer message capture capability.
@@ -12,7 +12,7 @@ from io import BytesIO
 import os
 
 from test_framework.p2p import P2PDataStore, MESSAGEMAP
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal
 
 TIME_SIZE = 8
@@ -36,7 +36,7 @@ def mini_parser(dat_file):
     """
     with open(dat_file, 'rb') as f_in:
         # This should have at least one message in it
-        assert os.fstat(f_in.fileno()).st_size >= TIME_SIZE + LENGTH_SIZE + MSGTYPE_SIZE
+        assert(os.fstat(f_in.fileno()).st_size >= TIME_SIZE + LENGTH_SIZE + MSGTYPE_SIZE)
         while True:
             tmp_header_raw = f_in.read(TIME_SIZE + LENGTH_SIZE + MSGTYPE_SIZE)
             if not tmp_header_raw:
@@ -44,14 +44,14 @@ def mini_parser(dat_file):
             tmp_header = BytesIO(tmp_header_raw)
             tmp_header.read(TIME_SIZE) # skip the timestamp field
             msgtype = tmp_header.read(MSGTYPE_SIZE).rstrip(b'\x00')
-            assert msgtype in MESSAGEMAP
+            assert(msgtype in MESSAGEMAP)
             length: int = int.from_bytes(tmp_header.read(LENGTH_SIZE), "little")
             data = f_in.read(length)
             assert_equal(len(data), length)
 
 
 
-class MessageCaptureTest(BitnetTestFramework):
+class MessageCaptureTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.extra_args = [["-capturemessages"]]

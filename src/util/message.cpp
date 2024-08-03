@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,6 +11,7 @@
 #include <uint256.h>
 #include <util/message.h>
 #include <util/strencodings.h>
+#include <util/signstr.h>
 
 #include <cassert>
 #include <optional>
@@ -22,7 +23,7 @@
  * Text used to signify that a signed message follows and to prevent
  * inadvertently signing a transaction.
  */
-const std::string MESSAGE_MAGIC = "Bitnet Signed Message:\n";
+const std::string MESSAGE_MAGIC = SignStr::strMessageMagic;
 
 MessageVerificationResult MessageVerify(
     const std::string& address,

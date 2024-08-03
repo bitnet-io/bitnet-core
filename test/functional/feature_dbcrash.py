@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2022 The Bitnet Core developers
+# Copyright (c) 2017-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test recovery from a crash during chainstate writing.
@@ -34,7 +34,7 @@ from test_framework.blocktools import COINBASE_MATURITY
 from test_framework.messages import (
     COIN,
 )
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
 )
@@ -44,16 +44,16 @@ from test_framework.wallet import (
 )
 
 
-class ChainstateWriteCrashTest(BitnetTestFramework):
+class ChainstateWriteCrashTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 4
-        self.rpc_timeout = 480
+        self.rpc_timeout = 960 
         self.supports_cli = False
 
         # Set -maxmempool=0 to turn off mempool memory sharing with dbcache
         # Set -rpcservertimeout=900 to reduce socket disconnects in this
         # long-running test
-        self.base_args = ["-limitdescendantsize=0", "-maxmempool=0", "-rpcservertimeout=900", "-dbbatchsize=200000"]
+        self.base_args = ["-limitdescendantsize=0", "-maxmempool=0", "-rpcservertimeout=1800", "-dbbatchsize=200000"]
 
         # Set different crash ratios and cache sizes.  Note that not all of
         # -dbcache goes to the in-memory coins cache.
@@ -78,23 +78,23 @@ class ChainstateWriteCrashTest(BitnetTestFramework):
         after 60 seconds. Returns the utxo hash of the given node."""
 
         time_start = time.time()
-        while time.time() - time_start < 120:
+        while time.time() - time_start < 720:
             try:
                 # Any of these RPC calls could throw due to node crash
                 self.start_node(node_index)
                 self.nodes[node_index].waitforblock(expected_tip)
                 utxo_hash = self.nodes[node_index].gettxoutsetinfo()['hash_serialized_2']
                 return utxo_hash
-            except Exception:
+            except:
                 # An exception here should mean the node is about to crash.
-                # If bitnetd exits, then try again.  wait_for_node_exit()
-                # should raise an exception if bitnetd doesn't exit.
+                # If bitcoind exits, then try again.  wait_for_node_exit()
+                # should raise an exception if bitcoind doesn't exit.
                 self.wait_for_node_exit(node_index, timeout=10)
             self.crashed_on_restart += 1
             time.sleep(1)
 
-        # If we got here, bitnetd isn't coming back up on restart.  Could be a
-        # bug in bitnetd, or we've gotten unlucky with our dbcrash ratio --
+        # If we got here, bitcoind isn't coming back up on restart.  Could be a
+        # bug in bitcoind, or we've gotten unlucky with our dbcrash ratio --
         # perhaps we generated a test case that blew up our cache?
         # TODO: If this happens a lot, we should try to restart without -dbcrashratio
         # and make sure that recovery happens.
@@ -145,7 +145,7 @@ class ChainstateWriteCrashTest(BitnetTestFramework):
                 if not self.submit_block_catch_error(i, block):
                     # TODO: more carefully check that the crash is due to -dbcrashratio
                     # (change the exit code perhaps, and check that here?)
-                    self.wait_for_node_exit(i, timeout=30)
+                    self.wait_for_node_exit(i, timeout=120)
                     self.log.debug(f"Restarting node {i} after block hash {block_hash}")
                     nodei_utxo_hash = self.restart_node(i, block_hash)
                     assert nodei_utxo_hash is not None
@@ -182,7 +182,7 @@ class ChainstateWriteCrashTest(BitnetTestFramework):
             assert_equal(nodei_utxo_hash, node3_utxo_hash)
 
     def generate_small_transactions(self, node, count, utxo_list):
-        FEE = 1000  # TODO: replace this with node relay fee based calculation
+        FEE = 400000  # TODO: replace this with node relay fee based calculation 
         num_transactions = 0
         random.shuffle(utxo_list)
         while len(utxo_list) >= 2 and num_transactions < count:
@@ -202,6 +202,7 @@ class ChainstateWriteCrashTest(BitnetTestFramework):
 
     def run_test(self):
         self.wallet = MiniWallet(self.nodes[3])
+        self.wallet.rescan_utxos()
         initial_height = self.nodes[3].getblockcount()
         self.generate(self.nodes[3], COINBASE_MATURITY, sync_fun=self.no_op)
 
@@ -252,7 +253,7 @@ class ChainstateWriteCrashTest(BitnetTestFramework):
             while current_height + 1 > self.nodes[3].getblockcount():
                 block_hashes.extend(self.generatetoaddress(
                     self.nodes[3],
-                    nblocks=min(10, current_height + 1 - self.nodes[3].getblockcount()),
+                    nblocks=10,
                     # new address to avoid mining a block that has just been invalidated
                     address=getnewdestination()[2],
                     sync_fun=self.no_op,

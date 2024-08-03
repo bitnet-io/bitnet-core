@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2021 The Bitcoin Core developers
 // Copyright (c) 2017 The Zcash developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -42,10 +42,10 @@ public:
 private:
     //! Whether this private key is valid. We check for correctness when modifying the key
     //! data, so fValid should always correspond to the actual state.
-    bool fValid{false};
+    bool fValid;
 
     //! Whether the public key corresponding to this private key is (to be) compressed.
-    bool fCompressed{false};
+    bool fCompressed;
 
     //! The actual byte data
     std::vector<unsigned char, secure_allocator<unsigned char> > keydata;
@@ -55,7 +55,7 @@ private:
 
 public:
     //! Construct an invalid private key.
-    CKey()
+    CKey() : fValid(false), fCompressed(false)
     {
         // Important: vch must be 32 bytes in length to not break serialization
         keydata.resize(32);
@@ -189,5 +189,8 @@ void ECC_Stop();
 
 /** Check that required EC support is available at runtime. */
 bool ECC_InitSanityCheck();
+
+/** Ensure that the signature is LowS */
+bool EnsureLowS(std::vector<unsigned char>& vchSig);
 
 #endif // BITCOIN_KEY_H

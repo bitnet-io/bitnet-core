@@ -22,7 +22,7 @@ int main(void) {
      * Here the message is "Hello, world!" and the hash function was SHA-256.
      * An actual implementation should just call SHA-256, but this example
      * hardcodes the output to avoid depending on an additional library.
-     * See https://bitnet.stackexchange.com/questions/81115/if-someone-wanted-to-pretend-to-be-satoshi-by-posting-a-fake-signature-to-defrau/81116#81116 */
+     * See https://bitcoin.stackexchange.com/questions/81115/if-someone-wanted-to-pretend-to-be-satoshi-by-posting-a-fake-signature-to-defrau/81116#81116 */
     unsigned char msg_hash[32] = {
         0x31, 0x5F, 0x5B, 0xDB, 0x76, 0xD0, 0x78, 0xC4,
         0x3B, 0x8A, 0xC0, 0x06, 0x4E, 0x4A, 0x01, 0x64,
@@ -38,8 +38,12 @@ int main(void) {
     int return_val;
     secp256k1_pubkey pubkey;
     secp256k1_ecdsa_signature sig;
-    /* Before we can call actual API functions, we need to create a "context". */
-    secp256k1_context* ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
+    /* The specification in secp256k1.h states that `secp256k1_ec_pubkey_create` needs
+     * a context object initialized for signing and `secp256k1_ecdsa_verify` needs
+     * a context initialized for verification, which is why we create a context
+     * for both signing and verification with the SECP256K1_CONTEXT_SIGN and
+     * SECP256K1_CONTEXT_VERIFY flags. */
+    secp256k1_context* ctx = secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY);
     if (!fill_random(randomize, sizeof(randomize))) {
         printf("Failed to generate randomness\n");
         return 1;

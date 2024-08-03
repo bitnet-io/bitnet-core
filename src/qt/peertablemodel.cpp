@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,9 +14,10 @@
 #include <QList>
 #include <QTimer>
 
-PeerTableModel::PeerTableModel(interfaces::Node& node, QObject* parent)
-    : QAbstractTableModel(parent),
-      m_node(node)
+PeerTableModel::PeerTableModel(interfaces::Node& node, QObject* parent) :
+    QAbstractTableModel(parent),
+    m_node(node),
+    timer(nullptr)
 {
     // set up timer for auto refresh
     timer = new QTimer(this);

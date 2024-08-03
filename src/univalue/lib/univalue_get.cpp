@@ -1,5 +1,5 @@
 // Copyright 2014 BitPay Inc.
-// Copyright 2015 Bitnet Core Developers
+// Copyright 2015 Bitcoin Core Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or https://opensource.org/licenses/mit-license.php.
 
@@ -60,7 +60,7 @@ const std::vector<UniValue>& UniValue::getValues() const
 bool UniValue::get_bool() const
 {
     checkType(VBOOL);
-    return isTrue();
+    return getBool();
 }
 
 const std::string& UniValue::get_str() const

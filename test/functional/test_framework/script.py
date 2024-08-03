@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2015-2022 The Bitnet Core developers
+# Copyright (c) 2015-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Functionality to build scripts, as well as signature hash functions.
 
-This file is modified from python-bitnetlib.
+This file is modified from python-bitcoinlib.
 """
 
 from collections import namedtuple
@@ -12,7 +12,7 @@ import struct
 import unittest
 from typing import List, Dict
 
-from .key import TaggedHash, tweak_add_pubkey, compute_xonly_pubkey
+from .key import TaggedHash, tweak_add_pubkey
 
 from .messages import (
     CTransaction,
@@ -37,7 +37,7 @@ def hash160(s):
     return ripemd160(sha256(s))
 
 def bn2vch(v):
-    """Convert number to bitnet-specific little endian format."""
+    """Convert number to bitcoin-specific little endian format."""
     # We need v.bit_length() bits, plus a sign bit for every nonzero number.
     n_bits = v.bit_length() + (v != 0)
     # The number of bytes for that is:
@@ -250,6 +250,10 @@ OP_NOP8 = CScriptOp(0xb7)
 OP_NOP9 = CScriptOp(0xb8)
 OP_NOP10 = CScriptOp(0xb9)
 
+OP_CREATE = CScriptOp(0xc1)
+OP_CALL = CScriptOp(0xc2)
+OP_SPEND = CScriptOp(0xc3)
+OP_SENDER = CScriptOp(0xc4)
 # BIP 342 opcodes (Tapscript)
 OP_CHECKSIGADD = CScriptOp(0xba)
 
@@ -367,6 +371,10 @@ OPCODE_NAMES.update({
     OP_NOP8: 'OP_NOP8',
     OP_NOP9: 'OP_NOP9',
     OP_NOP10: 'OP_NOP10',
+    OP_CREATE: 'OP_CREATE',
+    OP_CALL: 'OP_CALL',
+    OP_SPEND: 'OP_SPEND',
+    OP_SENDER: 'OP_SENDER',
     OP_CHECKSIGADD: 'OP_CHECKSIGADD',
     OP_INVALIDOPCODE: 'OP_INVALIDOPCODE',
 })
@@ -457,7 +465,16 @@ class CScript(bytes):
 
     def __add__(self, other):
         # add makes no sense for a CScript()
-        raise NotImplementedError
+        # raise NotImplementedError
+        # Do the coercion outside of the try block so that errors in it are
+        # noticed.
+        other = self.__coerce_instance(other)
+
+        try:
+            # bytes.__add__ always returns bytes instances unfortunately
+            return CScript(super(CScript, self).__add__(other))
+        except TypeError:
+            raise TypeError('Can not add a %r instance to a CScript' % other.__class__)
 
     def join(self, iterable):
         # join makes no sense for a CScript()
@@ -596,13 +613,6 @@ class CScript(bytes):
                     n += 20
             lastOpcode = opcode
         return n
-
-    def IsWitnessProgram(self):
-        """A witness program is any valid CScript that consists of a 1-byte
-           push opcode followed by a data push between 2 and 40 bytes."""
-        return ((4 <= len(self) <= 42) and
-                (self[0] == OP_0 or (OP_1 <= self[0] <= OP_16)) and
-                (self[1] + 2 == len(self)))
 
 
 SIGHASH_DEFAULT = 0 # Taproot-only default, semantics same as SIGHASH_ALL
@@ -831,10 +841,10 @@ def taproot_tree_helper(scripts):
     if len(scripts) == 1:
         # One entry: treat as a leaf
         script = scripts[0]
-        assert not callable(script)
+        assert(not callable(script))
         if isinstance(script, list):
             return taproot_tree_helper(script)
-        assert isinstance(script, tuple)
+        assert(isinstance(script, tuple))
         version = LEAF_VERSION_TAPSCRIPT
         name = script[0]
         code = script[1]
@@ -879,7 +889,7 @@ TaprootInfo = namedtuple("TaprootInfo", "scriptPubKey,internal_pubkey,negflag,tw
 # - merklebranch: the merkle branch to use for this leaf (32*N bytes)
 TaprootLeafInfo = namedtuple("TaprootLeafInfo", "script,version,merklebranch,leaf_hash")
 
-def taproot_construct(pubkey, scripts=None, treat_internal_as_infinity=False):
+def taproot_construct(pubkey, scripts=None):
     """Construct a tree of Taproot spending conditions
 
     pubkey: a 32-byte xonly pubkey for the internal pubkey (bytes)
@@ -898,10 +908,7 @@ def taproot_construct(pubkey, scripts=None, treat_internal_as_infinity=False):
 
     ret, h = taproot_tree_helper(scripts)
     tweak = TaggedHash("TapTweak", pubkey + h)
-    if treat_internal_as_infinity:
-        tweaked, negated = compute_xonly_pubkey(tweak)
-    else:
-        tweaked, negated = tweak_add_pubkey(pubkey, tweak)
+    tweaked, negated = tweak_add_pubkey(pubkey, tweak)
     leaves = dict((name, TaprootLeafInfo(script, version, merklebranch, leaf)) for name, version, script, merklebranch, leaf in ret)
     return TaprootInfo(CScript([OP_1, tweaked]), pubkey, negated + 0, tweak, leaves, h, tweaked)
 

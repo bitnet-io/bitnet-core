@@ -1,14 +1,14 @@
-// Copyright (c) 2011-2022 The Bitnet Core developers
+// Copyright (c) 2011-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <bench/bench.h>
 #include <consensus/validation.h>
 #include <crypto/sha256.h>
-#include <node/miner.h>
 #include <test/util/mining.h>
 #include <test/util/script.h>
 #include <test/util/setup_common.h>
+#include <test/util/wallet.h>
 #include <txmempool.h>
 #include <validation.h>
 
@@ -23,14 +23,15 @@ static void AssembleBlock(benchmark::Bench& bench)
     witness.stack.push_back(WITNESS_STACK_ELEM_OP_TRUE);
 
     // Collect some loose transactions that spend the coinbases of our mined blocks
-    constexpr size_t NUM_BLOCKS{200};
-    std::array<CTransactionRef, NUM_BLOCKS - COINBASE_MATURITY + 1> txs;
+    constexpr size_t NUM_BLOCKS{2100};
+    constexpr size_t coinbaseMaturity = 2000;
+    std::array<CTransactionRef, NUM_BLOCKS - coinbaseMaturity + 1> txs;
     for (size_t b{0}; b < NUM_BLOCKS; ++b) {
         CMutableTransaction tx;
         tx.vin.push_back(MineBlock(test_setup->m_node, P2WSH_OP_TRUE));
         tx.vin.back().scriptWitness = witness;
-        tx.vout.emplace_back(1337, P2WSH_OP_TRUE);
-        if (NUM_BLOCKS - b >= COINBASE_MATURITY)
+        tx.vout.emplace_back(101337, P2WSH_OP_TRUE);
+        if (NUM_BLOCKS - b >= coinbaseMaturity)
             txs.at(b) = MakeTransactionRef(tx);
     }
     {
@@ -46,18 +47,5 @@ static void AssembleBlock(benchmark::Bench& bench)
         PrepareBlock(test_setup->m_node, P2WSH_OP_TRUE);
     });
 }
-static void BlockAssemblerAddPackageTxns(benchmark::Bench& bench)
-{
-    FastRandomContext det_rand{true};
-    auto testing_setup{MakeNoLogFileContext<TestChain100Setup>()};
-    testing_setup->PopulateMempool(det_rand, /*num_transactions=*/1000, /*submit=*/true);
-    node::BlockAssembler::Options assembler_options;
-    assembler_options.test_block_validity = false;
 
-    bench.run([&] {
-        PrepareBlock(testing_setup->m_node, P2WSH_OP_TRUE, assembler_options);
-    });
-}
-
-BENCHMARK(AssembleBlock, benchmark::PriorityLevel::HIGH);
-BENCHMARK(BlockAssemblerAddPackageTxns, benchmark::PriorityLevel::LOW);
+BENCHMARK(AssembleBlock);

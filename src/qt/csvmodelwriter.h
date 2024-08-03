@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2020 The Bitnet Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -32,7 +32,7 @@ public:
 
 private:
     QString filename;
-    const QAbstractItemModel* model{nullptr};
+    const QAbstractItemModel *model;
 
     struct Column
     {

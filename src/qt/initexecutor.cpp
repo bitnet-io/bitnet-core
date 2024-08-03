@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 The Bitnet Core developers
+// Copyright (c) 2014-2021 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,10 +15,6 @@
 #include <QObject>
 #include <QString>
 #include <QThread>
-
-#include <QEventLoop>
-#include <QTimer>
-
 
 InitExecutor::InitExecutor(interfaces::Node& node)
     : QObject(), m_node(node)

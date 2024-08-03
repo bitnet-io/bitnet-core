@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Bitnet Core developers
+// Copyright (c) 2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,11 +8,11 @@
 
 static void HexStrBench(benchmark::Bench& bench)
 {
-    auto const& data = benchmark::data::block413567;
+    auto const& data = benchmark::data::blockbench;
     bench.batch(data.size()).unit("byte").run([&] {
         auto hex = HexStr(data);
         ankerl::nanobench::doNotOptimizeAway(hex);
     });
 }
 
-BENCHMARK(HexStrBench, benchmark::PriorityLevel::HIGH);
+BENCHMARK(HexStrBench);

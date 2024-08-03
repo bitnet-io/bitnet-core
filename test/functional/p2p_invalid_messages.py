@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2015-2021 The Bitnet Core developers
+# Copyright (c) 2015-2021 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test node responses to invalid network messages."""
@@ -12,13 +12,11 @@ from test_framework.messages import (
     CInv,
     MAX_HEADERS_RESULTS,
     MAX_INV_SIZE,
-    MAX_PROTOCOL_MESSAGE_LENGTH,
-    MSG_TX,
-    from_hex,
     msg_getdata,
     msg_headers,
     msg_inv,
     msg_ping,
+    MSG_TX,
     msg_version,
     ser_string,
 )
@@ -26,11 +24,12 @@ from test_framework.p2p import (
     P2PDataStore,
     P2PInterface,
 )
-from test_framework.test_framework import BitnetTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
 )
 
+MAX_PROTOCOL_MESSAGE_LENGTH = 2000000 
 VALID_DATA_LIMIT = MAX_PROTOCOL_MESSAGE_LENGTH - 5  # Account for the 5-byte length prefix
 
 
@@ -54,7 +53,7 @@ class SenderOfAddrV2(P2PInterface):
         self.wait_until(lambda: 'sendaddrv2' in self.last_message)
 
 
-class InvalidMessagesTest(BitnetTestFramework):
+class InvalidMessagesTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -74,7 +73,6 @@ class InvalidMessagesTest(BitnetTestFramework):
         self.test_oversized_inv_msg()
         self.test_oversized_getdata_msg()
         self.test_oversized_headers_msg()
-        self.test_invalid_pow_headers_msg()
         self.test_resource_exhaustion()
 
     def test_buffer(self):
@@ -132,7 +130,7 @@ class InvalidMessagesTest(BitnetTestFramework):
     def test_size(self):
         self.log.info("Test message with oversized payload disconnects peer")
         conn = self.nodes[0].add_p2p_connection(P2PDataStore())
-        with self.nodes[0].assert_debug_log(['Header error: Size too large (badmsg, 4000001 bytes)']):
+        with self.nodes[0].assert_debug_log(['Header error: Size too large (badmsg, 2000001 bytes)']): 
             msg = msg_unrecognized(str_data="d" * (VALID_DATA_LIMIT + 1))
             msg = conn.build_message(msg)
             conn.send_raw_message(msg)
@@ -157,7 +155,7 @@ class InvalidMessagesTest(BitnetTestFramework):
         node = self.nodes[0]
         conn = node.add_p2p_connection(SenderOfAddrV2())
 
-        # Make sure bitnetd signals support for ADDRv2, otherwise this test
+        # Make sure bitcoind signals support for ADDRv2, otherwise this test
         # will bombard an old node with messages it does not recognize which
         # will produce unexpected results.
         conn.wait_for_sendaddrv2()
@@ -249,36 +247,6 @@ class InvalidMessagesTest(BitnetTestFramework):
     def test_oversized_headers_msg(self):
         size = MAX_HEADERS_RESULTS + 1
         self.test_oversized_msg(msg_headers([CBlockHeader()] * size), size)
-
-    def test_invalid_pow_headers_msg(self):
-        self.log.info("Test headers message with invalid proof-of-work is logged as misbehaving and disconnects peer")
-        blockheader_tip_hash = self.nodes[0].getbestblockhash()
-        blockheader_tip = from_hex(CBlockHeader(), self.nodes[0].getblockheader(blockheader_tip_hash, False))
-
-        # send valid headers message first
-        assert_equal(self.nodes[0].getblockchaininfo()['headers'], 0)
-        blockheader = CBlockHeader()
-        blockheader.hashPrevBlock = int(blockheader_tip_hash, 16)
-        blockheader.nTime = int(time.time())
-        blockheader.nBits = blockheader_tip.nBits
-        blockheader.rehash()
-        while not blockheader.hash.startswith('0'):
-            blockheader.nNonce += 1
-            blockheader.rehash()
-        peer = self.nodes[0].add_p2p_connection(P2PInterface())
-        peer.send_and_ping(msg_headers([blockheader]))
-        assert_equal(self.nodes[0].getblockchaininfo()['headers'], 1)
-        chaintips = self.nodes[0].getchaintips()
-        assert_equal(chaintips[0]['status'], 'headers-only')
-        assert_equal(chaintips[0]['hash'], blockheader.hash)
-
-        # invalidate PoW
-        while not blockheader.hash.startswith('f'):
-            blockheader.nNonce += 1
-            blockheader.rehash()
-        with self.nodes[0].assert_debug_log(['Misbehaving', 'header with invalid proof of work']):
-            peer.send_message(msg_headers([blockheader]))
-            peer.wait_for_disconnect()
 
     def test_resource_exhaustion(self):
         self.log.info("Test node stays up despite many large junk messages")

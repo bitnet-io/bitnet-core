@@ -1,14 +1,15 @@
-// Copyright (c) 2011-2020 The Bitnet Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_QT_TRANSACTIONTABLEMODEL_H
 #define BITCOIN_QT_TRANSACTIONTABLEMODEL_H
 
-#include <qt/bitnetunits.h>
+#include <qt/bitcoinunits.h>
 
 #include <QAbstractTableModel>
 #include <QStringList>
+#include <QColor> 
 
 #include <memory>
 
@@ -89,8 +90,15 @@ private:
     std::unique_ptr<interfaces::Handler> m_handler_show_progress;
     QStringList columns;
     TransactionTablePriv *priv;
-    bool fProcessingQueuedTransactions{false};
+    bool fProcessingQueuedTransactions;
     const PlatformStyle *platformStyle;
+
+    QColor color_unconfirmed;
+    QColor color_negative;
+    QColor color_bareaddress;
+    QColor color_tx_status_openuntildate;
+    QColor color_tx_status_danger;
+    QColor color_black;
 
     void subscribeToCoreSignals();
     void unsubscribeFromCoreSignals();
@@ -101,11 +109,12 @@ private:
     QString formatTxDate(const TransactionRecord *wtx) const;
     QString formatTxType(const TransactionRecord *wtx) const;
     QString formatTxToAddress(const TransactionRecord *wtx, bool tooltip) const;
-    QString formatTxAmount(const TransactionRecord *wtx, bool showUnconfirmed=true, BitnetUnits::SeparatorStyle separators=BitnetUnits::SeparatorStyle::STANDARD) const;
+    QString formatTxAmount(const TransactionRecord *wtx, bool showUnconfirmed=true, BitcoinUnits::SeparatorStyle separators=BitcoinUnits::SeparatorStyle::STANDARD) const;
     QString formatTooltip(const TransactionRecord *rec) const;
     QVariant txStatusDecoration(const TransactionRecord *wtx) const;
     QVariant txWatchonlyDecoration(const TransactionRecord *wtx) const;
     QVariant txAddressDecoration(const TransactionRecord *wtx) const;
+    void modelDataChanged(const ColumnIndex& column);
 
 public Q_SLOTS:
     /* New transaction, or transaction changed status */
