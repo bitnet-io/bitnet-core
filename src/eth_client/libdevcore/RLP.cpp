@@ -31,10 +31,10 @@ RLP::RLP(bytesConstRef _d, Strictness _s):
     }
     if ((_s & FailIfTooSmall) && actualSize() > _d.size())
     {
-        if (_s & ThrowOnFail)
-            BOOST_THROW_EXCEPTION(UndersizeRLP() << constructRLPSizeErrorInfo(actualSize(), _d.size()));
-        else
-            m_data.reset();
+//        if (_s & ThrowOnFail)
+//            BOOST_THROW_EXCEPTION(UndersizeRLP() << constructRLPSizeErrorInfo(actualSize(), _d.size()));
+//        else
+//            m_data.reset();
     }
 }
 
@@ -102,8 +102,8 @@ size_t RLP::actualSize() const
 
 void RLP::requireGood() const
 {
-    if (isNull())
-        BOOST_THROW_EXCEPTION(BadRLP());
+//    if (isNull())
+//        BOOST_THROW_EXCEPTION(BadRLP());
     byte n = m_data[0];
     if (n != c_rlpDataImmLenStart + 1)
         return;

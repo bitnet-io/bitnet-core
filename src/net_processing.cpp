@@ -110,7 +110,7 @@ static constexpr auto NONPREF_PEER_TX_DELAY{1s};
 /** How long to delay requesting transactions from overloaded peers (see MAX_PEER_TX_REQUEST_IN_FLIGHT). */
 static constexpr auto OVERLOADED_PEER_TX_DELAY{1s};
 /** How long to wait before downloading a transaction from an additional peer */
-static constexpr auto GETDATA_TX_INTERVAL{8s};
+static constexpr auto GETDATA_TX_INTERVAL{1s};
 /** Limit to avoid sending big packets. Not used in processing incoming GETDATA for compatibility */
 static const unsigned int MAX_GETDATA_SZ = 700;
 /** Number of blocks that can be requested at any given time from a single peer. */

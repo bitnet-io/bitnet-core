@@ -31,7 +31,6 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     txNew.nVersion = 1;
     txNew.vin.resize(1);
     txNew.vout.resize(1);
-//    txNew.vin[0].scriptSig = CScript() << 00 << 488804799 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
     txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
     txNew.vout[0].nValue = genesisReward;
     txNew.vout[0].scriptPubKey = genesisOutputScript;
@@ -45,13 +44,10 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
 //    genesis.hashStateRoot = uint256(h256Touint(dev::h256("9514771014c9ae803d8cea2731b2063e83de44802b40dce2d06acd02d0ff65e9"))); // qtum
-//    genesis.hashStateRoot = uint256(h256Touint(dev::h256("e965ffd002cd6ad0e2dc402b8044de833e06b23127ea8c3d80aec91410771495"))); // qtum
-    genesis.hashStateRoot = uint256(h256Touint(dev::h256("0000000000000000000000000000000000000000000000000000000000000000"))); // qtum
+    genesis.hashStateRoot = uint256(h256Touint(dev::h256("e965ffd002cd6ad0e2dc402b8044de833e06b23127ea8c3d80aec91410771495"))); // qtum
 
     genesis.hashUTXORoot = uint256(h256Touint(dev::sha3(dev::rlp("")))); // qtum
     return genesis;
-// Main Genesis hashStateRoot: 0000000000000000000000000000000000000000000000000000000000000000
-// Main Genesis hashUTXOroot: 21b463e3b52f6201c0ad6c991be0485b6ef8c092e64583ffa655cc1b171fe856
 
 }
 
@@ -68,16 +64,10 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-//    const char* pszTimestamp = "Sep 02, 2017 Bitcoin breaks $5,000 in latest price frenzy";
-//    const CScript genesisOutputScript = CScript() << ParseHex("040d61d8653448c98731ee5fffd303c15e71ec2057b77f11ab3601979728cdaff2d68afbba14e4fa0bc44f2072b0b23ef63717f8cdfbe58dcd33f32b6afe98741a") << OP_CHECKSIG;
-//    return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
-
 
  const char* pszTimestamp = "Segwit added to Bitnet restart 02-26-2023";
     const CScript genesisOutputScript = CScript() << ParseHex("04594c39e7eacaa78d2bb0073725c1b75187a1a5b12a8e78d5222c9efacd7e37bb1455a582c2f6b2ac6b60d2899376780367f2a9aad91d42f23cd9f60663575bad") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
-
-
 
 }
 
@@ -98,59 +88,41 @@ public:
         consensus.BIP65Height = 0; // 000000000000000004c2b624ed5d7756c508d90fd0da2c7c679febfa6c4735f0
         consensus.BIP66Height = 0; // 00000000000000000379eaa19dce8c9b722d46ae6a57c2f1a988119488b50931
         consensus.CSVHeight = 10; // 000000000000000004a1b34462cb8aeebd5799177f7a29cf28f2d1961716b5b5
-//        consensus.SegwitHeight = 6048; // 0000000000000000001c8018d9cb3b742ef25114f27563e3fc4a1902167f9893
         consensus.SegwitHeight = 10; // 0000000000000000001c8018d9cb3b742ef25114f27563e3fc4a1902167f9893
 
         consensus.switchAlgoHeight = 125000;    // activate aurum @ 125,000 height
-//        consensus.MinBIP9WarningHeight = 8064; // segwit activation height + miner confirmation window
         consensus.MinBIP9WarningHeight = 2026; // segwit activation height + miner confirmation window
-//        consensus.QIP5Height = 466600;
-//        consensus.QIP6Height = 466600;
-//        consensus.QIP7Height = 466600;
-//        consensus.QIP9Height = 466600;
-//        consensus.nOfflineStakeHeight = 680000;
-//        consensus.nReduceBlocktimeHeight = 845000;
-//        consensus.nMuirGlacierHeight = 845000;
-//        consensus.nLondonHeight = 2080512;
-//        consensus.nShanghaiHeight = 3385122;
 
-        consensus.QIP5Height = 202110;
-        consensus.QIP6Height = 202110;
-        consensus.QIP7Height = 202110;
-        consensus.QIP9Height = 202110;
-        consensus.nOfflineStakeHeight = 202110;
+        consensus.QIP5Height = 207020;
+        consensus.QIP6Height = 207020;
+        consensus.QIP7Height = 207020;
+        consensus.QIP9Height = 207020;
+        consensus.nOfflineStakeHeight = 207020;
         consensus.nReduceBlocktimeHeight = 6000000;
-        consensus.nMuirGlacierHeight = 202110;
-        consensus.nLondonHeight = 202110;
-        consensus.nShanghaiHeight = 202110;
+        consensus.nMuirGlacierHeight = 207020;
+        consensus.nLondonHeight = 207020;
+        consensus.nShanghaiHeight = 207020;
 
 
 
 
-//        consensus.powLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimit = uint256S      ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-//        consensus.posLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-//					   ("000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffffff")'
+//        consensus.posLimit = uint256S      ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+//        consensus.QIP9PosLimit = uint256S  ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
+//        consensus.RBTPosLimit = uint256S   ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
-        consensus.posLimit = uint256S      ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-//        consensus.QIP9PosLimit = uint256S("0000000000001fffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
-        consensus.QIP9PosLimit = uint256S  ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
-        consensus.RBTPosLimit = uint256S   ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.posLimit = uint256S      ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.QIP9PosLimit = uint256S  ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
+        consensus.RBTPosLimit = uint256S   ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+
         consensus.nPowTargetTimespan = 24 * 60 * 60; // 16 minutes
-//        consensus.nPowTargetTimespanV2 = 4000;
-//        consensus.nRBTPowTargetTimespan = 1000;
-
-
         consensus.nPowTargetTimespanV2 = 24 * 60 * 60;
         consensus.nRBTPowTargetTimespan = 24 * 60 * 60;
         consensus.nPowTargetSpacing = 3.5 * 60;
-     consensus.nRBTPowTargetSpacing = 3.5 * 60;
-//     consensus.nRBTPowTargetSpacing = 32;
+        consensus.nRBTPowTargetSpacing = 3.5 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
-//        consensus.fPowNoRetargeting = true;
         consensus.fPowNoRetargeting = false;
         consensus.fPoSNoRetargeting = false;
-//        consensus.nRuleChangeActivationThreshold = 1815; // 90% of 2016
         consensus.nRuleChangeActivationThreshold = 1916; // 90% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -166,13 +138,9 @@ public:
         // Replace 0xffffc0 with the activation block number
 //        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 2080512;
 
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000004edc867995369c4f3cf"); // 3142000
-//        consensus.defaultAssumeValid = uint256S("0x3dc42fcf2e731093ee9b3cbaa2df07d8b8638cdea77758bb28b1130f504a7f43"); // 3142000
-     consensus.defaultAssumeValid = uint256S("0x000000000000002d05e938bb1360c7dea3f15628eacb260fd5657d839c4e58c6"); // 92345 current 10-24-2023
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000001c098a087afb5f07823"); // 94000~
+       consensus.defaultAssumeValid = uint256S("0x000000000000002d05e938bb1360c7dea3f15628eacb260fd5657d839c4e58c6"); // 92345 current 10-24-2023
 
-  // consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000003404ba0801921119f903495e");
-//        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000111111");
-  //     consensus.defaultAssumeValid = uint256S("0x000000000000002d05e938bb1360c7dea3f15628eacb260fd5657d839c4e58c6"); // 92345 current 10-24-2023
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -180,7 +148,7 @@ public:
          * a large 32-bit integer with any alignment.
          */
 
-       pchMessageStart[0] = 0xd1;
+        pchMessageStart[0] = 0xd1;
         pchMessageStart[1] = 0xe1;
         pchMessageStart[2] = 0xd1;
         pchMessageStart[3] = 0xe1;
@@ -190,26 +158,17 @@ public:
         m_assumed_chain_state_size = 6;
 
 
-//        pchMessageStart[0] = 0xf1;
-//        pchMessageStart[1] = 0xcf;
-//        pchMessageStart[2] = 0xa6;
-//        pchMessageStart[3] = 0xd3;
-//        nDefaultPort = 3888;
-//        nPruneAfterHeight = 100000;
-//        m_assumed_blockchain_size = 21;
-//        m_assumed_chain_state_size = 1;
-
-//        genesis = CreateGenesisBlock(1504695029, 8026361, 0x1f00ffff, 1, 50 * COIN);
-
-            genesis = CreateGenesisBlock(1677414786, 1196422, 0x1e0ffff0, 1, 88 * COIN);
+         genesis = CreateGenesisBlock(1677414786, 1196422, 0x1e0ffff0, 1, 88 * COIN);
 
 
 
 
 
 
-
-consensus.hashGenesisBlock = uint256S("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+/*
+		GENESIS VERIFY/GENERATOR SCRIPT
+	
+        consensus.hashGenesisBlock = uint256S("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) {
             std::cout << std::string("Begin calculating Mainnet Genesis Block:\n");
             arith_uint256 hashTarget = arith_uint256().SetCompact(genesis.nBits);
@@ -240,6 +199,8 @@ consensus.hashGenesisBlock = uint256S("0x00fffffffffffffffffffffffffffffffffffff
 
         }
 
+*/
+
 
 /*
  Mainnet ---
@@ -251,9 +212,6 @@ consensus.hashGenesisBlock = uint256S("0x00fffffffffffffffffffffffffffffffffffff
  Main Genesis hashUTXOroot: 21b463e3b52f6201c0ad6c991be0485b6ef8c092e64583ffa655cc1b171fe856
 */
 
-  //      consensus.hashGenesisBlock = genesis.GetHash();
-  //      assert(consensus.hashGenesisBlock == uint256S("0x000075aef83cf2853580f8ae8ce6f8c3096cfa21d98334d6e3f95e5582ed986c"));
-  //      assert(genesis.hashMerkleRoot == uint256S("0xed34050eb5909ee535fcb07af292ea55f3d2f291187617b44d3282231405b96d"));
 
 
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -261,9 +219,6 @@ consensus.hashGenesisBlock = uint256S("0x00fffffffffffffffffffffffffffffffffffff
         assert(genesis.hashMerkleRoot == uint256S("0xb7421cb345a400ccd9e924c4c5afad4114be25f7a928956f52df5524bb1ca181"));
 
 
-      //  consensus.hashGenesisBlock = genesis.GetHash();
-      //  assert(consensus.hashGenesisBlock == uint256S("0x000075aef83cf2853580f8ae8ce6f8c3096cfa21d98334d6e3f95e5582ed986c"));
-      //  assert(genesis.hashMerkleRoot == uint256S("0xed34050eb5909ee535fcb07af292ea55f3d2f291187617b44d3282231405b96d"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
@@ -276,7 +231,7 @@ consensus.hashGenesisBlock = uint256S("0x00fffffffffffffffffffffffffffffffffffff
 //        vSeeds.emplace_back("qtum7.dynu.net"); // Qtum mainnet
 
 
- base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,25);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,25);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,22);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,158);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
@@ -295,7 +250,6 @@ consensus.hashGenesisBlock = uint256S("0x00fffffffffffffffffffffffffffffffffffff
 
         checkpointData = {
             {
-//                { 0, uint256S("0x00000caff19214512f927af2b7cead4b33a54c096e432a275628cb4cf8d4b73c")},
                 { 203471, uint256S("0x0f00c9744dbe5b0541913dd5f63e15866ebcce0b723a8d11dba2db7988ff5333")},
 
             }
@@ -321,26 +275,18 @@ consensus.hashGenesisBlock = uint256S("0x00fffffffffffffffffffffffffffffffffffff
         consensus.nBlocktimeDownscaleFactor = 4;
         consensus.nCoinbaseMaturity = 10;
         consensus.nRBTCoinbaseMaturity = 10;
-//consensus.nBlocktimeDownscaleFactor*500;
         consensus.nSubsidyHalvingIntervalV2 = 6000000;
-//consensus.nBlocktimeDownscaleFactor*985500; // qtum halving every 4 years (nSubsidyHalvingInterval * nBlocktimeDownscaleFactor)
-
         consensus.nLastPOWBlock = 6000000;
         consensus.nLastBigReward = 6000000;
         consensus.nMPoSRewardRecipients = 10000;
-        consensus.nFirstMPoSBlock = 202110;
-//consensus.nLastPOWBlock + 
-//                                    consensus.nMPoSRewardRecipients + 
-//                                    consensus.nCoinbaseMaturity;
+        consensus.nFirstMPoSBlock = 207020;
         consensus.nLastMPoSBlock = 6000000;
 
 
         consensus.nFixUTXOCacheHFHeight = 6000000;
         consensus.nEnableHeaderSignatureHeight = 6000000;
         consensus.nCheckpointSpan = 6000000;
-// consensus.nCoinbaseMaturity;
         consensus.nRBTCheckpointSpan = 6000000;
-//consensus.nRBTCoinbaseMaturity;
         consensus.delegationsAddress = uint160(ParseHex("0000000000000000000000000000000000000086")); // Delegations contract for offline staking
         consensus.nStakeTimestampMask = 15;
         consensus.nRBTStakeTimestampMask = 3;

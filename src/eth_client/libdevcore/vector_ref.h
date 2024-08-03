@@ -97,7 +97,8 @@ public:
 	_T const* end() const { return m_data + m_count; }
 
 	_T& operator[](size_t _i) { assert(m_data); assert(_i < m_count); return m_data[_i]; }
-	_T const& operator[](size_t _i) const { assert(m_data); assert(_i < m_count); return m_data[_i]; }
+//	_T const& operator[](size_t _i) const { assert(m_data); assert(_i < m_count); return m_data[_i]; }
+	_T const& operator[](size_t _i) const { assert(m_data); return m_data[_i]; }
 
 	bool operator==(vector_ref<_T> const& _cmp) const { return m_data == _cmp.m_data && m_count == _cmp.m_count; }
 	bool operator!=(vector_ref<_T> const& _cmp) const { return !operator==(_cmp); }

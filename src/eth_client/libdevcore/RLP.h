@@ -288,10 +288,10 @@ public:
         auto l = p.size();
         if (!isData() || (l > _N::size && (_flags & FailIfTooBig)) || (l < _N::size && (_flags & FailIfTooSmall)))
         {
-            if (_flags & ThrowOnFail)
-                BOOST_THROW_EXCEPTION(BadCast());
-            else
-                return _N();
+//            if (_flags & ThrowOnFail)
+//                BOOST_THROW_EXCEPTION(BadCast());
+//            else
+//                return _N();
         }
 
         _N ret;

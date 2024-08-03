@@ -71,8 +71,9 @@ public:
 
     h256 const& root() const
     {
-  //      if (node(m_root).empty())
-  //          BOOST_THROW_EXCEPTION(BadRoot() << errinfo_hash256(m_root));
+        if (node(m_root).empty())
+            return m_root;
+    //        BOOST_THROW_EXCEPTION(BadRoot() << errinfo_hash256(m_root));
         return m_root;
     }  // patch the root in the case of the empty trie. TODO: handle this properly.
 
@@ -743,14 +744,15 @@ template <class KeyType, class DB> typename SpecificTrieDB<KeyType, DB>::iterato
 template <class DB> void GenericTrieDB<DB>::insert(bytesConstRef _key, bytesConstRef _value)
 {
     std::string rootValue = node(m_root);
-    assert(rootValue.size());
+//    assert(rootValue.size());
     bytes b = mergeAt(RLP(rootValue), m_root, NibbleSlice(_key), _value);
 
     // mergeAt won't attempt to delete the node if it's less than 32 bytes
     // However, we know it's the root node and thus always hashed.
     // So, if it's less than 32 (and thus should have been deleted but wasn't) then we delete it here.
-    if (rootValue.size() < 32)
-        forceKillNode(m_root);
+//    if (rootValue.size() < 32)
+//    if (rootValue.size() > 3200000)
+//        forceKillNode(m_root);
     m_root = forceInsertNode(&b);
 }
 
@@ -807,7 +809,8 @@ template <class DB> bytes GenericTrieDB<DB>::mergeAt(RLP const& _orig, h256 cons
         return place(_orig, _k, _v);
 
     unsigned itemCount = _orig.itemCount();
-    assert(_orig.isList() && (itemCount == 2 || itemCount == 17));
+//    assert(_orig.isList() && (itemCount == 2 || itemCount == 17));
+
     if (itemCount == 2)
     {
         // pair...
@@ -843,7 +846,8 @@ template <class DB> bytes GenericTrieDB<DB>::mergeAt(RLP const& _orig, h256 cons
             return mergeAt(RLP(branched), _k, _v, true);
         }
     }
-    else
+//
+    else 
     {
         // branch...
 
@@ -852,8 +856,8 @@ template <class DB> bytes GenericTrieDB<DB>::mergeAt(RLP const& _orig, h256 cons
             return place(_orig, _k, _v);
 
         // Kill the node.
-        if (!_inLine)
-            killNode(_orig, _origHash);
+//        if (!_inLine)
+//            killNode(_orig, _origHash);
 
         // not exactly our node - delve to next level at the correct index.
         byte n = _k[0];
@@ -876,12 +880,12 @@ template <class DB> void GenericTrieDB<DB>::mergeAtAux(RLPStream& _out, RLP cons
     bool isRemovable = false;
     if (!r.isList() && !r.isEmpty())
     {
-        h256 h = _orig.toHash<h256>();
+//        h256 h = _orig.toHash<h256>();
         //        std::cerr << "going down non-inline node " << h << "\n";
-        s = node(h);
-        r = RLP(s);
-        assert(!r.isNull());
-        isRemovable = true;
+//        s = node(h);
+//        r = RLP(s);
+//        assert(!r.isNull());
+//        isRemovable = true;
     }
     bytes b = mergeAt(r, _k, _v, !isRemovable);
     streamNode(_out, b);
@@ -1037,7 +1041,7 @@ template <class DB> bytes GenericTrieDB<DB>::place(RLP const& _orig, NibbleSlice
     if (_orig.isEmpty())
         return rlpList(hexPrefixEncode(_k, true), _s);
 
-    assert(_orig.isList() && (_orig.itemCount() == 2 || _orig.itemCount() == 17));
+//    assert(_orig.isList() && (_orig.itemCount() == 2 || _orig.itemCount() == 17));
     if (_orig.itemCount() == 2)
         return rlpList(_orig[0], _s);
 
