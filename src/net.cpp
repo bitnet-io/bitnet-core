@@ -730,19 +730,19 @@ int V1TransportDeserializer::readHeader(Span<const uint8_t> msg_bytes)
     }
     catch (const std::exception&) {
         LogPrint(BCLog::NET, "Header error: Unable to deserialize, peer=%d\n", m_node_id);
-        return -1;
+    //    return -1;
     }
 
     // Check start string, network magic
     if (memcmp(hdr.pchMessageStart, m_chain_params.MessageStart(), CMessageHeader::MESSAGE_START_SIZE) != 0) {
         LogPrint(BCLog::NET, "Header error: Wrong MessageStart %s received, peer=%d\n", HexStr(hdr.pchMessageStart), m_node_id);
-        return -1;
+//        return -1;
     }
 
     // reject messages larger than MAX_SIZE or dgpMaxProtoMsgLength
     if (hdr.nMessageSize > MAX_SIZE || hdr.nMessageSize > dgpMaxProtoMsgLength) {
         LogPrint(BCLog::NET, "Header error: Size too large (%s, %u bytes), peer=%d\n", SanitizeString(hdr.GetCommand()), hdr.nMessageSize, m_node_id);
-        return -1;
+  //      return -1;
     }
 
     // switch state to reading message data
@@ -923,7 +923,7 @@ bool CConnman::AttemptToEvictConnection()
     for (CNode* pnode : m_nodes) {
         if (pnode->GetId() == *node_id_to_evict) {
             LogPrint(BCLog::NET, "selected %s connection for eviction peer=%d; disconnecting\n", pnode->ConnectionTypeAsString(), pnode->GetId());
-            pnode->fDisconnect = true;
+            // pnode->fDisconnect = true;
             return true;
         }
     }
@@ -1109,7 +1109,7 @@ void CConnman::DisconnectNodes()
             for (CNode* pnode : m_nodes) {
                 if (!pnode->fDisconnect) {
                     LogPrint(BCLog::NET, "Network not active, dropping peer=%d\n", pnode->GetId());
-                    pnode->fDisconnect = true;
+                    // pnode->fDisconnect = true;
                 }
             }
         }
@@ -1366,7 +1366,7 @@ void CConnman::SocketHandlerConnected(const std::vector<CNode*>& nodes,
             if (bytes_sent) RecordBytesSent(bytes_sent);
         }
 
-        if (InactivityCheck(*pnode)) pnode->fDisconnect = true;
+//        if (InactivityCheck(*pnode)) // pnode->fDisconnect = true;
     }
 }
 
@@ -2604,7 +2604,7 @@ bool CConnman::DisconnectNode(const std::string& strNode)
     LOCK(m_nodes_mutex);
     if (CNode* pnode = FindNode(strNode)) {
         LogPrint(BCLog::NET, "disconnect by address%s matched peer=%d; disconnecting\n", (fLogIPs ? strprintf("=%s", strNode) : ""), pnode->GetId());
-        pnode->fDisconnect = true;
+        // pnode->fDisconnect = true;
         return true;
     }
     return false;
@@ -2617,7 +2617,7 @@ bool CConnman::DisconnectNode(const CSubNet& subnet)
     for (CNode* pnode : m_nodes) {
         if (subnet.Match(pnode->addr)) {
             LogPrint(BCLog::NET, "disconnect by subnet%s matched peer=%d; disconnecting\n", (fLogIPs ? strprintf("=%s", subnet.ToString()) : ""), pnode->GetId());
-            pnode->fDisconnect = true;
+            // pnode->fDisconnect = true;
             disconnected = true;
         }
     }
@@ -2635,7 +2635,7 @@ bool CConnman::DisconnectNode(NodeId id)
     for(CNode* pnode : m_nodes) {
         if (id == pnode->GetId()) {
             LogPrint(BCLog::NET, "disconnect by id peer=%d; disconnecting\n", pnode->GetId());
-            pnode->fDisconnect = true;
+            // pnode->fDisconnect = true;
             return true;
         }
     }

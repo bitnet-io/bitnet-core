@@ -2394,7 +2394,7 @@ bool GetSpentCoinFromMainChain(const CBlockIndex* pforkPrev, COutPoint prevoutSt
     int nHeight = chain.Tip()->nHeight;
     int coinbaseMaturity = Params().GetConsensus().CoinbaseMaturity(nHeight);
     if(nHeight - pforkBase->nHeight > coinbaseMaturity) {
-        return error("The fork's base is behind by more than 500 blocks");
+//        return error("The fork's base is behind by more than 500 blocks");
     }
 
     // First, we make sure that the prevout has not been spent in any of pforktip's ancestors as the prevoutStake.
