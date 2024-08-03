@@ -29,8 +29,6 @@
 #include <util/check.h>
 #include <util/sock.h>
 
-
-
 #include <atomic>
 #include <condition_variable>
 #include <cstdint>
@@ -66,11 +64,11 @@ extern unsigned int dgpMaxProtoMsgLength;
 /** Maximum length of the user agent string in `version` message */
 static const unsigned int MAX_SUBVERSION_LENGTH = 256;
 /** Maximum number of automatic outgoing nodes over which we'll relay everything (blocks, tx, addrs, etc) */
-static const int MAX_OUTBOUND_FULL_RELAY_CONNECTIONS = 8;
+static const int MAX_OUTBOUND_FULL_RELAY_CONNECTIONS = 15;
 /** Maximum number of addnode outgoing nodes */
-static const int MAX_ADDNODE_CONNECTIONS = 30;
+static const int MAX_ADDNODE_CONNECTIONS = 15;
 /** Maximum number of block-relay-only outgoing connections */
-static const int MAX_BLOCK_RELAY_ONLY_CONNECTIONS = 8;
+static const int MAX_BLOCK_RELAY_ONLY_CONNECTIONS = 2;
 /** Maximum number of feeler connections */
 static const int MAX_FEELER_CONNECTIONS = 1;
 /** -listen default */
@@ -1129,7 +1127,6 @@ private:
      * an address and port that are designated for incoming Tor connections.
      */
     std::vector<CService> m_onion_binds;
-
 
     /**
      * Mutex protecting m_i2p_sam_sessions.
