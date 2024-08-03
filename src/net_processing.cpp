@@ -1817,8 +1817,8 @@ bool PeerManagerImpl::MaybePunishNodeForBlock(NodeId nodeid, const BlockValidati
     case BlockValidationResult::BLOCK_CONSENSUS:
     case BlockValidationResult::BLOCK_MUTATED:
         if (!via_compact_block) {
-            if (peer) Misbehaving(*peer, 100, message);
-            return true;
+         //   if (peer) Misbehaving(*peer, 100, message);
+         ///   return true;
         }
         break;
     case BlockValidationResult::BLOCK_CACHED_INVALID:
@@ -1832,8 +1832,8 @@ bool PeerManagerImpl::MaybePunishNodeForBlock(NodeId nodeid, const BlockValidati
             // Discourage outbound (but not inbound) peers if on an invalid chain.
             // Exempt HB compact block peers. Manual connections are always protected from discouragement.
             if (!via_compact_block && !node_state->m_is_inbound) {
-                if (peer) Misbehaving(*peer, 100, message);
-                return true;
+             //   if (peer) Misbehaving(*peer, 100, message);
+             //   return true;
             }
             break;
         }
@@ -1841,17 +1841,17 @@ bool PeerManagerImpl::MaybePunishNodeForBlock(NodeId nodeid, const BlockValidati
     case BlockValidationResult::BLOCK_CHECKPOINT:
     case BlockValidationResult::BLOCK_INVALID_PREV:
     case BlockValidationResult::BLOCK_HEADER_SPAM:
-        if (peer) Misbehaving(*peer, 100, message);
-        return true;
+    //    if (peer) Misbehaving(*peer, 100, message);
+    //    return true;
     // Conflicting (but not necessarily invalid) data or different policy:
     case BlockValidationResult::BLOCK_MISSING_PREV:
         // TODO: Handle this much more gracefully (10 DoS points is super arbitrary)
-        if (peer) Misbehaving(*peer, 10, message);
-        return true;
+    //    if (peer) Misbehaving(*peer, 10, message);
+     //   return true;
     case BlockValidationResult::BLOCK_HEADER_SYNC:
     case BlockValidationResult::BLOCK_GAS_EXCEEDS_LIMIT:
-        if (peer) Misbehaving(*peer, 1, message);
-        return true;
+     //   if (peer) Misbehaving(*peer, 1, message);
+     //   return true;
     case BlockValidationResult::BLOCK_RECENT_CONSENSUS_CHANGE:
     case BlockValidationResult::BLOCK_TIME_FUTURE:
     case BlockValidationResult::BLOCK_HEADER_REJECT:
@@ -6127,8 +6127,8 @@ bool PeerManagerImpl::ProcessNetBlock(const std::shared_ptr<const CBlock> pblock
     BlockValidationState state;
     if (!ProcessNetBlockHeaders(pfrom, {*pblock}, min_pow_checked, state, &pindex)) {
         if (state.IsInvalid()) {
-            MaybePunishNodeForBlock(pfrom.GetId(), state, false, strprintf("Peer %d sent us invalid header\n", pfrom.GetId()));
-            return error("ProcessNetBlock() : invalid header received");
+           // MaybePunishNodeForBlock(pfrom.GetId(), state, false, strprintf("Peer %d sent us invalid header\n", pfrom.GetId()));
+          //  return error("ProcessNetBlock() : invalid header received");
         }
     }
 
