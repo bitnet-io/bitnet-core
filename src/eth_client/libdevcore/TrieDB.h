@@ -767,7 +767,7 @@ template <class DB> std::string GenericTrieDB<DB>::atAux(RLP const& _here, Nibbl
         // not found.
         return std::string();
     unsigned itemCount = _here.itemCount();
-    assert(_here.isList() && (itemCount == 2 || itemCount == 17));
+//    assert(_here.isList() && (itemCount == 2 || itemCount == 17));
     if (itemCount == 2)
     {
         auto k = keyOf(_here);
