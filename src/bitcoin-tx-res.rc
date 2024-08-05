@@ -15,13 +15,13 @@ BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
             VALUE "CompanyName",        "Qtum"
-            VALUE "FileDescription",    "bitnet-tx (CLI Qtum transaction editor utility)"
+            VALUE "FileDescription",    "qtum-tx (CLI Qtum transaction editor utility)"
             VALUE "FileVersion",        PACKAGE_VERSION
-            VALUE "InternalName",       "bitnet-tx"
+            VALUE "InternalName",       "qtum-tx"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "bitnet-tx.exe"
-            VALUE "ProductName",        "bitnet-tx"
+            VALUE "OriginalFilename",   "qtum-tx.exe"
+            VALUE "ProductName",        "qtum-tx"
             VALUE "ProductVersion",     PACKAGE_VERSION
         END
     END

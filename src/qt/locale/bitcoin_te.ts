@@ -299,7 +299,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">మొత్తం</translation>
     </message>
     <message>
-        <source>Enter a Bitnet IO address (e.g. %1)</source>
+        <source>Enter a Qtum address (e.g. %1)</source>
         <translation type="unfinished">బిట్‌కాయిన్ చిరునామాను నమోదు చేయండి (ఉదా. %1)</translation>
     </message>
     <message>
@@ -1756,7 +1756,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">&amp;బాహ్య సంతకం స్క్రిప్ట్ మార్గం</translation>
     </message>
     <message>
-        <source>Full path to a Bitnet Core compatible script (e.g. C:\Downloads\hwi.exe or /Users/you/Downloads/hwi.py). Beware: malware can steal your coins!</source>
+        <source>Full path to a Qtum Core compatible script (e.g. C:\Downloads\hwi.exe or /Users/you/Downloads/hwi.py). Beware: malware can steal your coins!</source>
         <translation type="unfinished">బిట్‌కాయిన్ కోర్ అనుకూల స్క్రిప్ట్‌కి పూర్తి మార్గం (ఉదా. C:\Downloads\hwi.exe లేదా /Users/you/Downloads/hwi.py). జాగ్రత్త: మాల్వేర్ మీ నాణేలను దొంగిలించగలదు!</translation>
     </message>
     <message>

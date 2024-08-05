@@ -12,7 +12,6 @@
 #include <pubkey.h>
 #include <streams.h>
 
-
 // Used to serialize the header without signature
 // Workaround due to removing serialization templates in Bitcoin Core 0.18
 class CBlockHeaderSign
@@ -61,13 +60,6 @@ uint256 CBlockHeader::GetHash() const
 {
     return SerializeHash(*this);
 }
-
-uint256 CBlockHeader::GetPoWHash() const
-{
-    return aurum(*this);
-}
-
-
 
 uint256 CBlockHeader::GetHashWithoutSign() const
 {

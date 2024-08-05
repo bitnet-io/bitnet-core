@@ -48,7 +48,7 @@ class QtumNoExecCallDisabledTest(BitcoinTestFramework):
         tx = rpc_sign_transaction(self.node, tx)
         assert_raises_rpc_error(-26, "bad-tx-version-rootvm", self.node.sendrawtransaction, bytes_to_hex_str(tx.serialize()))
 
-        tx.vout = [CTxOut(int(COIN - 10000000), scriptPubKey=CScript([b"\x00", CScriptNum(100000), CScriptNum(BIT_MIN_GAS_PRICE), b"\x00", hex_str_to_bytes(contract_address), OP_CALL]))]
+        tx.vout = [CTxOut(int(COIN - 10000000), scriptPubKey=CScript([b"\x00", CScriptNum(100000), CScriptNum(QTUM_MIN_GAS_PRICE), b"\x00", hex_str_to_bytes(contract_address), OP_CALL]))]
         tx = rpc_sign_transaction(self.node, tx)
         assert_raises_rpc_error(-26, "bad-tx-version-rootvm", self.node.sendrawtransaction, bytes_to_hex_str(tx.serialize()))
 

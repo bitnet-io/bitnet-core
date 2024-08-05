@@ -2,7 +2,7 @@
 
 **Updated for OpenBSD [7.1](https://www.openbsd.org/71.html)**
 
-This guide describes how to build bitnetd, command-line utilities, and GUI on OpenBSD.
+This guide describes how to build qtumd, command-line utilities, and GUI on OpenBSD.
 
 ## Preparation
 
@@ -18,7 +18,7 @@ pkg_add autoconf automake python gmp
 See [dependencies.md](dependencies.md) for a complete overview.
 
 ### 2. Clone Qtum Repo
-Clone the Bitnet Core repository to a directory. All build scripts and commands will run from this directory.
+Clone the Qtum Core repository to a directory. All build scripts and commands will run from this directory.
 ``` bash
 git clone https://github.com/qtumproject/qtum --recursive
 ```
@@ -27,7 +27,7 @@ git clone https://github.com/qtumproject/qtum --recursive
 
 #### Wallet Dependencies
 
-It is not necessary to build wallet functionality to run either `bitnetd` or `bitnet-qt`.
+It is not necessary to build wallet functionality to run either `qtumd` or `qtum-qt`.
 
 ###### Descriptor Wallet Support
 
@@ -56,13 +56,13 @@ export BDB_PREFIX="$PWD/db4"
 #### GUI Dependencies
 ###### Qt5
 
-Bitnet Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, Qt 5 is required.
+Qtum Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, Qt 5 is required.
 
 ```bash
 pkg_add qt5
 ```
 
-## Building Bitnet Core
+## Building Qtum Core
 
 **Important**: Use `gmake` (the non-GNU `make` will exit with an error).
 
@@ -82,7 +82,7 @@ Note that external signer support is currently not available on OpenBSD, since
 the used header-only library Boost.Process fails to compile (certain system
 calls and preprocessor defines like `waitid()` and `WEXITED` are missing).
 
-There are many ways to configure Bitnet Core, here are a few common examples:
+There are many ways to configure Qtum Core, here are a few common examples:
 
 ##### Descriptor Wallet and GUI:
 This enables the GUI and descriptor wallet support, assuming `sqlite` and `qt5` are installed.

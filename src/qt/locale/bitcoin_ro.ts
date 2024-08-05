@@ -286,7 +286,7 @@ Semnarea este posibilă numai cu adrese de tip "legacy".</translation>
         <translation type="unfinished">Sumă</translation>
     </message>
     <message>
-        <source>Enter a Bitnet IO address (e.g. %1)</source>
+        <source>Enter a Qtum address (e.g. %1)</source>
         <translation type="unfinished">Introduceţi o adresă Qtum (de exemplu %1)</translation>
    </message>
     <message>

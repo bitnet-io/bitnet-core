@@ -98,7 +98,7 @@ bool isPyPath(const std::string& str)
 }
 #endif
 
-// Start process from bitnetd
+// Start process from qtumd
 class CProcess
 {
 public:

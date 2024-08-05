@@ -776,9 +776,9 @@ bool ReadBlockFromDisk(Block& block, const FlatFilePos& pos, const Consensus::Pa
     // Check the header
     // PoS blocks can be loaded out of order from disk, which makes PoS impossible to validate. So, do not validate their headers
     // they will be validated later in CheckBlock and ConnectBlock anyway
-    if (block.IsProofOfWork() && !CheckProofOfWork(block.GetHash(), block.nBits, consensusParams)) {
+//    if (block.IsProofOfWork() && !CheckProofOfWork(block.GetHash(), block.nBits, consensusParams)) {
 //        return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
-    }
+//    }
 
     // Signet only: check block solution
     if (consensusParams.signet_blocks && !CheckSignetBlockSolution(block, consensusParams)) {
@@ -788,22 +788,6 @@ bool ReadBlockFromDisk(Block& block, const FlatFilePos& pos, const Consensus::Pa
     return true;
 }
 
-/*bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
-{
-    const FlatFilePos block_pos{WITH_LOCK(cs_main, return pindex->GetBlockPos())};
-
-    if (!ReadBlockFromDisk(block, block_pos, consensusParams)) {
-        return false;
-    }
-    if (block.GetHash() != pindex->GetBlockHash()) {
-        return error("ReadBlockFromDisk(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
-                     pindex->ToString(), block_pos.ToString());
-    }
-    return true;
-}
-*/
-
-
 bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
 {
     const FlatFilePos block_pos{WITH_LOCK(cs_main, return pindex->GetBlockPos())};
@@ -811,21 +795,12 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
     if (!ReadBlockFromDisk(block, block_pos, consensusParams)) {
         return false;
     }
-
-    // Check the header
-//    Algorithm algoType = GetAlgorithmType(pindex->pprev, consensusParams);
-//    uint256 powHash = algoType == SHA256D ? block.GetHash() : block.GetPoWHash();
-//    if (!CheckProofOfWorkForAlgorithm(powHash, block.nBits, algoType)) {
-//        return error("ReadBlockFromDisk: Errors in block header at %s", block_pos.ToString());
-//    }
-
     if (block.GetHash() != pindex->GetBlockHash()) {
         return error("ReadBlockFromDisk(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
                      pindex->ToString(), block_pos.ToString());
     }
     return true;
 }
-
 
 bool ReadRawBlockFromDisk(std::vector<uint8_t>& block, const FlatFilePos& pos, const CMessageHeader::MessageStartChars& message_start)
 {

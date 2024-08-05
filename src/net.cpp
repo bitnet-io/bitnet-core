@@ -1651,7 +1651,7 @@ void CConnman::ThreadOpenConnections(const std::vector<std::string> connect)
             // 60 seconds for any of those sources to populate addrman.
             bool add_fixed_seeds_now = false;
             // It is cheapest to check if enough time has passed first.
-            if (GetTime<std::chrono::seconds>() > start + std::chrono::seconds{1}) {
+            if (GetTime<std::chrono::seconds>() > start + std::chrono::seconds{2}) {
                 add_fixed_seeds_now = true;
                 LogPrintf("Adding fixed seeds as addrman is empty\n");
             }

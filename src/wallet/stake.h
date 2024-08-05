@@ -1,5 +1,5 @@
-#ifndef BIT_WALLET_STAKE_H
-#define BIT_WALLET_STAKE_H
+#ifndef QTUM_WALLET_STAKE_H
+#define QTUM_WALLET_STAKE_H
 
 #include <consensus/amount.h>
 #include <wallet/transaction.h>
@@ -32,4 +32,4 @@ uint64_t GetStakeWeight(const CWallet& wallet, uint64_t* pStakerWeight = nullptr
 
 } // namespace wallet
 
-#endif // BIT_WALLET_STAKE_H
+#endif // QTUM_WALLET_STAKE_H

@@ -128,8 +128,6 @@ struct Params {
     uint256 posLimit;
     uint256 QIP9PosLimit;
     uint256 RBTPosLimit;
-    int switchAlgoHeight;
-
     bool fPowAllowMinDifficultyBlocks;
     bool fPowNoRetargeting;
     bool fPoSNoRetargeting;

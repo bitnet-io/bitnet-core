@@ -299,7 +299,7 @@ Firmar solo es posible con direcciones del tipo «Legacy».</translation>
         <translation type="unfinished">Importe</translation>
     </message>
     <message>
-        <source>Enter a Bitnet IO address (e.g. %1)</source>
+        <source>Enter a Qtum address (e.g. %1)</source>
         <translation type="unfinished">Ingresa una dirección de Qtum (Ejemplo: %1)</translation>
     </message>
     <message>
@@ -410,7 +410,7 @@ Firmar solo es posible con direcciones del tipo «Legacy».</translation>
         <translation type="unfinished">Los desarrolladores de %s</translation>
     </message>
     <message>
-        <source>%s corrupt. Try using the wallet tool bitnet-wallet to salvage or restoring a backup.</source>
+        <source>%s corrupt. Try using the wallet tool qtum-wallet to salvage or restoring a backup.</source>
         <translation type="unfinished">%s corrupto. Intenta utilizar la herramienta del monedero qtum-monedero para salvar o restaurar una copia de seguridad.</translation>
     </message>
     <message>
@@ -450,7 +450,7 @@ Firmar solo es posible con direcciones del tipo «Legacy».</translation>
         <translation type="unfinished">Error: el registro del identificador del archivo de volcado es incorrecto. Se obtuvo «%s» se esperaba «%s».</translation>
     </message>
     <message>
-        <source>Error: Dumpfile version is not supported. This version of bitnet-wallet only supports version 1 dumpfiles. Got dumpfile with version %s</source>
+        <source>Error: Dumpfile version is not supported. This version of qtum-wallet only supports version 1 dumpfiles. Got dumpfile with version %s</source>
         <translation type="unfinished">Error: la versión del archivo volcado no es compatible. Esta versión de monedero qtum solo admite archivos de volcado de la versión 1. Consigue volcado de fichero con la versión %s</translation>
     </message>
     <message>
@@ -618,8 +618,8 @@ Firmar solo es posible con direcciones del tipo «Legacy».</translation>
         <translation type="unfinished">La actualización -txindex iniciada por una versión anterior no puede completarse. Reinicie con la versión anterior o ejecute un -reindex completo.</translation>
     </message>
     <message>
-        <source>%s request to listen on port %u. This port is considered "bad" and thus it is unlikely that any Bitnet Core peers connect to it. See doc/p2p-bad-ports.md for details and a full list.</source>
-        <translation type="unfinished">solicitud %s de escucha en el puerto %u . Este puerto se considera "malo" y por lo tanto es poco probable que ningún par de Bitnet Core se conecte a él. Ver doc/p2p-bad-ports.md para más detalles y una lista completa.</translation>
+        <source>%s request to listen on port %u. This port is considered "bad" and thus it is unlikely that any Qtum Core peers connect to it. See doc/p2p-bad-ports.md for details and a full list.</source>
+        <translation type="unfinished">solicitud %s de escucha en el puerto %u . Este puerto se considera "malo" y por lo tanto es poco probable que ningún par de Qtum Core se conecte a él. Ver doc/p2p-bad-ports.md para más detalles y una lista completa.</translation>
     </message>
     <message>
         <source>-reindex-chainstate option is not compatible with -blockfilterindex. Please temporarily disable blockfilterindex while using -reindex-chainstate, or replace -reindex-chainstate with -reindex to fully rebuild all indexes.</source>
@@ -2409,8 +2409,8 @@ No es posible restaurar la copia de seguridad del monedero.</translation>
         <translation type="unfinished">Ruta de script de firma &amp;externo</translation>
     </message>
     <message>
-        <source>Full path to a Bitnet Core compatible script (e.g. C:\Downloads\hwi.exe or /Users/you/Downloads/hwi.py). Beware: malware can steal your coins!</source>
-        <translation type="unfinished">Ruta completa al script compatible con Bitnet Core (ej. C:\Descargas\hwi.exe o /Usuarios/SuUsuario/Descargas/hwi.py). Cuidado: código malicioso podría robarle sus monedas!</translation>
+        <source>Full path to a Qtum Core compatible script (e.g. C:\Downloads\hwi.exe or /Users/you/Downloads/hwi.py). Beware: malware can steal your coins!</source>
+        <translation type="unfinished">Ruta completa al script compatible con Qtum Core (ej. C:\Descargas\hwi.exe o /Usuarios/SuUsuario/Descargas/hwi.py). Cuidado: código malicioso podría robarle sus monedas!</translation>
     </message>
     <message>
         <source>Automatically open the Qtum client port on the router. This only works when your router supports UPnP and it is enabled.</source>

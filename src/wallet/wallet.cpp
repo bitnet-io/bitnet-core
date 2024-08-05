@@ -3133,9 +3133,9 @@ std::shared_ptr<CWallet> CWallet::Create(WalletContext& context, const std::stri
         }
         else if (nLoadWalletRet == DBErrors::NONCRITICAL_ERROR)
         {
-//            warnings.push_back(strprintf(_("Error reading %s! All keys read correctly, but transaction data"
-//                                           " or address book entries might be missing or incorrect."),
-//                walletFile));
+            warnings.push_back(strprintf(_("Error reading %s! All keys read correctly, but transaction data"
+                                           " or address book entries might be missing or incorrect."),
+                walletFile));
         }
         else if (nLoadWalletRet == DBErrors::TOO_NEW) {
             error = strprintf(_("Error loading %s: Wallet requires newer version of %s"), walletFile, PACKAGE_NAME);
@@ -3397,7 +3397,7 @@ bool CWallet::AttachChain(const std::shared_ptr<CWallet>& walletInstance, interf
             // Wallet is assumed to be from another chain, if genesis block in the active
             // chain differs from the genesis block known to the wallet.
             if (chain.getBlockHash(0) != locator.vHave.back()) {
-                error = Untranslated("Wallet files should not be reused across chains. Restart bitnetd with -walletcrosschain to override.");
+                error = Untranslated("Wallet files should not be reused across chains. Restart qtumd with -walletcrosschain to override.");
                 return false;
             }
         }

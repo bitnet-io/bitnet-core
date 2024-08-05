@@ -344,7 +344,7 @@ static std::vector<RPCArg> CreateTxDoc()
                     {
                         {"contractAddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "Valid contract address (valid hash160 hex data)"},
                         {"data", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "Hex data to add in the call output"},
-                        {"amount", RPCArg::Type::AMOUNT,  RPCArg::Default{0}, "Value in BIT to send with the call, should be a valid amount, default 0"},
+                        {"amount", RPCArg::Type::AMOUNT,  RPCArg::Default{0}, "Value in QTUM to send with the call, should be a valid amount, default 0"},
                         {"gasLimit", RPCArg::Type::NUM,  RPCArg::Optional::OMITTED, "The gas limit for the transaction"},
                         {"gasPrice", RPCArg::Type::NUM,  RPCArg::Optional::OMITTED, "The gas price for the transaction"},
                         {"senderAddress", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The qtum address that will be used to create the contract."},

@@ -219,7 +219,7 @@
         <translation type="unfinished">Kwota</translation>
     </message>
     <message>
-        <source>Enter a Bitnet IO address (e.g. %1)</source>
+        <source>Enter a Qtum address (e.g. %1)</source>
         <translation type="unfinished">Wkludź adresã Qtum (bp. %1)</translation>
     </message>
     <message>

@@ -1,5 +1,5 @@
-#ifndef BITUTILS_H
-#define BITUTILS_H
+#ifndef QTUMUTILS_H
+#define QTUMUTILS_H
 
 #include <libdevcore/Common.h>
 #include <libdevcore/FixedHash.h>

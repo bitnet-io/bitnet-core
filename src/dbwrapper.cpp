@@ -208,8 +208,8 @@ bool CDBWrapper::WriteBatch(CDBBatch& batch, bool fSync)
     dbwrapper_private::HandleError(status);
     if (log_memory) {
         double mem_after = DynamicMemoryUsage() / 1024.0 / 1024;
-//        LogPrint(BCLog::LEVELDB, "WriteBatch memory usage: db=%s, before=%.1fMiB, after=%.1fMiB\n",
-//                 m_name, mem_before, mem_after);
+        LogPrint(BCLog::LEVELDB, "WriteBatch memory usage: db=%s, before=%.1fMiB, after=%.1fMiB\n",
+                 m_name, mem_before, mem_after);
     }
     return true;
 }

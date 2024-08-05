@@ -2,7 +2,7 @@
 
 Updated for NetBSD [9.2](https://netbsd.org/releases/formal-9/NetBSD-9.2.html).
 
-This guide describes how to build bitnetd, command-line utilities, and GUI on NetBSD.
+This guide describes how to build qtumd, command-line utilities, and GUI on NetBSD.
 
 ## Preparation
 
@@ -36,7 +36,7 @@ See [dependencies.md](dependencies.md) for a complete overview.
 
 ### 2. Clone Qtum Repo
 
-Clone the Bitnet Core repository to a directory. All build scripts and commands will run from this directory.
+Clone the Qtum Core repository to a directory. All build scripts and commands will run from this directory.
 
 ```bash
 git clone https://github.com/qtumproject/qtum --recursive
@@ -46,7 +46,7 @@ git clone https://github.com/qtumproject/qtum --recursive
 
 #### Wallet Dependencies
 
-It is not necessary to build wallet functionality to run bitnetd or the GUI.
+It is not necessary to build wallet functionality to run qtumd or the GUI.
 
 ###### Descriptor Wallet Support
 
@@ -66,7 +66,7 @@ pkgin install db4
 
 #### GUI Dependencies
 
-Bitnet Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install `qt5`.
+Qtum Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install `qt5`.
 
 ```bash
 pkgin install qt5
@@ -87,14 +87,14 @@ To run the test suite (recommended), you will need to have Python 3 installed:
 pkgin install python37
 ```
 
-### Building Bitnet Core
+### Building Qtum Core
 
 **Note**: Use `gmake` (the non-GNU `make` will exit with an error).
 
 
 ### 1. Configuration
 
-There are many ways to configure Bitnet Core. Here is an example that
+There are many ways to configure Qtum Core. Here is an example that
 explicitly disables the wallet and GUI:
 
 ```bash

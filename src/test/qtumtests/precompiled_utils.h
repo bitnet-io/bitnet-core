@@ -1,5 +1,5 @@
-#ifndef BITTESTS_PRECOMPILED_UTILS_H
-#define BITTESTS_PRECOMPILED_UTILS_H
+#ifndef QTUMTESTS_PRECOMPILED_UTILS_H
+#define QTUMTESTS_PRECOMPILED_UTILS_H
 
 #include <boost/test/unit_test.hpp>
 #include <univalue.h>
@@ -107,4 +107,4 @@ private:
         tester.performTests(jsondata);\
     } while(false)
 
-#endif // BITTESTS_PRECOMPILED_UTILS_H
+#endif // QTUMTESTS_PRECOMPILED_UTILS_H

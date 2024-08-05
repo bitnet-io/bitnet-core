@@ -34,8 +34,8 @@ class OpCreateTest(BitcoinTestFramework):
         }
         """
         tx = make_transaction(node,
-            [make_vin(node, 500000*BIT_MIN_GAS_PRICE)],
-            [make_op_create_output(node, 0, 4, CScriptNum(500000), CScriptNum(BIT_MIN_GAS_PRICE), bytes.fromhex("60606040523415600b57fe5b5b60398060196000396000f30060606040525b600b5b5b565b0000a165627a7a72305820e3bed070fd3a81dd00e02efd22d18a3b47b70860155d6063e47e1e2674fc5acb0029"))]
+            [make_vin(node, 500000*QTUM_MIN_GAS_PRICE)],
+            [make_op_create_output(node, 0, 4, CScriptNum(500000), CScriptNum(QTUM_MIN_GAS_PRICE), bytes.fromhex("60606040523415600b57fe5b5b60398060196000396000f30060606040525b600b5b5b565b0000a165627a7a72305820e3bed070fd3a81dd00e02efd22d18a3b47b70860155d6063e47e1e2674fc5acb0029"))]
         )
         #node.createcontract("60606040523415600b57fe5b5b60398060196000396000f30060606040525b600b5b5b565b0000a165627a7a72305820e3bed070fd3a81dd00e02efd22d18a3b47b70860155d6063e47e1e2674fc5acb0029");
         node.sendrawtransaction(tx)

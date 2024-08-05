@@ -110,7 +110,7 @@ SplashScreen::SplashScreen(const NetworkStyle* networkStyle)
 
     QRect welcomeRect(0, splashSize.height() - statusHeight - welcomeTextHeight - 40, splashSize.width() -20, welcomeTextHeight);
     pixPaint.setFont(QFont(font, 10 * fontFactor, QFont::Bold));
-    pixPaint.drawText(welcomeRect, Qt::AlignRight | Qt::AlignTop, "Bitnet Wallet 70035");
+    pixPaint.drawText(welcomeRect, Qt::AlignRight | Qt::AlignTop, "ver 70035");
 
     // draw copyright stuff
     QFont statusFont = QApplication::font();

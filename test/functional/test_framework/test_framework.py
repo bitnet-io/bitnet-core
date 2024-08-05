@@ -240,17 +240,17 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
         fname_bitcoind = os.path.join(
             config["environment"]["BUILDDIR"],
             "src",
-            "bitnetd" + config["environment"]["EXEEXT"],
+            "qtumd" + config["environment"]["EXEEXT"],
         )
         fname_bitcoincli = os.path.join(
             config["environment"]["BUILDDIR"],
             "src",
-            "bitnet-cli" + config["environment"]["EXEEXT"],
+            "qtum-cli" + config["environment"]["EXEEXT"],
         )
         fname_bitcoinutil = os.path.join(
             config["environment"]["BUILDDIR"],
             "src",
-            "bitnet-util" + config["environment"]["EXEEXT"],
+            "qtum-util" + config["environment"]["EXEEXT"],
         )
         self.options.bitcoind = os.getenv("BITCOIND", default=fname_bitcoind)
         self.options.bitcoincli = os.getenv("BITCOINCLI", default=fname_bitcoincli)
@@ -491,9 +491,9 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
                 if versions[i] is None or versions[i] >= 229900:
                     extra_args[i] = extra_args[i] + ["-sandbox=log-and-abort"]
         if binary is None:
-            binary = [get_bin_from_version(v, 'bitnetd', self.options.bitcoind) for v in versions]
+            binary = [get_bin_from_version(v, 'qtumd', self.options.bitcoind) for v in versions]
         if binary_cli is None:
-            binary_cli = [get_bin_from_version(v, 'bitnet-cli', self.options.bitcoincli) for v in versions]
+            binary_cli = [get_bin_from_version(v, 'qtum-cli', self.options.bitcoincli) for v in versions]
         assert_equal(len(extra_confs), num_nodes)
         assert_equal(len(extra_args), num_nodes)
         assert_equal(len(versions), num_nodes)

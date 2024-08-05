@@ -73,9 +73,9 @@ static const std::shared_ptr<CWallet> MakeWallet(const std::string& name, const 
             tfm::format(std::cerr, "Error loading %s: Wallet corrupted", name);
             return nullptr;
         } else if (load_wallet_ret == DBErrors::NONCRITICAL_ERROR) {
-//            tfm::format(std::cerr, "Error reading %s! All keys read correctly, but transaction data"
-//                            " or address book entries might be missing or incorrect.",
-//                name);
+            tfm::format(std::cerr, "Error reading %s! All keys read correctly, but transaction data"
+                            " or address book entries might be missing or incorrect.",
+                name);
         } else if (load_wallet_ret == DBErrors::TOO_NEW) {
             tfm::format(std::cerr, "Error loading %s: Wallet requires newer version of %s",
                 name, PACKAGE_NAME);

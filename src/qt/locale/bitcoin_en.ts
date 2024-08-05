@@ -1818,7 +1818,7 @@ Signing is only possible with addresses of the type &apos;legacy&apos;.</source>
     </message>
     <message>
         <location line="+10"/>
-        <source>Full path to a Bitnet Core compatible script (e.g. C:\Downloads\hwi.exe or /Users/you/Downloads/hwi.py). Beware: malware can steal your coins!</source> 
+        <source>Full path to a Qtum Core compatible script (e.g. C:\Downloads\hwi.exe or /Users/you/Downloads/hwi.py). Beware: malware can steal your coins!</source> 
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2488,7 +2488,7 @@ If you are receiving this error you should request the merchant provide a BIP21 
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+129"/>
-        <source>Enter a Bitnet IO address (e.g. %1)</source> 
+        <source>Enter a Qtum address (e.g. %1)</source> 
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5189,7 +5189,7 @@ Go to File &gt; Open Wallet to load a wallet.
     </message>
     <message>
         <location line="+1"/>
-        <source>%s corrupt. Try using the wallet tool bitnet-wallet to salvage or restoring a backup.</source> 
+        <source>%s corrupt. Try using the wallet tool qtum-wallet to salvage or restoring a backup.</source> 
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5239,7 +5239,7 @@ Go to File &gt; Open Wallet to load a wallet.
     </message>
     <message>
         <location line="+2"/>
-        <source>Error: Dumpfile version is not supported. This version of bitnet-wallet only supports version 1 dumpfiles. Got dumpfile with version %s</source> 
+        <source>Error: Dumpfile version is not supported. This version of qtum-wallet only supports version 1 dumpfiles. Got dumpfile with version %s</source> 
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5449,7 +5449,7 @@ Go to File &gt; Open Wallet to load a wallet.
     </message>
     <message>
         <location line="-122"/>
-        <source>%s request to listen on port %u. This port is considered &quot;bad&quot; and thus it is unlikely that any Bitnet Core peers connect to it. See doc/p2p-bad-ports.md for details and a full list.</source>
+        <source>%s request to listen on port %u. This port is considered &quot;bad&quot; and thus it is unlikely that any Qtum Core peers connect to it. See doc/p2p-bad-ports.md for details and a full list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

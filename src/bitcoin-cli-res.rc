@@ -15,13 +15,13 @@ BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
             VALUE "CompanyName",        "Qtum"
-            VALUE "FileDescription",    "bitnet-cli (JSON-RPC client for " PACKAGE_NAME ")"
+            VALUE "FileDescription",    "qtum-cli (JSON-RPC client for " PACKAGE_NAME ")"
             VALUE "FileVersion",        PACKAGE_VERSION
-            VALUE "InternalName",       "bitnet-cli"
+            VALUE "InternalName",       "qtum-cli"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "bitnet-cli.exe"
-            VALUE "ProductName",        "bitnet-cli"
+            VALUE "OriginalFilename",   "qtum-cli.exe"
+            VALUE "ProductName",        "qtum-cli"
             VALUE "ProductVersion",     PACKAGE_VERSION
         END
     END

@@ -43,8 +43,9 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
-//    genesis.hashStateRoot = uint256(h256Touint(dev::h256("9514771014c9ae803d8cea2731b2063e83de44802b40dce2d06acd02d0ff65e9"))); // qtum
-    genesis.hashStateRoot = uint256(h256Touint(dev::h256("e965ffd002cd6ad0e2dc402b8044de833e06b23127ea8c3d80aec91410771495"))); // qtum
+    genesis.hashStateRoot = uint256(h256Touint(dev::h256("9514771014c9ae803d8cea2731b2063e83de44802b40dce2d06acd02d0ff65e9"))); // qtum
+//    genesis.hashStateRoot = uint256(h256Touint(dev::h256("e965ffd002cd6ad0e2dc402b8044de833e06b23127ea8c3d80aec91410771495"))); // qtum
+//    genesis.hashStateRoot = uint256(h256Touint(dev::h256(""))); // qtum
 
     genesis.hashUTXORoot = uint256(h256Touint(dev::sha3(dev::rlp("")))); // qtum
     return genesis;
@@ -90,30 +91,30 @@ public:
         consensus.CSVHeight = 10; // 000000000000000004a1b34462cb8aeebd5799177f7a29cf28f2d1961716b5b5
         consensus.SegwitHeight = 10; // 0000000000000000001c8018d9cb3b742ef25114f27563e3fc4a1902167f9893
 
-        consensus.switchAlgoHeight = 125000;    // activate aurum @ 125,000 height
+//        consensus.switchAlgoHeight = 125000;    // activate aurum @ 125,000 height
         consensus.MinBIP9WarningHeight = 2026; // segwit activation height + miner confirmation window
 
-        consensus.QIP5Height = 207020;
-        consensus.QIP6Height = 207020;
-        consensus.QIP7Height = 207020;
-        consensus.QIP9Height = 207020;
-        consensus.nOfflineStakeHeight = 207020;
+        consensus.QIP5Height = 207800;
+        consensus.QIP6Height = 207800;
+        consensus.QIP7Height = 207800;
+        consensus.QIP9Height = 207800;
+        consensus.nOfflineStakeHeight = 207800;
         consensus.nReduceBlocktimeHeight = 6000000;
-        consensus.nMuirGlacierHeight = 207020;
-        consensus.nLondonHeight = 207020;
-        consensus.nShanghaiHeight = 207020;
+        consensus.nMuirGlacierHeight = 207800;
+        consensus.nLondonHeight = 207800;
+        consensus.nShanghaiHeight = 207800;
 
 
 
 
         consensus.powLimit = uint256S      ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-//        consensus.posLimit = uint256S      ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-//        consensus.QIP9PosLimit = uint256S  ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
-//        consensus.RBTPosLimit = uint256S   ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.posLimit = uint256S      ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.QIP9PosLimit = uint256S  ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
+        consensus.RBTPosLimit = uint256S   ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
-        consensus.posLimit = uint256S      ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.QIP9PosLimit = uint256S  ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
-        consensus.RBTPosLimit = uint256S   ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+//        consensus.posLimit = uint256S      ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+//        consensus.QIP9PosLimit = uint256S  ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
+//        consensus.RBTPosLimit = uint256S   ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
         consensus.nPowTargetTimespan = 24 * 60 * 60; // 16 minutes
         consensus.nPowTargetTimespanV2 = 24 * 60 * 60;
@@ -243,10 +244,10 @@ public:
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
-        fMineBlocksOnDemand = true;
+        fMineBlocksOnDemand = false;
         m_is_test_chain = false;
         m_is_mockable_chain = false;
-        fHasHardwareWalletSupport = true;
+        fHasHardwareWalletSupport = false;
 
         checkpointData = {
             {
@@ -279,7 +280,7 @@ public:
         consensus.nLastPOWBlock = 6000000;
         consensus.nLastBigReward = 6000000;
         consensus.nMPoSRewardRecipients = 10000;
-        consensus.nFirstMPoSBlock = 207020;
+        consensus.nFirstMPoSBlock = 207800;
         consensus.nLastMPoSBlock = 6000000;
 
 

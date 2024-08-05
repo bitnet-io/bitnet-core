@@ -85,7 +85,7 @@ class QtumQRC20Test(BitcoinTestFramework):
             */
             contract QRC20Token is SafeMath {
                 string public constant standard = 'Token 0.1';
-                uint8 public constant decimals = 8; // it's recommended to set decimals to 8 in BIT
+                uint8 public constant decimals = 8; // it's recommended to set decimals to 8 in QTUM
 
                 // you need change the following three values
                 string public constant name = 'QRC TEST';

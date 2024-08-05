@@ -1,4 +1,4 @@
-# Bootstrappable Bitnet Core Builds
+# Bootstrappable Qtum Core Builds
 
 This directory contains the files necessary to perform bootstrappable Qtum
 Core builds.
@@ -57,7 +57,7 @@ and examples](#common-guix-build-invocation-patterns-and-examples) section below
 before starting a build. For a full list of customization options, see the
 [recognized environment variables][env-vars-list] section.*
 
-To build Bitnet Core reproducibly with all default options, invoke the
+To build Qtum Core reproducibly with all default options, invoke the
 following from the top of a clean repository:
 
 ```sh
@@ -80,7 +80,7 @@ crucial differences:
     * _**DETACHED_SIGS_REPO**_
 
       Set the directory where detached codesignatures can be found for the current
-      Bitnet Core version being built.
+      Qtum Core version being built.
 
       _REQUIRED environment variable_
 

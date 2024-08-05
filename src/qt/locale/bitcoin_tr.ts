@@ -297,7 +297,7 @@ Cüzdan kilidini aç.</translation>
         <translation type="unfinished">Mitar</translation>
     </message>
     <message>
-        <source>Enter a Bitnet IO address (e.g. %1)</source>
+        <source>Enter a Qtum address (e.g. %1)</source>
         <translation type="unfinished">Bir qtum adresi giriniz (örneğin %1)</translation>
     </message>
     <message>
@@ -507,8 +507,8 @@ Cüzdan kilidini aç.</translation>
         <translation type="unfinished">Önceki bir sürüm tarafından başlatılan -txindex yükseltmesi tamamlanamaz. Önceki sürümle yeniden başlatın veya full -reindex çalıştırın.</translation>
     </message>
     <message>
-        <source>%s request to listen on port %u. This port is considered "bad" and thus it is unlikely that any Bitnet Core peers connect to it. See doc/p2p-bad-ports.md for details and a full list.</source>
-        <translation type="unfinished">%s, %u bağlantı noktasında dinleme isteğinde bulunur. Bu bağlantı noktası "kötü" olarak kabul edilir ve bu nedenle, herhangi bir Bitnet Core eşinin ona bağlanması olası değildir. Ayrıntılar ve tam liste için doc/p2p-bad-ports.md'ye bakın.</translation>
+        <source>%s request to listen on port %u. This port is considered "bad" and thus it is unlikely that any Qtum Core peers connect to it. See doc/p2p-bad-ports.md for details and a full list.</source>
+        <translation type="unfinished">%s, %u bağlantı noktasında dinleme isteğinde bulunur. Bu bağlantı noktası "kötü" olarak kabul edilir ve bu nedenle, herhangi bir Qtum Core eşinin ona bağlanması olası değildir. Ayrıntılar ve tam liste için doc/p2p-bad-ports.md'ye bakın.</translation>
     </message>
     <message>
         <source>Cannot provide specific connections and have addrman find outgoing connections at the same time.</source>

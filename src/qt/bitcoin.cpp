@@ -257,7 +257,7 @@ void removeParam(QStringList& list, const QString& param, bool startWith)
 }
 
 static int qt_argc = 1;
-static const char* qt_argv = "bitnet-qt";
+static const char* qt_argv = "qtum-qt";
 
 BitcoinApplication::BitcoinApplication():
     QApplication(qt_argc, const_cast<char **>(&qt_argv)),

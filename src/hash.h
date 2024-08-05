@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitnet Core developers
+// Copyright (c) 2009-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,13 +7,11 @@
 #define BITCOIN_HASH_H
 
 #include <attributes.h>
-#include <crypto/aurum.h>
 #include <crypto/common.h>
 #include <crypto/ripemd160.h>
 #include <crypto/sha256.h>
 #include <prevector.h>
 #include <serialize.h>
-#include <span.h>
 #include <uint256.h>
 #include <version.h>
 
@@ -22,7 +20,7 @@
 
 typedef uint256 ChainCode;
 
-/** A hasher class for Bitnet's 256-bit hash (double SHA-256). */
+/** A hasher class for Bitcoin's 256-bit hash (double SHA-256). */
 class CHash256 {
 private:
     CSHA256 sha;
@@ -47,7 +45,7 @@ public:
     }
 };
 
-/** A hasher class for Bitnet's 160-bit hash (SHA-256 + RIPEMD-160). */
+/** A hasher class for Bitcoin's 160-bit hash (SHA-256 + RIPEMD-160). */
 class CHash160 {
 private:
     CSHA256 sha;
@@ -168,39 +166,6 @@ public:
 };
 
 /** Reads data from an underlying stream, while hashing the read data. */
-template <typename Source>
-class HashVerifier : public HashWriter
-{
-private:
-    Source& m_source;
-
-public:
-    explicit HashVerifier(Source& source LIFETIMEBOUND) : m_source{source} {}
-
-    void read(Span<std::byte> dst)
-    {
-        m_source.read(dst);
-        this->write(dst);
-    }
-
-    void ignore(size_t num_bytes)
-    {
-        std::byte data[1024];
-        while (num_bytes > 0) {
-            size_t now = std::min<size_t>(num_bytes, 1024);
-            read({data, now});
-            num_bytes -= now;
-        }
-    }
-
-    template <typename T>
-    HashVerifier<Source>& operator>>(T&& obj)
-    {
-        ::Unserialize(*this, obj);
-        return *this;
-    }
-};
-
 template<typename Source>
 class CHashVerifier : public CHashWriter
 {
@@ -282,22 +247,5 @@ void BIP32Hash(const ChainCode &chainCode, unsigned int nChild, unsigned char he
  * then calling HashWriter::GetSHA256().
  */
 HashWriter TaggedHash(const std::string& tag);
-
-/** Compute the 160-bit RIPEMD-160 hash of an array. */
-inline uint160 RIPEMD160(Span<const unsigned char> data)
-{
-    uint160 result;
-    CRIPEMD160().Write(data.data(), data.size()).Finalize(result.begin());
-    return result;
-}
-
-/** Compute the 256-bit powhash of an object's serialization. */
-template<typename T>
-uint256 aurum(const T& obj, int nType=SER_GETHASH, int nVersion=PROTOCOL_VERSION)
-{
-    uint256 out;
-    aurum_hash((const char*)&obj, reinterpret_cast<char*>(&out));
-    return out;
-}
 
 #endif // BITCOIN_HASH_H

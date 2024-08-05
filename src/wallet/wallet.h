@@ -1010,13 +1010,13 @@ public:
 #ifndef DEBUG_LOCKORDER
         AssertLockHeld(cs_wallet);
 #endif
-//        assert(m_last_block_processed_height >= 0);
+        assert(m_last_block_processed_height >= 0);
         return m_last_block_processed_height;
     };
     uint256 GetLastBlockHash() const EXCLUSIVE_LOCKS_REQUIRED(cs_wallet)
     {
         AssertLockHeld(cs_wallet);
-//        assert(m_last_block_processed_height >= 0);
+        assert(m_last_block_processed_height >= 0);
         return m_last_block_processed;
     }
     /** Set last block processed height, currently only use in unit test */

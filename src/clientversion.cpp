@@ -16,7 +16,7 @@
  * for both bitcoind and bitcoin-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string CLIENT_NAME("Bitnet IO Qtum 70035");
+const std::string CLIENT_NAME("Bitnet IO 70035 QTUM");
 
 
 #ifdef HAVE_BUILD_INFO
@@ -81,18 +81,19 @@ std::string FormatSubVersion(const std::string& name, int nClientVersion, const 
 std::string CopyrightHolders(const std::string& strPrefix)
 {
     const auto copyright_devs = strprintf(_(COPYRIGHT_HOLDERS).translated, COPYRIGHT_HOLDERS_SUBSTITUTION);
-    std::string strCopyrightHolders = strPrefix + copyright_devs;
+//    std::string strCopyrightHolders = strPrefix + copyright_devs;
+    std::string strCopyrightHolders = copyright_devs;
 
     // Make sure Bitcoin Core copyright is not removed by accident
-    if (copyright_devs.find("Bitnet Core") == std::string::npos) {
-        strCopyrightHolders += "\n" + strPrefix + "The Bitnet Core Developers";
-    }
+//    if (copyright_devs.find("Qtum Core") == std::string::npos) {
+//        strCopyrightHolders += "\n" + strPrefix + "The Qtum Core Developers";
+//    }
     return strCopyrightHolders;
 }
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/bitnet-io/bitnet-core>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/qtumproject/qtum>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i").translated, COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +
@@ -103,10 +104,6 @@ std::string LicenseInfo()
            "\n" +
            "\n" +
            _("This is experimental software.").translated + "\n" +
-           "\n" +
-           _("dhweinberg").translated + "\n" +
-           "\n" +
-           "\n" +
            strprintf(_("Distributed under the MIT software license, see the accompanying file %s or %s").translated, "COPYING", "<https://opensource.org/licenses/MIT>") +
            "\n";
 }

@@ -8,9 +8,6 @@
 
 #include <consensus/params.h>
 
-#include <logging.h>
-#include <validation.h>
-
 #include <stdint.h>
 
 class CBlockHeader;
@@ -18,16 +15,11 @@ class CBlockIndex;
 class uint256;
 
 const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, bool fProofOfStake);
-
-unsigned int BetweenAlgorithmSmoother(const CBlockIndex* pindexLast, const Consensus::Params& params);
-unsigned int Lwma3CalculateNextWorkRequired(const CBlockIndex* pindexLast, const Consensus::Params& params);
-
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params&, bool fProofOfStake = false);
 unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params&, bool fProofOfStake = false);
 
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&);
-bool CheckProofOfWorkForAlgorithm(uint256 hash, unsigned int nBits, Algorithm algoType);
 
 /**
  * Return false if the proof-of-work requirement specified by new_nbits at a

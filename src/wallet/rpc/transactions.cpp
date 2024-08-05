@@ -805,7 +805,7 @@ RPCHelpMan gettransaction()
 
     } else {
         if(!request.httpreq)
-            throw JSONRPCError(RPC_INTERNAL_ERROR, "No HTTP connection. Waitconf is available from bitnet-cli, not bitnet-qt");
+            throw JSONRPCError(RPC_INTERNAL_ERROR, "No HTTP connection. Waitconf is available from qtum-cli, not qtum-qt");
 
         request.PollStart();
         while (true) {

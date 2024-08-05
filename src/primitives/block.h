@@ -50,10 +50,20 @@ public:
         nTime = 0;
         nBits = 0;
         nNonce = 0;
+
+/*
+QTUM headers here orig
+        nVersion = 0;
+        hashPrevBlock.SetNull();
+        hashMerkleRoot.SetNull();
+        nTime = 0;
+        nBits = 0;
+        nNonce = 0;
         hashStateRoot.SetNull(); // qtum
         hashUTXORoot.SetNull(); // qtum
         vchBlockSigDlgt.clear();
         prevoutStake.SetNull();
+*/
     }
 
     bool IsNull() const
@@ -62,8 +72,6 @@ public:
     }
 
     uint256 GetHash() const;
-
-    uint256 GetPoWHash() const;
 
     uint256 GetHashWithoutSign() const;
 

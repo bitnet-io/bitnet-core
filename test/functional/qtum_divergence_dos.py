@@ -40,7 +40,7 @@ class QtumDivergenceDosTest(BitcoinTestFramework):
         # Run it many times so we can trigger out of bounds segfaults with a high probability
         tx = CTransaction()
         tx.vin = [make_vin(self.node, COIN)]
-        tx.vout = [CTxOut(COIN-40000000, scriptPubKey=CScript([b"\x04", CScriptNum(100000), CScriptNum(BIT_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(self.contract_address), OP_CALL]))]
+        tx.vout = [CTxOut(COIN-40000000, scriptPubKey=CScript([b"\x04", CScriptNum(100000), CScriptNum(QTUM_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(self.contract_address), OP_CALL]))]
         tx = rpc_sign_transaction(self.node, tx)
         tx.rehash()
         self.submit_block_with_txs([tx])
@@ -49,7 +49,7 @@ class QtumDivergenceDosTest(BitcoinTestFramework):
         # Run it many times so we can trigger out of bounds segfaults with a high probability
         tx1 = CTransaction()
         tx1.vin = [make_vin(self.node, COIN // 10)]
-        tx1.vout = [CTxOut(1, scriptPubKey=CScript([b"\x04", CScriptNum(100000), CScriptNum(BIT_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(self.contract_address), OP_CALL]))]
+        tx1.vout = [CTxOut(1, scriptPubKey=CScript([b"\x04", CScriptNum(100000), CScriptNum(QTUM_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(self.contract_address), OP_CALL]))]
         tx1 = rpc_sign_transaction(self.node, tx1)
         tx1.rehash()
 
@@ -65,7 +65,7 @@ class QtumDivergenceDosTest(BitcoinTestFramework):
         # Run it many times so we can trigger out of bounds segfaults with a high probability
         tx1 = CTransaction()
         tx1.vin = [make_vin(self.node, COIN // 10)]
-        tx1.vout = [CTxOut(1, scriptPubKey=CScript([b"\x04", CScriptNum(100000), CScriptNum(BIT_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(self.contract_address), OP_CALL]))]
+        tx1.vout = [CTxOut(1, scriptPubKey=CScript([b"\x04", CScriptNum(100000), CScriptNum(QTUM_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(self.contract_address), OP_CALL]))]
         tx1 = rpc_sign_transaction(self.node, tx1)
         tx1.rehash()
 

@@ -1,5 +1,5 @@
-#ifndef BITTESTS_TEST_UTILS_H
-#define BITTESTS_TEST_UTILS_H
+#ifndef QTUMTESTS_TEST_UTILS_H
+#define QTUMTESTS_TEST_UTILS_H
 
 #include <util/system.h>
 #include <validation.h>
@@ -77,4 +77,4 @@ inline std::pair<std::vector<ResultExecute>, ByteCodeExecResult> executeBC(std::
     return std::make_pair(res, bceExecRes);
 }
 
-#endif // BITTESTS_TEST_UTILS_H
+#endif // QTUMTESTS_TEST_UTILS_H

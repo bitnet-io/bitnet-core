@@ -16,7 +16,7 @@
 
 namespace init {
 namespace {
-const char* EXE_NAME = "bitnet-node";
+const char* EXE_NAME = "qtum-node";
 
 class BitcoinNodeInit : public interfaces::Init
 {
