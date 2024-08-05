@@ -204,8 +204,8 @@ bool CheckProofOfStake(CBlockIndex* pindexPrev, BlockValidationState& state, con
 
         // Check if the delegation contract exist
         QtumDelegation& qtumDelegation = GetQtumDelegation();
-        if(!qtumDelegation.ExistDelegationContract())
-            return state.Invalid(BlockValidationResult::BLOCK_HEADER_REJECT, "stake-delegation-contract-not-exist", strprintf("CheckProofOfStake() : The delegation contract doesn't exist, block height %i", nOfflineStakeHeight)); // Internal error, delegation contract not exist
+   //     if(!qtumDelegation.ExistDelegationContract())
+   //         return state.Invalid(BlockValidationResult::BLOCK_HEADER_REJECT, "stake-delegation-contract-not-exist", strprintf("CheckProofOfStake() : The delegation contract doesn't exist, block height %i", nOfflineStakeHeight)); // Internal error, delegation contract not exist
 
         // Get the delegation from the contract
         uint160 address = uint160(ExtractPublicKeyHash(coinHeaderPrev.out.scriptPubKey));
