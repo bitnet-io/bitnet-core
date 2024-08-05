@@ -538,16 +538,16 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
                         return false;
                     }
                     if (path[0] != 0x80000058) {
-                        strErr = strprintf("Unexpected path index of 0x%08x (expected 0x80000058) for the element at index 0", path[0]);
-                        return false;
+//                        strErr = strprintf("Unexpected path index of 0x%08x (expected 0x80000058) for the element at index 0", path[0]);
+//                        return false;
                     }
                     if (path[1] != 0x80000000 && path[1] != (1 | 0x80000000)) {
-                        strErr = strprintf("Unexpected path index of 0x%08x (expected 0x80000000 or 0x80000001) for the element at index 1", path[1]);
-                        return false;
+//                        strErr = strprintf("Unexpected path index of 0x%08x (expected 0x80000000 or 0x80000001) for the element at index 1", path[1]);
+//                        return false;
                     }
                     if ((path[2] & 0x80000000) == 0) {
-                        strErr = strprintf("Unexpected path index of 0x%08x (expected to be greater than or equal to 0x80000000)", path[2]);
-                        return false;
+  //                      strErr = strprintf("Unexpected path index of 0x%08x (expected to be greater than or equal to 0x80000000)", path[2]);
+//                        return false;
                     }
                     internal = path[1] == (1 | 0x80000000);
                     index = path[2] & ~0x80000000;

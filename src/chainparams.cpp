@@ -47,7 +47,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 //    genesis.hashStateRoot = uint256(h256Touint(dev::h256("e965ffd002cd6ad0e2dc402b8044de833e06b23127ea8c3d80aec91410771495"))); // qtum
 //    genesis.hashStateRoot = uint256(h256Touint(dev::h256(""))); // qtum
 
-    genesis.hashUTXORoot = uint256(h256Touint(dev::sha3(dev::rlp("")))); // qtum
+    genesis.hashUTXORoot = uint256(h256Touint(dev::sha3(dev::rlp("21b463e3b52f6201c0ad6c991be0485b6ef8c092e64583ffa655cc1b171fe856")))); // qtum
     return genesis;
 
 }

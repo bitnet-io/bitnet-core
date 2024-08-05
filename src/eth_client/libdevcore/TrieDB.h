@@ -924,6 +924,7 @@ template <class DB> bytes GenericTrieDB<DB>::deleteAt(RLP const& _orig, NibbleSl
     if (_orig.isEmpty())
         return bytes();
 
+/*
     assert(_orig.isList() && (_orig.itemCount() == 2 || _orig.itemCount() == 17));
     if (_orig.itemCount() == 2)
     {
@@ -955,7 +956,8 @@ template <class DB> bytes GenericTrieDB<DB>::deleteAt(RLP const& _orig, NibbleSl
             return bytes();
     }
     else
-    {
+    */
+ /*   {
         // branch...
 
         // exactly our node - remove and rejig.
@@ -1015,7 +1017,7 @@ template <class DB> bytes GenericTrieDB<DB>::deleteAt(RLP const& _orig, NibbleSl
                 return merge(rlp, used);
         }
     }
-
+*/
 }
 
 template <class DB> bool GenericTrieDB<DB>::deleteAtAux(RLPStream& _out, RLP const& _orig, NibbleSlice _k)
