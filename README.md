@@ -18,6 +18,9 @@ The most troublefree and reproducable method of building the repository is via t
 
     git clone https://github.com/bitnet-io/bitnet-core
     cd bitnet-core
+    wget https://github.com/bitnet-io/bitnet-core/releases/download/70035/evmone.tar.gz
+    tar -xvf evmone.tar.gz 
+    mv src-evmone-current src/evmone
     cd depends
     make -j8 HOST=x86_64-unknown-linux-gnu  # -j8 for 8 cores adjust here
     cd ..
