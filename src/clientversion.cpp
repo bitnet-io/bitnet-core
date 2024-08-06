@@ -16,7 +16,7 @@
  * for both bitcoind and bitcoin-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string CLIENT_NAME("Bitnet IO 70035 QTUM");
+const std::string CLIENT_NAME("Bitnet IO 70036 QTUM");
 
 
 #ifdef HAVE_BUILD_INFO

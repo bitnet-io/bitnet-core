@@ -76,6 +76,7 @@ public:
     COutPoint prevout;
     CScript scriptSig;
     uint32_t nSequence;
+    uint32_t pos;
     CScriptWitness scriptWitness; //!< Only serialized through CTransaction
 
     /**

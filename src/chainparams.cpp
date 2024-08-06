@@ -107,7 +107,7 @@ public:
 
 
 
-        consensus.powLimit = uint256S      ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.powLimit = uint256S      ("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.posLimit = uint256S      ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.QIP9PosLimit = uint256S  ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
         consensus.RBTPosLimit = uint256S   ("00000ffff0ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
@@ -279,7 +279,7 @@ public:
         consensus.nSubsidyHalvingIntervalV2 = 6000000;
         consensus.nLastPOWBlock = 6000000;
         consensus.nLastBigReward = 6000000;
-        consensus.nMPoSRewardRecipients = 10000;
+        consensus.nMPoSRewardRecipients = 10;
         consensus.nFirstMPoSBlock = 207800;
         consensus.nLastMPoSBlock = 6000000;
 
