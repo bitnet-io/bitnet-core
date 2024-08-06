@@ -303,7 +303,7 @@ Allekirjoitus on mahdollista vain 'legacy'-tyyppisillä osoitteilla.</translatio
         <translation type="unfinished">Määrä</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Syötä Qtum-osoite (esim. %1)</translation>
     </message>
     <message>
@@ -1100,8 +1100,8 @@ Allekirjoitus on mahdollista vain 'legacy'-tyyppisillä osoitteilla.</translatio
         <translation type="unfinished">Yhdistetään vertaisiin...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Pyydä maksuja (Luo QR koodit ja qtum: URIt)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Pyydä maksuja (Luo QR koodit ja  URIt)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1179,8 +1179,8 @@ Allekirjoitus on mahdollista vain 'legacy'-tyyppisillä osoitteilla.</translatio
         <translation type="unfinished">&amp;Vastaanotto-osoitteet</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Avaa qtum: URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Avaa  URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2509,7 +2509,7 @@ Allekirjoitus on mahdollista vain 'legacy'-tyyppisillä osoitteilla.</translatio
         <translation type="unfinished">Maksupyyntövirhe</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">Qtumia ei voi käynnistää: klikkaa-maksaaksesi -käsittelijän virhe</translation>
     </message>
     <message>
@@ -2517,8 +2517,8 @@ Allekirjoitus on mahdollista vain 'legacy'-tyyppisillä osoitteilla.</translatio
         <translation type="unfinished">URI käsittely</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' ei ole kelvollinen URI. Käytä 'qtum:' sen sijaan.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' ei ole kelvollinen URI. Käytä '' sen sijaan.</translation>
    </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3539,8 +3539,8 @@ Jos saat tämän virheen, pyydä kauppiasta antamaan BIP21-yhteensopiva URI.</tr
         <translation type="unfinished">Aseta nimi tälle osoitteelle lisätäksesi sen käytettyjen osoitteiden listalle.</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Viesti joka liitettiin qtum: URI:iin tallennetaan rahansiirtoon viitteeksi. Tätä viestiä ei lähetetä Qtum-verkkoon.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Viesti joka liitettiin  URI:iin tallennetaan rahansiirtoon viitteeksi. Tätä viestiä ei lähetetä Qtum-verkkoon.</translation>
     </message>
 </context>
 <context>

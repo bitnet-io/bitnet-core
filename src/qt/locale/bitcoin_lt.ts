@@ -273,7 +273,7 @@ Pasirašymas galimas tik su 'legacy' tipo adresais.</translation>
         <translation type="unfinished">Suma</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Įveskite Qtum adresą (pvz., %1)</translation>
     </message>
     <message>
@@ -631,8 +631,8 @@ Pasirašymas galimas tik su 'legacy' tipo adresais.</translation>
         <translation type="unfinished">Kortelių įrankinė</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Reikalauti mokėjimų (sukuria QR kodus ir qtum: URI)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Reikalauti mokėjimų (sukuria QR kodus ir  URI)</translation>
    </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1669,16 +1669,16 @@ Pasirašymas galimas tik su 'legacy' tipo adresais.</translation>
         <translation type="unfinished">Mokėjimo užklausos klaida</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Negalima paleisti qtum: paspauskite sumokėti tvarkytojui</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Negalima paleisti  paspauskite sumokėti tvarkytojui</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">URI tvarkymas</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">„qtum: //“ nėra galiojantis URI. Vietoj to naudokite „qtum:“.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">„ //“ nėra galiojantis URI. Vietoj to naudokite „“.</translation>
    </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Qtum address or malformed URI parameters.</source>
@@ -2468,8 +2468,8 @@ Pasirašymas galimas tik su 'legacy' tipo adresais.</translation>
         <translation type="unfinished">Įveskite šio adreso etiketę, kad ją pridėtumėte prie naudojamų adresų sąrašo</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Pranešimas, kuris buvo pridėtas prie qtum: URI, kuris bus saugomas kartu su sandoriu jūsų nuoroda. Pastaba: šis pranešimas nebus išsiųstas per „Qtum“ tinklą.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Pranešimas, kuris buvo pridėtas prie  URI, kuris bus saugomas kartu su sandoriu jūsų nuoroda. Pastaba: šis pranešimas nebus išsiųstas per „Qtum“ tinklą.</translation>
     </message>
 </context>
 <context>

@@ -500,7 +500,7 @@
         <translation type="unfinished">Дискідегі блоктар қайта индекстелуде…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source> 
+        <source>Request payments (generates QR codes and  URIs)</source> 
         <translation type="unfinished">Төлем талап ету (QR кодтары мен биткоин құрады: URI)</translation>
     </message>
     <message>

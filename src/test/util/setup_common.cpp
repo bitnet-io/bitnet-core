@@ -191,7 +191,7 @@ ChainTestingSetup::ChainTestingSetup(const std::string& chainName, const std::ve
 
 ////////////////////////////////////////////////////////////// qtum
     dev::eth::NoProof::init();		
-    std::filesystem::path pathTemp = fs::temp_directory_path() / strprintf("test_qtum_%lu_%i", (unsigned long)GetTime(), (int)(GetRand(100000)));
+    std::filesystem::path pathTemp = fs::temp_directory_path() / strprintf("test_bitnet_%lu_%i", (unsigned long)GetTime(), (int)(GetRand(100000)));
     std::filesystem::create_directories(pathTemp);
     const dev::h256 hashDB(dev::sha3(dev::rlp("")));
     globalState = std::unique_ptr<QtumState>(new QtumState(dev::u256(0), QtumState::openDB(pathTemp.string(), hashDB, dev::WithExisting::Trust), pathTemp.string(), dev::eth::BaseState::Empty));

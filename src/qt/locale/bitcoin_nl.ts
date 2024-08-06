@@ -295,7 +295,7 @@ Ondertekenen is alleen mogelijk met adressen van het type 'legacy'.</translation
         <translation type="unfinished">Bedrag</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Voer een Qtum adres in (bijv. %1)</translation>
     </message>
     <message>
@@ -1373,8 +1373,8 @@ Kan mislukte migratie niet opschonen</translation>
         <translation type="unfinished">Verbinden met peers...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Vraag betaling aan (genereert QR-codes en qtum: URI's)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Vraag betaling aan (genereert QR-codes en  URI's)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1456,8 +1456,8 @@ Kan mislukte migratie niet opschonen</translation>
         <translation type="unfinished">Ontvangstadressen</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Open een qtum: URI</translation> 
+        <source>Open a  URI</source>
+        <translation type="unfinished">Open een  URI</translation> 
    </message>
     <message>
         <source>Open Wallet</source>
@@ -2813,7 +2813,7 @@ Ongebruikte mempool geheugen is gedeeld voor deze cache.</translation>
         <translation type="unfinished">Fout bij betalingsverzoek</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">Kan qtum niet starten: click-to-pay handler</translation>
     </message>
     <message>
@@ -2821,8 +2821,8 @@ Ongebruikte mempool geheugen is gedeeld voor deze cache.</translation>
         <translation type="unfinished">URI-behandeling</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' is niet een geldige URI. Gebruik 'qtum:' in plaats daarvan.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' is niet een geldige URI. Gebruik '' in plaats daarvan.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3883,8 +3883,8 @@ Notitie: Omdat de vergoeding per byte wordt gerekend, zal een vergoeding van "10
         <translation type="unfinished">Vul een label voor dit adres in om het aan de lijst met gebruikte adressen toe te voegen</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Een bericht dat werd toegevoegd aan de qtum: URI welke wordt opgeslagen met de transactie ter referentie. Opmerking: Dit bericht zal niet worden verzonden over het Qtum netwerk.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Een bericht dat werd toegevoegd aan de  URI welke wordt opgeslagen met de transactie ter referentie. Opmerking: Dit bericht zal niet worden verzonden over het Qtum netwerk.</translation>
     </message>
 </context>
 <context>

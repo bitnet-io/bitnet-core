@@ -290,7 +290,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Miqdor</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Qtum манзилини киритинг (масалан.  %1)</translation>
     </message>
     <message>
@@ -601,7 +601,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Pirlarga ulanish...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">To'lovlarni so'rash(QR kolar va bitkoin yaratish: URL manzillar)</translation>
     </message>
     <message>
@@ -684,7 +684,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">&amp;Qabul qilish manzillari</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
+        <source>Open a  URI</source>
         <translation type="unfinished">Bitkoinni ochish: URI</translation>
     </message>
     <message>

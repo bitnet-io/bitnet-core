@@ -422,7 +422,7 @@ Firmar é posible unicamente con enderezos de tipo 'legacy'.</translation>
         <translation type="unfinished">Barra de ferramentas das pestanas</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">Solicita pagamentos (xera un código QR e qtum : URIs)</translation>
     </message>
     <message>
@@ -485,7 +485,7 @@ Firmar é posible unicamente con enderezos de tipo 'legacy'.</translation>
         <translation type="unfinished">&amp;Enderezos de recepción</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
+        <source>Open a  URI</source>
         <translation type="unfinished">Abre una URI de Qtum</translation>
    </message>
     <message>

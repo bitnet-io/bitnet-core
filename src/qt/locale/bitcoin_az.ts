@@ -556,7 +556,7 @@ Daxil olma, yalnız 'qanuni' tipli ünvanlar ilə mümkündür.</translation>
         <translation type="unfinished">İştirakçılara qoşulur...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">Ödəmə tələbi (QR-kodlar və qtum URI-ləri yaradılır):</translation>
     </message>
     <message>
@@ -639,7 +639,7 @@ Daxil olma, yalnız 'qanuni' tipli ünvanlar ilə mümkündür.</translation>
         <translation type="unfinished">&amp;Qəbul etmək üçün ünvanlar</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
+        <source>Open a  URI</source>
         <translation type="unfinished">Qtum açın: URI</translation>
     </message>
     <message>

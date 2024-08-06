@@ -286,7 +286,7 @@ Försök igen.</translation>
         <translation type="unfinished">Belopp</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Ange en Qtum-adress (t.ex. %1)</translation>
     </message>
     <message>
@@ -1026,8 +1026,8 @@ Försök igen.</translation>
         <translation type="unfinished">Ansluter till noder...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Begär betalningar (skapar QR-koder och qtum: -URIer)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Begär betalningar (skapar QR-koder och  -URIer)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1105,8 +1105,8 @@ Försök igen.</translation>
         <translation type="unfinished">Mottaga&amp;radresser</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Öppna en qtum:-URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Öppna en -URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2281,16 +2281,16 @@ Försök igen.</translation>
         <translation type="unfinished">Fel vid betalningsbegäran</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Kan inte starta qtum: klicka-och-betala hanteraren</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Kan inte starta  klicka-och-betala hanteraren</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">URI-hantering</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' är inte en accepterad URI. Använd 'qtum:' istället.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' är inte en accepterad URI. Använd '' istället.</translation>
    </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Qtum address or malformed URI parameters.</source>
@@ -3195,8 +3195,8 @@ Försök igen.</translation>
         <translation type="unfinished">Ange en etikett för denna adress för att lägga till den i listan med använda adresser</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Ett meddelande som bifogades qtum: -URIn och som sparas med transaktionen som referens. Obs: Meddelandet sänds inte över Qtum-nätverket.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Ett meddelande som bifogades  -URIn och som sparas med transaktionen som referens. Obs: Meddelandet sänds inte över Qtum-nätverket.</translation>
     </message>
 </context>
 <context>

@@ -297,7 +297,7 @@ Cüzdan kilidini aç.</translation>
         <translation type="unfinished">Mitar</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Bir qtum adresi giriniz (örneğin %1)</translation>
     </message>
     <message>
@@ -1001,8 +1001,8 @@ Cüzdan yedeği geri yüklenemiyor.</translation>
         <translation type="unfinished">Eşlere Bağlanılıyor...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Ödeme isteyin (QR kodları ve qtum: URI'ler üretir)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Ödeme isteyin (QR kodları ve  URI'ler üretir)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1079,7 +1079,7 @@ Cüzdan yedeği geri yüklenemiyor.</translation>
         <translation type="unfinished">&amp; Adresler alınıyor</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
+        <source>Open a  URI</source>
         <translation type="unfinished">Qtum’i aç.</translation> 
    </message>
     <message>
@@ -2335,7 +2335,7 @@ Cüzdan yedeği geri yüklenemiyor.</translation>
         <translation type="unfinished">Ödeme isteği hatası</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">Qtum başlatılamadı: tıkla-ve-öde yöneticisi</translation> 
    </message>
     <message>
@@ -2343,8 +2343,8 @@ Cüzdan yedeği geri yüklenemiyor.</translation>
         <translation type="unfinished">URI yönetimi</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' geçerli bir URI değil. Onun yerine 'qtum:' kullanın.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' geçerli bir URI değil. Onun yerine '' kullanın.</translation>
    </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Qtum address or malformed URI parameters.</source>
@@ -3240,8 +3240,8 @@ Cüzdan yedeği geri yüklenemiyor.</translation>
         <translation type="unfinished">Kullanılmış adres listesine eklemek için bu adrese bir etiket girin</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Referans için qtum: URI'siyle iliştirilmiş işlemle birlikte depolanacak bir ileti. Not: Bu mesaj Qtum ağı üzerinden gönderilmeyecektir.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Referans için  URI'siyle iliştirilmiş işlemle birlikte depolanacak bir ileti. Not: Bu mesaj Qtum ağı üzerinden gönderilmeyecektir.</translation>
     </message>
 </context>
 <context>

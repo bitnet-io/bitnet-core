@@ -93,8 +93,8 @@ BUILDDIR=$PWD/build contrib/devtools/gen-manpages.py
 gen-bitcoin-conf.sh
 ===================
 
-Generates a qtum.conf file in `share/examples/` by parsing the output from `qtumd --help`. This script is run during the
-release process to include a qtum.conf with the release binaries and can also be run by users to generate a file locally.
+Generates a bitnet.conf file in `share/examples/` by parsing the output from `qtumd --help`. This script is run during the
+release process to include a bitnet.conf with the release binaries and can also be run by users to generate a file locally.
 When generating a file as part of the release process, make sure to commit the changes after running the script.
 
 With in-tree builds this tool can be run from any directory within the
@@ -129,10 +129,10 @@ If no errors occur the return value will be 0 and the output will be empty.
 
 If there are any errors the return value will be 1 and output like this will be printed:
 
-    .../64/test_qtum: symbol memcpy from unsupported version GLIBC_2.14
-    .../64/test_qtum: symbol __fdelt_chk from unsupported version GLIBC_2.15
-    .../64/test_qtum: symbol std::out_of_range::~out_of_range() from unsupported version GLIBCXX_3.4.15
-    .../64/test_qtum: symbol _ZNSt8__detail15_List_nod from unsupported version GLIBCXX_3.4.15
+    .../64/test_bitnet: symbol memcpy from unsupported version GLIBC_2.14
+    .../64/test_bitnet: symbol __fdelt_chk from unsupported version GLIBC_2.15
+    .../64/test_bitnet: symbol std::out_of_range::~out_of_range() from unsupported version GLIBCXX_3.4.15
+    .../64/test_bitnet: symbol _ZNSt8__detail15_List_nod from unsupported version GLIBCXX_3.4.15
 
 circular-dependencies.py
 ========================

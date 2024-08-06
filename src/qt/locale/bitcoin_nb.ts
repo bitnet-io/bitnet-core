@@ -294,7 +294,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Beløp</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Oppgi en Qtum-adresse (f.eks. %1)</translation>
     </message>
     <message>
@@ -1137,7 +1137,7 @@ Mangler løsningsdata for å estimere transaksjonsstørrelse</translation>
         <translation type="unfinished">Kobler til likemannsnettverket...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">Be om betalinger (genererer QR-koder og qtum-URIer)</translation>
     </message>
     <message>
@@ -1216,8 +1216,8 @@ Mangler løsningsdata for å estimere transaksjonsstørrelse</translation>
         <translation type="unfinished">&amp;Mottaker adresser</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Åpne en qtum: URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Åpne en  URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2462,16 +2462,16 @@ Mangler løsningsdata for å estimere transaksjonsstørrelse</translation>
         <translation type="unfinished">Feil ved betalingsforespørsel</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Kan ikke starte qtum: Klikk-og-betal håndterer</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Kan ikke starte  Klikk-og-betal håndterer</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">URI-håndtering</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum: //' er ikke en gyldig URI. Bruk 'qtum:' i stedet.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">' //' er ikke en gyldig URI. Bruk '' i stedet.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3510,7 +3510,7 @@ Hvis du får denne feilen burde du be forretningsdrivende om å tilby en BIP21 k
         <translation type="unfinished">Skriv inn en merkelapp for denne adressen for å legge den til listen av brukte adresser</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
         <translation type="unfinished">En melding som var tilknyttet qtumen: URI vil bli lagret med transaksjonen for din oversikt. Denne meldingen vil ikke bli sendt over Qtum-nettverket.</translation>
     </message>
 </context>

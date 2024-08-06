@@ -308,7 +308,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">میزان وجه:</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source> 
+        <source>Enter a Bitnet address (e.g. %1)</source> 
         <translation type="unfinished">آدرس بیت کوین را وارد کنید (به طور مثال %1)</translation>
     </message>
     <message>
@@ -999,7 +999,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">در حال اتصال به همتاهای شبکه(پیِر ها)...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source> 
+        <source>Request payments (generates QR codes and  URIs)</source> 
         <translation type="unfinished">درخواست پرداخت (ساخت کد QR و بیت‌کوین: URIs)</translation>
     </message>
     <message>
@@ -1073,7 +1073,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">ادرس درسافت</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source> 
+        <source>Open a  URI</source> 
         <translation type="unfinished">بارک کردن یک بیت‌کوین: URI</translation>
     </message>
     <message>
@@ -2308,7 +2308,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">درخواست پرداخت با خطا مواجه شد</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">نمی توان بیت کوین را شروع کرد: کنترل کننده کلیک برای پرداخت
  </translation>
     </message>

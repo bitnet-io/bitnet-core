@@ -260,9 +260,9 @@ Before running, you may create an empty configuration file:
 ```shell
 mkdir -p "/Users/${USER}/Library/Application Support/Qtum"
 
-touch "/Users/${USER}/Library/Application Support/Qtum/qtum.conf"
+touch "/Users/${USER}/Library/Application Support/Qtum/bitnet.conf"
 
-chmod 600 "/Users/${USER}/Library/Application Support/Qtum/qtum.conf"
+chmod 600 "/Users/${USER}/Library/Application Support/Qtum/bitnet.conf"
 ```
 
 You can monitor the download process by looking at the debug.log file:

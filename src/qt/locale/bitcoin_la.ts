@@ -698,7 +698,7 @@
 <context>
     <name>PaymentServer</name>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">Qtum incipere non potest: cliccare-ad-pensandum handler</translation>
    </message>
     <message>

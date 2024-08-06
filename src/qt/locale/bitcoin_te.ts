@@ -299,7 +299,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">మొత్తం</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">బిట్‌కాయిన్ చిరునామాను నమోదు చేయండి (ఉదా. %1)</translation>
     </message>
     <message>
@@ -771,7 +771,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">తోటివారితో కలుస్తుంది…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">చెల్లింపులను అభ్యర్థించండి (QR కోడ్‌లు మరియు బిట్‌కాయిన్‌లను ఉత్పత్తి చేస్తుంది: URIలు)</translation>
     </message>
     <message>
@@ -854,7 +854,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">&amp;చిరునామాలను స్వీకరిస్తోంది</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
+        <source>Open a  URI</source>
         <translation type="unfinished">బిట్‌కాయిన్‌ను తెరవండి: URI</translation>
     </message>
     <message>
@@ -2176,7 +2176,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">చెల్లింపు అభ్యర్ధన లోపం</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">బిట్‌కాయిన్‌ను ప్రారంభించడం సాధ్యం కాదు: క్లిక్-టు-పే హ్యాండ్లర్</translation>
     </message>
     <message>
@@ -2184,8 +2184,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">URI నిర్వహణ</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' చెల్లుబాటు అయ్యే URI కాదు. బదులుగా 'qtum:' ఉపయోగించండి.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' చెల్లుబాటు అయ్యే URI కాదు. బదులుగా '' ఉపయోగించండి.</translation>
     </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Qtum address or malformed URI parameters.</source>

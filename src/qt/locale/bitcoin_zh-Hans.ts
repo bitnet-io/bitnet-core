@@ -303,7 +303,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">金额</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">请输入一个比特币地址 (例如 %1)</translation>
     </message>
     <message>
@@ -1405,8 +1405,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">连接到节点...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">请求支付 (生成二维码和 qtum: URI)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">请求支付 (生成二维码和  URI)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1487,8 +1487,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">收款地址(&amp;R)</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">打开qtum:开头的URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">打开开头的URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2886,16 +2886,16 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">支付请求出错</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">无法启动 qtum: 协议的“一键支付”处理程序</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">无法启动  协议的“一键支付”处理程序</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">URI 处理</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">‘qtum://’不是合法的URI。请改用'qtum:'。</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">‘//’不是合法的URI。请改用''。</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -4046,8 +4046,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">请为此地址输入一个标签以将它加入已用地址列表</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">qtum: URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过比特币网络传输。</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished"> URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过比特币网络传输。</translation>
     </message>
 </context>
 <context>

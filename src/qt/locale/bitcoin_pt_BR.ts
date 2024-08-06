@@ -295,7 +295,7 @@ Somente é possível assinar com endereços do tipo 'legado'.</translation>
         <translation type="unfinished">Quantia</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Informe um endereço Qtum (ex: %1)</translation>
     </message>
     <message>
@@ -1238,8 +1238,8 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Conectando...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Solicitações de pagamentos (gera códigos QR e qtum: URIs)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Solicitações de pagamentos (gera códigos QR e  URIs)</translation>
   </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1321,8 +1321,8 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Endereço de &amp;recebimento</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Abrir um qtum: URI</translation>  
+        <source>Open a  URI</source>
+        <translation type="unfinished">Abrir um  URI</translation>  
   </message>
     <message>
         <source>Open Wallet</source>
@@ -2617,16 +2617,16 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Erro no pedido de pagamento</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Não foi possível iniciar qtum: manipulador click-to-pay</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Não foi possível iniciar  manipulador click-to-pay</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">Manipulação de URI</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' não é um URI válido. Use 'qtum:'.</translation> 
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' não é um URI válido. Use ''.</translation> 
    </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Qtum address or malformed URI parameters.</source>
@@ -3607,8 +3607,8 @@ Nota: Como a taxa é calculada por byte, uma taxa de "100 satoshis por kvB" para
         <translation type="unfinished">Digite um rótulo para este endereço para adicioná-lo no catálogo</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">A mensagem que foi anexada ao qtum: URI na qual será gravada na transação para sua referência. Nota: Essa mensagem não será gravada publicamente na rede Qtum.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">A mensagem que foi anexada ao  URI na qual será gravada na transação para sua referência. Nota: Essa mensagem não será gravada publicamente na rede Qtum.</translation>
     </message>
 </context>
 <context>

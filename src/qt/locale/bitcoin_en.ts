@@ -568,7 +568,7 @@ Signing is only possible with addresses of the type &apos;legacy&apos;.</source>
     </message>
     <message>
         <location line="-833"/>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -676,7 +676,7 @@ Signing is only possible with addresses of the type &apos;legacy&apos;.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Open a qtum: URI</source> 
+        <source>Open a  URI</source> 
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2369,7 +2369,7 @@ Signing is only possible with addresses of the type &apos;legacy&apos;.</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>Cannot start qtum: click-to-pay handler</source> 
+        <source>Cannot start  click-to-pay handler</source> 
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2382,7 +2382,7 @@ Signing is only possible with addresses of the type &apos;legacy&apos;.</source>
     </message>
     <message>
         <location line="-29"/>
-        <source>&apos;qtum://&apos; is not a valid URI. Use &apos;qtum:&apos; instead.</source> 
+        <source>&apos;//&apos; is not a valid URI. Use &apos;&apos; instead.</source> 
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2488,7 +2488,7 @@ If you are receiving this error you should request the merchant provide a BIP21 
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+129"/>
-        <source>Enter a Qtum address (e.g. %1)</source> 
+        <source>Enter a Bitnet address (e.g. %1)</source> 
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4152,7 +4152,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of &quot;100 
     </message>
     <message>
         <location line="+58"/>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

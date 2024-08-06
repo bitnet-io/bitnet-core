@@ -299,7 +299,7 @@ Potpisivanje je moguće samo sa 'legacy' adresama. </translation>
         <translation type="unfinished">Iznos</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Unesite Qtum adresu (npr. %1)</translation>
     </message>
     <message>
@@ -1237,8 +1237,8 @@ Potpisivanje je moguće samo sa 'legacy' adresama. </translation>
         <translation type="unfinished">Povezivanje sa peer-ovima...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Zatražite uplatu (stvara QR kod i qtum: URI adresu)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Zatražite uplatu (stvara QR kod i  URI adresu)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1321,8 +1321,8 @@ Potpisivanje je moguće samo sa 'legacy' adresama. </translation>
         <translation type="unfinished">Adrese za &amp;primanje</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Otvori qtum: URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Otvori  URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2075,7 +2075,7 @@ Potpisivanje je moguće samo sa 'legacy' adresama. </translation>
     <name>OpenURIDialog</name>
     <message>
         <source>Open qtum URI</source>
-        <translation type="unfinished">Otvori qtum: URI</translation>
+        <translation type="unfinished">Otvori  URI</translation>
    </message>
     <message>
         <source>Paste address from clipboard</source>
@@ -2650,7 +2650,7 @@ Potpisivanje je moguće samo sa 'legacy' adresama. </translation>
         <translation type="unfinished">Greška kod zahtjeva za plaćanje</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source> 
+        <source>Cannot start  click-to-pay handler</source> 
         <translation type="unfinished">Ne može se pokrenuti klijent: rukovatelj "kliknite da platite"</translation>
     </message>
     <message>
@@ -2658,8 +2658,8 @@ Potpisivanje je moguće samo sa 'legacy' adresama. </translation>
         <translation type="unfinished">URI upravljanje</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' nije ispravan URI. Koristite 'qtum:' umjesto toga.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' nije ispravan URI. Koristite '' umjesto toga.</translation>
    </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3781,7 +3781,7 @@ Napomena: Budući da se naknada računa po bajtu, naknada od "100 satošija po k
         <translation type="unfinished">Unesite oznaku za ovu adresu kako bi ju dodali u vaš adresar</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
         <translation type="unfinished">Poruka koja je dodana uplati: URI koji će biti spremljen s transakcijom za referencu. Napomena: Ova poruka neće biti poslana preko Qtum mreže.</translation>
     </message>
 </context>

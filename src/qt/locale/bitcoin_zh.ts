@@ -621,7 +621,7 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">标签工具栏</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">请求支付(生成二维码和比特币链接)</translation>
     </message>
     <message>
@@ -691,7 +691,7 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">&amp;接受地址</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source> 
+        <source>Open a  URI</source> 
         <translation type="unfinished">打开比特币: URI</translation>
     </message>
     <message>

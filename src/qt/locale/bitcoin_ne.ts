@@ -207,7 +207,7 @@
         <translation type="unfinished">रकम</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">कृपया क्तुम ठेगाना प्रवेश गर्नुहोस् (उदाहरण %1)</translation>
     </message>
     <message numerus="yes">
@@ -794,7 +794,7 @@
         <translation type="unfinished">यो ठेगानालाई प्रयोग गरिएको ठेगानाको सूचीमा थप्न एउटा लेबल प्रविष्ट गर्नुहोस्</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
         <translation type="unfinished">क्तुममा संलग्न गरिएको सन्देश: तपाईंको मध्यस्थको लागि कारोबारको साथमा भण्डारण गरिने URI । नोट: यो सन्देश क्तुम नेटवर्क मार्फत पठाइने छैन ।</translation>
     </message>
 </context>

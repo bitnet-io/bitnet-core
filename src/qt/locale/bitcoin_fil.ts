@@ -245,7 +245,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Halaga</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">I-enter ang Qtum address (e.g. %1)</translation>
     </message>
     <message>
@@ -760,8 +760,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Tulong</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Humiling ng bayad (lumilikha ng QR codes at qtum: URIs)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Humiling ng bayad (lumilikha ng QR codes at  URIs)</translation>
    </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1752,12 +1752,12 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Kamalian sa paghiling ng bayad</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Hindi masimulan ang qtum: click-to-pay handler</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Hindi masimulan ang  click-to-pay handler</translation>
    </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">Ang 'qtum://' ay hindi wastong URI. Sa halip, gamitin ang 'qtum:'.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">Ang '//' ay hindi wastong URI. Sa halip, gamitin ang ''.</translation>
    </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Qtum address or malformed URI parameters.</source>
@@ -2529,8 +2529,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Mag-enter ng label para sa address na ito upang idagdag ito sa listahan ng mga gamit na address.</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Mensahe na nakalakip sa qtum: URI na kung saan maiimbak kasama ang transaksyon para sa iyong sanggunian. Tandaan: Ang mensaheng ito ay hindi ipapadala sa network ng Qtum.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Mensahe na nakalakip sa  URI na kung saan maiimbak kasama ang transaksyon para sa iyong sanggunian. Tandaan: Ang mensaheng ito ay hindi ipapadala sa network ng Qtum.</translation>
     </message>
 </context>
 <context>

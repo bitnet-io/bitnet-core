@@ -303,7 +303,7 @@ La signature n'est possible qu'avec les adresses de type "patrimoine".</translat
         <translation type="unfinished">Montant</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Saisir une adresse Qtum (p. ex. %1)</translation>
     </message>
     <message>
@@ -1405,8 +1405,8 @@ Impossible de restaurer la sauvegarde du portefeuille.</translation>
         <translation type="unfinished">Connexion aux pairs…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Demander des paiements (génère des codes QR et des URI qtum:)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Demander des paiements (génère des codes QR et des URI )</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1488,8 +1488,8 @@ Impossible de restaurer la sauvegarde du portefeuille.</translation>
         <translation type="unfinished">&amp;Adresses de réception</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Ouvrir une URI qtum:</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Ouvrir une URI </translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2888,16 +2888,16 @@ Impossible de restaurer la sauvegarde du portefeuille.</translation>
         <translation type="unfinished">Erreur de demande de paiement</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Impossible de démarrer le gestionnaire de cliquer-pour-payer qtum:</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Impossible de démarrer le gestionnaire de cliquer-pour-payer </translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">Gestion des URI</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' n’est pas une URI valide. Utilisez plutôt 'qtum:'.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' n’est pas une URI valide. Utilisez plutôt ''.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3996,8 +3996,8 @@ Note : Les frais étant calculés par octet, un taux de frais de « 100 satoshi
         <translation type="unfinished">Saisir une étiquette pour cette adresse afin de l’ajouter à la liste d’adresses utilisées</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Un message qui était joint à l’URI qtum: et qui sera stocké avec la transaction pour référence. Note : Ce message ne sera pas envoyé par le réseau Qtum.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Un message qui était joint à l’URI  et qui sera stocké avec la transaction pour référence. Note : Ce message ne sera pas envoyé par le réseau Qtum.</translation>
     </message>
 </context>
 <context>

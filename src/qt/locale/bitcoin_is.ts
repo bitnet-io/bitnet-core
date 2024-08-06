@@ -364,8 +364,8 @@
         <translation type="unfinished">Tólaborð flipa</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Óska eftir greiðslum (býr til QR kóða og qtum: URI)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Óska eftir greiðslum (býr til QR kóða og  URI)</translation>
    </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>

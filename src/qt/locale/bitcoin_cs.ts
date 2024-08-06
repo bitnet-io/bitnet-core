@@ -298,7 +298,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Částka</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Zadej qtumovou adresu (např. %1)</translation>
     </message>
     <message>
@@ -1389,8 +1389,8 @@ Nelze obnovit zálohu peněženky.</translation>
         <translation type="unfinished">Připojuji se…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Požaduj platby (generuje QR kódy a qtum: URI)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Požaduj platby (generuje QR kódy a  URI)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1473,7 +1473,7 @@ Nelze obnovit zálohu peněženky.</translation>
         <translation type="unfinished">Přijímací adresy</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
+        <source>Open a  URI</source>
         <translation type="unfinished">Načíst Qtum: URI</translation>
     </message>
     <message>
@@ -2882,16 +2882,16 @@ Nelze obnovit zálohu peněženky.</translation>
         <translation type="unfinished">Chyba platebního požadavku</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Nemůžu spustit qtum: obsluha click-to-pay</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Nemůžu spustit  obsluha click-to-pay</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">Zpracování URI</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' není platné URI. Místo toho použij 'qtum:'.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' není platné URI. Místo toho použij ''.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -4024,8 +4024,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">Zadej označení této adresy; obojí se ti pak uloží do adresáře</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Zpráva, která byla připojena k qtum: URI a která se ti pro přehled uloží k transakci. Poznámka: Tahle zpráva se neposílá s platbou po qtumové síti.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Zpráva, která byla připojena k  URI a která se ti pro přehled uloží k transakci. Poznámka: Tahle zpráva se neposílá s platbou po qtumové síti.</translation>
     </message>
 </context>
 <context>

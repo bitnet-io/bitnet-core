@@ -689,8 +689,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Povezivanje sa kolegama…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Zatražite uplate (generira QR kodove i qtum: URI-je)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Zatražite uplate (generira QR kodove i  URI-je)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -765,8 +765,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">&amp;Primanje adresa</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Otvorite qtum: URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Otvorite  URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>

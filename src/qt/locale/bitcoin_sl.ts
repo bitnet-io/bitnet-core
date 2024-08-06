@@ -300,7 +300,7 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation type="unfinished">Znesek</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Vnesite qtum-naslov (npr. %1)</translation>
     </message>
     <message>
@@ -1341,8 +1341,8 @@ Obnovitev varnostne kopije denarnice ni bila mogoča.</translation>
         <translation type="unfinished">&amp;Naslovi za prejemanje</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Odpri URI tipa qtum:</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Odpri URI tipa </translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2144,7 +2144,7 @@ Obnovitev varnostne kopije denarnice ni bila mogoča.</translation>
     <name>OpenURIDialog</name>
     <message>
         <source>Open qtum URI</source>
-        <translation type="unfinished">Odpri URI tipa qtum:</translation>
+        <translation type="unfinished">Odpri URI tipa </translation>
     </message>
     <message>
         <source>Paste address from clipboard</source>
@@ -2723,16 +2723,16 @@ Obnovitev varnostne kopije denarnice ni bila mogoča.</translation>
         <translation type="unfinished">Napaka pri zahtevku za plačilo</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Ni mogoče zagnati rokovalca plačilnih povezav tipa qtum:.</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Ni mogoče zagnati rokovalca plačilnih povezav tipa .</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">Rokovanje z URI</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' ni veljaven URI. Namesto tega uporabite 'qtum:' .</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' ni veljaven URI. Namesto tega uporabite '' .</translation>
    </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3866,8 +3866,8 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kvB"
         <translation type="unfinished">Če vnesete oznako za zgornji naslov, se bo skupaj z naslovom shranila v imenik že uporabljenih naslovov</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Sporočilo, ki je bilo pripeto na URI tipa qtum: in bo shranjeno skupaj s podatki o transakciji. Opomba: Sporočilo ne bo poslano preko omrežja Qtum.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Sporočilo, ki je bilo pripeto na URI tipa  in bo shranjeno skupaj s podatki o transakciji. Opomba: Sporočilo ne bo poslano preko omrežja Qtum.</translation>
     </message>
 </context>
 <context>

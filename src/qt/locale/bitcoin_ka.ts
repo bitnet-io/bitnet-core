@@ -534,8 +534,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">ბარათების პანელი</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">გადახდის მოთხოვნა (შეიქმნება QR-კოდები და qtum: ბმულები)</translation> 
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">გადახდის მოთხოვნა (შეიქმნება QR-კოდები და  ბმულები)</translation> 
    </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -601,7 +601,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">მისამართების მიღება</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source> 
+        <source>Open a  URI</source> 
         <translation type="unfinished">გახსენით ბიტკოინი: URI</translation>
     </message>
     <message>
@@ -1342,8 +1342,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">გადახდის მოთხოვნის შეცდომა</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">ვერ გაიშვა qtum: click-to-pay</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">ვერ გაიშვა  click-to-pay</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1846,7 +1846,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">შეიყვანეთ ამ მისამართის ნიშნული გამოყენებული მისამართების სიაში დასამატებლად</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source> 
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source> 
         <translation type="unfinished">მესიჯი, რომელიც თან ერთვის მონეტებს:  URI, რომელიც შეინახება ტრანსაქციასთან ერთად თქვენთვის. შენიშვნა: მესიჯი არ გაყვება გადახდას ბითქოინის ქსელში.</translation>
     </message>
 </context>

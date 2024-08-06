@@ -296,7 +296,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Сумма</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Введите qtum-адрес (например,%1)</translation>
     </message>
     <message>
@@ -1422,8 +1422,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">Подключение к узлам…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Запросить платёж (генерирует QR-коды и URI протокола qtum:)</translation> 
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Запросить платёж (генерирует QR-коды и URI протокола )</translation> 
    </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1506,8 +1506,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">&amp;Адреса для получения</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Открыть URI протокола qtum:</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Открыть URI протокола </translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2917,16 +2917,16 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">Ошибка запроса платежа</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Не удаётся запустить обработчик click-to-pay для протокола qtum:</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Не удаётся запустить обработчик click-to-pay для протокола </translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">Обработка URI</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">"qtum://" — это неверный URI. Используйте вместо него "qtum:".</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">"//" — это неверный URI. Используйте вместо него "".</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -4080,7 +4080,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">Введите метку для этого адреса, чтобы добавить его в список использованных адресов</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the qtum network.</source>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the qtum network.</source>
         <translation type="unfinished">Сообщение, которое было прикреплено к URI. Оно будет сохранено вместе с транзакцией для вашего удобства. Обратите внимание: это сообщение не будет отправлено в сеть Qtum.</translation>
     </message>
 </context>

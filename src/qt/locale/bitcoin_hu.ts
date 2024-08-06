@@ -302,7 +302,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Összeg</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Adjon meg egy Qtum címet (pl: %1)</translation>
     </message>
     <message>
@@ -1396,8 +1396,8 @@ Nem lehet a tárca biztonsági mentést visszaállítani.</translation>
         <translation type="unfinished">Csatlakozás partnerekhez…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Fizetési kérelem (QR-kódot és "qtum:" URI azonosítót hoz létre)</translation> 
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Fizetési kérelem (QR-kódot és "" URI azonosítót hoz létre)</translation> 
    </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1478,7 +1478,7 @@ Nem lehet a tárca biztonsági mentést visszaállítani.</translation>
         <translation type="unfinished">&amp;Fogadó címek</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
+        <source>Open a  URI</source>
         <translation type="unfinished">Qtum URI megnyitása</translation>
    </message>
     <message>
@@ -2869,7 +2869,7 @@ Nem lehet a tárca biztonsági mentést visszaállítani.</translation>
         <translation type="unfinished">Hiba történt a fizetési kérelem során</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">A qtum nem tud elindulni: click-to-pay kezelő</translation>
    </message>
     <message>
@@ -2877,8 +2877,8 @@ Nem lehet a tárca biztonsági mentést visszaállítani.</translation>
         <translation type="unfinished">URI kezelés</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' nem érvényes egységes erőforrás azonosító (URI). Használja helyette a 'qtum:'-t.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' nem érvényes egységes erőforrás azonosító (URI). Használja helyette a ''-t.</translation>
    </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -4010,8 +4010,8 @@ Megjegyzés: Mivel a díj bájtonként van kiszámítva, egy "100 satoshi kvB-nk
         <translation type="unfinished">Adjon egy címkét ehhez a címhez, hogy bekerüljön a használt címek közé</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Egy üzenet a qtum: URI-hoz csatolva, amely a tranzakciócal együtt lesz eltárolva az Ön számára. Megjegyzés: Ez az üzenet nem kerül elküldésre a Qtum hálózaton keresztül.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Egy üzenet a  URI-hoz csatolva, amely a tranzakciócal együtt lesz eltárolva az Ön számára. Megjegyzés: Ez az üzenet nem kerül elküldésre a Qtum hálózaton keresztül.</translation>
     </message>
 </context>
 <context>

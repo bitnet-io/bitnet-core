@@ -290,7 +290,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Jumlah</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Masukkan alamat Qtum (contoh %1)</translation>
    </message>
     <message>
@@ -1307,8 +1307,8 @@ Tidak dapat memulihkan cadangan dompet..</translation>
         <translation type="unfinished">Menghubungkan ke peers...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Permintaan pembayaran (membuat kode QR dan qtum: URIs)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Permintaan pembayaran (membuat kode QR dan  URIs)</translation>
    </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1389,8 +1389,8 @@ Tidak dapat memulihkan cadangan dompet..</translation>
         <translation type="unfinished">Address &amp;Penerima</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Buka URI qtum:</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Buka URI </translation>
    </message>
     <message>
         <source>Open Wallet</source>
@@ -2169,7 +2169,7 @@ Tidak dapat memulihkan cadangan dompet..</translation>
     <name>OpenURIDialog</name>
     <message>
         <source>Open qtum URI</source>
-        <translation type="unfinished">Buka URI qtum:</translation> 
+        <translation type="unfinished">Buka URI </translation> 
    </message>
     <message>
         <source>Paste address from clipboard</source>
@@ -2724,16 +2724,16 @@ Tidak dapat memulihkan cadangan dompet..</translation>
         <translation type="unfinished">Terjadi kesalahan pada permintaan pembayaran</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Tidak bisa memulai qtum: handler click-to-pay</translation>
+        <source>Cannot start  click-to-pay handler</source>
+        <translation type="unfinished">Tidak bisa memulai  handler click-to-pay</translation>
    </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">Pengelolaan URI</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' bukanlah alamat URI yang valid. Silakan gunakan 'qtum:'.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' bukanlah alamat URI yang valid. Silakan gunakan ''.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3814,8 +3814,8 @@ Catatan: Karena biaya dihitung berdasarkan per byte, tarif biaya "100 satoshi pe
         <translation type="unfinished">Masukkan label untuk alamat ini untuk dimasukan dalam daftar alamat yang pernah digunakan</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Pesan yang dilampirkan ke qtum: URI yang akan disimpan dengan transaksi untuk referensi Anda. Catatan: Pesan ini tidak akan dikirim melalui jaringan Qtum.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Pesan yang dilampirkan ke  URI yang akan disimpan dengan transaksi untuk referensi Anda. Catatan: Pesan ini tidak akan dikirim melalui jaringan Qtum.</translation>
     </message>
 </context>
 <context>

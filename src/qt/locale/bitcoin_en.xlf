@@ -510,7 +510,7 @@ Signing is only possible with addresses of the type &apos;legacy&apos;.</source>
         <context-group purpose="location"><context context-type="linenumber">1101</context></context-group>
       </trans-unit>
       <trans-unit id="_msg116">
-        <source xml:space="preserve">Request payments (generates QR codes and qtum: URIs)</source>
+        <source xml:space="preserve">Request payments (generates QR codes and  URIs)</source>
         <context-group purpose="location"><context context-type="linenumber">268</context></context-group>
       </trans-unit>
       <trans-unit id="_msg117">
@@ -599,7 +599,7 @@ Signing is only possible with addresses of the type &apos;legacy&apos;.</source>
         <context-group purpose="location"><context context-type="linenumber">334</context></context-group>
       </trans-unit>
       <trans-unit id="_msg137">
-        <source xml:space="preserve">Open a qtum: URI</source>
+        <source xml:space="preserve">Open a  URI</source>
         <context-group purpose="location"><context context-type="linenumber">338</context></context-group>
       </trans-unit>
       <trans-unit id="_msg138">
@@ -2100,7 +2100,7 @@ Signing is only possible with addresses of the type &apos;legacy&apos;.</source>
         <context-group purpose="location"><context context-type="linenumber">152</context></context-group>
       </trans-unit>
       <trans-unit id="_msg466">
-        <source xml:space="preserve">Cannot start qtum: click-to-pay handler</source>
+        <source xml:space="preserve">Cannot start  click-to-pay handler</source>
         <context-group purpose="location"><context context-type="linenumber">153</context></context-group>
       </trans-unit>
       <trans-unit id="_msg467">
@@ -2111,7 +2111,7 @@ Signing is only possible with addresses of the type &apos;legacy&apos;.</source>
         <context-group purpose="location"><context context-type="linenumber">230</context></context-group>
       </trans-unit>
       <trans-unit id="_msg468">
-        <source xml:space="preserve">&apos;qtum://&apos; is not a valid URI. Use &apos;qtum:&apos; instead.</source>
+        <source xml:space="preserve">&apos;//&apos; is not a valid URI. Use &apos;&apos; instead.</source>
         <context-group purpose="location"><context context-type="linenumber">201</context></context-group>
       </trans-unit>
       <trans-unit id="_msg469">
@@ -2210,7 +2210,7 @@ If you are receiving this error you should request the merchant provide a BIP21 
   <file original="../guiutil.cpp" datatype="cpp" source-language="en"><body>
     <group restype="x-trolltech-linguist-context" resname="QObject">
       <trans-unit id="_msg485">
-        <source xml:space="preserve">Enter a Qtum address (e.g. %1)</source>
+        <source xml:space="preserve">Enter a Bitnet address (e.g. %1)</source>
         <context-group purpose="location"><context context-type="linenumber">129</context></context-group>
       </trans-unit>
       <trans-unit id="_msg486">
@@ -3554,7 +3554,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of &quot;100 
         <context-group purpose="location"><context context-type="linenumber">144</context></context-group>
       </trans-unit>
       <trans-unit id="_msg776">
-        <source xml:space="preserve">A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source xml:space="preserve">A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
         <context-group purpose="location"><context context-type="linenumber">202</context></context-group>
       </trans-unit>
     </group>

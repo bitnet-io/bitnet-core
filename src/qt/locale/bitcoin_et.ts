@@ -514,7 +514,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Sünkroniseerin võrguga...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">Loo maksepäring (genereerib QR koodid ja qtumi: URId)</translation>
     </message>
     <message>
@@ -1029,7 +1029,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Maksepäringu tõrge</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">Qtum ei käivitu: vajuta-maksa toiming</translation>
     </message>
     <message>

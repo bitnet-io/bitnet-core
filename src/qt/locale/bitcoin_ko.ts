@@ -382,8 +382,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">받기 </translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">지불 요청 (QR 코드 생성과 qtum: URI)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">지불 요청 (QR 코드 생성과  URI)</translation>
     </message>
     <message>
         <source>Smart &amp;Contracts</source>
@@ -554,8 +554,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">받을 주소</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation>qtum: URI 열기</translation>
+        <source>Open a  URI</source>
+        <translation> URI 열기</translation>
     </message>
     <message>
         <source>Show the list of used receiving addresses and labels</source>
@@ -2524,7 +2524,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
         <translation>지불 요청 에러</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation>无法启动 qtum 协议的“
 一键支付”处理器</translation>
     </message>
@@ -2533,8 +2533,8 @@ Please make sure to keep an updated antivirus and operating system. We can not r
         <translation>URI 처리</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation>'qtum://"은 잘못된 URI입니다. 'qtum:'을 사용하십시오.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation>'//"은 잘못된 URI입니다. ''을 사용하십시오.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -2622,7 +2622,7 @@ BIP70의 광범위한 보안 결함으로 인해 모든 가맹점에서는 지�
         <translation>금액</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation>BIT 주소를 입력해주세요 (예시, %1)</translation>
     </message>
     <message>
@@ -4048,7 +4048,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>해당 주소에 라벨을 추가하여 사용했던 리스트에 추가해주세요. </translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
         <translation>퀀텀 URI에 첨부된 메시지는 참조를 위해 거래와 함께 저장됩니다. 주의: 메시지는 퀀텀 네트워크를 통해 전달되는 것은 아닙니다. </translation>
     </message>
 </context>

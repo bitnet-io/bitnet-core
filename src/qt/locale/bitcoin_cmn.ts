@@ -1156,8 +1156,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">连接到节点...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">请求支付 (生成二维码和 qtum: URI)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">请求支付 (生成二维码和  URI)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1238,8 +1238,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">收款地址(&amp;R)</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">打开qtum:开头的URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">打开开头的URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2272,8 +2272,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">URI 處理</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">字首為 qtum:// 不是有效的 URI，請改用 qtum: 開頭。</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">字首為 // 不是有效的 URI，請改用  開頭。</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3045,7 +3045,7 @@ For more information on using this console, type %6.
         <translation type="unfinished">請輸入這個地址的標籤，來把它加進去已使用過地址清單。</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
         <translation type="unfinished">附加在 Qtum 付款協議的資源識別碼(URI)中的訊息，會和交易內容一起存起來，給你自己做參考。注意: 這個訊息不會送到 Qtum 網路上。</translation>
     </message>
 </context>

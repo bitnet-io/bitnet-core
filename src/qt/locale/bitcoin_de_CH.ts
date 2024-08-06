@@ -303,7 +303,7 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation type="unfinished">Betrag</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Qtum-Adresse eingeben (z.B. %1)</translation>
     </message>
     <message>
@@ -1390,8 +1390,8 @@ Verifikations-Error: %s</translation>
         <translation type="unfinished">Verbinde mit Peers...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Zahlungen anfordern (erzeugt QR-Codes und "qtum:"-URIs)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Zahlungen anfordern (erzeugt QR-Codes und ""-URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1477,8 +1477,8 @@ Verifikations-Error: %s</translation>
         <translation type="unfinished">&amp;Empfangsadressen</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Öffne qtum: URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Öffne  URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2847,7 +2847,7 @@ Verifikations-Error: %s</translation>
         <translation type="unfinished">Fehler bei der Zahlungsanforderung</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">Kann Qtum nicht starten: Klicken-zum-Bezahlen-Handler</translation>
     </message>
     <message>
@@ -2855,8 +2855,8 @@ Verifikations-Error: %s</translation>
         <translation type="unfinished">URI-Verarbeitung</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' ist kein gültiger URL. Bitte 'qtum:' nutzen.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' ist kein gültiger URL. Bitte '' nutzen.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -4012,8 +4012,8 @@ Hinweis: Da die Gebühr auf Basis der Bytes berechnet wird, führt eine Gebühre
         <translation type="unfinished">Adressbezeichnung eingeben, die dann zusammen mit der Adresse der Liste bereits verwendeter Adressen hinzugefügt wird.</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Eine an die "qtum:"-URI angefügte Nachricht, die zusammen mit der Transaktion gespeichert wird. Hinweis: Diese Nachricht wird nicht über das Qtum-Netzwerk gesendet.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Eine an die ""-URI angefügte Nachricht, die zusammen mit der Transaktion gespeichert wird. Hinweis: Diese Nachricht wird nicht über das Qtum-Netzwerk gesendet.</translation>
     </message>
 </context>
 <context>

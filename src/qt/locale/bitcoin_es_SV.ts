@@ -270,7 +270,7 @@ Usa el boton "Crear nueva direccion de recibimiento" en la pestaña de recibir p
         <translation type="unfinished">Monto</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Ingresa una dirección de Qtum (Ejemplo: %1)</translation>
     </message>
     <message>
@@ -1228,7 +1228,7 @@ No se puede restaurar la copia de seguridad de la billetera.</translation>
         <translation type="unfinished">Conectando con pares...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">Solicitar pagos (genera código QR y URI's de Qtum)</translation>
     </message>
     <message>
@@ -1295,8 +1295,8 @@ No se puede restaurar la copia de seguridad de la billetera.</translation>
         <translation type="unfinished">Direcciones de &amp;recepción</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Abrir un qtum: URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Abrir un  URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2483,8 +2483,8 @@ No se puede restaurar la copia de seguridad de la billetera.</translation>
         <translation type="unfinished">Error en la solicitud de pago</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">"qtum://" no es un URI válido. Use "qtum:" en su lugar.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">"//" no es un URI válido. Use "" en su lugar.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3435,7 +3435,7 @@ Nota: Dado que la comisión se calcula por byte, una tasa de "100 satoshis por k
         <translation type="unfinished">Ingresar una etiqueta para esta dirección a fin de agregarla a la lista de direcciones utilizadas</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
         <translation type="unfinished">Un mensaje que se adjuntó al Qtum: URI que se almacenará con la transacción a modo de referencia. Nota: Este mensaje no se enviará por la red de Qtum.</translation>
     </message>
 </context>

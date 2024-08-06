@@ -298,7 +298,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Количество</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source> 
+        <source>Enter a Bitnet address (e.g. %1)</source> 
         <translation type="unfinished">Въведете Биткойн адрес (например: %1)</translation>
     </message>
     <message>
@@ -673,7 +673,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Свързване с рояк...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">Изискване на плащания(генерира QR кодове и биткойн: URIs)</translation>
     </message>
     <message>
@@ -760,8 +760,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">&amp;Получаване на адреси</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Отвори qtum: URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Отвори  URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -1940,7 +1940,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Възникна грешка по време назаявката за плащане</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source> 
+        <source>Cannot start  click-to-pay handler</source> 
         <translation type="unfinished">Биткойн не можe да се стартира: click-to-pay handler</translation>
     </message>
     <message>

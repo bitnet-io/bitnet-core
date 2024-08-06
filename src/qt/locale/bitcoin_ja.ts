@@ -304,7 +304,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">金額</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Qtum アドレスを入力してください (例: %1)</translation>
    </message>
     <message>
@@ -1398,8 +1398,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">ピアに接続中...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">支払いをリクエストする（QRコードと qtum:で始まるURIを生成する）</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">支払いをリクエストする（QRコードと で始まるURIを生成する）</translation>
    </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1480,8 +1480,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">受取用アドレス一覧(&amp;R)...</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">qtum: URIを開く</translation>  
+        <source>Open a  URI</source>
+        <translation type="unfinished"> URIを開く</translation>  
   </message>
     <message>
         <source>Open Wallet</source>
@@ -2866,7 +2866,7 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">支払いリクエスト エラー</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">Qtum を起動できません: click-to-pay handler</translation>
     </message>
     <message>
@@ -2874,8 +2874,8 @@ Unable to restore backup of wallet.</source>
         <translation type="unfinished">URIの処理</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' は正しいURIではありません｡ 'qtum:'を使用してください｡</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' は正しいURIではありません｡ ''を使用してください｡</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -4022,7 +4022,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">このアドレスに対するラベルを入力することで、送金したことがあるアドレスの一覧に追加することができます</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
         <translation type="unfinished">qtum URIに添付されていたメッセージです。これは参照用として取引とともに保存されます。注意: メッセージは Qtum ネットワーク上へ送信されません。</translation>
     </message>
 </context>

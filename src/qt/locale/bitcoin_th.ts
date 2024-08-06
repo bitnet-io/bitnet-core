@@ -897,8 +897,8 @@ Signing is only possible with addresses of the type 'legacy'</translation>
         <translation type="unfinished">กำลังเชื่อมต่อ ไปยัง peers…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">ขอการชำระเงิน (สร้างรหัส QR และ qtum: URIs)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">ขอการชำระเงิน (สร้างรหัส QR และ  URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1674,7 +1674,7 @@ Signing is only possible with addresses of the type 'legacy'</translation>
     <name>OpenURIDialog</name>
     <message>
         <source>Open qtum URI</source>
-        <translation type="unfinished">เปิด qtum: URI</translation>
+        <translation type="unfinished">เปิด  URI</translation>
     </message>
     </context>
 <context>

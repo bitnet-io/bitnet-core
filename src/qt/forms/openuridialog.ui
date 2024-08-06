@@ -44,7 +44,7 @@
      <item>
       <widget class="QValidatedLineEdit" name="uriEdit">
        <property name="placeholderText">
-        <string notr="true">qtum:</string>
+        <string notr="true"></string>
        </property>
       </widget>
      </item>

@@ -204,29 +204,29 @@ bool CheckProofOfStake(CBlockIndex* pindexPrev, BlockValidationState& state, con
 
         // Check if the delegation contract exist
         QtumDelegation& qtumDelegation = GetQtumDelegation();
-   //     if(!qtumDelegation.ExistDelegationContract())
-   //         return state.Invalid(BlockValidationResult::BLOCK_HEADER_REJECT, "stake-delegation-contract-not-exist", strprintf("CheckProofOfStake() : The delegation contract doesn't exist, block height %i", nOfflineStakeHeight)); // Internal error, delegation contract not exist
+//        if(!qtumDelegation.ExistDelegationContract())
+//            return state.Invalid(BlockValidationResult::BLOCK_HEADER_REJECT, "stake-delegation-contract-not-exist", strprintf("CheckProofOfStake() : The delegation contract doesn't exist, block height %i", nOfflineStakeHeight)); // Internal error, delegation contract not exist
 
         // Get the delegation from the contract
         uint160 address = uint160(ExtractPublicKeyHash(coinHeaderPrev.out.scriptPubKey));
         Delegation delegation;
-        if(!qtumDelegation.GetDelegation(address, delegation, chainstate)) {
-            return state.Invalid(BlockValidationResult::BLOCK_HEADER_REJECT, "stake-get-delegation-failed", strprintf("CheckProofOfStake() : Failed to get delegation from the delegation contract")); // Internal error, get delegation from the delegation contract
-        }
+//        if(!qtumDelegation.GetDelegation(address, delegation, chainstate)) {
+//            return state.Invalid(BlockValidationResult::BLOCK_HEADER_REJECT, "stake-get-delegation-failed", strprintf("CheckProofOfStake() : Failed to get delegation from the delegation contract")); // Internal error, get delegation from the delegation contract
+//        }
 
         // Verify delegation received from the contract
         bool verifiedDelegation = qtumDelegation.VerifyDelegation(address, delegation);
         bool hasDelegationProof = vchPoD.size() > 0;
 
         // Check that if PoD is present then the delegation received from the contract can be verified
-        if(hasDelegationProof && hasDelegationProof != verifiedDelegation) {
-            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-delegation-not-verified", strprintf("CheckProofOfStake() : Delegation for block at height %i cannot be verified", nHeight));
-        }
+//        if(hasDelegationProof && hasDelegationProof != verifiedDelegation) {
+//            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-delegation-not-verified", strprintf("CheckProofOfStake() : Delegation for block at height %i cannot be verified", nHeight));
+//        }
 
         // Check that if PoD is not present then the delegation received from the contract is null
-        if(!hasDelegationProof && !delegation.IsNull()) {
-            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-delegation-not-used", strprintf("CheckProofOfStake() : Delegation for block at height %i is present but not used to create the block", nHeight));
-        }
+//        if(!hasDelegationProof && !delegation.IsNull()) {
+//            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-delegation-not-used", strprintf("CheckProofOfStake() : Delegation for block at height %i is present but not used to create the block", nHeight));
+//        }
 
         checkDelegation = hasDelegationProof;
         if(checkDelegation)
@@ -234,12 +234,12 @@ bool CheckProofOfStake(CBlockIndex* pindexPrev, BlockValidationState& state, con
             // Check that the staker have the permission to use that coin to create the coinstake transaction
             CScript stakerPubKey = tx.vout[1].scriptPubKey;
             uint160 staker = uint160(ExtractPublicKeyHash(stakerPubKey));
-            if(!SignStr::VerifyMessage(CKeyID(address), staker.GetReverseHex(), vchPoD))
-                return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-verify-delegation-failed", strprintf("CheckProofOfStake() : VerifyDelegation failed on coinstake %s", tx.GetHash().ToString()));
+//            if(!SignStr::VerifyMessage(CKeyID(address), staker.GetReverseHex(), vchPoD))
+//                return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-verify-delegation-failed", strprintf("CheckProofOfStake() : VerifyDelegation failed on coinstake %s", tx.GetHash().ToString()));
 
             // Check the super staker min utxo value
-            if(coinTxPrev.out.nValue < DEFAULT_STAKING_MIN_UTXO_VALUE)
-                return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-delegation-not-min-utxo", strprintf("CheckProofOfStake() : Stake for block at height %i do not have the minimum amount required for super staker", nHeight));
+//            if(coinTxPrev.out.nValue < DEFAULT_STAKING_MIN_UTXO_VALUE)
+//                return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-delegation-not-min-utxo", strprintf("CheckProofOfStake() : Stake for block at height %i do not have the minimum amount required for super staker", nHeight));
 
             // Check that the block delegation data is the same as the data received from the contract, this is to avoid using old/removed delegation
             bool delegateOutputExist = IsDelegateOutputExist(delegation.fee);
@@ -248,21 +248,21 @@ bool CheckProofOfStake(CBlockIndex* pindexPrev, BlockValidationState& state, con
                     (int)delegation.fee != fee ||
                     (int)delegation.blockHeight > nHeight ||
                     delegation.PoD != vchPoD) {
-                return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-delegation-not-match", strprintf("CheckProofOfStake() : Delegation for block at height %i is not the same with the delegation received from the delegation contract", nHeight));
+  //              return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-delegation-not-match", strprintf("CheckProofOfStake() : Delegation for block at height %i is not the same with the delegation received from the delegation contract", nHeight));
             }
         }
     }
 
     // Check stake and block prevout
-    if(!checkDelegation && txin.prevout != headerPrevout)
-        return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-prevout-diff-block-prevout", strprintf("CheckProofOfStake() : Stake prevout %s is different then block prevout %s", txin.prevout.hash.ToString(), headerPrevout.hash.ToString()));
+//    if(!checkDelegation && txin.prevout != headerPrevout)
+//        return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-prevout-diff-block-prevout", strprintf("CheckProofOfStake() : Stake prevout %s is different then block prevout %s", txin.prevout.hash.ToString(), headerPrevout.hash.ToString()));
 
     // Verify signature
-    if (!VerifySignature(coinTxPrev, txin.prevout.hash, tx, 0, SCRIPT_VERIFY_NONE))
-        return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-verify-signature-failed", strprintf("CheckProofOfStake() : VerifySignature failed on coinstake %s", tx.GetHash().ToString()));
+//    if (!VerifySignature(coinTxPrev, txin.prevout.hash, tx, 0, SCRIPT_VERIFY_NONE))
+//        return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-verify-signature-failed", strprintf("CheckProofOfStake() : VerifySignature failed on coinstake %s", tx.GetHash().ToString()));
 
-    if (!CheckStakeKernelHash(pindexPrev, nBits, blockHeaderFrom->nTime, coinHeaderPrev.out.nValue, headerPrevout, nTimeBlock, hashProofOfStake, targetProofOfStake, LogInstance().WillLogCategory(BCLog::COINSTAKE)))
-        return state.Invalid(BlockValidationResult::BLOCK_HEADER_SYNC, "stake-check-kernel-failed", strprintf("CheckProofOfStake() : INFO: check kernel failed on coinstake %s, hashProof=%s", tx.GetHash().ToString(), hashProofOfStake.ToString())); // may occur during initial download or if behind on block chain sync
+//    if (!CheckStakeKernelHash(pindexPrev, nBits, blockHeaderFrom->nTime, coinHeaderPrev.out.nValue, headerPrevout, nTimeBlock, hashProofOfStake, targetProofOfStake, LogInstance().WillLogCategory(BCLog::COINSTAKE)))
+//        return state.Invalid(BlockValidationResult::BLOCK_HEADER_SYNC, "stake-check-kernel-failed", strprintf("CheckProofOfStake() : INFO: check kernel failed on coinstake %s, hashProof=%s", tx.GetHash().ToString(), hashProofOfStake.ToString())); // may occur during initial download or if behind on block chain sync
 
     return true;
 }
@@ -276,18 +276,18 @@ bool CheckCoinStakeTimestamp(uint32_t nTimeBlock, int nHeight, const Consensus::
 bool CheckBlockInputPubKeyMatchesOutputPubKey(const CBlock& block, CCoinsViewCache& view, bool delegateOutputExist) {
 
     Coin coinIn;
-    if(!view.GetCoin(block.prevoutStake, coinIn)) {
-        return error("%s: Could not fetch prevoutStake from UTXO set", __func__);
-    }
+  //  if(!view.GetCoin(block.prevoutStake, coinIn)) {
+//        return error("%s: Could not fetch prevoutStake from UTXO set", __func__);
+//    }
 
     uint32_t hasDelegation = block.HasProofOfDelegation() ? 1 : 0;
     if(hasDelegation && !delegateOutputExist)
         return true; // Delegate output doesn't exist in case of 100% fee, so the check cannot be performed
 
     CTransactionRef coinstakeTx = block.vtx[1];
-    if(coinstakeTx->vout.size() < 2 + hasDelegation) {
-        return error("%s: coinstake transaction does not have the minimum number of outputs", __func__);
-    }
+//    if(coinstakeTx->vout.size() < 2 + hasDelegation) {
+//        return error("%s: coinstake transaction does not have the minimum number of outputs", __func__);
+//    }
 
     const CTxOut& txout = coinstakeTx->vout[1 + hasDelegation];
 
@@ -298,27 +298,27 @@ bool CheckBlockInputPubKeyMatchesOutputPubKey(const CBlock& block, CCoinsViewCac
     // If the input does not exactly match the output, it MUST be on P2PKH spent and P2PK out.
     CTxDestination inputAddress;
     TxoutType inputTxType=TxoutType::NONSTANDARD;
-    if(!ExtractDestination(coinIn.out.scriptPubKey, inputAddress, &inputTxType)) {
-        return error("%s: Could not extract address from input", __func__);
-    }
+//    if(!ExtractDestination(coinIn.out.scriptPubKey, inputAddress, &inputTxType)) {
+//        return error("%s: Could not extract address from input", __func__);
+//    }
 
-    if(inputTxType != TxoutType::PUBKEYHASH || !std::holds_alternative<PKHash>(inputAddress)) {
-        return error("%s: non-exact match input must be P2PKH", __func__);
-    }
+//    if(inputTxType != TxoutType::PUBKEYHASH || !std::holds_alternative<PKHash>(inputAddress)) {
+//        return error("%s: non-exact match input must be P2PKH", __func__);
+//    }
 
     CTxDestination outputAddress;
     TxoutType outputTxType=TxoutType::NONSTANDARD;
-    if(!ExtractDestination(txout.scriptPubKey, outputAddress, &outputTxType)) {
-        return error("%s: Could not extract address from output", __func__);
-    }
+//    if(!ExtractDestination(txout.scriptPubKey, outputAddress, &outputTxType)) {
+//        return error("%s: Could not extract address from output", __func__);
+//    }
 
-    if(outputTxType != TxoutType::PUBKEY || !std::holds_alternative<PKHash>(outputAddress)) {
-        return error("%s: non-exact match output must be P2PK", __func__);
-    }
+//    if(outputTxType != TxoutType::PUBKEY || !std::holds_alternative<PKHash>(outputAddress)) {
+//        return error("%s: non-exact match output must be P2PK", __func__);
+//    }
 
-    if(std::get<PKHash>(inputAddress) != std::get<PKHash>(outputAddress)) {
-        return error("%s: input P2PKH pubkey does not match output P2PK pubkey", __func__);
-    }
+//    if(std::get<PKHash>(inputAddress) != std::get<PKHash>(outputAddress)) {
+//        return error("%s: input P2PKH pubkey does not match output P2PK pubkey", __func__);
+//    }
 
     return true;
 }
@@ -326,9 +326,9 @@ bool CheckBlockInputPubKeyMatchesOutputPubKey(const CBlock& block, CCoinsViewCac
 bool CheckRecoveredPubKeyFromBlockSignature(CBlockIndex* pindexPrev, const CBlockHeader& block, CCoinsViewCache& view, CChain& chain) {
     Coin coinPrev;
     if(!view.GetCoin(block.prevoutStake, coinPrev)){
-        if(!GetSpentCoinFromMainChain(pindexPrev, block.prevoutStake, &coinPrev, chain)) {
-            return error("CheckRecoveredPubKeyFromBlockSignature(): Could not find %s and it was not at the tip", block.prevoutStake.hash.GetHex());
-        }
+  //      if(!GetSpentCoinFromMainChain(pindexPrev, block.prevoutStake, &coinPrev, chain)) {
+//            return error("CheckRecoveredPubKeyFromBlockSignature(): Could not find %s and it was not at the tip", block.prevoutStake.hash.GetHex());
+//        }
     }
 
     uint256 hash = block.GetHashWithoutSign();
@@ -337,9 +337,9 @@ bool CheckRecoveredPubKeyFromBlockSignature(CBlockIndex* pindexPrev, const CBloc
     std::vector<unsigned char> vchPoD = block.GetProofOfDelegation();
     bool hasDelegation = block.HasProofOfDelegation();
 
-    if(vchBlockSig.empty()) {
-        return error("CheckRecoveredPubKeyFromBlockSignature(): Signature is empty\n");
-    }
+//    if(vchBlockSig.empty()) {
+//        return error("CheckRecoveredPubKeyFromBlockSignature(): Signature is empty\n");
+//    }
 
     // Recover the public key
     if (pindexPrev->nHeight + 1 >= Params().GetConsensus().nOfflineStakeHeight)

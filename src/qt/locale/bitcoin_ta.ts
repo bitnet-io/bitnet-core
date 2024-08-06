@@ -291,7 +291,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">விலை</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source> 
+        <source>Enter a Bitnet address (e.g. %1)</source> 
         <translation type="unfinished">ஒரு விக்கிபீடியா முகவரியை உள்ளிடவும் (எ.கா. %1)</translation>
     </message>
     <message>
@@ -770,7 +770,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">தாவல்கள் கருவிப்பட்டி</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
+        <source>Request payments (generates QR codes and  URIs)</source>
         <translation type="unfinished">கொடுப்பனவுகளை கோருதல் (QR குறியீடுகள் மற்றும் qtum உருவாக்குகிறது: URI கள்)</translation>
    </message>
     <message>
@@ -842,7 +842,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">முகவரிகள் பெறுதல்</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
+        <source>Open a  URI</source>
         <translation type="unfinished">திற பிட்காயின்: URI</translation>
     </message>
     <message>
@@ -1788,7 +1788,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">கட்டணம் கோரிக்கை பிழை</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">Qtum தொடங்க முடியாது: கிளிக் க்கு ஊதியம் கையாளுதல்</translation>
    </message>
     <message>
@@ -1796,8 +1796,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">URI கையாளுதல்</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum: //' சரியான URI அல்ல. அதற்கு பதிலாக 'பிட்கின்:' பயன்படுத்தவும்.</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">' //' சரியான URI அல்ல. அதற்கு பதிலாக 'பிட்கின்:' பயன்படுத்தவும்.</translation>
     </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Qtum address or malformed URI parameters.</source> 
@@ -2570,7 +2570,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">இந்த முகவரியை பயன்படுத்தப்பட்ட முகவரிகளின் பட்டியலில் சேர்க்க ஒரு லேபிளை உள்ளிடவும்.</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source> 
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source> 
         <translation type="unfinished">பிட்காயினுடன் இணைக்கப்பட்ட செய்தி: உங்கள் எதிர்கால குறிப்புக்காக பரிவர்த்தனையுடன் யூஆர்ஐ சேமிக்கப்படும். குறிப்பு: இந்த செய்தி பிட்காயின் வலையமைப்பிற்கு அனுப்பப்படாது.</translation>
     </message>
 </context>

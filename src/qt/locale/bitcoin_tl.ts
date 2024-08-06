@@ -519,8 +519,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Kumokonekta sa mga ♦peers♦...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Humiling ng mga bayad (gumagawa ng ♦QR codes♦ at ♦qtum: URIs♦)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Humiling ng mga bayad (gumagawa ng ♦QR codes♦ at ♦ URIs♦)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -594,8 +594,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">&amp;Pagtatanggapan na mga ♦address♦</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Buksan ang ♦qtum: URI♦</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Buksan ang ♦ URI♦</translation>
     </message>
     <message>
         <source>Open Wallet</source>

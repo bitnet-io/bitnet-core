@@ -298,7 +298,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Suma</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation type="unfinished">Zadajte qtum adresu (napr. %1)</translation>
     </message>
     <message>
@@ -1235,8 +1235,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Pripája sa k partnerom…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Vyžiadať platby (vygeneruje QR kódy a qtum: URI)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">Vyžiadať platby (vygeneruje QR kódy a  URI)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -1319,8 +1319,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">&amp;Prijímajúce adresy</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Otvoriť qtum: URI</translation>
+        <source>Open a  URI</source>
+        <translation type="unfinished">Otvoriť  URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -2632,7 +2632,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Chyba pri vyžiadaní platby</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation type="unfinished">Nemôžeme spustiť Qtum: obsluha click-to-pay</translation>
     </message>
     <message>
@@ -2640,8 +2640,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">URI manipulácia</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' je neplatná URI. Použite 'qtum:'</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation type="unfinished">'//' je neplatná URI. Použite ''</translation>
    </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -3789,8 +3789,8 @@ Poznámka: Keďže poplatok je počítaný za bajt, poplatok pri sadzbe "100 sat
         <translation type="unfinished">Vložte popis pre túto adresu aby sa uložila do zoznamu použitých adries</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation type="unfinished">Správa ktorá bola pripojená k qtum: URI a ktorá bude uložená s transakcou pre Vaše potreby. Poznámka: Táto správa nebude poslaná cez sieť Qtum.</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation type="unfinished">Správa ktorá bola pripojená k  URI a ktorá bude uložená s transakcou pre Vaše potreby. Poznámka: Táto správa nebude poslaná cez sieť Qtum.</translation>
     </message>
 </context>
 <context>

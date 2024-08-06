@@ -378,8 +378,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">接收(&amp;R)</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">请求支付 (生成二维码和 qtum: URI)</translation>
+        <source>Request payments (generates QR codes and  URIs)</source>
+        <translation type="unfinished">请求支付 (生成二维码和  URI)</translation>
     </message>
     <message>
         <source>Smart &amp;Contracts</source>
@@ -534,8 +534,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">接收地址</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation>打开qtum:开头的URI</translation>
+        <source>Open a  URI</source>
+        <translation>打开开头的URI</translation>
     </message>
     <message>
         <source>Show the list of used receiving addresses and labels</source>
@@ -2527,7 +2527,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
         <translation>要求付款时发生错误</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
+        <source>Cannot start  click-to-pay handler</source>
         <translation>无法启动 qtum 协议的“
 一键支付”处理器</translation>
     </message>
@@ -2536,8 +2536,8 @@ Please make sure to keep an updated antivirus and operating system. We can not r
         <translation>URI 处理</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation>‘qtum://’不是合法的URI。请改用'qtum:'。</translation>
+        <source>'//' is not a valid URI. Use '' instead.</source>
+        <translation>‘//’不是合法的URI。请改用''。</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -2641,7 +2641,7 @@ If you are receiving this error you should request the merchant provide a BIP21 
         <translation>金额</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
+        <source>Enter a Bitnet address (e.g. %1)</source>
         <translation>请输入一个BIT地址 (例如 %1)</translation>
     </message>
     <message>
@@ -4084,8 +4084,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>请为此地址输入一个标签以将它加入用过的地址列表</translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
-        <translation>qtum:URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过BIT网络传输。</translation>
+        <source>A message that was attached to the  URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <translation>URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过BIT网络传输。</translation>
     </message>
 </context>
 <context>
