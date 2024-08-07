@@ -5,8 +5,10 @@ bitnet-io staging tree 24.x
 * for releases for macos + windows + linux
 
 * https://github.com/bitnet-io/bitnet-core/releases/tag/linux-windows-wallet
-
+  
 # https://scortik.com/how-to-create-a-qrc20-token-using-qtum/
+# https://github.com/bitnet-io/QRC20Token
+# https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&version=soljson-v0.4.26+commit.4563c3fc.js
 
 How do I build the software?
 ----------------------------
