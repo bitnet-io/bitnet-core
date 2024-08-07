@@ -6,6 +6,7 @@ bitnet-io staging tree 24.x
 
 * https://github.com/bitnet-io/bitnet-core/releases/tag/linux-windows-wallet
 
+# https://scortik.com/how-to-create-a-qrc20-token-using-qtum/
 
 How do I build the software?
 ----------------------------
