@@ -276,7 +276,7 @@ public:
         consensus.nSubsidyHalvingIntervalV2 = 6000000;
         consensus.nLastPOWBlock = 6000000;
         consensus.nLastBigReward = 6000000;
-        consensus.nMPoSRewardRecipients = 10;
+        consensus.nMPoSRewardRecipients = 5;
         consensus.nFirstMPoSBlock = 207800;
         consensus.nLastMPoSBlock = 6000000;
 
