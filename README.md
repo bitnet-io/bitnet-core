@@ -120,7 +120,8 @@ docker run --rm -v $(pwd):/work --user "$(id -u):$(id -g)" -it android-bitcoin /
 
 
 cd /work
-apt-get install g++-8-aarch64-linux-gnu binutils-aarch64-linux-gnu -y
+apt-get install g++-aarch64-linux-gnu binutils-aarch64-linux-gnu -y
+
 export CXX=aarch64-linux-gnu-g++-8
 export CC=aarch64-linux-gnu-gcc-8
 
