@@ -107,13 +107,11 @@ public:
 
 
         consensus.powLimit = uint256S      ("000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.posLimit = uint256S      ("0000000ffff0fffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.QIP9PosLimit = uint256S  ("0000000ffff0fffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
-        consensus.RBTPosLimit = uint256S   ("0000000ffff0fffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.posLimit = uint256S      ("0000000000000ffff0fffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.QIP9PosLimit = uint256S  ("0000000000000ffff0fffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
+        consensus.RBTPosLimit = uint256S   ("0000000000000ffff0fffffffffffffffffffffffffffffffffffffffffffffff");
 
-//        consensus.posLimit = uint256S      ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-//        consensus.QIP9PosLimit = uint256S  ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
-//        consensus.RBTPosLimit = uint256S   ("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+
 
         consensus.nPowTargetTimespan = 24 * 60 * 60; // 16 minutes
         consensus.nPowTargetTimespanV2 = 24 * 60 * 60;
