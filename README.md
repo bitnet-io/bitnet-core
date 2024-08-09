@@ -33,6 +33,13 @@ The most troublefree and reproducable method of building the repository is via t
     wget --no-check-certificate https://github.com/bitnet-io/bitnet-core/releases/download/70036/evmone.tar.gz
     tar -xvf evmone.tar.gz
     mv src-evmone-current src/evmone
+    cd src/evmone
+    rm -rf build
+    mkdir build
+    cd build
+    cmake ..
+    make -j24 install
+    cd ..
     cd depends
     make -j24 HOST=x86_64-unknown-linux-gnu  # -j8 for 8 cores adjust here
     cd ..
