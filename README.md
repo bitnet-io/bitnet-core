@@ -22,8 +22,8 @@ The most troublefree and reproducable method of building the repository is via t
     git clone https://github.com/bitnet-io/bitnet-core
     cd bitnet-core
     sh build-debian-deps.sh 
-    rm -rf /usr/bin/gcc-7
-    rm -rf /usr/bin/g++-7
+    rm -rf /usr/bin/gcc
+    rm -rf /usr/bin/g++
     apt install software-properties-common -y
     add-apt-repository ppa:ubuntu-toolchain-r/test
     apt-get update
