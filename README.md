@@ -29,9 +29,7 @@ The most troublefree and reproducable method of building the repository is via t
     ln -s /usr/bin/g++-8 /usr/bin/g++
     wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.30.2/cmake-3.30.2-linux-x86_64.tar.gz
     tar -xvf cmake-3.30.2-linux-x86_64.tar.gz 
-    cd cmake-3.30.2-linux-x86_64
-    cp -rf bin/c* /usr/bin/
-    cd ..
+    cp -rf cmake-3.30.2-linux-x86_64/* /usr/
     wget --no-check-certificate https://github.com/bitnet-io/bitnet-core/releases/download/70036/evmone.tar.gz
     tar -xvf evmone.tar.gz
     mv src-evmone-current src/evmone
