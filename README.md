@@ -15,22 +15,28 @@ How do I build the software?
 
 The most troublefree and reproducable method of building the repository is via the depends method:
 
-# LINUX
+# LINUX (debian 10/ubuntu 18.04)
 
 ```
 
     git clone https://github.com/bitnet-io/bitnet-core
     cd bitnet-core
+    sh build-debian-deps.sh 
+    rm -rf /usr/bin/gcc-7
+    rm -rf /usr/bin/g++-7
+    apt install gcc-8 g++-8 -y
+    ln -s /usr/bin/gcc-8 /usr/bin/gcc
+    ln -s /usr/bin/g++-8 /usr/bin/g++
     cd depends
-    make -j8 HOST=x86_64-unknown-linux-gnu  # -j8 for 8 cores adjust here
+    make -j24 HOST=x86_64-unknown-linux-gnu  # -j8 for 8 cores adjust here
     cd ..
     ./autogen.sh
 
     CPPFLAGS="-w -fcompare-debug-second" CXXFLAGS="-w -fcompare-debug-second" LDFLAGS="-w -fcompare-debug-second" CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure \
     --prefix=$PWD/bitnet-shared-linux --disable-tests --disable-bench --disable-fuzz-binary
 
-    make -j8 				# -j8 for 8 cores adjust here
-    make -j8 install 		        # -j8 for 8 cores adjust here
+    make -j24 				# -j8 for 8 cores adjust here
+    make -j24 install 		        # -j8 for 8 cores adjust here
 
     files will be placed into bitnet-shared-linux folder
 ```
