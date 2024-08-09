@@ -24,9 +24,12 @@ The most troublefree and reproducable method of building the repository is via t
     sh build-debian-deps.sh 
     rm -rf /usr/bin/gcc-7
     rm -rf /usr/bin/g++-7
-    apt install gcc-8 g++-8 -y
-    ln -s /usr/bin/gcc-8 /usr/bin/gcc
-    ln -s /usr/bin/g++-8 /usr/bin/g++
+    apt install software-properties-common -y
+    add-apt-repository ppa:ubuntu-toolchain-r/test
+    apt-get update
+    apt install gcc-10 g++-10
+    ln -s /usr/bin/gcc-10 /usr/bin/gcc
+    ln -s /usr/bin/g++-10 /usr/bin/g++
     wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.30.2/cmake-3.30.2-linux-x86_64.tar.gz
     tar -xvf cmake-3.30.2-linux-x86_64.tar.gz 
     cp -rf cmake-3.30.2-linux-x86_64/* /usr/
