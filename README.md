@@ -51,9 +51,9 @@ The most troublefree and reproducable method of building the repository is via t
     CPPFLAGS="-w -fcompare-debug-second" CXXFLAGS="-w -fcompare-debug-second" LDFLAGS="-w -fcompare-debug-second" CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure \
     --prefix=$PWD/bitnet-shared-linux --disable-tests --disable-bench --disable-fuzz-binary
 
-   for ubuntu 18.04 (with-boost-libs or not this might be necessary)
-   CPPFLAGS="-w -fcompare-debug-second" CXXFLAGS="-w -fcompare-debug-second" LDFLAGS="-w -fcompare-debug-second" CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure \
-    --prefix=$PWD/bitnet-70036-ubu1804-linux --disable-tests --disable-bench --disable-fuzz-binary --with-boost-libdir=/usr/lib/x86_64-linux-gnu
+   for ubuntu 18.04 
+  CPPFLAGS="-w -fcompare-debug-second" CXXFLAGS="-w -fcompare-debug-second" LDFLAGS="-w -fcompare-debug-second" CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure \
+    --prefix=$PWD/bitnet-70036-ubu1804-linux --disable-tests --disable-bench --disable-fuzz-binary 
 
 
     make -j24 				# -j8 for 8 cores adjust here
