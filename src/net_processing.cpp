@@ -3063,7 +3063,7 @@ void PeerManagerImpl::ProcessHeadersMessage(CNode& pfrom, Peer& peer,
             // could be benign.
             HandleFewUnconnectingHeaders(pfrom, peer, headers);
         } else {
-            Misbehaving(peer, 10, "invalid header received");
+//            Misbehaving(peer, 10, "invalid header received");
         }
         return;
     }
@@ -3071,7 +3071,7 @@ void PeerManagerImpl::ProcessHeadersMessage(CNode& pfrom, Peer& peer,
     // Check that the received PoS headers are continuous
     if(!CheckPoSHeadersAreContinuous(headers, chain_start_header))
     {
-        Misbehaving(peer, 100, "invalid header received");
+//        Misbehaving(peer, 100, "invalid header received");
         return;
     }
 
@@ -3117,8 +3117,8 @@ void PeerManagerImpl::ProcessHeadersMessage(CNode& pfrom, Peer& peer,
     BlockValidationState state;
     if (!ProcessNetBlockHeaders(pfrom, headers, /*min_pow_checked=*/true, state, &pindexLast)) {
         if (state.IsInvalid()) {
-            MaybePunishNodeForBlock(pfrom.GetId(), state, via_compact_block, "invalid header received");
-            return;
+//            MaybePunishNodeForBlock(pfrom.GetId(), state, via_compact_block, "invalid header received");
+//            return;
         }
     }
     Assume(pindexLast);
@@ -6126,8 +6126,8 @@ bool PeerManagerImpl::ProcessNetBlock(const std::shared_ptr<const CBlock> pblock
     BlockValidationState state;
     if (!ProcessNetBlockHeaders(pfrom, {*pblock}, min_pow_checked, state, &pindex)) {
         if (state.IsInvalid()) {
-            MaybePunishNodeForBlock(pfrom.GetId(), state, false, strprintf("Peer %d sent us invalid header\n", pfrom.GetId()));
-            return error("ProcessNetBlock() : invalid header received");
+//            MaybePunishNodeForBlock(pfrom.GetId(), state, false, strprintf("Peer %d sent us invalid header\n", pfrom.GetId()));
+//            return error("ProcessNetBlock() : invalid header received");
         }
     }
 
