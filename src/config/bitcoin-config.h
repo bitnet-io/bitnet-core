@@ -42,14 +42,14 @@
 #define ENABLE_AVX2 1
 
 /* Define if external signer support is enabled */
-/* #undef ENABLE_EXTERNAL_SIGNER */
+#define ENABLE_EXTERNAL_SIGNER 1
 
 /* Define this symbol to build code that uses SSE4.1 intrinsics */
 #define ENABLE_SSE41 1
 
 /* Define to 1 to enable tracepoints for Userspace, Statically Defined Tracing
    */
-/* #undef ENABLE_TRACING */
+#define ENABLE_TRACING 1
 
 /* Define to 1 to enable wallet functions */
 #define ENABLE_WALLET 1
@@ -91,7 +91,7 @@
 /* #undef HAVE_BUILTIN_MUL_OVERFLOW */
 
 /* Define to 1 if you have the <byteswap.h> header file. */
-/* #undef HAVE_BYTESWAP_H */
+#define HAVE_BYTESWAP_H 1
 
 /* Define this symbol if clmul instructions can be used */
 #define HAVE_CLMUL 1
@@ -107,27 +107,27 @@
 
 /* Define to 1 if you have the declaration of `be16toh', and to 0 if you
    don't. */
-#define HAVE_DECL_BE16TOH 0
+#define HAVE_DECL_BE16TOH 1
 
 /* Define to 1 if you have the declaration of `be32toh', and to 0 if you
    don't. */
-#define HAVE_DECL_BE32TOH 0
+#define HAVE_DECL_BE32TOH 1
 
 /* Define to 1 if you have the declaration of `be64toh', and to 0 if you
    don't. */
-#define HAVE_DECL_BE64TOH 0
+#define HAVE_DECL_BE64TOH 1
 
 /* Define to 1 if you have the declaration of `bswap_16', and to 0 if you
    don't. */
-#define HAVE_DECL_BSWAP_16 0
+#define HAVE_DECL_BSWAP_16 1
 
 /* Define to 1 if you have the declaration of `bswap_32', and to 0 if you
    don't. */
-#define HAVE_DECL_BSWAP_32 0
+#define HAVE_DECL_BSWAP_32 1
 
 /* Define to 1 if you have the declaration of `bswap_64', and to 0 if you
    don't. */
-#define HAVE_DECL_BSWAP_64 0
+#define HAVE_DECL_BSWAP_64 1
 
 /* Define to 1 if you have the declaration of `EVP_MD_CTX_new', and to 0 if
    you don't. */
@@ -135,142 +135,145 @@
 
 /* Define to 1 if you have the declaration of `fork', and to 0 if you don't.
    */
-#define HAVE_DECL_FORK 0
+#define HAVE_DECL_FORK 1
 
 /* Define to 1 if you have the declaration of `freeifaddrs', and to 0 if you
    don't. */
-#define HAVE_DECL_FREEIFADDRS 0
+#define HAVE_DECL_FREEIFADDRS 1
 
 /* Define to 1 if you have the declaration of `getifaddrs', and to 0 if you
    don't. */
-#define HAVE_DECL_GETIFADDRS 0
+#define HAVE_DECL_GETIFADDRS 1
 
 /* Define to 1 if you have the declaration of `htobe16', and to 0 if you
    don't. */
-#define HAVE_DECL_HTOBE16 0
+#define HAVE_DECL_HTOBE16 1
 
 /* Define to 1 if you have the declaration of `htobe32', and to 0 if you
    don't. */
-#define HAVE_DECL_HTOBE32 0
+#define HAVE_DECL_HTOBE32 1
 
 /* Define to 1 if you have the declaration of `htobe64', and to 0 if you
    don't. */
-#define HAVE_DECL_HTOBE64 0
+#define HAVE_DECL_HTOBE64 1
 
 /* Define to 1 if you have the declaration of `htole16', and to 0 if you
    don't. */
-#define HAVE_DECL_HTOLE16 0
+#define HAVE_DECL_HTOLE16 1
 
 /* Define to 1 if you have the declaration of `htole32', and to 0 if you
    don't. */
-#define HAVE_DECL_HTOLE32 0
+#define HAVE_DECL_HTOLE32 1
 
 /* Define to 1 if you have the declaration of `htole64', and to 0 if you
    don't. */
-#define HAVE_DECL_HTOLE64 0
+#define HAVE_DECL_HTOLE64 1
 
 /* Define to 1 if you have the declaration of `le16toh', and to 0 if you
    don't. */
-#define HAVE_DECL_LE16TOH 0
+#define HAVE_DECL_LE16TOH 1
 
 /* Define to 1 if you have the declaration of `le32toh', and to 0 if you
    don't. */
-#define HAVE_DECL_LE32TOH 0
+#define HAVE_DECL_LE32TOH 1
 
 /* Define to 1 if you have the declaration of `le64toh', and to 0 if you
    don't. */
-#define HAVE_DECL_LE64TOH 0
+#define HAVE_DECL_LE64TOH 1
 
 /* Define to 1 if you have the declaration of `pipe2', and to 0 if you don't.
    */
-#define HAVE_DECL_PIPE2 0
+#define HAVE_DECL_PIPE2 1
 
 /* Define to 1 if you have the declaration of `setsid', and to 0 if you don't.
    */
-#define HAVE_DECL_SETSID 0
+#define HAVE_DECL_SETSID 1
 
 /* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
    don't. */
-#define HAVE_DECL_STRERROR_R 0
+#define HAVE_DECL_STRERROR_R 1
 
 /* Define if the visibility attribute is supported. */
 #define HAVE_DEFAULT_VISIBILITY_ATTRIBUTE 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
-/* #undef HAVE_DLFCN_H */
+#define HAVE_DLFCN_H 1
 
 /* Define if the dllexport attribute is supported. */
-#define HAVE_DLLEXPORT_ATTRIBUTE 1
+/* #undef HAVE_DLLEXPORT_ATTRIBUTE */
 
 /* Define to 1 if you have the <endian.h> header file. */
-/* #undef HAVE_ENDIAN_H */
+#define HAVE_ENDIAN_H 1
 
 /* Define this symbol if evhttp_connection_get_peer expects const char** */
 /* #undef HAVE_EVHTTP_CONNECTION_GET_PEER_CONST_CHAR */
 
 /* Define to 1 if fdatasync is available. */
-#define HAVE_FDATASYNC 0
+#define HAVE_FDATASYNC 1
 
 /* Define this symbol if the BSD getentropy system call is available with
    sys/random.h */
-/* #undef HAVE_GETENTROPY_RAND */
+#define HAVE_GETENTROPY_RAND 1
 
 /* Define this symbol if gmtime_r is available */
-/* #undef HAVE_GMTIME_R */
+#define HAVE_GMTIME_R 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
 /* Define to 1 if you have the `advapi32' library (-ladvapi32). */
-#define HAVE_LIBADVAPI32 1
+/* #undef HAVE_LIBADVAPI32 */
 
 /* Define to 1 if you have the `comctl32' library (-lcomctl32). */
-#define HAVE_LIBCOMCTL32 1
+/* #undef HAVE_LIBCOMCTL32 */
 
 /* Define to 1 if you have the `comdlg32' library (-lcomdlg32). */
-#define HAVE_LIBCOMDLG32 1
+/* #undef HAVE_LIBCOMDLG32 */
 
 /* Define to 1 if you have the `gdi32' library (-lgdi32). */
-#define HAVE_LIBGDI32 1
+/* #undef HAVE_LIBGDI32 */
 
 /* Define to 1 if you have the `iphlpapi' library (-liphlpapi). */
-#define HAVE_LIBIPHLPAPI 1
+/* #undef HAVE_LIBIPHLPAPI */
 
 /* Define to 1 if you have the `kernel32' library (-lkernel32). */
-#define HAVE_LIBKERNEL32 1
+/* #undef HAVE_LIBKERNEL32 */
 
 /* Define to 1 if you have the `ole32' library (-lole32). */
-#define HAVE_LIBOLE32 1
+/* #undef HAVE_LIBOLE32 */
 
 /* Define to 1 if you have the `oleaut32' library (-loleaut32). */
-#define HAVE_LIBOLEAUT32 1
+/* #undef HAVE_LIBOLEAUT32 */
 
 /* Define to 1 if you have the `shell32' library (-lshell32). */
-#define HAVE_LIBSHELL32 1
+/* #undef HAVE_LIBSHELL32 */
 
 /* Define to 1 if you have the `shlwapi' library (-lshlwapi). */
-#define HAVE_LIBSHLWAPI 1
+/* #undef HAVE_LIBSHLWAPI */
 
 /* Define to 1 if you have the `ssp' library (-lssp). */
-#define HAVE_LIBSSP 1
+/* #undef HAVE_LIBSSP */
 
 /* Define to 1 if you have the `user32' library (-luser32). */
-#define HAVE_LIBUSER32 1
+/* #undef HAVE_LIBUSER32 */
 
 /* Define to 1 if you have the `uuid' library (-luuid). */
-#define HAVE_LIBUUID 1
+/* #undef HAVE_LIBUUID */
 
 /* Define to 1 if you have the `winmm' library (-lwinmm). */
-#define HAVE_LIBWINMM 1
+/* #undef HAVE_LIBWINMM */
 
 /* Define to 1 if you have the `ws2_32' library (-lws2_32). */
-#define HAVE_LIBWS2_32 1
+/* #undef HAVE_LIBWS2_32 */
 
 /* Define this symbol if you have malloc_info */
-/* #undef HAVE_MALLOC_INFO */
+#define HAVE_MALLOC_INFO 1
 
 /* Define this symbol if you have mallopt with M_ARENA_MAX */
-/* #undef HAVE_MALLOPT_ARENA_MAX */
+#define HAVE_MALLOPT_ARENA_MAX 1
+
+/* Define to 1 if you have the <memory.h> header file. */
+#define HAVE_MEMORY_H 1
 
 /* Define to 1 if you have the <miniupnpc/miniupnpc.h> header file. */
 #define HAVE_MINIUPNPC_MINIUPNPC_H 1
@@ -285,10 +288,10 @@
 #define HAVE_NATPMP_H 1
 
 /* Define to 1 if O_CLOEXEC flag is available. */
-#define HAVE_O_CLOEXEC 0
+#define HAVE_O_CLOEXEC 1
 
 /* Define this symbol if you have posix_fallocate */
-/* #undef HAVE_POSIX_FALLOCATE */
+#define HAVE_POSIX_FALLOCATE 1
 
 /* Define if you have POSIX threads libraries and header files. */
 #define HAVE_PTHREAD 1
@@ -305,8 +308,8 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
 
-/* Define if you have `strerror_r'. */
-/* #undef HAVE_STRERROR_R */
+/* Define to 1 if you have the `strerror_r' function. */
+#define HAVE_STRERROR_R 1
 
 /* Define to 1 if you have the <strings.h> header file. */
 #define HAVE_STRINGS_H 1
@@ -315,7 +318,7 @@
 #define HAVE_STRING_H 1
 
 /* Define this symbol to build code that uses getauxval) */
-/* #undef HAVE_STRONG_GETAUXVAL */
+#define HAVE_STRONG_GETAUXVAL 1
 
 /* Define this symbol if the BSD sysctl() is available */
 /* #undef HAVE_SYSCTL */
@@ -330,22 +333,22 @@
 /* #undef HAVE_SYS_ENDIAN_H */
 
 /* Define this symbol if the Linux getrandom system call is available */
-/* #undef HAVE_SYS_GETRANDOM */
+#define HAVE_SYS_GETRANDOM 1
 
 /* Define to 1 if you have the <sys/prctl.h> header file. */
-/* #undef HAVE_SYS_PRCTL_H */
+#define HAVE_SYS_PRCTL_H 1
 
 /* Define to 1 if you have the <sys/resources.h> header file. */
 /* #undef HAVE_SYS_RESOURCES_H */
 
 /* Define to 1 if you have the <sys/select.h> header file. */
-/* #undef HAVE_SYS_SELECT_H */
+#define HAVE_SYS_SELECT_H 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
 /* Define to 1 if you have the <sys/sysctl.h> header file. */
-/* #undef HAVE_SYS_SYSCTL_H */
+#define HAVE_SYS_SYSCTL_H 1
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
@@ -354,7 +357,7 @@
 /* #undef HAVE_SYS_VMMETER_H */
 
 /* Define if thread_local is supported. */
-/* #undef HAVE_THREAD_LOCAL */
+#define HAVE_THREAD_LOCAL 1
 
 /* Define to 1 if you have the `timingsafe_bcmp' function. */
 /* #undef HAVE_TIMINGSAFE_BCMP */
@@ -400,21 +403,19 @@
 #define QT_QPA_PLATFORM_MINIMAL 1
 
 /* Define this symbol if the qt platform is windows */
-#define QT_QPA_PLATFORM_WINDOWS 1
+/* #undef QT_QPA_PLATFORM_WINDOWS */
 
 /* Define this symbol if the qt platform is xcb */
-/* #undef QT_QPA_PLATFORM_XCB */
+#define QT_QPA_PLATFORM_XCB 1
 
 /* Define this symbol if qt plugins are static */
 #define QT_STATICPLUGIN 1
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
-   required in a freestanding environment). This macro is provided for
-   backward compatibility; new code need not use it. */
+/* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Define to 1 if strerror_r returns char *. */
-/* #undef STRERROR_R_CHAR_P */
+#define STRERROR_R_CHAR_P 1
 
 /* Define this symbol to build in assembly routines */
 #define USE_ASM 1
@@ -423,7 +424,7 @@
 #define USE_BDB 1
 
 /* Define if dbus support should be compiled in */
-/* #undef USE_DBUS */
+#define USE_DBUS 1
 
 /* NAT-PMP support not compiled if undefined, otherwise value (0 or 1)
    determines default state */
@@ -436,7 +437,7 @@
 #define USE_SQLITE 1
 
 /* Define this symbol to build with syscall sandbox support. */
-/* #undef USE_SYSCALL_SANDBOX */
+#define USE_SYSCALL_SANDBOX 1
 
 /* UPnP support not compiled if undefined, otherwise value (0 or 1) determines
    default state */
@@ -454,8 +455,13 @@
 # endif
 #endif
 
+/* Enable large inode numbers on Mac OS X 10.5.  */
+#ifndef _DARWIN_USE_64_BIT_INODE
+# define _DARWIN_USE_64_BIT_INODE 1
+#endif
+
 /* Number of bits in a file offset, on hosts where this is settable. */
-#define _FILE_OFFSET_BITS 64
+/* #undef _FILE_OFFSET_BITS */
 
 /* Define for large files, on AIX-style hosts. */
 /* #undef _LARGE_FILES */

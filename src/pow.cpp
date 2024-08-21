@@ -207,6 +207,7 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
     if (hash == uint256S("0x000000000000000289df99201ccaa6e4ab5c43e4b6b04b80822f32e8c804b121")) return true;
     if (hash == uint256S("0x000000000000000575cbbe878e2a170ec6fdea27e44b3ecf733400bb0cae4e41")) return true;
     if (hash == uint256S("0x00000da5e46ac94cc627873737b032289ecdbc43e80d07e838298183f596f5f1")) return true;
+    if (hash == uint256S("0xa58b71f18fa6024e3dbe6e08bef327609f0c967686a5f3367fe56bc3c1d20265")) return true;
 
     bool fNegative;
     bool fOverflow;

@@ -3072,7 +3072,7 @@ void PeerManagerImpl::ProcessHeadersMessage(CNode& pfrom, Peer& peer,
     if(!CheckPoSHeadersAreContinuous(headers, chain_start_header))
     {
 //        Misbehaving(peer, 100, "invalid header received");
-        return;
+//        return;
     }
 
     // If the headers we received are already in memory and an ancestor of

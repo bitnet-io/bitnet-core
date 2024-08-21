@@ -807,12 +807,7 @@ static RPCHelpMan getblocktemplate()
 
     UniValue aRules(UniValue::VARR);
     aRules.push_back("csv");
-//    if (!fPreSegWit) aRules.push_back("!segwit");
-if (!fPreSegWit) {
-        aRules.push_back("!segwit");
-        aRules.push_back("taproot");
-    }
-
+    if (!fPreSegWit) aRules.push_back("!segwit");
     if (consensusParams.signet_blocks) {
         // indicate to miner that they must understand signet rules
         // when attempting to mine with this template
