@@ -58,7 +58,7 @@ The most troublefree and reproducable method of building the repository is via t
 
    for ubuntu 18.04 
   CPPFLAGS="-w -fcompare-debug-second" CXXFLAGS="-w -fcompare-debug-second" LDFLAGS="-w -fcompare-debug-second" CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure \
-    --prefix=$PWD/bitnet-70036-ubu1804-linux --disable-tests --disable-bench --disable-fuzz-binary 
+    --prefix=$PWD/bitnet-70037-ubu1804-linux --disable-tests --disable-bench --disable-fuzz-binary 
 
 
     make -j24 				# -j8 for 8 cores adjust here
