@@ -32,7 +32,7 @@ The most troublefree and reproducable method of building the repository is via t
     apt install software-properties-common -y
     add-apt-repository ppa:ubuntu-toolchain-r/test
     apt-get update
-    apt install gcc-10 g++-10
+    apt install gcc-10 g++-10 -y
     ln -s /usr/bin/gcc-10 /usr/bin/gcc
     ln -s /usr/bin/g++-10 /usr/bin/g++
     wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.30.2/cmake-3.30.2-linux-x86_64.tar.gz
