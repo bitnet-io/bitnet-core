@@ -1,7 +1,7 @@
 
-# to disable staking for pools or exchanges (use)
-# bitnet-qt.exe -staking=false
-# bitnet-qt -staking=false
+* to disable staking for pools or exchanges (use)
+* bitnet-qt.exe -staking=false
+* bitnet-qt -staking=false
 
 bitnet-io staging tree 24.x
 ===========================
