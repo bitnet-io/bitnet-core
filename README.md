@@ -1,6 +1,5 @@
 
-# for users trying to move their entire balance while staking
-# use staking false to get entire balance out and wait for 12 blocks to go by "WITHOUT STAKING TO RECLAIM YOUR ENTIRE BALANCE"
+# to disable staking for pools or exchanges (use)
 # bitnet-qt.exe -staking=false
 # bitnet-qt -staking=false
 
