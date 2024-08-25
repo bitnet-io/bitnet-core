@@ -338,12 +338,12 @@ void BitcoinGUI::createActions()
     historyAction->setShortcut(QKeySequence(QStringLiteral("Alt+2")));
     tabGroup->addAction(historyAction);
 
-    smartContractAction = new QAction(platformStyle->MultiStatesIcon(":/icons/smart_contract"), tr("Smart &Contracts"), this);
-    smartContractAction->setStatusTip(tr("Smart contracts"));
-    smartContractAction->setToolTip(smartContractAction->statusTip());
-    smartContractAction->setCheckable(true);
-    smartContractAction->setShortcut(QKeySequence(QStringLiteral("Alt+3")));
-    tabGroup->addAction(smartContractAction);
+ //   smartContractAction = new QAction(platformStyle->MultiStatesIcon(":/icons/smart_contract"), tr("Smart &Contracts"), this);
+ //   smartContractAction->setStatusTip(tr("Smart contracts"));
+ //   smartContractAction->setToolTip(smartContractAction->statusTip());
+ //   smartContractAction->setCheckable(true);
+ //   smartContractAction->setShortcut(QKeySequence(QStringLiteral("Alt+3")));
+//    tabGroup->addAction(smartContractAction);
 
     createContractAction = new QAction(tr("Create"), this);
     sendToContractAction = new QAction(tr("Send To"), this);
@@ -360,12 +360,12 @@ void BitcoinGUI::createActions()
     delegationAction = new QAction(tr("Delegations"), this);
     superStakerAction = new QAction(tr("Super Staking"), this);
 
-    QRCTokenAction = new QAction(platformStyle->MultiStatesIcon(":/icons/qrctoken"), tr("&QRC Tokens"), this);
-    QRCTokenAction->setStatusTip(tr("QRC Tokens (send, receive or add Tokens in list)"));
-    QRCTokenAction->setToolTip(QRCTokenAction->statusTip());
-    QRCTokenAction->setCheckable(true);
-    QRCTokenAction->setShortcut(QKeySequence(QStringLiteral("Alt+5")));
-    tabGroup->addAction(QRCTokenAction);
+//    QRCTokenAction = new QAction(platformStyle->MultiStatesIcon(":/icons/qrctoken"), tr("&QRC Tokens"), this);
+//    QRCTokenAction->setStatusTip(tr("QRC Tokens (send, receive or add Tokens in list)"));
+ //   QRCTokenAction->setToolTip(QRCTokenAction->statusTip());
+ //   QRCTokenAction->setCheckable(true);
+ //   QRCTokenAction->setShortcut(QKeySequence(QStringLiteral("Alt+5")));
+ //   tabGroup->addAction(QRCTokenAction);
 
 #ifdef ENABLE_WALLET
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
@@ -385,8 +385,8 @@ void BitcoinGUI::createActions()
     connect(sendToContractAction, SIGNAL(triggered()), this, SLOT(gotoSendToContractPage()));
     connect(callContractAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(callContractAction, SIGNAL(triggered()), this, SLOT(gotoCallContractPage()));
-    connect(QRCTokenAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
-    connect(QRCTokenAction, SIGNAL(triggered()), this, SLOT(gotoTokenPage()));
+ //   connect(QRCTokenAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    //connect(QRCTokenAction, SIGNAL(triggered()), this, SLOT(gotoTokenPage()));
     connect(stakeAction, &QAction::triggered, [this]{ showNormalIfMinimized(); });
     connect(stakeAction, &QAction::triggered, this, &BitcoinGUI::gotoStakePage);
     connect(delegationAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -702,13 +702,13 @@ void BitcoinGUI::createToolBars()
         contractActions.append(createContractAction);
         contractActions.append(sendToContractAction);
         contractActions.append(callContractAction);
-        appNavigationBar->mapGroup(smartContractAction, contractActions);
+    //    appNavigationBar->mapGroup(smartContractAction, contractActions);
         QList<QAction*> walletStakeActions;
         walletStakeActions.append(stakeAction);
         walletStakeActions.append(delegationAction);
         walletStakeActions.append(superStakerAction);
         appNavigationBar->mapGroup(walletStakeAction, walletStakeActions);
-        appNavigationBar->addAction(QRCTokenAction);
+     //   appNavigationBar->addAction(QRCTokenAction);
         appNavigationBar->buildUi();
         overviewAction->setChecked(true);
     }
@@ -951,8 +951,8 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     sendCoinsAction->setEnabled(enabled);
     receiveCoinsAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
-    smartContractAction->setEnabled(enabled);
-    QRCTokenAction->setEnabled(enabled);
+ //   smartContractAction->setEnabled(enabled);
+ //   QRCTokenAction->setEnabled(enabled);
     encryptWalletAction->setEnabled(enabled);
     backupWalletAction->setEnabled(enabled);
     restoreWalletAction->setEnabled(enabled);
@@ -1123,8 +1123,8 @@ void BitcoinGUI::gotoHistoryPage()
 
 void BitcoinGUI::gotoTokenPage()
 {
-    QRCTokenAction->setChecked(true);
-    if (walletFrame) walletFrame->gotoTokenPage();
+  //  QRCTokenAction->setChecked(true);
+   // if (walletFrame) walletFrame->gotoTokenPage();
 }
 
 void BitcoinGUI::gotoDelegationPage()
