@@ -223,9 +223,9 @@ public:
         // This is fine at runtime as we'll fall back to using them as an addrfetch if they don't support the
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
-//        vSeeds.emplace_back("qtum3.dynu.net"); // Qtum mainnet
-//        vSeeds.emplace_back("qtum5.dynu.net"); // Qtum mainnet
-//        vSeeds.emplace_back("qtum6.dynu.net"); // Qtum mainnet
+        vSeeds.emplace_back("vps.bitexplorer.io"); // Qtum mainnet
+        vSeeds.emplace_back("dnsseed.bitexplorer.io"); // Qtum mainnet
+        vSeeds.emplace_back("bitexplorer.io"); // Qtum mainnet
 //        vSeeds.emplace_back("qtum7.dynu.net"); // Qtum mainnet
 
 
